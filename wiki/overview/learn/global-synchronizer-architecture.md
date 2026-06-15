@@ -9,7 +9,7 @@ tags: [overview, learn, 글로벌Synchronizer, 아키텍처]
 > **출처(원문)**: [Global Synchronizer Architecture](https://docs.canton.network/overview/learn/global-synchronizer-architecture) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>가 여러 <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>에 분산된 시퀀서·미디에이터로 BFT 합의를 이뤄, 내용을 보지 않고 트랜잭션 순서·확인을 조율하는 방식. 트랜잭션 흐름(1초 내 완료)과 BFT 보장(SV 1/3 미만 결함 허용), 일반 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>의 연결 방식까지.
+- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>가 여러 <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>에 분산된 <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>로 <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>를 이뤄, 내용을 보지 않고 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 순서·<abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>을 조율하는 방식. 트랜잭션 흐름(1초 내 완료)과 BFT 보장(SV 1/3 미만 결함 허용), 일반 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>의 연결 방식까지.
 - **핵심 용어**: 시퀀서·미디에이터, BFT(비잔틴 장애 허용), 슈퍼 밸리데이터(SV), 암호화된 봉투(envelope)
 - **선행 개념**: [글로벌 Synchronizer](../understand/global-synchronizer.md), [아키텍처 개요](architecture.md). 다음 → [앱 개발 입문](https://docs.canton.network/appdev/get-started/choose-your-path)
 
@@ -59,7 +59,7 @@ flowchart TB
 
 ### 미디에이터 (Mediators)
 
-미디에이터는 밸리데이터로부터 확인 응답을 수집하고, 트랜잭션이 필요한 모든 당사자의 승인을 받았는지 판정한다. 시퀀서와 마찬가지로 미디에이터는 암호화된 뷰 위에서 작동한다 — 트랜잭션이 무엇을 담고 있는지 알지 못한 채, 올바른 당사자들이 트랜잭션을 확인했는지 검증할 수 있다.
+미디에이터는 밸리데이터로부터 확인 응답을 수집하고, 트랜잭션이 필요한 모든 당사자의 승인을 받았는지 판정한다. 시퀀서와 마찬가지로 미디에이터는 암호화된 <abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr> 위에서 작동한다 — 트랜잭션이 무엇을 담고 있는지 알지 못한 채, 올바른 당사자들이 트랜잭션을 확인했는지 검증할 수 있다.
 
 각 SV는 시퀀서와 미디에이터를 모두 운영한다. 특정 트랜잭션의 미디에이터는 그 트랜잭션의 확인 요청을 처음 처리하는 시퀀서에 의해 결정된다.
 
@@ -72,7 +72,7 @@ flowchart TB
 3. 각 수신 참여자가 자기 뷰를 복호화하고, 트랜잭션을 검증하고, 확인 또는 거부를 미디에이터에 보낸다
 4. 미디에이터가 응답을 수집하고 트랜잭션 결과를 판정한다
 5. 결과가 시퀀서를 통해 모든 관여 참여자에게 다시 브로드캐스트된다
-6. 각 참여자가 결과를 자기 로컬 원장에 적용한다
+6. 각 참여자가 결과를 자기 로컬 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>에 적용한다
 
 전체 흐름은 보통 1초 미만에 완료된다. Synchronizer는 암호화되지 않은 트랜잭션 데이터에 결코 접근하지 못한다 — 무엇이 거래되는지 알지 못한 채 프로토콜을 조율한다.
 

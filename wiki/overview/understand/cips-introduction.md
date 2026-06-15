@@ -9,7 +9,7 @@ tags: [overview, understand, 거버넌스, CIP]
 > **출처(원문)**: [Canton Improvement Proposals (CIPs)](https://docs.canton.network/overview/understand/cips-introduction) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: CIP는 Canton Network에 변경·표준·개선을 제안하는 공식 메커니즘. CIP 유형, 핵심 CIP(CIP-0056 토큰 표준), 생애주기, 제안 주체, 구현·기여 방법.
+- **한 줄 요약**: <abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr>는 Canton Network에 변경·표준·개선을 제안하는 공식 메커니즘. CIP 유형, 핵심 CIP(CIP-0056 토큰 표준), 생애주기, 제안 주체, 구현·기여 방법.
 - **핵심 용어**: CIP(Canton 개선 제안), Standards Track/Process/Informational, CIP-0056 토큰 표준, Holding/Transfer/Lock 인터페이스
 - **선행 개념**: [글로벌 Synchronizer](global-synchronizer.md). 다음 → [앱 피처드 되기](getting-app-featured.md)
 

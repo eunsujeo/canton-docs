@@ -10,7 +10,7 @@ tags: [appdev, get-started, 입문]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: 배경(블록체인 입문/Ethereum 경험/타 체인 경험/비개발 아키텍트)별 권장 학습 경로와, 7개 학습 모듈·개발 스택·사전 요구사항을 안내.
-- **핵심 용어**: <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> SDK, 학습 모듈(Module 1~7), 개발 스택(프론트엔드/백엔드/스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>), PQS
+- **핵심 용어**: <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> SDK, 학습 모듈(Module 1~7), 개발 스택(프론트엔드/백엔드/<abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr>), PQS
 - **선행 개념**: [핵심 개념](../../overview/understand/core-concepts.md). 다음 → [모듈 1: Canton 이해](../modules/m1-understanding-canton.md)
 
 ---
@@ -44,7 +44,7 @@ tags: [appdev, get-started, 입문]
 
 **체득해야 할 핵심 차이:**
 
-* 불변 컨트랙트 (수정이 아니라 보관 + 생성)
+* 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> (수정이 아니라 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr> + 생성)
 * 명시적 권한 (msg.sender가 아니라 signatory/controller)
 * 기본 프라이버시 (데이터를 숨기는 게 아니라 <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>를 선언)
 

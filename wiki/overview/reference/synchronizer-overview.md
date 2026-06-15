@@ -9,8 +9,8 @@ tags: [overview, reference, Synchronizer, 아키텍처]
 > **출처(원문)**: [Synchronizer](https://docs.canton.network/overview/reference/synchronizer-overview) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>의 두 기능(시퀀싱·중재), Canton 아키텍처에서의 역할(메시지 큐·프라이버시·비검증), 기술 구성 요소(시퀀서·미디에이터·순서화 계층), 중앙집중형 vs 탈중앙형 형태.
-- **핵심 용어**: 시퀀싱(Sequencing)·중재(Mediating), 2단계 커밋, 원자적 멀티캐스트, BFT
+- **한 줄 요약**: <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>의 두 기능(시퀀싱·중재), Canton 아키텍처에서의 역할(메시지 큐·프라이버시·비검증), 기술 구성 요소(<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>·순서화 계층), 중앙집중형 vs 탈중앙형 형태.
+- **핵심 용어**: 시퀀싱(Sequencing)·중재(Mediating), 2단계 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>, 원자적 멀티캐스트, <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr>
 - **선행 개념**: [아키텍처 개요](../learn/architecture.md), [핵심 개념](../understand/core-concepts.md).
 
 ---
@@ -21,8 +21,8 @@ tags: [overview, reference, Synchronizer, 아키텍처]
 
 Synchronizer는 두 가지 주요 기능을 제공하는 Canton 아키텍처의 기초 부분이다:
 
-1. 시퀀싱(Sequencing): 독립적인 참여자 노드(<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>) 간의 순서화되고 기밀한 통신.
-2. 중재(Mediating): 원자성과 프라이버시를 제공하기 위한 2단계 커밋 프로토콜의 일부로서 트랜잭션 조율.
+1. 시퀀싱(Sequencing): 독립적인 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>(<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>) 간의 순서화되고 기밀한 통신.
+2. 중재(Mediating): <abbr class="gloss" title="트랜잭션이 전부 적용되거나 전혀 적용되지 않는 성질. 일부만 반영되는 일이 없음">원자성</abbr>과 프라이버시를 제공하기 위한 2단계 커밋 프로토콜의 일부로서 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 조율.
 
 Canton은 참여자 노드가 동시에 여러 Synchronizer에 연결될 수 있는 "네트워크의 네트워크"로 설계되었다.
 
@@ -35,13 +35,13 @@ Canton은 참여자 노드가 동시에 여러 Synchronizer에 연결될 수 있
 ## 기술 구성 요소
 
 * **시퀀서(Sequencer):** 시퀀서는 프라이버시를 갖춘 원자적 멀티캐스트(atomic multicast) 속성을 준수하며 지정된 수신자에게 메시지를 전달하는 책임을 진다.
-* **미디에이터(Mediator):** 미디에이터는 시퀀서와 함께 작동한다. 관여하는 이해관계자 참여자 노드(밸리데이터)로부터 트랜잭션 확인을 집계하고, 확인을 바탕으로 트랜잭션을 승인하거나 거부한다. 2단계 커밋 프로토콜에서 핵심 역할을 하며, 트랜잭션에 관여하는 서로 다른 참여자 간의 프라이버시를 제공한다.
+* **미디에이터(Mediator):** 미디에이터는 시퀀서와 함께 작동한다. 관여하는 이해관계자 참여자 노드(밸리데이터)로부터 트랜잭션 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>을 집계하고, 확인을 바탕으로 트랜잭션을 승인하거나 거부한다. 2단계 커밋 프로토콜에서 핵심 역할을 하며, 트랜잭션에 관여하는 서로 다른 참여자 간의 프라이버시를 제공한다.
 * **순서화 계층(Ordering Layer):** 순서화 계층은 시퀀서를 거치는 메시지의 일관된 순서를 확립하고, 순서화된 메시지에 타임스탬프를 부여한다. 이는 트랜잭션의 충돌 탐지에 기초가 된다.
 
 ## Synchronizer의 종류
 
 * **중앙집중형 Synchronizer(Centralized Synchronizers):** Canton은 탈중앙화를 위해 설계되었지만, 사설 Canton 배포는 단일 주체가 운영하는 중앙집중형 Synchronizer를 쓸 수 있다. 폐쇄형 컨소시엄이나 내부 엔터프라이즈 활용 사례에 적합하다.
-* **탈중앙형 Synchronizer(Decentralized Synchronizers):** 더 공개적이고 견고한 형태다. <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>는 독립적인 "<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>" 네트워크가 운영하며, 비잔틴 장애 허용(BFT) 합의로 시퀀서를, BFT 상태 머신 복제로 미디에이터를 공동 운영한다. 단일 신뢰 제3자에 의존하지 않는다는 점에서 높은 복원력과 보안을 제공한다.
+* **탈중앙형 Synchronizer(Decentralized Synchronizers):** 더 공개적이고 견고한 형태다. <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>는 독립적인 "<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>" 네트워크가 운영하며, 비잔틴 장애 허용(BFT) <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>로 시퀀서를, BFT 상태 머신 복제로 미디에이터를 공동 운영한다. 단일 신뢰 제3자에 의존하지 않는다는 점에서 높은 복원력과 보안을 제공한다.
 
 <!-- nav:start -->
 

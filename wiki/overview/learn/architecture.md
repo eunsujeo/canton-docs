@@ -9,8 +9,8 @@ tags: [overview, learn, 아키텍처]
 > **출처(원문)**: [Architecture Overview](https://docs.canton.network/overview/learn/architecture) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 "조율(<abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>)"과 "저장(<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>)"을 분리한다 — Synchronizer는 내용을 보지 않고 순서만 잡고, 밸리데이터는 자기 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 데이터만 저장. 트랜잭션 흐름·네트워크 <abbr class="gloss" title="어떤 노드·파티·키가 네트워크에 참여하는지를 정의하는 구성 정보">토폴로지</abbr>·코드 실행 위치까지 시각적으로 정리.
-- **핵심 용어**: 참여자 노드(Participant Node), 시퀀서(Sequencer)·미디에이터(Mediator), 원장 샤드(Ledger Shard), Ledger API, PQS
+- **한 줄 요약**: Canton은 "조율(<abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>)"과 "저장(<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>)"을 분리한다 — Synchronizer는 내용을 보지 않고 순서만 잡고, 밸리데이터는 자기 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 데이터만 저장. <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 흐름·네트워크 <abbr class="gloss" title="어떤 노드·파티·키가 네트워크에 참여하는지를 정의하는 구성 정보">토폴로지</abbr>·코드 실행 위치까지 시각적으로 정리.
+- **핵심 용어**: <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>(Participant Node), <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>(Sequencer)·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>(Mediator), <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr> 샤드(Ledger Shard), Ledger API, PQS
 - **선행 개념**: [핵심 개념](https://docs.canton.network/overview/understand/core-concepts). 다음 → [원장 모델](ledger-model.md)
 
 ---
@@ -64,22 +64,22 @@ flowchart TB
 | 기능 | 설명 |
 | --- | --- |
 | **파티 호스팅** | 호스팅하는 파티의 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 데이터 저장 |
-| **<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 로직 실행** | 트랜잭션이 자기 파티에 영향을 줄 때 스마트 컨트랙트 코드 실행 |
-| **트랜잭션 검증** | 자기 샤드(shard)에 대한 권한과 정확성 확인 |
+| **<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 로직 실행** | 트랜잭션이 자기 파티에 영향을 줄 때 <abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr> 코드 실행 |
+| **트랜잭션 검증** | 자기 샤드(shard)에 대한 권한과 정확성 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr> |
 | **Ledger API 노출** | 애플리케이션을 위한 gRPC/JSON API 제공 |
 
 밸리데이터는 참여자 노드(participant node)를 운영하는 Canton Network의 역할이다. 참여자 노드(흔히 "참여자participant"로 줄여 부름)는 Canton Network 내 한 주체를 위한 사적이고 자기주권적인(self-sovereign) 연산·저장 단위다.
 
 **주요 특성:**
 
-* 각 참여자 노드는 원장의 **국소적·사적 뷰**를 유지한다
+* 각 참여자 노드는 원장의 **국소적·사적 <abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>**를 유지한다
 * 참여자 노드는 자신이 호스팅하는 파티가 <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr>인 컨트랙트만 저장한다
 * 하나의 참여자 노드에 여러 파티를 호스팅할 수 있다
 * 참여자 노드는 여러 Synchronizer에 연결할 수 있다
 
 ### Synchronizer (Synchronizers)
 
-Synchronizer는 **트랜잭션 내용을 보지 않고** 트랜잭션 순서와 합의를 조율한다. 두 구성 요소로 이루어진다:
+Synchronizer는 **트랜잭션 내용을 보지 않고** 트랜잭션 순서와 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>를 조율한다. 두 구성 요소로 이루어진다:
 
 ```mermaid
 flowchart LR
@@ -113,7 +113,7 @@ flowchart LR
 
 * 합의 프로토콜을 촉진한다
 * 참여자로부터 확인 평결(verdict)을 수집한다
-* 트랜잭션 평결(커밋 또는 거부)을 선언한다
+* 트랜잭션 평결(<abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr> 또는 거부)을 선언한다
 * 복호화된 트랜잭션 내용을 **보지 않는다**
 
 > **참고:** Synchronizer는 조율 계층이지 상태 저장 계층이 아니다. 트랜잭션 데이터를 결코 저장하거나 접근하지 않으며, 암호화된 메시지와 확인 결과만 다룬다.
@@ -175,7 +175,7 @@ sequenceDiagram
 
 | 단계 | 구성 요소 | 동작 |
 | --- | --- | --- |
-| **1. 제출(Submit)** | 애플리케이션 | Ledger API로 참여자에게 커맨드 전송 |
+| **1. 제출(Submit)** | 애플리케이션 | Ledger API로 참여자에게 <abbr class="gloss" title="애플리케이션이 원장에 제출하는 명령(컨트랙트 생성·초이스 실행 요청)">커맨드</abbr> 전송 |
 | **2. 해석(Interpret)** | 제출 참여자 | Daml 코드 실행, 뷰를 가진 트랜잭션 생성 |
 | **3. 제출(Submit)** | 제출 참여자 | 암호화된 뷰를 Synchronizer로 전송 |
 | **4. 순서화(Sequence)** | 시퀀서 | 트랜잭션 정렬, 타임스탬프 부여 |
@@ -316,7 +316,7 @@ flowchart TB
 | --- | --- |
 | **커맨드 제출(Command Submission)** | Daml 커맨드 제출(컨트랙트 생성, 초이스 실행) |
 | **트랜잭션 스트림(Transaction Stream)** | 자기 파티의 트랜잭션 이벤트 구독 |
-| **활성 컨트랙트 집합(Active Contract Set)** | 현재 활성인 컨트랙트 조회 |
+| **<abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr> 집합(Active Contract Set)** | 현재 활성인 컨트랙트 조회 |
 | **완료(Completions)** | 커맨드 완료 상태 추적 |
 
 ## 다음 단계

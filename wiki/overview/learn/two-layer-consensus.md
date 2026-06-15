@@ -9,7 +9,7 @@ tags: [overview, learn, 합의, 아키텍처]
 > **출처(원문)**: [Two-Layer Consensus](https://docs.canton.network/overview/learn/two-layer-consensus) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 합의를 두 계층으로 분리한다 — ①스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 합의(<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 증명, 프라이버시) ②순서화 합의(BFT 시퀀싱, 무결성). 두 계층의 작동·상호작용·분리의 이점과 타 접근과의 비교.
+- **한 줄 요약**: Canton은 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>를 두 계층으로 분리한다 — ①<abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr> 합의(<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 증명, 프라이버시) ②순서화 합의(<abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> 시퀀싱, 무결성). 두 계층의 작동·상호작용·분리의 이점과 타 접근과의 비교.
 - **핵심 용어**: 이해관계자 증명(Proof of Stakeholder), BFT 시퀀싱, 전체 순서(total order), ISS 알고리즘, 1/3 비잔틴 허용
 - **선행 개념**: [트랜잭션 작동 방식](how-transactions-work.md), [신뢰 모델](trust-model.md), [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md).
 
@@ -17,7 +17,7 @@ tags: [overview, learn, 합의, 아키텍처]
 
 # 2계층 합의
 
-> Canton이 스마트 컨트랙트 검증과 트랜잭션 순서화를 분리해 프라이버시와 무결성을 모두 달성하는 방법
+> Canton이 스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 검증과 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 순서화를 분리해 프라이버시와 무결성을 모두 달성하는 방법
 
 Canton은 **스마트 컨트랙트 트랜잭션 합의**와 **순서화 합의(ordering consensus)** 를 분리하는 2계층 합의 아키텍처를 쓴다. 이 분리가 Canton이 무결성을 유지하면서 프라이버시를 달성하게 하는 비결이다.
 
@@ -36,11 +36,11 @@ Canton의 스마트 컨트랙트 합의는 **이해관계자 증명(Proof of Sta
 
 ### 작동 방식
 
-1. **이해관계자 식별**: 트랜잭션이 컨트랙트에 영향을 줄 때, Canton은 모든 이해관계자(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>, <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>, 컨트롤러)를 식별한다
-2. **뷰 분배**: 각 이해관계자는 자신이 볼 권한이 있는 트랜잭션 뷰만 받는다
+1. **이해관계자 식별**: 트랜잭션이 컨트랙트에 영향을 줄 때, Canton은 모든 이해관계자(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>, <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>, <abbr class="gloss" title="컨트랙트의 특정 초이스(동작)를 실행할 권한을 가진 파티">컨트롤러</abbr>)를 식별한다
+2. **<abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr> 분배**: 각 이해관계자는 자신이 볼 권한이 있는 트랜잭션 뷰만 받는다
 3. **독립 검증**: 각 이해관계자는 자기 뷰를 <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 규칙에 대해 검증한다
-4. **확인**: 이해관계자가 확인 또는 거부를 미디에이터에 보낸다
-5. **평결**: 충분한 확인이 수집되면 트랜잭션이 전체로서 커밋되거나 중단된다
+4. **<abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>**: 이해관계자가 확인 또는 거부를 <abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>에 보낸다
+5. **평결**: 충분한 확인이 수집되면 트랜잭션이 전체로서 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>되거나 중단된다
 
 ```mermaid
 sequenceDiagram
@@ -67,11 +67,11 @@ sequenceDiagram
 
 ## 계층 2: 순서화 합의 (BFT 시퀀싱)
 
-순서화 계층은 한 Synchronizer의 모든 트랜잭션에 대한 **전체 순서(total order)** 를 확립한다. 이는 모든 참여자가 같은 Synchronizer로부터 같은 순서로 이벤트를 보게 해, 이중지불을 막고 일관성을 보장한다.
+순서화 계층은 한 Synchronizer의 모든 트랜잭션에 대한 **전체 순서(total order)** 를 확립한다. 이는 모든 참여자가 같은 Synchronizer로부터 같은 순서로 이벤트를 보게 해, <abbr class="gloss" title="같은 자산을 두 번 쓰는 부정행위">이중지불</abbr>을 막고 일관성을 보장한다.
 
 ### 작동 방식
 
-Synchronizer의 시퀀서 구성 요소는:
+Synchronizer의 <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr> 구성 요소는:
 
 1. 참여자로부터 암호화된 트랜잭션 메시지를 받는다
 2. 그 Synchronizer에 대해 전역적으로 고유한 타임스탬프/시퀀스 번호를 부여한다

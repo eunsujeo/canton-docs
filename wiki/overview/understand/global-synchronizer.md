@@ -9,7 +9,7 @@ tags: [overview, understand, 글로벌Synchronizer, 운영]
 > **출처(원문)**: [The Global Synchronizer](https://docs.canton.network/overview/understand/global-synchronizer) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>는 <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>(DSO)가 공동 운영하는 Canton Network의 퍼블릭 인프라 백본. <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>·트래픽(수수료), 4개 네트워크 환경(Local/Dev/Test/MainNet), 슈퍼 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>·거버넌스(Canton Foundation)·Splice·업그레이드까지.
+- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>는 <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>(<abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>)가 공동 운영하는 Canton Network의 퍼블릭 인프라 백본. <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>·<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>(수수료), 4개 네트워크 환경(Local/Dev/Test/MainNet), 슈퍼 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>·거버넌스(Canton Foundation)·<abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr>·업그레이드까지.
 - **핵심 용어**: 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, 슈퍼 밸리데이터(SV)·DSO, Canton Coin·트래픽, Splice, LocalNet/DevNet/TestNet/MainNet, Canton Foundation
 - **선행 개념**: [핵심 개념](core-concepts.md), [아키텍처 개요](../learn/architecture.md). 다음 → [글로벌 Synchronizer 아키텍처](../learn/global-synchronizer-architecture.md)
 
@@ -25,7 +25,7 @@ tags: [overview, understand, 글로벌Synchronizer, 운영]
 
 글로벌 Synchronizer는:
 
-* 여러 독립 주체가 운영하는 **Synchronizer 인스턴스**(여러 시퀀서 + 미디에이터 노드의 BFT 구성)
+* 여러 독립 주체가 운영하는 **Synchronizer 인스턴스**(여러 <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr> + <abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr> 노드의 <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> 구성)
 * **탈중앙화**: 단일 주체가 통제하지 않음
 * Canton Network 애플리케이션을 위한 **기본 조율 계층**
 * **Canton Foundation**(Linux Foundation 산하)이 거버넌스
@@ -71,7 +71,7 @@ Canton Coin은 글로벌 Synchronizer의 네이티브 유틸리티 토큰으로,
 
 | 용도 | 설명 |
 | --- | --- |
-| **트랜잭션 수수료(트래픽)** | 트랜잭션 제출 시 네트워크 사용료 지불 |
+| **<abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 수수료(트래픽)** | 트랜잭션 제출 시 네트워크 사용료 지불 |
 | **인프라 보상** | 인프라를 제공하는 Synchronizer 운영자에게 인센티브 |
 | **거버넌스 참여** | 슈퍼 밸리데이터가 거버넌스 참여를 위해 CC를 스테이킹 |
 
@@ -217,7 +217,7 @@ flowchart LR
 
 ### 후원 절차
 
-1. 슈퍼 밸리데이터에 연락 (목록은 [canton.foundation](https://canton.foundation)에서 확인)
+1. 슈퍼 밸리데이터에 연락 (목록은 [canton.foundation](https://canton.foundation)에서 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>)
 2. 활용 사례와 조직 설명
 3. 필요한 계약 완료
 4. 후원과 접근 자격증명 수령

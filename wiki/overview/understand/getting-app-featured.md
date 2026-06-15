@@ -10,7 +10,7 @@ tags: [overview, understand, 생태계]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: 만든 애플리케이션을 Canton Network 생태계에 피처드로 등록·홍보하는 방법 — 등록 요건(기술·문서·품질), 신청 절차, 홍보 기회, 모범 사례와 피해야 할 것.
-- **핵심 용어**: 피처드 애플리케이션, 생태계(ecosystem), CIP 준수
+- **핵심 용어**: 피처드 애플리케이션, 생태계(ecosystem), <abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr> 준수
 - **선행 개념**: [CIP 소개](cips-introduction.md), [글로벌 Synchronizer](global-synchronizer.md). 다음 → [용어집](glossary.md)
 
 ---

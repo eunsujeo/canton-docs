@@ -9,8 +9,8 @@ tags: [overview, understand, 토크노믹스]
 > **출처(원문)**: [Canton Coin and the Global Synchronizer](https://docs.canton.network/overview/understand/canton-coin) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>의 네이티브 유틸리티 토큰. 트래픽(수수료)의 2단계(충전→소비) 메커니즘, CC 획득 방법(환경별), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 보상, 토크노믹스, 잔액이 비공개인 점까지.
-- **핵심 용어**: Canton Coin(CC), 트래픽 크레딧·트래픽 예산, 자동 충전(auto-top-up), 라이브니스 보상, Splice
+- **한 줄 요약**: <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>의 네이티브 유틸리티 토큰. <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>(수수료)의 2단계(충전→소비) 메커니즘, CC 획득 방법(환경별), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 보상, 토크노믹스, 잔액이 비공개인 점까지.
+- **핵심 용어**: Canton Coin(CC), 트래픽 크레딧·트래픽 예산, 자동 충전(auto-top-up), 라이브니스 보상, <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr>
 - **선행 개념**: [글로벌 Synchronizer](global-synchronizer.md). 다음 → [CIP 소개](cips-introduction.md)
 
 ---
@@ -27,7 +27,7 @@ Canton Coin은 다음에 쓰이는 네이티브 토큰이다:
 
 | 용도 | 설명 |
 | --- | --- |
-| **트랜잭션 수수료(트래픽)** | 트랜잭션 제출 시 네트워크 사용료 지불 |
+| **<abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 수수료(트래픽)** | 트랜잭션 제출 시 네트워크 사용료 지불 |
 | **밸리데이터 보상** | 인프라 운영자에게 인센티브 |
 | **거버넌스** | <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 참여를 위해 CC를 스테이킹 |
 

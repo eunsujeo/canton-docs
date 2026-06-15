@@ -24,10 +24,10 @@ tags: [overview, understand, 입문]
 ## 역할별 (By Role)
 
 **[애플리케이션 개발자](https://docs.canton.network/appdev/get-started/choose-your-path)**
-Daml 스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>와 Ledger API를 사용해 Canton Network 위에 애플리케이션을 구축한다.
+Daml <abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr>와 Ledger API를 사용해 Canton Network 위에 애플리케이션을 구축한다.
 다음을 하고 싶다면 여기서 시작:
-* Daml로 스마트 컨트랙트 작성
-* 원장과 상호작용하는 프론트엔드·백엔드 구축
+* Daml로 스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 작성
+* <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>과 상호작용하는 프론트엔드·백엔드 구축
 * 애플리케이션 설계를 위한 Canton의 프라이버시 모델 이해
 
 **[Ethereum/Web3 개발자](https://docs.canton.network/appdev/modules/m2-canton-for-ethereum-devs)**

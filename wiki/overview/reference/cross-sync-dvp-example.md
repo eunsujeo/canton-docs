@@ -9,7 +9,7 @@ tags: [overview, reference, DvP, 재할당]
 > **출처(원문)**: [Cross-Synchronizer DvP Example](https://docs.canton.network/overview/reference/cross-sync-dvp-example) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: 자산이 서로 다른 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>에 있는 두 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 간 DvP(인도-지불) 거래를, <abbr class="gloss" title="컨트랙트를 한 Synchronizer에서 다른 Synchronizer로 옮기는 프로토콜">재할당</abbr> 프로토콜로 공통 Synchronizer에 모아 원자적으로 정산하는 워크플로 예시. 단계별 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 위치 변화와 원자성 경계.
+- **한 줄 요약**: 자산이 서로 다른 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>에 있는 두 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 간 <abbr class="gloss" title="인도-대-지급(Delivery vs Payment). 자산 인도와 대금 지급을 동시·원자적으로 처리">DvP</abbr>(인도-지불) 거래를, <abbr class="gloss" title="컨트랙트를 한 Synchronizer에서 다른 Synchronizer로 옮기는 프로토콜">재할당</abbr> 프로토콜로 공통 Synchronizer에 모아 원자적으로 정산하는 워크플로 예시. 단계별 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 위치 변화와 <abbr class="gloss" title="트랜잭션이 전부 적용되거나 전혀 적용되지 않는 성질. 일부만 반영되는 일이 없음">원자성</abbr> 경계.
 - **핵심 용어**: DvP, 재할당(언어사인→어사인), 공통 Synchronizer(Settlement Sync), 원자적 정산, 정산 위험
 - **선행 개념**: [다중 Synchronizer 아키텍처](../learn/multi-synchronizer.md), [재할당 프로토콜](reassignment-protocol.md).
 
@@ -47,13 +47,13 @@ tags: [overview, reference, DvP, 재할당]
 
 현금과 증권 컨트랙트가 별도 Synchronizer에 있는 데는 현실적 이유가 있다: 서로 다른 정산 인프라는 서로 다른 주체가 거버넌스하고, 서로 다른 규제 체제 하에서 운영될 수 있으며, 별개의 성능·비용 특성을 갖는다. 결제 네트워크와 증권 정산 시스템이 단일 Synchronizer를 공유할 가능성은 낮다.
 
-<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 트랜잭션은 같은 Synchronizer에 할당된 컨트랙트만 소비할 수 있다. DvP를 원자적으로 — 현금을 Bob에게, 증권을 Alice에게, 하나의 분리 불가능한 단계로 — 정산하려면, 두 컨트랙트가 먼저 공통 Synchronizer로 재할당되어야 한다.
+<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>은 같은 Synchronizer에 할당된 컨트랙트만 소비할 수 있다. DvP를 원자적으로 — 현금을 Bob에게, 증권을 Alice에게, 하나의 분리 불가능한 단계로 — 정산하려면, 두 컨트랙트가 먼저 공통 Synchronizer로 재할당되어야 한다.
 
 ## DvP 워크플로
 
 ### 1단계: 거래 조건 합의
 
-Alice와 Bob이 DvP 거래에 합의한다(오프-원장으로, 또는 `TradeAgreement` 컨트랙트를 통해). 조건은 어떤 현금 컨트랙트와 어떤 증권 컨트랙트가 교환될지 명시한다.
+Alice와 Bob이 DvP 거래에 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>한다(오프-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>으로, 또는 `TradeAgreement` 컨트랙트를 통해). 조건은 어떤 현금 컨트랙트와 어떤 증권 컨트랙트가 교환될지 명시한다.
 
 ### 2단계: Settlement Sync에 연결
 
@@ -74,7 +74,7 @@ Alice와 Bob이 DvP 거래에 합의한다(오프-원장으로, 또는 `TradeAgr
 
 ### 5단계: 원자적 정산
 
-이제 두 컨트랙트가 모두 Settlement Sync에 할당되었다. 단일 Daml 트랜잭션이 스왑을 실행한다: 원래 `Cash`와 `Securities` 컨트랙트를 보관하고 새것을 생성한다 — Bob이 소유한 `Cash`와 Alice가 소유한 `Securities`. 두 입력 컨트랙트가 같은 Synchronizer에 있으므로 이 트랜잭션은 원자적이다. 두 이전이 모두 일어나거나 둘 다 안 일어난다.
+이제 두 컨트랙트가 모두 Settlement Sync에 할당되었다. 단일 Daml 트랜잭션이 스왑을 실행한다: 원래 `Cash`와 `Securities` 컨트랙트를 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>하고 새것을 생성한다 — Bob이 소유한 `Cash`와 Alice가 소유한 `Securities`. 두 입력 컨트랙트가 같은 Synchronizer에 있으므로 이 트랜잭션은 원자적이다. 두 이전이 모두 일어나거나 둘 다 안 일어난다.
 
 ### 6단계: 되돌려 재할당
 
@@ -121,7 +121,7 @@ sequenceDiagram
 
 재할당 단계(3, 4, 6)는 각각 두 단계이며 자체 트랜잭션으로 일어난다. 컨트랙트의 언어사인 트랜잭션과 어사인 트랜잭션 사이에 그 컨트랙트는 "어사인 대기" 상태이며 쓸 수 없다. 어사인이 실패하면(예: <abbr class="gloss" title="어떤 노드·파티·키가 네트워크에 참여하는지를 정의하는 구성 정보">토폴로지</abbr> 변경으로), 상황이 해소될 때까지 컨트랙트는 대기 상태로 남는다.
 
-정산 단계(5)는 **원자적이다**. Daml 트랜잭션이 전부 커밋되거나 아예 안 된다. Alice가 현금을 냈지만 증권을 못 받거나 그 반대인 상태는 없다.
+정산 단계(5)는 **원자적이다**. Daml 트랜잭션이 전부 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>되거나 아예 안 된다. Alice가 현금을 냈지만 증권을 못 받거나 그 반대인 상태는 없다.
 
 이 구분이 핵심 설계 속성이다: 재할당은 컨트랙트를 공통 Synchronizer로 옮겨 원자적 트랜잭션이 거래를 정산할 수 있게 한다. 재할당은 두 개의 별도 트랜잭션으로 이루어지고 컨트랙트가 일시적으로 사용 불가가 될 가능성이 있지만, 정산 위험을 수반하지 않는다 — 원자적 단계가 실행될 때까지 어떤 가치도 손바뀜하지 않는다.
 

@@ -9,21 +9,21 @@ tags: [overview, understand, 아키텍처]
 > **출처(원문)**: [Core Concepts](https://docs.canton.network/overview/understand/core-concepts) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton을 이루는 네 가지 기본 개념 — <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>(스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>) — 을 소개하고 이들이 트랜잭션 흐름에서 어떻게 맞물리는지 설명.
-- **핵심 용어**: 파티(Party), 밸리데이터(Validator), Synchronizer, 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러, 활성 컨트랙트 집합(Active Contract Set)
+- **한 줄 요약**: Canton을 이루는 네 가지 기본 개념 — <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>(<abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr>) — 을 소개하고 이들이 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 흐름에서 어떻게 맞물리는지 설명.
+- **핵심 용어**: 파티(Party), 밸리데이터(Validator), Synchronizer, 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/<abbr class="gloss" title="컨트랙트의 특정 초이스(동작)를 실행할 권한을 가진 파티">컨트롤러</abbr>, <abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr> 집합(Active Contract Set)
 - **선행 개념**: [5분 만에 보는 Canton Network](five-minute-overview.md). 다음 → [활용 사례](use-cases.md)
 
 ---
 
 # 핵심 개념
 
-> Canton Network의 필수 빌딩 블록: 파티, 밸리데이터, Synchronizer, 스마트 컨트랙트
+> Canton Network의 필수 빌딩 블록: 파티, 밸리데이터, Synchronizer, 스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>
 
 Canton을 이해하려면 네 가지 기본 개념을 파악해야 한다: **파티(parties)**, **밸리데이터(validator)** 노드, **Synchronizer(synchronizers)**, **템플릿(templates)**(스마트 컨트랙트). 이 페이지는 각각을 소개하고 이들이 어떻게 함께 작동하는지 설명한다.
 
 ## 파티 (Parties)
 
-**파티**는 Canton의 온-원장(on-ledger) 신원으로, 다른 블록체인의 주소나 계정과 유사하지만 명시적 권한 의미론(authorization semantics)을 갖는다.
+**파티**는 Canton의 온-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>(on-ledger) 신원으로, 다른 블록체인의 주소나 계정과 유사하지만 명시적 권한 의미론(authorization semantics)을 갖는다.
 
 ### 파티 식별자 형식
 
@@ -40,7 +40,7 @@ name                                fingerprint (hash of public key)
 | **서명(Sign)** | 컨트랙트 생성 승인 (서명자로서) |
 | **행위(Act)** | 컨트랙트에서 초이스 실행 (컨트롤러로서) |
 | **관람(See)** | 컨트랙트와 트랜잭션 관찰 (<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr>로서) |
-| **검증(Validate)** | 자신의 컨트랙트에 영향을 주는 트랜잭션 확인 |
+| **검증(Validate)** | 자신의 컨트랙트에 영향을 주는 트랜잭션 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr> |
 
 ### 로컬 파티 vs. 외부 파티
 
@@ -81,7 +81,7 @@ template Asset
 
 ## 밸리데이터 (참여자 노드)
 
-**밸리데이터**는 파티를 호스팅하고, 그들의 컨트랙트 데이터를 저장하며, Canton 프로토콜에 참여한다. 밸리데이터는 참여자 노드(participant node, <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 실행 엔진)와 밸리데이터 프로세스로 구성된다.
+**밸리데이터**는 파티를 호스팅하고, 그들의 컨트랙트 데이터를 저장하며, Canton 프로토콜에 참여한다. 밸리데이터는 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>(participant node, <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 실행 엔진)와 밸리데이터 프로세스로 구성된다.
 
 ### 밸리데이터가 하는 일
 
@@ -110,7 +110,7 @@ flowchart TB
 
 ### 주요 특성
 
-* 각 밸리데이터는 원장의 **국소적·사적 뷰**(*활성 컨트랙트 집합, Active Contract Set*이라 부름)를 유지한다
+* 각 밸리데이터는 원장의 **국소적·사적 <abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>**(*활성 컨트랙트 집합, Active Contract Set*이라 부름)를 유지한다
 * 밸리데이터는 자신이 호스팅하는 파티가 이해관계자인 컨트랙트만 저장한다
 * 하나의 밸리데이터에 여러 파티를 호스팅할 수 있다
 * 밸리데이터는 여러 Synchronizer에 연결할 수 있다
@@ -120,11 +120,11 @@ flowchart TB
 
 ## Synchronizer (Synchronizers)
 
-**Synchronizer**는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 합의를 조율한다. 두 구성 요소로 이루어진다:
+**Synchronizer**는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>를 조율한다. 두 구성 요소로 이루어진다:
 
 ### 시퀀서 (Sequencer)
 
-시퀀서는 메시지를 정렬하고 분배한다:
+<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>는 메시지를 정렬하고 분배한다:
 
 | 기능 | 설명 |
 | --- | --- |
@@ -141,13 +141,13 @@ flowchart TB
 
 ### 미디에이터 (Mediator)
 
-미디에이터는 트랜잭션을 확인하는 합의 프로토콜을 촉진한다:
+<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>는 트랜잭션을 확인하는 합의 프로토콜을 촉진한다:
 
 | 기능 | 설명 |
 | --- | --- |
 | **수집(Collect)** | 참여자로부터 확인을 모음 |
 | **집계(Aggregate)** | 합의 임계값 충족 여부 판단 |
-| **선언(Declare)** | 트랜잭션 결과 발표 (커밋/거부) |
+| **선언(Declare)** | 트랜잭션 결과 발표 (<abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>/거부) |
 
 미디에이터가 **하지 않는** 것:
 
@@ -179,12 +179,12 @@ flowchart TB
 
 * **<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>**(주요 기관)가 운영
 * 탈중앙화 — 단일 운영자가 통제하지 않음
-* 트랜잭션 수수료를 내기 위한 트래픽 구매에 **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> (CC)** 사용
+* 트랜잭션 수수료를 내기 위한 <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 구매에 **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> (CC)** 사용
 * **Canton Foundation**이 거버넌스를 담당
 
 ## 스마트 컨트랙트 (템플릿)
 
-Canton의 스마트 컨트랙트는 다자간 워크플로를 위해 특별히 설계된 언어인 **Daml**로 정의된다. Daml **템플릿**은 보통 다음을 정의한다:
+Canton의 스마트 컨트랙트는 <abbr class="gloss" title="여러 조직·당사자가 함께 참여하는 업무 흐름(예: 결제·정산·대출)">다자간 워크플로</abbr>를 위해 특별히 설계된 언어인 **Daml**로 정의된다. Daml **템플릿**은 보통 다음을 정의한다:
 
 * **데이터(Data)**: 컨트랙트가 담는 정보
 * **파티(Parties)**: 컨트랙트를 보고 행위할 수 있는 자
@@ -215,7 +215,7 @@ template Token
 
 ### 컨트랙트는 불변이다
 
-가변 상태를 갖는 Solidity 컨트랙트와 달리, Daml 컨트랙트(템플릿 인스턴스)는 불변이다. `created`(생성) 또는 `archived`(보관)만 가능하다.
+가변 상태를 갖는 Solidity 컨트랙트와 달리, Daml 컨트랙트(템플릿 인스턴스)는 불변이다. `created`(생성) 또는 `archived`(<abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>)만 가능하다.
 
 | Solidity | Daml |
 | --- | --- |
@@ -271,7 +271,7 @@ sequenceDiagram
 
 | 단계 | 구성 요소 | 동작 |
 | --- | --- | --- |
-| 1 | **애플리케이션** | Ledger API로 커맨드 제출 |
+| 1 | **애플리케이션** | Ledger API로 <abbr class="gloss" title="애플리케이션이 원장에 제출하는 명령(컨트랙트 생성·초이스 실행 요청)">커맨드</abbr> 제출 |
 | 2 | **밸리데이터 A** | Daml 실행, 트랜잭션 뷰 생성 |
 | 3 | **Synchronizer** | 암호화된 뷰 순서화·분배 |
 | 4 | **밸리데이터들** | 각자의 뷰 검증 |

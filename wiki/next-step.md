@@ -13,7 +13,7 @@
 | integrations | 0 | 30 | 지갑·거래소·dApp 연동 (B2B 정산 직결) |
 | **합계** | **49** | **266** | overview 전체(understand/learn/reference) 완료 |
 
-> 진행 상황 확인: `grep -c "| ☑ |" sources.md` (완료) / `grep -c "| ☐ |" sources.md` (남음)
+> 진행 상황 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>: `grep -c "| ☑ |" sources.md` (완료) / `grep -c "| ☐ |" sources.md` (남음)
 
 ---
 
@@ -59,7 +59,7 @@ B2B 정산·지갑·거래소 연동의 큰 그림 → 패턴 → SDK 순.
 ### C. global-synchronizer — GS 운영 (운영자용)
 개념→운영 순:
 1. `global-synchronizer/understand/*` (5페이지) — GS 운영 개념
-2. `global-synchronizer/splice-fundamentals/*` (5, glossary 포함) — Splice 기초
+2. `global-synchronizer/splice-fundamentals/*` (5, glossary 포함) — <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 기초
 3. `global-synchronizer/canton-console/*` (6) — 콘솔 사용
 4. `global-synchronizer/deployment/*` (21) — 노드 배포
 5. `global-synchronizer/production-operations/*` (25) — 운영
@@ -80,6 +80,6 @@ B2B 정산·지갑·거래소 연동의 큰 그림 → 패턴 → SDK 순.
 6. `log.md`에 이력 추가
 7. `python3 scripts/gen_tooltips.py && python3 scripts/gen_sidebar.py`
 8. 검증: abbr open/close 균형, nest:0, theme:0, 출처 1
-9. 커밋·푸시 → GitHub Pages 배포 확인
+9. <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>·푸시 → GitHub Pages 배포 확인
 
 검증은 `verify-canton` 스킬 (page 모드: 원문 1:1 대조 / lint 모드: 위키 전체 건강 점검).

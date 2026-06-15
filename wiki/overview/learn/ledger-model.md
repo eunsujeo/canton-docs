@@ -9,7 +9,7 @@ tags: [overview, learn, 아키텍처]
 > **출처(원문)**: [The Ledger Model](https://docs.canton.network/overview/learn/ledger-model) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 가변 계정 잔액이 아니라 생성·보관되는 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>(확장 UTXO, eUTXO)로 원장을 구성한다. 컨트랙트 생애주기, <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 역할(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러/액터), 트랜잭션 트리·뷰·키·원장 시간·원자적 조합까지.
+- **한 줄 요약**: Canton은 가변 계정 잔액이 아니라 생성·<abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>되는 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>(확장 UTXO, <abbr class="gloss" title="확장 UTXO. 금액만이 아니라 임의의 상태·규칙을 담는 컨트랙트로 원장을 구성하는 모델">eUTXO</abbr>)로 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>을 구성한다. 컨트랙트 생애주기, <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 역할(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/<abbr class="gloss" title="컨트랙트의 특정 초이스(동작)를 실행할 권한을 가진 파티">컨트롤러</abbr>/액터), <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 트리·<abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>·키·원장 시간·원자적 조합까지.
 - **핵심 용어**: eUTXO, 컨트랙트 ID, 이해관계자(stakeholder), 소비형/비소비형 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>, 트랜잭션 트리, 컨트랙트 키, 원장 시간(ledger time)
 - **선행 개념**: [아키텍처 개요](architecture.md). 다음 → [트랜잭션 작동 방식](how-transactions-work.md)
 
@@ -23,7 +23,7 @@ Canton은 **확장 UTXO(eUTXO)** 원장 모델을 사용한다. 여기서 컨트
 
 ## UTXO로서의 컨트랙트
 
-Canton에서 원장은 **활성 컨트랙트(active contracts)** 의 모음이다. 각 컨트랙트는:
+Canton에서 원장은 **<abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr>(active contracts)** 의 모음이다. 각 컨트랙트는:
 
 * 트랜잭션에 의해 생성된다
 * 다른 트랜잭션이 보관할 때까지 존재한다
@@ -57,7 +57,7 @@ flowchart LR
 | **병렬성** | 높음 — 독립 컨트랙트가 병렬 처리됨 | 낮음 — 계정 잠금 필요 |
 | **프라이버시** | 자연스러움 — 각 컨트랙트에 특정 이해관계자 | 어려움 — 계정이 데이터를 집계 |
 | **조합 가능성** | 내장 — 컨트랙트가 서로 참조 | 신중한 설계 필요 |
-| **이중지불 방지** | 구조적 — 컨트랙트는 한 번만 보관됨 | 시퀀스 번호 필요 |
+| **<abbr class="gloss" title="같은 자산을 두 번 쓰는 부정행위">이중지불</abbr> 방지** | 구조적 — 컨트랙트는 한 번만 보관됨 | 시퀀스 번호 필요 |
 
 ### 컨트랙트 생애주기
 
@@ -304,7 +304,7 @@ choice ExecuteSwap : ()
     exercise paymentId Transfer with newOwner = seller
 ```
 
-원장은 이 원자성을 강제한다 — 전체 스왑이 커밋되거나 아무것도 안 되거나.
+원장은 이 <abbr class="gloss" title="트랜잭션이 전부 적용되거나 전혀 적용되지 않는 성질. 일부만 반영되는 일이 없음">원자성</abbr>을 강제한다 — 전체 스왑이 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>되거나 아무것도 안 되거나.
 
 ## 관련 주제
 

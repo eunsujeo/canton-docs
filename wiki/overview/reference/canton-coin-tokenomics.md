@@ -9,7 +9,7 @@ tags: [overview, reference, 토크노믹스, CantonCoin]
 > **출처(원문)**: [Canton Coin Tokenomics](https://docs.canton.network/overview/reference/canton-coin-tokenomics) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: CC 수수료 구조(트래픽·보유 수수료), 마이닝 라운드(5단계)·활동 레코드(5개 <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>), 소각-발행 균형, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 발행, UTXO 모델·더스트 만료, CN 토큰 표준(CIP-0056)의 기술 레퍼런스.
+- **한 줄 요약**: CC 수수료 구조(<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>·보유 수수료), 마이닝 라운드(5단계)·활동 레코드(5개 <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>), 소각-발행 균형, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 발행, UTXO 모델·더스트 만료, CN 토큰 표준(<abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr>-0056)의 기술 레퍼런스.
 - **핵심 용어**: Amulet, AmuletRules/OpenMiningRound/IssuingMiningRound, 활동 레코드·가중치, 보유 수수료(holding fee), 피처드 앱, UTXO 더스트 만료
 - **선행 개념**: [Canton Coin](../understand/canton-coin.md), [GS 토크노믹스](tokenomics-of-gs.md).
 
@@ -27,15 +27,15 @@ CC는 세 가지 수수료 유형이 있었다. [CIP-0078](https://github.com/gl
 
 ### 트래픽 수수료
 
-트래픽 크레딧은 양도 불가다. CC가 트래픽으로 변환되면 트랜잭션 제출 비용에만 쓸 수 있다. <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>의 트래픽 예산이 소진되면 트랜잭션이 실패한다. 자동 충전 자동화가 제공되며 권장된다.
+트래픽 크레딧은 양도 불가다. CC가 트래픽으로 변환되면 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 제출 비용에만 쓸 수 있다. <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>의 트래픽 예산이 소진되면 트랜잭션이 실패한다. 자동 충전 자동화가 제공되며 권장된다.
 
-> **참고:** 소비되는 컨트랙트의 경합으로 확인 요청이 실패해도 트래픽 크레딧은 소비된다 — 예컨대 두 이전이 같은 코인 컨트랙트를 소비하려 할 때.
+> **참고:** 소비되는 컨트랙트의 경합으로 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr> 요청이 실패해도 트래픽 크레딧은 소비된다 — 예컨대 두 이전이 같은 코인 컨트랙트를 소비하려 할 때.
 
 ### 보유 수수료 (Holding Fees)
 
 Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반한다. 활동 레코드는 네트워크에 가치를 제공하는 동작을 수행한 파티를 식별한다. 활동 레코드는 *가중치(weight)* 를 가지며, 이는 그 활동 레코드와 연관된 CC 발행의 상대적 몫이다.
 
-활동 레코드를 생성하는 것과 연관된 CC를 발행하는 것은 두 별개 단계다. 생성·발행 단계는 다섯 단계를 가진 *라운드(round)* 라 부르는 사이클로 수행된다. 첫 단계에서 그 라운드의 수수료 값이 원장에 기록된다(수수료는 Scan State API로 얻을 수 있다). 두 번째 단계는 *활동 기록(activity recording)* 으로, 활동 레코드가 생성되는 때다; 이 단계에 생성된 레코드는 그 라운드에 속한다. 다음 단계는 각 종류의 활동 레코드에 대한 [활동 가중치당 CC 발행량](https://github.com/canton-network/splice/blob/332e06a7ae9e13fde5bba0bf7dcb059aa36f979e/daml/splice-amulet/daml/Splice/Issuance.daml#L67)을 계산하는데, 이는 그 유형의 활동 레코드에 대해 발행될 수 있는 총 CC의 몫이다. 그 뒤 *발행 단계(minting phase)* 에서 활동 레코드의 소유자가 발행 가중치에 비례해 CC를 발행할 수 있다.
+활동 레코드를 생성하는 것과 연관된 CC를 발행하는 것은 두 별개 단계다. 생성·발행 단계는 다섯 단계를 가진 *라운드(round)* 라 부르는 사이클로 수행된다. 첫 단계에서 그 라운드의 수수료 값이 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>에 기록된다(수수료는 Scan State API로 얻을 수 있다). 두 번째 단계는 *활동 기록(activity recording)* 으로, 활동 레코드가 생성되는 때다; 이 단계에 생성된 레코드는 그 라운드에 속한다. 다음 단계는 각 종류의 활동 레코드에 대한 [활동 가중치당 CC 발행량](https://github.com/canton-network/splice/blob/332e06a7ae9e13fde5bba0bf7dcb059aa36f979e/daml/splice-amulet/daml/Splice/Issuance.daml#L67)을 계산하는데, 이는 그 유형의 활동 레코드에 대해 발행될 수 있는 총 CC의 몫이다. 그 뒤 *발행 단계(minting phase)* 에서 활동 레코드의 소유자가 발행 가중치에 비례해 CC를 발행할 수 있다.
 
 여러 라운드가 동시에 활성이며, 각 라운드는 서로 다른 단계에 있다. 라운드는 10분마다 시작하며, 이는 슈퍼 밸리데이터가 향후 거버넌스 투표로 바꿀 수 있는 구성 파라미터다. 자세한 내용은 CC 백서 참고.
 
@@ -69,7 +69,7 @@ Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반
 
 뒤의 넷은 활동 레코드인 반면 `FeaturedAppActivityMarker`는 활동 레코드로 간주되지 않는다. 뒤에서 논하듯, `FeaturedAppActivityMarker`는 슈퍼 밸리데이터가 실행하는 자동화를 통해 `AppRewardCoupon`으로 변환된다. 피처드 CC 이전과 `FeaturedAppActivityMarker`는 둘 다 같은 보상을 생성한다. `FeaturedAppActivityMarker`가 앱 활동 레코드를 생성하는 선호 방식이다.
 
-`FeaturedAppActivityMarker`, `AppRewardCoupon`, `ValidatorRewardCoupon` 컨트랙트는 애플리케이션의 트랜잭션이 성공할 때 생성된다. 일반적으로 애플리케이션은 자기 Daml 코드가 `FeaturedAppActivityMarker` 컨트랙트를 직접 생성하거나 애플리케이션 제공자의 파티를 피처링하는 Daml 모델과 상호작용할 때 보상을 받는다. `ValidatorRewardCoupon`은 `AmuletRules_Transfer`를 호출할 때마다(예: Splice 월렛 UI를 쓴 CC 이전) 또는 CC가 소각될 때 생성된다.
+`FeaturedAppActivityMarker`, `AppRewardCoupon`, `ValidatorRewardCoupon` 컨트랙트는 애플리케이션의 트랜잭션이 성공할 때 생성된다. 일반적으로 애플리케이션은 자기 Daml 코드가 `FeaturedAppActivityMarker` 컨트랙트를 직접 생성하거나 애플리케이션 제공자의 파티를 피처링하는 Daml 모델과 상호작용할 때 보상을 받는다. `ValidatorRewardCoupon`은 `AmuletRules_Transfer`를 호출할 때마다(예: <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 월렛 UI를 쓴 CC 이전) 또는 CC가 소각될 때 생성된다.
 
 발행 가중치 외에, 애플리케이션의 보상은 그것이 *피처드(featured)* 인지 *비피처드(unfeatured)*(기본 상태)인지에도 좌우된다. CIP-0078이 구현된 후, 피처드 애플리케이션만 보상을 받는다. 피처드 애플리케이션은 약 $1 USD에 상당하는 총 가치의 발행 가중치를 받는다(슈퍼 밸리데이터가 향후 조정할 수 있다).
 
@@ -100,7 +100,7 @@ Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반
 
 발행 보상은 네 범주의 기여자에게 분배된다:
 
-* **슈퍼 밸리데이터**는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 노드(시퀀서, 미디에이터, 거버넌스 인프라)를 운영해 발행 권한을 번다.
+* **슈퍼 밸리데이터**는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 노드(<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>, <abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>, 거버넌스 인프라)를 운영해 발행 권한을 번다.
 * **애플리케이션 제공자**는 피처드 애플리케이션을 통해 트랜잭션을 촉진할 때 보상을 번다.
 * **밸리데이터**는 자신이 소각하는 수수료에 비례해 발행 권한을 번다. 네트워크는 이를 그 노드가 생성한 활동의 대리 지표로 취급한다.
 * **라이브니스 인센티브**는 가동 시간과 준비 상태에 대해 밸리데이터에 보상한다. 밸리데이터가 직접 활동으로 발행 허용량을 다 쓰지 않으면, 일부가 라이브니스 보너스로 할당된다.
