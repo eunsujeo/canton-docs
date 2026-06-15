@@ -54,6 +54,19 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 
 > 실무 맥락: 스테이블코인 등 B2C 토큰은 퍼블릭 EVM 체인(예: Ethereum, Base)에서 발행하고, Canton은 기관 간 B2B 정산 계층으로 쓰는 멀티체인 분담 구조를 흔히 본다.
 
+## 곁가지: 프라이버시를 "덧붙이는" 방식 (ZK-롤업·프라이빗 채널)
+대부분의 퍼블릭 체인은 기본적으로 투명해서, 프라이버시를 별도 계층으로 덧붙인다(bolt-on). 대표적인 두 방식:
+
+- **<abbr class="gloss" title="영지식 증명으로 다수 트랜잭션을 체인 밖에서 처리하고 유효성 증명만 L1에 올리는 L2 기술. 내용을 공개하지 않고 검증 가능해 프라이버시에도 활용">ZK-롤업</abbr>**: 영지식 증명으로 다수 트랜잭션을 체인 밖에서 처리하고 "유효하다"는 증명만 L1에 올린다. 내용을 공개하지 않고 검증할 수 있어 프라이버시에도 쓰인다. 예: zkSync, StarkNet, (프라이버시 특화) Aztec.
+- **<abbr class="gloss" title="특정 참여자끼리만 거래 데이터를 공유하는 별도 통로. 채널 밖에서는 내용이 보이지 않음(예: 상태/결제 채널, Hyperledger Fabric channel)">프라이빗 채널</abbr>**: 특정 참여자끼리만 거래 데이터를 공유하는 별도 통로. 채널 밖에서는 보이지 않는다. 예: 상태/결제 채널(Lightning Network), Hyperledger Fabric의 channel.
+
+| 방식 | 프라이버시 위치 |
+|---|---|
+| ZK-롤업·프라이빗 채널 | 기본 체인은 투명 → 위에 덧붙여(bolt-on) 가림 |
+| **Canton** | 프로토콜 자체가 데이터를 관련 파티에게만 분산 (부분 트랜잭션 프라이버시) |
+
+즉 Canton은 프라이버시를 별도 레이어로 붙이는 대신 **프로토콜에 내장**했다는 점이 핵심 차이다.
+
 ## 참고
 - [Canton Network이란?](../overview/understand/what-is-canton.md) — Canton이 L1으로서 갖는 차별점
 - [Ethereum: Layer 2 / scaling](https://ethereum.org/en/layer-2/)
