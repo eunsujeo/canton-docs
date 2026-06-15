@@ -45,5 +45,8 @@
 - learn: cryptographic-keys, multi-synchronizer, two-layer-consensus, validator-architecture.
 - 내부 todo div/COPIED 마커 제외, Note/Warning/Tip/img·mermaid·protobuf 펜스 정규화. overview/understand·overview/learn 학습 페이지 전부 완료. 완료 25/315.
 
+## [2026-06-15] ingest | overview/reference Group A (8)
+- synchronizer-overview, canton-protocol-specification, cip-index, canton-name-service, tokenomics-of-gs, decentralization, ordering-consensus, cross-sync-dvp-example. 완료 33/315.
+
 ## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
 - 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.

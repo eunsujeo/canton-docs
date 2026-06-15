@@ -58,5 +58,9 @@ _(아직 없음)_
 ### integrations — 통합/연동
 _(아직 없음)_
 
+### overview/reference — 심화 레퍼런스
+- [동기화자 개요](overview/reference/synchronizer-overview.md) · [Canton 프로토콜 명세](overview/reference/canton-protocol-specification.md) · [CIP 인덱스](overview/reference/cip-index.md) · [Canton 네임 서비스](overview/reference/canton-name-service.md)
+- [글로벌 동기화자 토크노믹스](overview/reference/tokenomics-of-gs.md) · [탈중앙화](overview/reference/decentralization.md) · [순서화 합의](overview/reference/ordering-consensus.md) · [크로스-동기화자 DvP 예시](overview/reference/cross-sync-dvp-example.md)
+
 ### notes — 정리 노트 (직접 작성)
 - [블록체인 계층 (L0/L1/L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md) — L0·L1·L2 구분과 대표 네트워크, Canton이 프라이버시 보존 L1으로서 갖는 위치.
