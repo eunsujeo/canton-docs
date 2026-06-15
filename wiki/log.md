@@ -37,5 +37,8 @@
 ## [2026-06-15] ingest | 글로벌 동기화자 묶음 2종
 - overview/understand/global-synchronizer, overview/learn/global-synchronizer-architecture 번역 완료. 내부 todo div 제외, mermaid 펜스 정규화. 완료 14/315.
 
+## [2026-06-15] ingest | appdev 앱 개발 입문 3종
+- choose-your-path, m1-understanding-canton, m2-canton-for-ethereum-devs 번역 완료. Accordion/Card→마크다운, solidity/haskell/mermaid 펜스 정규화. 완료 17/315.
+
 ## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
 - 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.

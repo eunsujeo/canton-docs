@@ -40,7 +40,9 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [글로벌 동기화자 아키텍처](overview/learn/global-synchronizer-architecture.md) — 분산 시퀀서·미디에이터의 BFT 합의, 트랜잭션 흐름, SV 1/3 미만 결함 허용.
 
 ### appdev — 앱 개발자 가이드
-_(아직 없음)_
+- [학습 경로 선택](appdev/get-started/choose-your-path.md) — 배경(입문/Ethereum/타 체인/비개발)별 권장 경로, 7개 모듈, 개발 스택, 사전 요구사항.
+- [모듈 1 — Canton 이해](appdev/modules/m1-understanding-canton.md) — 프라이버시 우선·전역 상태 없음·불변성·명시적 권한 4대 원칙.
+- [블록체인 개발자를 위한 Canton (모듈 2)](appdev/modules/m2-canton-for-ethereum-devs.md) — Ethereum↔Canton 개념 매핑, 템플릿 vs Solidity, 잊어야 할 습관·함정.
 
 ### global-synchronizer — 글로벌 동기화자 운영
 _(아직 없음)_

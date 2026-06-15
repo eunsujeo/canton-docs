@@ -34,12 +34,12 @@
 | ☐ | Architectural Considerations for Upgrading | [upgrading-architecture.md](https://docs.canton.network/appdev/deep-dives/upgrading-architecture.md) | `wiki/appdev/deep-dives/upgrading-architecture.md` |
 | ☐ | Values in the Ledger API | [values-in-the-ledger-api.md](https://docs.canton.network/appdev/deep-dives/values-in-the-ledger-api.md) | `wiki/appdev/deep-dives/values-in-the-ledger-api.md` |
 | ☐ | Common Issues FAQ | [faq.md](https://docs.canton.network/appdev/faq.md) | `wiki/appdev/faq.md` |
-| ☐ | Choose Your Path | [choose-your-path.md](https://docs.canton.network/appdev/get-started/choose-your-path.md) | `wiki/appdev/get-started/choose-your-path.md` |
+| ☑ | Choose Your Path | [choose-your-path.md](https://docs.canton.network/appdev/get-started/choose-your-path.md) | `wiki/appdev/get-started/choose-your-path.md` |
 | ☐ | What's New | [whats-new.md](https://docs.canton.network/appdev/get-started/whats-new.md) | `wiki/appdev/get-started/whats-new.md` |
 | ☐ | The Canton Development Stack | [m1-development-stack.md](https://docs.canton.network/appdev/modules/m1-development-stack.md) | `wiki/appdev/modules/m1-development-stack.md` |
 | ☐ | Mental Models for Canton | [m1-mental-models.md](https://docs.canton.network/appdev/modules/m1-mental-models.md) | `wiki/appdev/modules/m1-mental-models.md` |
-| ☐ | Module 1: Understanding Canton | [m1-understanding-canton.md](https://docs.canton.network/appdev/modules/m1-understanding-canton.md) | `wiki/appdev/modules/m1-understanding-canton.md` |
-| ☐ | Canton for Blockchain Developers | [m2-canton-for-ethereum-devs.md](https://docs.canton.network/appdev/modules/m2-canton-for-ethereum-devs.md) | `wiki/appdev/modules/m2-canton-for-ethereum-devs.md` |
+| ☑ | Module 1: Understanding Canton | [m1-understanding-canton.md](https://docs.canton.network/appdev/modules/m1-understanding-canton.md) | `wiki/appdev/modules/m1-understanding-canton.md` |
+| ☑ | Canton for Blockchain Developers | [m2-canton-for-ethereum-devs.md](https://docs.canton.network/appdev/modules/m2-canton-for-ethereum-devs.md) | `wiki/appdev/modules/m2-canton-for-ethereum-devs.md` |
 | ☐ | Concept Translation Tables | [m2-concept-translation.md](https://docs.canton.network/appdev/modules/m2-concept-translation.md) | `wiki/appdev/modules/m2-concept-translation.md` |
 | ☐ | Migration Checklist | [m2-migration-checklist.md](https://docs.canton.network/appdev/modules/m2-migration-checklist.md) | `wiki/appdev/modules/m2-migration-checklist.md` |
 | ☐ | Multi-Party Workflows | [m2-multi-party-workflows.md](https://docs.canton.network/appdev/modules/m2-multi-party-workflows.md) | `wiki/appdev/modules/m2-multi-party-workflows.md` |
