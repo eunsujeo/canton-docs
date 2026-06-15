@@ -309,6 +309,6 @@ Ethereum에서 왔다면, 다음 습관을 바꿔야 한다.
 
 ---
 
-⬅️ **이전**: [모듈 1 — Canton 이해](m1-understanding-canton.md) ・ ➡️ **다음**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](../../notes/blockchain-layers-l0-l1-l2.md)
+⬅️ **이전**: [모듈 1 — Canton 이해](m1-understanding-canton.md) ・ ➡️ **다음**: [모듈 5 — LocalNet 개발 (LocalNet Development)](m5-localnet-development.md)
 
 <!-- nav:end -->

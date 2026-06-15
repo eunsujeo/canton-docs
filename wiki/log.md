@@ -83,3 +83,10 @@
 
 ## 2026-06-15 — note | 파티 설계 per-user vs 옴니버스
 - `notes/party-design-per-user-vs-omnibus.md` 신설: 파티 생성 비용·상태 때문에 유저별 파티는 선택사항, 거래소식 옴니버스 패턴, B2B 정산 맥락
+
+## 2026-06-15 — ingest | appdev 입문 묶음(로컬 실습)
+- `appdev/quickstart/index.md` (Canton Network QuickStart)
+- `appdev/quickstart/prerequisites.md` (사전 요구사항·설치)
+- `appdev/quickstart/running-the-demo.md` (데모 실행하기 — 라이선스 워크플로)
+- `appdev/modules/m5-localnet-development.md` (LocalNet 개발)
+- 목적: overview 학습 후 로컬 PC에서 직접 실습(LocalNet)하기 위한 입문 4페이지

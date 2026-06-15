@@ -72,7 +72,7 @@
 | ☐ | CI/CD Integration | [m5-ci-cd-integration.md](https://docs.canton.network/appdev/modules/m5-ci-cd-integration.md) | `wiki/appdev/modules/m5-ci-cd-integration.md` |
 | ☐ | Deployment Progression | [m5-deployment-progression.md](https://docs.canton.network/appdev/modules/m5-deployment-progression.md) | `wiki/appdev/modules/m5-deployment-progression.md` |
 | ☐ | Environment Configuration | [m5-environment-configuration.md](https://docs.canton.network/appdev/modules/m5-environment-configuration.md) | `wiki/appdev/modules/m5-environment-configuration.md` |
-| ☐ | LocalNet Development | [m5-localnet-development.md](https://docs.canton.network/appdev/modules/m5-localnet-development.md) | `wiki/appdev/modules/m5-localnet-development.md` |
+| ☑ | LocalNet Development | [m5-localnet-development.md](https://docs.canton.network/appdev/modules/m5-localnet-development.md) | `wiki/appdev/modules/m5-localnet-development.md` |
 | ☐ | How to upload and query Daml packages | [m5-manage-daml-packages.md](https://docs.canton.network/appdev/modules/m5-manage-daml-packages.md) | `wiki/appdev/modules/m5-manage-daml-packages.md` |
 | ☐ | SV Operated Networks and Use-cases | [m5-networks-and-use-cases.md](https://docs.canton.network/appdev/modules/m5-networks-and-use-cases.md) | `wiki/appdev/modules/m5-networks-and-use-cases.md` |
 | ☐ | Testing Strategies | [m5-testing-strategies.md](https://docs.canton.network/appdev/modules/m5-testing-strategies.md) | `wiki/appdev/modules/m5-testing-strategies.md` |
@@ -93,13 +93,13 @@
 | ☐ | Smart Contract Upgrades in Production | [m7-smart-contract-upgrades.md](https://docs.canton.network/appdev/modules/m7-smart-contract-upgrades.md) | `wiki/appdev/modules/m7-smart-contract-upgrades.md` |
 | ☐ | Deploy Quickstart to DevNet | [deploy-to-devnet.md](https://docs.canton.network/appdev/quickstart/deploy-to-devnet.md) | `wiki/appdev/quickstart/deploy-to-devnet.md` |
 | ☐ | Onboard External Parties in Quickstart | [external-parties.md](https://docs.canton.network/appdev/quickstart/external-parties.md) | `wiki/appdev/quickstart/external-parties.md` |
-| ☐ | Canton Network QuickStart | [index.md](https://docs.canton.network/appdev/quickstart/index.md) | `wiki/appdev/quickstart/index.md` |
+| ☑ | Canton Network QuickStart | [index.md](https://docs.canton.network/appdev/quickstart/index.md) | `wiki/appdev/quickstart/index.md` |
 | ☐ | Using the JSON Ledger API | [json-api.md](https://docs.canton.network/appdev/quickstart/json-api.md) | `wiki/appdev/quickstart/json-api.md` |
 | ☐ | Debugging with lnav | [lnav.md](https://docs.canton.network/appdev/quickstart/lnav.md) | `wiki/appdev/quickstart/lnav.md` |
 | ☐ | Observability and Tracing | [observability-and-tracing.md](https://docs.canton.network/appdev/quickstart/observability-and-tracing.md) | `wiki/appdev/quickstart/observability-and-tracing.md` |
-| ☐ | Prerequisites and Installation | [prerequisites.md](https://docs.canton.network/appdev/quickstart/prerequisites.md) | `wiki/appdev/quickstart/prerequisites.md` |
+| ☑ | Prerequisites and Installation | [prerequisites.md](https://docs.canton.network/appdev/quickstart/prerequisites.md) | `wiki/appdev/quickstart/prerequisites.md` |
 | ☐ | Project Structure | [project-structure.md](https://docs.canton.network/appdev/quickstart/project-structure.md) | `wiki/appdev/quickstart/project-structure.md` |
-| ☐ | Running the Demo | [running-the-demo.md](https://docs.canton.network/appdev/quickstart/running-the-demo.md) | `wiki/appdev/quickstart/running-the-demo.md` |
+| ☑ | Running the Demo | [running-the-demo.md](https://docs.canton.network/appdev/quickstart/running-the-demo.md) | `wiki/appdev/quickstart/running-the-demo.md` |
 | ☐ | Admin API Reference | [admin-api-reference.md](https://docs.canton.network/appdev/reference/admin-api-reference.md) | `wiki/appdev/reference/admin-api-reference.md` |
 | ☐ | Configuration Reference | [configuration-reference.md](https://docs.canton.network/appdev/reference/configuration-reference.md) | `wiki/appdev/reference/configuration-reference.md` |
 | ☐ | Daml Language Reference | [daml-language-reference.md](https://docs.canton.network/appdev/reference/daml-language-reference.md) | `wiki/appdev/reference/daml-language-reference.md` |

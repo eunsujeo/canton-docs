@@ -56,6 +56,10 @@
   - [학습 경로 선택](appdev/get-started/choose-your-path.md)
   - [모듈 1 — Canton 이해](appdev/modules/m1-understanding-canton.md)
   - [블록체인 개발자를 위한 Canton (모듈 2)](appdev/modules/m2-canton-for-ethereum-devs.md)
+  - [모듈 5 — LocalNet 개발 (LocalNet Development)](appdev/modules/m5-localnet-development.md)
+  - [Canton Network QuickStart](appdev/quickstart/index.md)
+  - [사전 요구사항·설치 (Prerequisites and Installation)](appdev/quickstart/prerequisites.md)
+  - [데모 실행하기 (Running the Demo)](appdev/quickstart/running-the-demo.md)
 - **정리 노트 (Notes)**
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
   - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md)

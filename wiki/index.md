@@ -85,6 +85,8 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [학습 경로 선택](appdev/get-started/choose-your-path.md) — 배경(입문/Ethereum/타 체인/비개발)별 권장 경로, 7개 모듈, 개발 스택, 사전 요구사항.
 - [모듈 1 — Canton 이해](appdev/modules/m1-understanding-canton.md) — 프라이버시 우선·전역 상태 없음·불변성·명시적 권한 4대 원칙.
 - [블록체인 개발자를 위한 Canton (모듈 2)](appdev/modules/m2-canton-for-ethereum-devs.md) — Ethereum↔Canton 개념 매핑, 템플릿 vs Solidity, 잊어야 할 습관·함정.
+- **로컬 실습(QuickStart)**: [Canton Network QuickStart](appdev/quickstart/index.md) — 로컬에 완전한 CN 앱 띄우기 · [사전 요구사항·설치](appdev/quickstart/prerequisites.md) — Docker·Nix·Daml SDK, make로 LocalNet 기동 · [데모 실행하기](appdev/quickstart/running-the-demo.md) — 라이선스 워크플로 둘러보기(설치→결제→갱신)
+- [모듈 5 — LocalNet 개발](appdev/modules/m5-localnet-development.md) — Docker Compose 로컬 네트워크 구조·개발 5단계·포트·디버깅.
 
 ### global-synchronizer — 글로벌 Synchronizer 운영
 _(아직 없음 — 배포·운영·콘솔 등 94페이지. 읽는 순서는 [next-step.md](next-step.md) 참고.)_
