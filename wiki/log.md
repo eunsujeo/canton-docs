@@ -51,5 +51,8 @@
 ## [2026-06-15] ingest | overview/reference Group B (9)
 - transaction-lifecycle, smart-contract-consensus, splice-wallet-reference, sv-governance-reference, canton-coin-tokenomics, reassignment-protocol, cip-0056, what-are-cips, super-validator-components. 완료 42/315.
 
+## [2026-06-15] ingest | overview/reference Group C (5)
+- pruning, validator-node-components, external-party, topology, ledger-causality. 완료 47/315.
+
 ## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
 - 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.
