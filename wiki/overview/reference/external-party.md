@@ -9,7 +9,7 @@ tags: [overview, reference, 파티, 외부서명]
 > **출처(원문)**: [Local and External Parties](https://docs.canton.network/overview/reference/external-party) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: 로컬 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> vs 외부 파티 — <abbr class="gloss" title="참여자 노드가 파티의 데이터·키를 맡아 두고, 그 파티를 대신해 원장에서 활동(저장·제출·확인)해 주는 것">호스팅</abbr> 관계(SPN/CPN/OPN 권한·임계값), 제출 키 보유자, 네임스페이스, 두 파티 유형의 정의·호스팅·제출 흐름(준비 PPN/실행 EPN), 한계, 신뢰 모델, FAQ.
+- **한 줄 요약**: 로컬 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> vs 외부 파티 — <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr> 관계(SPN/CPN/OPN 권한·임계값), 제출 키 보유자, 네임스페이스, 두 파티 유형의 정의·호스팅·제출 흐름(준비 PPN/실행 EPN), 한계, 신뢰 모델, FAQ.
 - **핵심 용어**: SPN/CPN/OPN, 제출 키 보유자, 외부 파티, PartyToParticipant, PPN(준비)·EPN(실행), <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr> 임계값
 - **선행 개념**: [탈중앙화](decentralization.md), [토폴로지](topology.md), [신뢰 모델](../learn/trust-model.md).
 

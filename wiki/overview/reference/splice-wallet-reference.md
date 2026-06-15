@@ -17,7 +17,7 @@ tags: [overview, reference, 월렛, Splice]
 
 # Splice 월렛 레퍼런스
 
-Splice 월렛은 Canton Network의 모든 밸리데이터 노드에 내장된 월렛 구성 요소다. 해당 밸리데이터에 <abbr class="gloss" title="참여자 노드가 파티의 데이터·키를 맡아 두고, 그 파티를 대신해 원장에서 활동(저장·제출·확인)해 주는 것">호스팅</abbr>된 파티를 위한 <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC) 관리를 제공하며, 웹 UI, 백그라운드 자동화, 프로그래밍적 API를 포함한다.
+Splice 월렛은 Canton Network의 모든 밸리데이터 노드에 내장된 월렛 구성 요소다. 해당 밸리데이터에 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr>된 파티를 위한 <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC) 관리를 제공하며, 웹 UI, 백그라운드 자동화, 프로그래밍적 API를 포함한다.
 
 ## 월렛 UI
 

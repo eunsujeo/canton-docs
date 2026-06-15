@@ -25,7 +25,7 @@ Canton Network은 여러 Synchronizer가 동시에 운영되는 것을 지원한
 
 Canton의 모든 <abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr>는 임의의 시점에 정확히 하나의 Synchronizer에 할당된다. 그 Synchronizer가 해당 컨트랙트가 관여하는 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>의 순서화와 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>를 다룬다. 트랜잭션이 서로 다른 Synchronizer에 있는 컨트랙트를 건드릴 때, Canton은 양쪽에 걸쳐 트랜잭션을 조율한다.
 
-<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>는 자기 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>의 컨트랙트 데이터를 로컬에 저장한다. 컨트랙트가 할당된 Synchronizer가 어떤 시퀀서·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>가 그 트랜잭션을 다룰지 결정하지만, 컨트랙트 데이터 자체는 그 컨트랙트의 <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr>를 <abbr class="gloss" title="참여자 노드가 파티의 데이터·키를 맡아 두고, 그 파티를 대신해 원장에서 활동(저장·제출·확인)해 주는 것">호스팅</abbr>하는 밸리데이터에 남는다.
+<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>는 자기 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>의 컨트랙트 데이터를 로컬에 저장한다. 컨트랙트가 할당된 Synchronizer가 어떤 시퀀서·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>가 그 트랜잭션을 다룰지 결정하지만, 컨트랙트 데이터 자체는 그 컨트랙트의 <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr>를 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr>하는 밸리데이터에 남는다.
 
 ## 언어사인(Unassignment)과 재할당(Reassignment)
 
