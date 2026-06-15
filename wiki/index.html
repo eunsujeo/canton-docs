@@ -10,9 +10,16 @@
     :root { --theme-color: #2c5fff; }
     .sidebar { font-size: 14.5px; }
     .markdown-section { max-width: 880px; }
-    /* mermaid 다이어그램: 폭에 맞춰 축소, 넘치면 스크롤, 잘림 방지 */
-    .mermaid { text-align: center; overflow: auto; }
-    .mermaid svg { max-width: 100%; height: auto; cursor: grab; }
+    /* mermaid 다이어그램 기본: 폭에 맞춰 축소 (pan-zoom 미적용 시) */
+    .mermaid { text-align: center; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    /* pan-zoom 적용 시: 고정 높이 박스 안에 전체를 fit, 휠 줌/드래그 */
+    .mermaid.zoom-box {
+      height: 75vh; max-height: 700px; min-height: 360px;
+      border: 1px solid #e3e3e3; border-radius: 8px; background: #fff;
+      overflow: hidden; resize: vertical;
+    }
+    .mermaid.zoom-box svg { max-width: none; width: 100%; height: 100%; cursor: grab; }
   </style>
 </head>
 <body>
@@ -65,11 +72,19 @@
       document.querySelectorAll('.mermaid svg').forEach(function (svg) {
         if (svg.dataset.zoomReady) return;
         svg.dataset.zoomReady = '1';
+        var box = svg.closest('.mermaid');
+        if (box) box.classList.add('zoom-box');
+        // pan-zoom이 박스 안에 채워 넣도록 고정 크기 제거
+        svg.removeAttribute('height');
         svg.setAttribute('width', '100%');
+        svg.style.height = '100%';
         try {
-          svgPanZoom(svg, {
+          var pz = svgPanZoom(svg, {
             zoomEnabled: true, controlIconsEnabled: true,
-            fit: true, center: true, minZoom: 0.3, maxZoom: 10
+            fit: true, center: true, minZoom: 0.2, maxZoom: 12
+          });
+          window.addEventListener('resize', function () {
+            pz.resize(); pz.fit(); pz.center();
           });
         } catch (e) {}
       });
