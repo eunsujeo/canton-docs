@@ -12,6 +12,7 @@ Canton 공식 문서를 한국어로 번역해 이 저장소의 위키에 누적
 - **충실 번역**: 원문 구조(제목·문단·표·순서)를 1:1 유지. 요약·생략은 상단 "개발자 노트"에만.
 - **번역 제외**: 코드/명령어/식별자/API·타입·함수명/경로/고유명(Canton, Daml, Splice, Canton Coin, Global Synchronizer 등).
 - **용어 일관성**: 번역 전 `wiki/glossary.md` 확인, 새 용어는 먼저 추가.
+- **mermaid 펜스**: 원문 `` ```mermaid theme={...} ``는 표준 `` ```mermaid ``로 정규화(내부 내용 유지). Obsidian/Docsify 렌더 호환.
 
 ## 대상 선정
 - 사용자가 URL·제목·주제를 지정하면 그것을. 아니면 `wiki/sources.md`에서 상태 `☐`인 다음 페이지를 추천 학습 순서(`wiki/index.md`)에 따라 고른다.

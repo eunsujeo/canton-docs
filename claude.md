@@ -67,6 +67,7 @@ tags: [overview, ...]   # 섹션/주제
 - **번역하지 않는 것**: 코드 블록, 명령어, 식별자, API/타입/함수명, 파일 경로, 제품·프로토콜 고유명(Canton, Daml, Splice 등).
 - **링크 처리**: 원문 내 `docs.canton.network` 내부 링크가 이미 번역된 위키 페이지를 가리키면 위키 상대경로로 교체하고, 아니면 원문 URL을 유지한다.
 - **이미지**: `![alt](url)` 형태는 원문 URL을 유지하고 alt 텍스트만 번역한다.
+- **mermaid 펜스 정규화**: 원문의 `` ```mermaid theme={...} ``는 Mintlify 전용이라 Obsidian/Docsify에서 렌더 문제를 일으킨다 → 표준 `` ```mermaid ``로만 쓴다(다이어그램 내부 내용은 그대로 유지). 큰 다이어그램 잘림은 `wiki/.obsidian/snippets/mermaid-fit.css` 스니펫으로 해결.
 
 ## 워크플로
 

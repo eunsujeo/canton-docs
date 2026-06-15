@@ -10,7 +10,9 @@
     :root { --theme-color: #2c5fff; }
     .sidebar { font-size: 14.5px; }
     .markdown-section { max-width: 880px; }
-    .app-name-link img, .app-name-link { font-weight: 700; }
+    /* mermaid 다이어그램: 폭에 맞춰 축소, 넘치면 스크롤, 잘림 방지 */
+    .mermaid { text-align: center; overflow: auto; }
+    .mermaid svg { max-width: 100%; height: auto; cursor: grab; }
   </style>
 </head>
 <body>
@@ -26,26 +28,60 @@
       auto2top: true,
       relativePath: true,
       notFoundPage: true,
-      search: {
-        paths: 'auto',
-        placeholder: '검색…',
-        noData: '결과 없음',
-        depth: 4
-      },
+      search: { paths: 'auto', placeholder: '검색…', noData: '결과 없음', depth: 4 },
       pagination: { previousText: '이전', nextText: '다음', crossChapter: true },
-      copyCode: { buttonText: '복사', successText: '복사됨' }
+      copyCode: { buttonText: '복사', successText: '복사됨' },
+      // 코드펜스 ```mermaid 를 <div class="mermaid">로 변환
+      markdown: {
+        renderer: {
+          code: function (code, lang) {
+            if ((lang || '').trim().split(/\s+/)[0] === 'mermaid') {
+              return '<div class="mermaid">' + code + '</div>';
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      plugins: [
+        function (hook) {
+          // 페이지가 그려질 때마다 mermaid 렌더 + pan/zoom 부착
+          hook.doneEach(function () {
+            if (!window.mermaid) return;
+            try {
+              window.mermaid.run({ querySelector: '.mermaid' }).then(attachZoom).catch(function(){});
+            } catch (e) {
+              // 구버전 호환
+              try { window.mermaid.init(undefined, '.mermaid'); } catch (e2) {}
+              setTimeout(attachZoom, 300);
+            }
+          });
+        }
+      ]
     };
+
+    // 각 mermaid SVG에 마우스 휠 줌 + 드래그 이동
+    function attachZoom() {
+      if (!window.svgPanZoom) return;
+      document.querySelectorAll('.mermaid svg').forEach(function (svg) {
+        if (svg.dataset.zoomReady) return;
+        svg.dataset.zoomReady = '1';
+        svg.setAttribute('width', '100%');
+        try {
+          svgPanZoom(svg, {
+            zoomEnabled: true, controlIconsEnabled: true,
+            fit: true, center: true, minZoom: 0.3, maxZoom: 10
+          });
+        } catch (e) {}
+      });
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
-  <!-- mermaid 다이어그램 렌더링 -->
+  <!-- mermaid v10 (UMD) + 다이어그램 줌/이동 -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
-  <script>mermaid.initialize({ startOnLoad: false });</script>
-  <!-- 코드 구문 강조 -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-haskell.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <script>window.mermaid && mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' });</script>
 </body>
 </html>

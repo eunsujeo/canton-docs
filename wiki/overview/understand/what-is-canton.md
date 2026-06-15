@@ -62,7 +62,7 @@ Canton은 다자간 워크플로를 위해 특별히 설계된 언어인 Daml을
 
 ## Canton Network 생태계
 
-```mermaid theme={"theme":{"light":"github-light","dark":"github-dark"}}
+```mermaid
 flowchart TB
     subgraph CN[Canton Network]
         GS[Global Synchronizer<br>Decentralized coordination layer]

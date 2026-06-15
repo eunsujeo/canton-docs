@@ -1,0 +1,17 @@
+/* 큰 mermaid 다이어그램이 Obsidian에서 잘리지 않게 함.
+   적용: 설정 → 화면(Appearance) → CSS 스니펫 → 이 파일 토글 ON */
+
+/* 다이어그램 컨테이너가 내용을 자르지 않도록 */
+.markdown-reading-view .mermaid,
+.markdown-source-view.mod-cm6 .cm-preview-code-block .mermaid {
+  overflow: auto !important;     /* 넘치면 잘리는 대신 스크롤 */
+  max-height: none !important;
+  text-align: center;
+}
+
+/* SVG를 폭에 맞춰 축소하되 비율 유지 (가장자리 잘림 방지) */
+.mermaid > svg,
+svg[id^="mermaid-"] {
+  max-width: 100% !important;
+  height: auto !important;
+}
