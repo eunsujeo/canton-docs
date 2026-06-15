@@ -164,6 +164,6 @@ Canton은 다르다. **지갑 속 지폐**처럼 생각하면 된다.
 
 ---
 
-⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md)
+⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md)
 
 <!-- nav:end -->

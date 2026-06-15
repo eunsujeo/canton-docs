@@ -124,8 +124,8 @@ flowchart LR
 
 ```
 alice::1220f2fe29866fd6a0009ecc8a64ccdc09f1958bd0f801166baaee469d1251b2eb72
-└┬┘  └─────────────────────────────────────────┘
- name                              fingerprint (hash of public key)
+└─┬─┘  └──────────────────────────────────────────────────────────────────┘
+ name                   fingerprint (hash of public key)
 ```
 
 **파티 능력:**
