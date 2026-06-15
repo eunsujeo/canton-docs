@@ -33,7 +33,7 @@ Daml 원장은 Daml 원장 모델의 원장과 달리 모든 트랜잭션을 전
 
 ### 컨트랙트의 이해관계자는 생성과 보관을 같은 순서로 본다
 
-모든 Daml 원장은 `CounterOffer A P Bank`의 생성을, 페인터가 그 `CounterOffer`에 소비형 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>를 실행하는 것보다 먼저 정렬한다. (**Create**가 **Exercise** 뒤에 정렬되면 결과 공유 원장이 비일관적이 되어 Daml 원장의 유효성 보장을 위반한다.) 따라서 Alice는 자기 트랜잭션 스트림에서 생성을 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>보다 먼저 보고, 페인터도 그렇다. 이는 그들이 같은 참여자 노드에 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr>되는지와 무관하다.
+모든 Daml 원장은 `CounterOffer A P Bank`의 생성을, 페인터가 그 `CounterOffer`에 <abbr class="gloss" title="실행하면 그 컨트랙트를 보관(소비)하는 초이스. 상태 변경·이전에 쓴다(기본값)">소비형 초이스</abbr>를 실행하는 것보다 먼저 정렬한다. (**Create**가 **Exercise** 뒤에 정렬되면 결과 공유 원장이 비일관적이 되어 Daml 원장의 유효성 보장을 위반한다.) 따라서 Alice는 자기 트랜잭션 스트림에서 생성을 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>보다 먼저 보고, 페인터도 그렇다. 이는 그들이 같은 참여자 노드에 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr>되는지와 무관하다.
 
 ### 컨트랙트의 서명자와 이해관계자 액터는 사용을 생성 후·보관 전에 본다
 
@@ -45,7 +45,7 @@ Alice는 자기 `Iou`의 **Create**를 `CounterOffer` 생성보다 먼저 본다
 
 ### 서로 다른 커밋의 비소비형 사용은 다른 순서로 나타날 수 있다
 
-Alice가 `CounterOffer`를 생성하는 동안 Bank가 `Iou Bank A`에 결과 없는 비소비형 초이스를 실행한다고 하자. 아래 원장에서 Bank의 커밋이 Alice의 커밋보다 먼저 온다.
+Alice가 `CounterOffer`를 생성하는 동안 Bank가 `Iou Bank A`에 결과 없는 <abbr class="gloss" title="실행해도 컨트랙트를 활성으로 남겨두는 초이스. 조회·알림·읽기에 쓴다">비소비형 초이스</abbr>를 실행한다고 하자. 아래 원장에서 Bank의 커밋이 Alice의 커밋보다 먼저 온다.
 
 <img src="https://mintcdn.com/cantonfoundation/QAGFSphBsRkeZIBi/images/docs_website/counteroffer-double-fetch.svg?fit=max&auto=format&n=QAGFSphBsRkeZIBi&q=85&s=72dde9c92dae689a3d6be858beb8ba50" style="width: 100%;" alt="페인트 카운터오퍼 워크플로의 공유 원장 뷰 시간 시퀀스" />
 
@@ -65,7 +65,7 @@ Alice가 여러 참여자 노드에 호스팅되면, 참여자 노드는 두 생
 
 ### 디벌전된 액션은 순서를 유도하지 않는다
 
-페인터는 `ShowIou` 컨트랙트가 소비될 때 Alice의 `Iou` 페치를 목격한다(witness). 또한 페인터가 `CounterOffer`를 수락한 결과로 Alice가 이전 초이스를 실행할 때 `Iou`의 **Exercise**를 목격한다. 다만 페인터는 Alice의 `Iou` 컨트랙트의 이해관계자가 아니므로, `CounterOffer` 수락의 일부로서 `Iou` 보관 후에 Alice의 `ShowIou` 커밋을 관찰할 수 있다.
+페인터는 `ShowIou` 컨트랙트가 소비될 때 Alice의 `Iou` 페치를 목격한다(witness). 또한 페인터가 `CounterOffer`를 수락한 결과로 Alice가 이전 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>를 실행할 때 `Iou`의 **Exercise**를 목격한다. 다만 페인터는 Alice의 `Iou` 컨트랙트의 이해관계자가 아니므로, `CounterOffer` 수락의 일부로서 `Iou` 보관 후에 Alice의 `ShowIou` 커밋을 관찰할 수 있다.
 
 실무에서, 이는 두 참여자 노드 N1과 N2가 페인터를 호스팅하는 설정에서 일어날 수 있다. 페인터가 N1의 트랜잭션 트리 스트림으로 디벌전된 `Iou`와 생성된 `CounterOffer`를 보고 N1을 통해 수락을 제출한다. 앞 예시처럼 N2는 두 커밋의 의존성을 모른다. 따라서 N2는 트랜잭션 스트림에서 수락 트랜잭션을 `ShowIou` 컨트랙트보다 *먼저* 출력할 수 있다.
 

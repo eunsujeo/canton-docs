@@ -10,7 +10,7 @@ tags: [overview, learn, 아키텍처]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton은 가변 계정 잔액이 아니라 생성·<abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>되는 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>(확장 UTXO, <abbr class="gloss" title="확장 UTXO. 금액만이 아니라 임의의 상태·규칙을 담는 컨트랙트로 원장을 구성하는 모델">eUTXO</abbr>)로 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>을 구성한다. 컨트랙트 생애주기, <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 역할(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/<abbr class="gloss" title="컨트랙트의 특정 초이스(동작)를 실행할 권한을 가진 파티">컨트롤러</abbr>/액터), <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 트리·<abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>·키·원장 시간·원자적 조합까지.
-- **핵심 용어**: eUTXO, 컨트랙트 ID, 이해관계자(stakeholder), 소비형/비소비형 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>, 트랜잭션 트리, 컨트랙트 키, 원장 시간(ledger time)
+- **핵심 용어**: eUTXO, 컨트랙트 ID, 이해관계자(stakeholder), 소비형/<abbr class="gloss" title="실행해도 컨트랙트를 활성으로 남겨두는 초이스. 조회·알림·읽기에 쓴다">비소비형 초이스</abbr>, 트랜잭션 트리, 컨트랙트 키, 원장 시간(ledger time)
 - **선행 개념**: [아키텍처 개요](architecture.md). 다음 → [트랜잭션 작동 방식](how-transactions-work.md)
 
 ---
@@ -100,7 +100,7 @@ stateDiagram-v2
 **속성:**
 
 * 컨트랙트 생성을 승인해야 한다
-* (소비형 초이스의 컨트롤러라면) 컨트랙트 보관을 승인할 수 있다
+* (<abbr class="gloss" title="실행하면 그 컨트랙트를 보관(소비)하는 초이스. 상태 변경·이전에 쓴다(기본값)">소비형 초이스</abbr>의 컨트롤러라면) 컨트랙트 보관을 승인할 수 있다
 * 항상 컨트랙트와 그 위의 모든 동작을 본다
 * <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>에서 `signatory` 키워드로 정의
 
@@ -124,7 +124,7 @@ template Asset
 **속성:**
 
 * 컨트랙트와 그 위의 동작을 본다
-* 초이스를 보관하거나 실행할 수 없다 (컨트롤러이기도 한 경우 제외)
+* <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>를 보관하거나 실행할 수 없다 (컨트롤러이기도 한 경우 제외)
 * `observer` 키워드로 정의
 
 ```haskell

@@ -36,9 +36,9 @@ tags: [overview, understand, 레퍼런스, 용어]
 
 ### 보관 (Archive)
 
-컨트랙트를 소비/삭제하는 동작. 보관된 컨트랙트는 더 이상 행위 대상이 될 수 없다. <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>에서 소비형 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>를 실행하면 컨트랙트가 보관된다.
+컨트랙트를 소비/삭제하는 동작. 보관된 컨트랙트는 더 이상 행위 대상이 될 수 없다. <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>에서 <abbr class="gloss" title="실행하면 그 컨트랙트를 보관(소비)하는 초이스. 상태 변경·이전에 쓴다(기본값)">소비형 초이스</abbr>를 실행하면 컨트랙트가 보관된다.
 
-**관련**: 컨트랙트, 초이스, <abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr> 집합
+**관련**: 컨트랙트, <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>, <abbr class="gloss" title="아직 보관(소비)되지 않아 현재 유효한 컨트랙트">활성 컨트랙트</abbr> 집합
 
 ## C
 
