@@ -293,14 +293,14 @@
 
 | 상태 | 제목 | 원문(출처) | 저장 경로 |
 |---|---|---|---|
-| ☐ | Architecture Overview | [architecture.md](https://docs.canton.network/overview/learn/architecture.md) | `wiki/overview/learn/architecture.md` |
+| ☑ | Architecture Overview | [architecture.md](https://docs.canton.network/overview/learn/architecture.md) | `wiki/overview/learn/architecture.md` |
 | ☐ | Cryptographic keys in Canton | [cryptographic-keys.md](https://docs.canton.network/overview/learn/cryptographic-keys.md) | `wiki/overview/learn/cryptographic-keys.md` |
 | ☐ | Global Synchronizer Architecture | [global-synchronizer-architecture.md](https://docs.canton.network/overview/learn/global-synchronizer-architecture.md) | `wiki/overview/learn/global-synchronizer-architecture.md` |
-| ☐ | How Transactions Work | [how-transactions-work.md](https://docs.canton.network/overview/learn/how-transactions-work.md) | `wiki/overview/learn/how-transactions-work.md` |
-| ☐ | The Ledger Model | [ledger-model.md](https://docs.canton.network/overview/learn/ledger-model.md) | `wiki/overview/learn/ledger-model.md` |
+| ☑ | How Transactions Work | [how-transactions-work.md](https://docs.canton.network/overview/learn/how-transactions-work.md) | `wiki/overview/learn/how-transactions-work.md` |
+| ☑ | The Ledger Model | [ledger-model.md](https://docs.canton.network/overview/learn/ledger-model.md) | `wiki/overview/learn/ledger-model.md` |
 | ☐ | Multi-Synchronizer Architecture | [multi-synchronizer.md](https://docs.canton.network/overview/learn/multi-synchronizer.md) | `wiki/overview/learn/multi-synchronizer.md` |
-| ☐ | Privacy Model Explained | [privacy-model.md](https://docs.canton.network/overview/learn/privacy-model.md) | `wiki/overview/learn/privacy-model.md` |
-| ☐ | Trust Model Overview | [trust-model.md](https://docs.canton.network/overview/learn/trust-model.md) | `wiki/overview/learn/trust-model.md` |
+| ☑ | Privacy Model Explained | [privacy-model.md](https://docs.canton.network/overview/learn/privacy-model.md) | `wiki/overview/learn/privacy-model.md` |
+| ☑ | Trust Model Overview | [trust-model.md](https://docs.canton.network/overview/learn/trust-model.md) | `wiki/overview/learn/trust-model.md` |
 | ☐ | Two-Layer Consensus | [two-layer-consensus.md](https://docs.canton.network/overview/learn/two-layer-consensus.md) | `wiki/overview/learn/two-layer-consensus.md` |
 | ☐ | Validator Architecture | [validator-architecture.md](https://docs.canton.network/overview/learn/validator-architecture.md) | `wiki/overview/learn/validator-architecture.md` |
 | ☐ | Canton Coin Tokenomics | [canton-coin-tokenomics.md](https://docs.canton.network/overview/reference/canton-coin-tokenomics.md) | `wiki/overview/reference/canton-coin-tokenomics.md` |

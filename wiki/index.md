@@ -30,6 +30,13 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [핵심 개념](overview/understand/core-concepts.md) — 파티·밸리데이터·동기화자·템플릿 네 개념과 트랜잭션 흐름.
 - [활용 사례](overview/understand/use-cases.md) — DvP·토큰화 증권·국경 간 결제·신디케이트 대출·공급망 금융 사례와 적합/부적합 기준.
 
+### overview/learn — 작동 원리
+- [아키텍처 개요](overview/learn/architecture.md) — 조율(동기화자)과 저장(밸리데이터)의 분리, 트랜잭션 흐름, 네트워크 토폴로지, 코드 실행 위치.
+- [원장 모델](overview/learn/ledger-model.md) — 불변 컨트랙트(eUTXO), 이해관계자 역할, 트랜잭션 트리·뷰·키·원장 시간.
+- [트랜잭션 작동 방식](overview/learn/how-transactions-work.md) — 제출→순서화·분배→검증·확인→커밋 4단계 생애주기.
+- [프라이버시 모델 설명](overview/learn/privacy-model.md) — 뷰 분해, 가시성 규칙, 디벌전스, 프라이버시 패턴·실수·체크리스트.
+- [신뢰 모델 개요](overview/learn/trust-model.md) — 선택적 신뢰의 5개 영역과 완화책, 탈중앙화 옵션.
+
 ### appdev — 앱 개발자 가이드
 _(아직 없음)_
 
