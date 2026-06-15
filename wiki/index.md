@@ -22,7 +22,10 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 > 각 섹션은 번역이 진행되며 채워진다. 페이지를 완료하면 아래에 한 줄 요약과 함께 등록한다.
 
 ### overview — 개념/아키텍처 이해
+- [누가 이 문서를 읽어야 하나](overview/understand/who-should-read.md) — 역할·목표별 문서 시작점 길잡이.
 - [Canton Network이란?](overview/understand/what-is-canton.md) — 규제 자산·다자간 워크플로를 위한 프라이버시 보존형 L1. Canton의 60초 요약과 차별점(부분 트랜잭션 프라이버시, 동기화자, Daml).
+- [Canton이 푸는 문제](overview/understand/the-problem.md) — 공개 가시성의 폐해와 기존 프라이버시 보완책(프라이빗 채널·ZK·L2·암호화)의 한계.
+- [Canton의 해법 — 세 가지 기둥](overview/understand/cantons-solution.md) — 부분 트랜잭션 프라이버시 + 이해관계자 합의 + 가시성 없는 동기화로 프라이버시·무결성 동시 달성.
 
 ### appdev — 앱 개발자 가이드
 _(아직 없음)_

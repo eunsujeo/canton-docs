@@ -328,14 +328,14 @@
 | ☐ | Validator Node Components | [validator-node-components.md](https://docs.canton.network/overview/reference/validator-node-components.md) | `wiki/overview/reference/validator-node-components.md` |
 | ☐ | CIP Reference | [what-are-cips.md](https://docs.canton.network/overview/reference/what-are-cips.md) | `wiki/overview/reference/what-are-cips.md` |
 | ☐ | Canton Coin and the Global Synchronizer | [canton-coin.md](https://docs.canton.network/overview/understand/canton-coin.md) | `wiki/overview/understand/canton-coin.md` |
-| ☐ | Canton's Solution: Three Pillars | [cantons-solution.md](https://docs.canton.network/overview/understand/cantons-solution.md) | `wiki/overview/understand/cantons-solution.md` |
+| ☑ | Canton's Solution: Three Pillars | [cantons-solution.md](https://docs.canton.network/overview/understand/cantons-solution.md) | `wiki/overview/understand/cantons-solution.md` |
 | ☐ | Canton Improvement Proposals (CIPs) | [cips-introduction.md](https://docs.canton.network/overview/understand/cips-introduction.md) | `wiki/overview/understand/cips-introduction.md` |
 | ☐ | Core Concepts | [core-concepts.md](https://docs.canton.network/overview/understand/core-concepts.md) | `wiki/overview/understand/core-concepts.md` |
 | ☐ | Canton Network in 5 Minutes | [five-minute-overview.md](https://docs.canton.network/overview/understand/five-minute-overview.md) | `wiki/overview/understand/five-minute-overview.md` |
 | ☐ | Getting Your App Featured | [getting-app-featured.md](https://docs.canton.network/overview/understand/getting-app-featured.md) | `wiki/overview/understand/getting-app-featured.md` |
 | ☐ | The Global Synchronizer | [global-synchronizer.md](https://docs.canton.network/overview/understand/global-synchronizer.md) | `wiki/overview/understand/global-synchronizer.md` |
 | ☐ | Glossary | [glossary.md](https://docs.canton.network/overview/understand/glossary.md) | `wiki/overview/understand/glossary.md` |
-| ☐ | The Problem Canton Solves | [the-problem.md](https://docs.canton.network/overview/understand/the-problem.md) | `wiki/overview/understand/the-problem.md` |
+| ☑ | The Problem Canton Solves | [the-problem.md](https://docs.canton.network/overview/understand/the-problem.md) | `wiki/overview/understand/the-problem.md` |
 | ☐ | Use Cases | [use-cases.md](https://docs.canton.network/overview/understand/use-cases.md) | `wiki/overview/understand/use-cases.md` |
 | ☑ | What is Canton Network? | [what-is-canton.md](https://docs.canton.network/overview/understand/what-is-canton.md) | `wiki/overview/understand/what-is-canton.md` |
-| ☐ | Who Should Use This Documentation | [who-should-read.md](https://docs.canton.network/overview/understand/who-should-read.md) | `wiki/overview/understand/who-should-read.md` |
+| ☑ | Who Should Use This Documentation | [who-should-read.md](https://docs.canton.network/overview/understand/who-should-read.md) | `wiki/overview/understand/who-should-read.md` |
