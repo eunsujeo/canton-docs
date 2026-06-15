@@ -311,9 +311,9 @@
 | ☑ | Cross-Synchronizer DvP Example | [cross-sync-dvp-example.md](https://docs.canton.network/overview/reference/cross-sync-dvp-example.md) | `wiki/overview/reference/cross-sync-dvp-example.md` |
 | ☑ | Decentralization | [decentralization.md](https://docs.canton.network/overview/reference/decentralization.md) | `wiki/overview/reference/decentralization.md` |
 | ☑ | Local and External Parties | [external-party.md](https://docs.canton.network/overview/reference/external-party.md) | `wiki/overview/reference/external-party.md` |
-| ☐ | CF Policies | [gsf-policies.md](https://docs.canton.network/overview/reference/gsf-policies.md) | `wiki/overview/reference/gsf-policies.md` |
+| ☑ | CF Policies | [gsf-policies.md](https://docs.canton.network/overview/reference/gsf-policies.md) | `wiki/overview/reference/gsf-policies.md` |
 | ☑ | Causality and Time | [ledger-causality.md](https://docs.canton.network/overview/reference/ledger-causality.md) | `wiki/overview/reference/ledger-causality.md` |
-| ☐ | Ledger Model (Detailed) | [ledger-model-detailed.md](https://docs.canton.network/overview/reference/ledger-model-detailed.md) | `wiki/overview/reference/ledger-model-detailed.md` |
+| ☑ | Ledger Model (Detailed) | [ledger-model-detailed.md](https://docs.canton.network/overview/reference/ledger-model-detailed.md) | `wiki/overview/reference/ledger-model-detailed.md` |
 | ☑ | Ordering Consensus | [ordering-consensus.md](https://docs.canton.network/overview/reference/ordering-consensus.md) | `wiki/overview/reference/ordering-consensus.md` |
 | ☑ | Pruning | [pruning.md](https://docs.canton.network/overview/reference/pruning.md) | `wiki/overview/reference/pruning.md` |
 | ☑ | Reassignment Protocol | [reassignment-protocol.md](https://docs.canton.network/overview/reference/reassignment-protocol.md) | `wiki/overview/reference/reassignment-protocol.md` |

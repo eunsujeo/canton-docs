@@ -56,3 +56,9 @@
 
 ## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
 - 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.
+
+## 2026-06-15 — overview/reference 완료
+- `ledger-model-detailed.md` (원장 모델 상세 형식 명세, 1018행) 번역
+- `gsf-policies.md` (Canton Foundation 정책 — 멤버십·위원회·거버넌스·네트워크 정책·업그레이드·CIP·채널) 번역
+- **overview/reference 24개 전부 완료** → overview 섹션(understand+learn+reference) 전체 번역 완료
+- 누적: 49 content pages + 1 note
