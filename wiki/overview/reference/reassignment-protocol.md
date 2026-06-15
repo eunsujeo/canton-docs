@@ -165,6 +165,9 @@ Ledger API로 트랜잭션을 제출하면, Canton의 Synchronizer 라우터가 
 단일 Synchronizer 내에서는 순서가 일관된다: created 이벤트는 그 컨트랙트의 어떤 unassigned나 archived 이벤트보다 항상 먼저 나타나고, archived 이벤트는 어떤 assigned나 created 이벤트보다 항상 나중에 나타난다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [프루닝 (Pruning)](pruning.md) ・ ➡️ **다음**: [스마트 컨트랙트 합의](smart-contract-consensus.md)</sub>
+
+⬅️ **이전**: [프루닝 (Pruning)](pruning.md) ・ ➡️ **다음**: [스마트 컨트랙트 합의](smart-contract-consensus.md)
+
 <!-- nav:end -->

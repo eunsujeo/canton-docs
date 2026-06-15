@@ -139,6 +139,9 @@ flowchart TB
 * **[FAQ](https://docs.canton.network/appdev/faq)**: 흔한 질문 정리
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [CIP 레퍼런스 (CIP란?)](../../overview/reference/what-are-cips.md) ・ ➡️ **다음**: [모듈 1 — Canton 이해](../modules/m1-understanding-canton.md)</sub>
+
+⬅️ **이전**: [CIP 레퍼런스 (CIP란?)](../../overview/reference/what-are-cips.md) ・ ➡️ **다음**: [모듈 1 — Canton 이해](../modules/m1-understanding-canton.md)
+
 <!-- nav:end -->

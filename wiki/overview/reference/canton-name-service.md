@@ -91,6 +91,9 @@ CNS 기능은 Validator App이 노출하는 두 API에 나뉘어 있다:
 ANS API는 토큰 주체(subject)가 엔트리를 요청·나열하는 사용자와 일치하는 JWT 인증을 요구한다. Scan API 엔드포인트는 공개다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton Coin 토크노믹스](canton-coin-tokenomics.md) ・ ➡️ **다음**: [Canton 프로토콜 명세](canton-protocol-specification.md)</sub>
+
+⬅️ **이전**: [Canton Coin 토크노믹스](canton-coin-tokenomics.md) ・ ➡️ **다음**: [Canton 프로토콜 명세](canton-protocol-specification.md)
+
 <!-- nav:end -->

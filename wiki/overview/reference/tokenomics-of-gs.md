@@ -111,6 +111,9 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 * [CIP 저장소](https://github.com/global-synchronizer-foundation/cips) — 수수료·보상 변경을 포함한 거버넌스 제안
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Synchronizer 개요](synchronizer-overview.md) ・ ➡️ **다음**: [토폴로지 (Topology)](topology.md)</sub>
+
+⬅️ **이전**: [Synchronizer 개요](synchronizer-overview.md) ・ ➡️ **다음**: [토폴로지 (Topology)](topology.md)
+
 <!-- nav:end -->

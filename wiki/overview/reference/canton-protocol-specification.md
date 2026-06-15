@@ -69,6 +69,9 @@ Canton의 프로토콜은 다음 보장을 제공한다:
 [트랜잭션 생애주기](transaction-lifecycle.md) 페이지가 각 단계를 상세히 다룬다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton 네임 서비스 (CNS)](canton-name-service.md) ・ ➡️ **다음**: ["CIP-0056: Canton Network 토큰 표준"](cip-0056.md)</sub>
+
+⬅️ **이전**: [Canton 네임 서비스 (CNS)](canton-name-service.md) ・ ➡️ **다음**: ["CIP-0056: Canton Network 토큰 표준"](cip-0056.md)
+
 <!-- nav:end -->

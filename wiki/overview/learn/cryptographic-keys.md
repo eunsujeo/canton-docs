@@ -148,6 +148,9 @@ Canton은 다음 API에서 토큰을 사용한다:
 * 운영자는 참여자 노드가 Ledger API에서 인가를 활성화하도록 구성할 수 있다. 활성화되면 Ledger API의 클라이언트는 모든 요청에 [JWT](https://jwt.io) 토큰을 포함해야 한다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [아키텍처 개요](architecture.md) ・ ➡️ **다음**: [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md)</sub>
+
+⬅️ **이전**: [아키텍처 개요](architecture.md) ・ ➡️ **다음**: [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md)
+
 <!-- nav:end -->

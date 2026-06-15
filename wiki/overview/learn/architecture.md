@@ -326,6 +326,9 @@ flowchart TB
 * **[밸리데이터 운영](https://docs.canton.network/global-synchronizer/understand/introduction)** — 밸리데이터 배포·운영자용
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [누가 이 문서를 읽어야 하나](../understand/who-should-read.md) ・ ➡️ **다음**: [Canton의 암호 키](cryptographic-keys.md)</sub>
+
+⬅️ **이전**: [누가 이 문서를 읽어야 하나](../understand/who-should-read.md) ・ ➡️ **다음**: [Canton의 암호 키](cryptographic-keys.md)
+
 <!-- nav:end -->

@@ -313,6 +313,9 @@ choice ExecuteSwap : ()
 * [프라이버시 모델](privacy-model.md) — 뷰가 프라이버시를 가능하게 하는 방식
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [트랜잭션 작동 방식](how-transactions-work.md) ・ ➡️ **다음**: [다중 Synchronizer 아키텍처](multi-synchronizer.md)</sub>
+
+⬅️ **이전**: [트랜잭션 작동 방식](how-transactions-work.md) ・ ➡️ **다음**: [다중 Synchronizer 아키텍처](multi-synchronizer.md)
+
 <!-- nav:end -->

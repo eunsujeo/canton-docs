@@ -219,6 +219,9 @@ Kubernetes에서 실행 중인 SV 노드는 다음 파드로 구성된다(`kubec
 여기서 `<M>`은 글로벌 Synchronizer의 현재 마이그레이션 ID다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Splice 월렛 레퍼런스](splice-wallet-reference.md) ・ ➡️ **다음**: [SV 거버넌스 레퍼런스](sv-governance-reference.md)</sub>
+
+⬅️ **이전**: [Splice 월렛 레퍼런스](splice-wallet-reference.md) ・ ➡️ **다음**: [SV 거버넌스 레퍼런스](sv-governance-reference.md)
+
 <!-- nav:end -->

@@ -153,6 +153,9 @@ CF는 네트워크에 대한 일방적 통제권이 없다. 그 SV 노드는 다
 * **예측 가능한 파라미터** — 수수료와 구성 값이 적어도 2/3 SV 운영자의 집계 선호를 반영한다
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [슈퍼 밸리데이터 구성 요소](super-validator-components.md) ・ ➡️ **다음**: [Synchronizer 개요](synchronizer-overview.md)</sub>
+
+⬅️ **이전**: [슈퍼 밸리데이터 구성 요소](super-validator-components.md) ・ ➡️ **다음**: [Synchronizer 개요](synchronizer-overview.md)
+
 <!-- nav:end -->

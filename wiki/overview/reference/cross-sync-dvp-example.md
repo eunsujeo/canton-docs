@@ -131,6 +131,9 @@ sequenceDiagram
 * [아키텍처 개요](../learn/architecture.md) — Synchronizer·밸리데이터·글로벌 Synchronizer가 맞물리는 방식
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [CIP 인덱스](cip-index.md) ・ ➡️ **다음**: [탈중앙화 (Decentralization)](decentralization.md)</sub>
+
+⬅️ **이전**: [CIP 인덱스](cip-index.md) ・ ➡️ **다음**: [탈중앙화 (Decentralization)](decentralization.md)
+
 <!-- nav:end -->

@@ -116,6 +116,9 @@ Canton은 확인이 고려되었는지와 무관하게 파티를 호스팅하는
 그런 신뢰 관계가 없으면(예: 애플리케이션이 여러 주체로 구성된 그룹이 운영), 단일 참여자 노드에서만 읽는 것은 탈중앙화 원칙을 위반한다. 그 참여자 노드가 잘못된 데이터를 제공할 수 있기 때문이다. 따라서 그런 애플리케이션은 여러 참여자 노드에서 활성 컨트랙트 데이터를 요청하고 일관성을 확인해야 한다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [크로스-Synchronizer DvP 예시](cross-sync-dvp-example.md) ・ ➡️ **다음**: [로컬 파티와 외부 파티](external-party.md)</sub>
+
+⬅️ **이전**: [크로스-Synchronizer DvP 예시](cross-sync-dvp-example.md) ・ ➡️ **다음**: [로컬 파티와 외부 파티](external-party.md)
+
 <!-- nav:end -->

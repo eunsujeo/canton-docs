@@ -161,6 +161,9 @@ Canton은 다르다. **지갑 속 지폐**처럼 생각하면 된다.
 - [핵심 개념](../overview/understand/core-concepts.md) — 파티·밸리데이터·컨트랙트 기본기
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md)</sub>
+
+⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md)
+
 <!-- nav:end -->

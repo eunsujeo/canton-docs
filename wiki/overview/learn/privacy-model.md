@@ -334,6 +334,9 @@ Canton 애플리케이션을 설계할 때 자문하라:
 * **[용어집](https://docs.canton.network/overview/understand/glossary)** — 프라이버시 관련 용어 포함 용어 레퍼런스
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [다중 Synchronizer 아키텍처](multi-synchronizer.md) ・ ➡️ **다음**: [신뢰 모델 개요](trust-model.md)</sub>
+
+⬅️ **이전**: [다중 Synchronizer 아키텍처](multi-synchronizer.md) ・ ➡️ **다음**: [신뢰 모델 개요](trust-model.md)
+
 <!-- nav:end -->

@@ -168,6 +168,9 @@ API 상세는 [CIP-0056 텍스트](https://github.com/global-synchronizer-founda
 * [Canton Coin 백서](https://www.digitalasset.com/hubfs/Canton%20Network%20Files/Documents%20(whitepapers%2c%20etc...)/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf) — 전체 형식 명세
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [밸리데이터 아키텍처](../learn/validator-architecture.md) ・ ➡️ **다음**: [Canton 네임 서비스 (CNS)](canton-name-service.md)</sub>
+
+⬅️ **이전**: [밸리데이터 아키텍처](../learn/validator-architecture.md) ・ ➡️ **다음**: [Canton 네임 서비스 (CNS)](canton-name-service.md)
+
 <!-- nav:end -->

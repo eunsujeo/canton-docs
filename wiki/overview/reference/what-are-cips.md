@@ -191,6 +191,9 @@ CIP 저장소는 각 수락된 제안의 구현 상태를 추적한다.
 * CIP와 함께 레퍼런스 구현을 작성하는 것을 고려하라. 작동하는 코드가 있는 제안은 검토를 더 빨리 통과하는 경향이 있다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [밸리데이터 노드 구성 요소](validator-node-components.md) ・ ➡️ **다음**: [학습 경로 선택](../../appdev/get-started/choose-your-path.md)</sub>
+
+⬅️ **이전**: [밸리데이터 노드 구성 요소](validator-node-components.md) ・ ➡️ **다음**: [학습 경로 선택](../../appdev/get-started/choose-your-path.md)
+
 <!-- nav:end -->

@@ -177,6 +177,9 @@ MainNet에서 CC는 실제 경제 가치를 갖는다:
 * **[밸리데이터 운영](https://docs.canton.network/global-synchronizer/understand/introduction)** — 운영하고 보상 획득.
 
 <!-- nav:start -->
+
 ---
-<sub>➡️ **다음**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md)</sub>
+
+➡️ **다음**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md)
+
 <!-- nav:end -->

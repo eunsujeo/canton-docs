@@ -277,6 +277,9 @@ template ShipmentFinancing
 * **[구축 시작하기](https://docs.canton.network/appdev/get-started/choose-your-path)** — 개발 여정 시작.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton이 푸는 문제](the-problem.md) ・ ➡️ **다음**: [Canton Network이란?](what-is-canton.md)</sub>
+
+⬅️ **이전**: [Canton이 푸는 문제](the-problem.md) ・ ➡️ **다음**: [Canton Network이란?](what-is-canton.md)
+
 <!-- nav:end -->

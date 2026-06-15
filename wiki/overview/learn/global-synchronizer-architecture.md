@@ -85,6 +85,9 @@ flowchart TB
 (SV와 달리) 일반 밸리데이터는 클라이언트로서 Synchronizer에 연결한다. 시퀀서나 미디에이터 구성 요소를 운영하지 않는다. 밸리데이터는 SV 엔드포인트로의 아웃바운드 연결만 필요하다 — 표준 밸리데이터에는 인바운드 연결 요건이 없다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton의 암호 키](cryptographic-keys.md) ・ ➡️ **다음**: [트랜잭션 작동 방식](how-transactions-work.md)</sub>
+
+⬅️ **이전**: [Canton의 암호 키](cryptographic-keys.md) ・ ➡️ **다음**: [트랜잭션 작동 방식](how-transactions-work.md)
+
 <!-- nav:end -->

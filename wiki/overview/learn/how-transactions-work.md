@@ -90,6 +90,9 @@ Alice(밸리데이터 A)가 Bob(밸리데이터 B)에게 자산을 이전한다:
 * [2계층 합의](https://docs.canton.network/overview/learn/two-layer-consensus) — 합의 프로토콜의 더 기술적인 상세
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md) ・ ➡️ **다음**: [원장 모델](ledger-model.md)</sub>
+
+⬅️ **이전**: [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md) ・ ➡️ **다음**: [원장 모델](ledger-model.md)
+
 <!-- nav:end -->

@@ -46,8 +46,10 @@ def build_block(cur, order):
         parts.append(f'➡️ **다음**: [{t}]({rel_link(cur, p)})')
     if not parts:
         return ''
-    return ('\n\n<!-- nav:start -->\n---\n<sub>' + ' ・ '.join(parts) +
-            '</sub>\n<!-- nav:end -->\n')
+    # 주석과 --- 사이에 빈 줄을 둬 setext heading 오해를 막고, <sub> 없이 순수 마크다운으로
+    # 링크가 Obsidian·Docsify 양쪽에서 렌더되게 한다.
+    return ('\n\n<!-- nav:start -->\n\n---\n\n' + ' ・ '.join(parts) +
+            '\n\n<!-- nav:end -->\n')
 
 def main():
     order = load_order()

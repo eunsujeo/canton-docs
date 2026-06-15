@@ -874,6 +874,9 @@ proposeDvP2 <- submit alice $ do
 단일 Daml 원장의 순서 보장이 그에 맞게 확장된다. 특히 상호운용성은 모든 로컬 원장이 위에서 기술한 대로 Daml 원장 모델에 연결되는 가상 공유 멀티원장 인과성 그래프의 투영임을 보장한다. 따라서 원장 유효성 보장이 로컬 원장을 통해 Ledger API로 확장된다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [인과성과 시간 (Causality and Time)](ledger-causality.md) ・ ➡️ **다음**: [순서화 합의 (Ordering Consensus)](ordering-consensus.md)</sub>
+
+⬅️ **이전**: [인과성과 시간 (Causality and Time)](ledger-causality.md) ・ ➡️ **다음**: [순서화 합의 (Ordering Consensus)](ordering-consensus.md)
+
 <!-- nav:end -->

@@ -303,6 +303,9 @@ Splice는 Canton Network에서 토큰을 만들기 위한 토큰 표준([CIP-005
 * **[배포 진행](https://docs.canton.network/appdev/modules/m5-deployment-progression)** — 환경에 걸쳐 애플리케이션 배포
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [앱을 피처드로 등록하기](getting-app-featured.md) ・ ➡️ **다음**: [용어집 (Glossary)](glossary.md)</sub>
+
+⬅️ **이전**: [앱을 피처드로 등록하기](getting-app-featured.md) ・ ➡️ **다음**: [용어집 (Glossary)](glossary.md)
+
 <!-- nav:end -->

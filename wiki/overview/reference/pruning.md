@@ -223,6 +223,9 @@ Canton 프로토콜은 정직한 참여자 노드 간의 합의를 보장한다 
 셋째, 두 수준 동형 해시에 단점이 있다. 참여자 노드가 공유 상태에서 특정 이해관계자 그룹에 대한 활성 컨트랙트가 없음을 증명하려면, 어떤 집합도 그 이해관계자 그룹의 컨트랙트를 담지 않음을 증명하기 위해 모든 이해관계자 그룹 해시를 열어야 한다. 이 한계는 향후 제거할 계획이다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [순서화 합의 (Ordering Consensus)](ordering-consensus.md) ・ ➡️ **다음**: [재할당 프로토콜](reassignment-protocol.md)</sub>
+
+⬅️ **이전**: [순서화 합의 (Ordering Consensus)](ordering-consensus.md) ・ ➡️ **다음**: [재할당 프로토콜](reassignment-protocol.md)
+
 <!-- nav:end -->

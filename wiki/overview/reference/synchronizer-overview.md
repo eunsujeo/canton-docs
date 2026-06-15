@@ -44,6 +44,9 @@ Canton은 참여자 노드가 동시에 여러 Synchronizer에 연결될 수 있
 * **탈중앙형 Synchronizer(Decentralized Synchronizers):** 더 공개적이고 견고한 형태다. <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>는 독립적인 "<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>" 네트워크가 운영하며, 비잔틴 장애 허용(BFT) 합의로 시퀀서를, BFT 상태 머신 복제로 미디에이터를 공동 운영한다. 단일 신뢰 제3자에 의존하지 않는다는 점에서 높은 복원력과 보안을 제공한다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [SV 거버넌스 레퍼런스](sv-governance-reference.md) ・ ➡️ **다음**: [글로벌 Synchronizer의 토크노믹스](tokenomics-of-gs.md)</sub>
+
+⬅️ **이전**: [SV 거버넌스 레퍼런스](sv-governance-reference.md) ・ ➡️ **다음**: [글로벌 Synchronizer의 토크노믹스](tokenomics-of-gs.md)
+
 <!-- nav:end -->

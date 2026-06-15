@@ -169,6 +169,9 @@ Canton은 각 계층에서 탈중앙화를 지원한다.
 * [프라이버시 모델](privacy-model.md) — 각 파티가 볼 수 있는 것
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [프라이버시 모델 설명](privacy-model.md) ・ ➡️ **다음**: [2계층 합의](two-layer-consensus.md)</sub>
+
+⬅️ **이전**: [프라이버시 모델 설명](privacy-model.md) ・ ➡️ **다음**: [2계층 합의](two-layer-consensus.md)
+
 <!-- nav:end -->

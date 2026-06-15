@@ -296,6 +296,9 @@ sequenceDiagram
 * **[구축 시작하기](https://docs.canton.network/appdev/get-started/choose-your-path)** — Canton 개발 시작.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md) ・ ➡️ **다음**: [5분 만에 보는 Canton Network](five-minute-overview.md)</sub>
+
+⬅️ **이전**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md) ・ ➡️ **다음**: [5분 만에 보는 Canton Network](five-minute-overview.md)
+
 <!-- nav:end -->

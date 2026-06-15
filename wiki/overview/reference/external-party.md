@@ -302,6 +302,9 @@ sequenceDiagram
 * 외부 서명 트랜잭션 해시
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [탈중앙화 (Decentralization)](decentralization.md) ・ ➡️ **다음**: [Canton Foundation 정책 (CF Policies)](gsf-policies.md)</sub>
+
+⬅️ **이전**: [탈중앙화 (Decentralization)](decentralization.md) ・ ➡️ **다음**: [Canton Foundation 정책 (CF Policies)](gsf-policies.md)
+
 <!-- nav:end -->

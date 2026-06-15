@@ -158,7 +158,7 @@ Synchronizer의 제한된 능력은 한계가 아니라 **기능**이다:
 
 * 데이터에 관해 **Synchronizer를 신뢰할 필요가 없다** — 읽을 수 없기 때문이다
 * 순서화와 가용성에 대해서는 **Synchronizer를 신뢰한다**
-* Synchronizer는 자신이 동기화하는 것을 볼 수 없으므로 **부정행위를 할 수 없다**
+* Synchronizer는 자신이 동기화하는 것의 **내용을** 볼 수 없으므로 **부정행위를 할 수 없다** (순서·타임스탬프·라우팅은 알지만 트랜잭션 내용은 암호화돼 못 읽는다)
 
 이러한 관심사의 분리가 의미하는 바:
 
@@ -226,6 +226,9 @@ flowchart LR
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — 프라이버시 보장을 상세히 탐구.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton Coin과 글로벌 Synchronizer](canton-coin.md) ・ ➡️ **다음**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md)</sub>
+
+⬅️ **이전**: [Canton Coin과 글로벌 Synchronizer](canton-coin.md) ・ ➡️ **다음**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md)
+
 <!-- nav:end -->

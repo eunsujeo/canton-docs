@@ -129,6 +129,9 @@ Canton은 여러 시퀀서 백엔드를 지원한다. 백엔드 선택이 Synchr
 * **트래픽 관리.** 시퀀서는 멤버별 트래픽 한도를 강제한다. 멤버는 베이스 할당(Synchronizer 시간에 걸친 수동 누적)과 구매한 추가 트래픽으로 트래픽을 누적한다. 멤버의 가용 트래픽 잔액을 초과하는 제출은 거부되어, 자원 고갈로부터 Synchronizer를 보호한다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [원장 모델 (상세)](ledger-model-detailed.md) ・ ➡️ **다음**: [프루닝 (Pruning)](pruning.md)</sub>
+
+⬅️ **이전**: [원장 모델 (상세)](ledger-model-detailed.md) ・ ➡️ **다음**: [프루닝 (Pruning)](pruning.md)
+
 <!-- nav:end -->

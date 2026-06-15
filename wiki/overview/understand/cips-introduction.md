@@ -136,6 +136,9 @@ CIP를 제안하거나 기여하려면:
 * **[CIP 저장소](https://github.com/global-synchronizer-foundation/cips)** — GitHub에서 모든 CIP 둘러보기.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md) ・ ➡️ **다음**: [핵심 개념](core-concepts.md)</sub>
+
+⬅️ **이전**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md) ・ ➡️ **다음**: [핵심 개념](core-concepts.md)
+
 <!-- nav:end -->

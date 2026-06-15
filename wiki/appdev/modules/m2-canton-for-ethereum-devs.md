@@ -306,6 +306,9 @@ Ethereum에서 왔다면, 다음 습관을 바꿔야 한다.
 * **[개발자 트랙 모듈 3: Daml 개발](https://docs.canton.network/appdev/modules/m3-dev-environment)** — Daml 코드 작성 시작
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [모듈 1 — Canton 이해](m1-understanding-canton.md) ・ ➡️ **다음**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](../../notes/blockchain-layers-l0-l1-l2.md)</sub>
+
+⬅️ **이전**: [모듈 1 — Canton 이해](m1-understanding-canton.md) ・ ➡️ **다음**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](../../notes/blockchain-layers-l0-l1-l2.md)
+
 <!-- nav:end -->

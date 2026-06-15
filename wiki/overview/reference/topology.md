@@ -274,6 +274,9 @@ Canton 키 보유자는 그 키에 대한 네임스페이스 위임을 `REMOVE` 
 <img src="https://mintcdn.com/cantonfoundation/zmlOjLpKuDjnaObr/images/docs_website/topology-broken-certificate-chain.svg?fit=max&auto=format&n=zmlOjLpKuDjnaObr&q=85&s=a320d00fd39768acdb0169d187c53b04" alt="깨진 토폴로지 인증서 체인" />
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [글로벌 Synchronizer의 토크노믹스](tokenomics-of-gs.md) ・ ➡️ **다음**: [트랜잭션 생애주기](transaction-lifecycle.md)</sub>
+
+⬅️ **이전**: [글로벌 Synchronizer의 토크노믹스](tokenomics-of-gs.md) ・ ➡️ **다음**: [트랜잭션 생애주기](transaction-lifecycle.md)
+
 <!-- nav:end -->

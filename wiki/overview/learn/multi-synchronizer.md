@@ -521,6 +521,9 @@ optional uint64 base_event_cost = 7;
 트래픽 구성 방법에 대한 안내는 how-to 섹션에서 확인할 수 있다.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [원장 모델](ledger-model.md) ・ ➡️ **다음**: [프라이버시 모델 설명](privacy-model.md)</sub>
+
+⬅️ **이전**: [원장 모델](ledger-model.md) ・ ➡️ **다음**: [프라이버시 모델 설명](privacy-model.md)
+
 <!-- nav:end -->

@@ -161,6 +161,9 @@ Canton은 "합의(consensus)"의 의미를 바꿔 이 긴장을 해소한다:
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — 부분 트랜잭션 프라이버시 메커니즘 심층 분석.
 
 <!-- nav:start -->
+
 ---
-<sub>⬅️ **이전**: [용어집 (Glossary)](glossary.md) ・ ➡️ **다음**: [활용 사례](use-cases.md)</sub>
+
+⬅️ **이전**: [용어집 (Glossary)](glossary.md) ・ ➡️ **다음**: [활용 사례](use-cases.md)
+
 <!-- nav:end -->
