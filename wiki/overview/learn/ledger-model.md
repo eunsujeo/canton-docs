@@ -203,6 +203,13 @@ flowchart TB
     end
 ```
 
+> 💡 **이 그림 읽는 법**: 바깥 박스 전체가 **하나의 트랜잭션**이다. 한 동작이 연쇄 결과(consequences)를 낳아 **나무(tree)** 처럼 펼쳐진다.
+> 1. Asset #1에 **Transfer**(이전) 초이스 실행 — 소비형이라 Asset #1은 보관(소비)됨
+> 2. 그 결과로 ① **Create Asset #2**(새 소유자 앞 자산 생성) ② **Exercise Notify on Registry**(등록부에 알림 초이스 실행)
+> 3. 그 Notify가 다시 **Create Notification**(알림 생성)을 낳음
+>
+> 이 **전체가 단 하나의 트랜잭션**이라 **원자적(all-or-nothing)** 으로 함께 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>된다 — 도미노 한 판처럼 줄줄이 일어나되, 다 같이 성공하거나 아예 안 일어난다. (앞의 조합 가능성·<abbr class="gloss" title="트랜잭션이 전부 적용되거나 전혀 적용되지 않는 성질. 일부만 반영되는 일이 없음">원자성</abbr>이 트리로 나타난 모습)
+
 ### 소비형 vs 비소비형 초이스
 
 **소비형(consuming)** 초이스(기본값)는 실행 시 컨트랙트를 보관한다. 상태 전이와 이전에 쓴다. **비소비형(non-consuming)** 초이스는 컨트랙트를 활성으로 남겨두며, 조회·알림·읽기에 유용하다.
@@ -315,7 +322,7 @@ choice ExecuteSwap : ()
     exercise paymentId Transfer with newOwner = seller
 ```
 
-원장은 이 <abbr class="gloss" title="트랜잭션이 전부 적용되거나 전혀 적용되지 않는 성질. 일부만 반영되는 일이 없음">원자성</abbr>을 강제한다 — 전체 스왑이 <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>되거나 아무것도 안 되거나.
+원장은 이 원자성을 강제한다 — 전체 스왑이 커밋되거나 아무것도 안 되거나.
 
 ## 관련 주제
 
