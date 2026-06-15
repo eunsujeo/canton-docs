@@ -8,6 +8,9 @@
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
 - **개요 (Overview)**
   - [Canton의 해법 — 세 가지 기둥](overview/understand/cantons-solution.md)
+  - [핵심 개념](overview/understand/core-concepts.md)
+  - [5분 만에 보는 Canton Network](overview/understand/five-minute-overview.md)
   - [Canton이 푸는 문제](overview/understand/the-problem.md)
+  - [활용 사례](overview/understand/use-cases.md)
   - [Canton Network이란?](overview/understand/what-is-canton.md)
   - [누가 이 문서를 읽어야 하나](overview/understand/who-should-read.md)

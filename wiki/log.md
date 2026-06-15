@@ -28,5 +28,8 @@
 ## [2026-06-15] ingest | 개요 "이게 뭔가" 묶음 3종
 - who-should-read, the-problem, cantons-solution 번역 완료. Mintlify 컴포넌트(Card/Note)→마크다운, mermaid 펜스 정규화. 완료 4/315.
 
+## [2026-06-15] ingest | 개요 "빠른 개요" 묶음 3종
+- five-minute-overview, core-concepts, use-cases 번역 완료. haskell/mermaid 펜스 정규화, Card/Note/Warning→마크다운. 완료 7/315.
+
 ## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
 - 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.
