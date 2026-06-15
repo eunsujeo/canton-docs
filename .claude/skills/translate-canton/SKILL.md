@@ -29,6 +29,7 @@ Canton 공식 문서를 한국어로 번역해 이 저장소의 위키에 누적
 6. **로그**: `wiki/log.md`에 `## [YYYY-MM-DD] ingest | <제목>` 추가. (오늘 날짜는 환경의 currentDate 사용.)
 7. **웹 내비 갱신**: `wiki/`에서 `python3 scripts/gen_sidebar.py` 실행해 Docsify `_sidebar.md`를 재생성한다.
 8. **용어 tooltip**: 설명이 필요한 용어를 `glossary.md`의 "툴팁 정의" 표에 추가한 뒤 `python3 scripts/gen_tooltips.py` 실행 → 각 페이지 첫 등장에 `<abbr>` 자동 삽입(웹·Obsidian 공용).
+9. **이전/다음 내비**: `python3 scripts/gen_nav.py` 실행 → `_sidebar.md` 순서대로 각 페이지 하단에 이전/다음 링크 삽입(웹·Obsidian 공용, 멱등). gen_sidebar 다음에 실행.
 
 ## 페이지 템플릿
 ```markdown

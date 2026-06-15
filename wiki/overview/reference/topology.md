@@ -272,3 +272,8 @@ Canton 키 보유자는 그 키에 대한 네임스페이스 위임을 `REMOVE` 
 앞 절의 예를 계속하면, `abc123`의 키 보유자가 키 `def456`의 인증서를 폐기해 키 `ghi789`의 인증서가 달랑거리게 된다. 따라서 Canton 노드는 키 `def456`이나 `ghi789` 중 어느 것이 네임스페이스 `abc123`을 대신해 만든 미래 토폴로지 트랜잭션의 어떤 서명도 거부해야 한다.
 
 <img src="https://mintcdn.com/cantonfoundation/zmlOjLpKuDjnaObr/images/docs_website/topology-broken-certificate-chain.svg?fit=max&auto=format&n=zmlOjLpKuDjnaObr&q=85&s=a320d00fd39768acdb0169d187c53b04" alt="깨진 토폴로지 인증서 체인" />
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [글로벌 동기화자의 토크노믹스](tokenomics-of-gs.md) ・ ➡️ **다음**: [트랜잭션 생애주기](transaction-lifecycle.md)</sub>
+<!-- nav:end -->

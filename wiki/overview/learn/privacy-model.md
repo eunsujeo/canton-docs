@@ -332,3 +332,8 @@ Canton 애플리케이션을 설계할 때 자문하라:
 * **[글로벌 동기화자](https://docs.canton.network/overview/understand/global-synchronizer)** — 퍼블릭 네트워크 인프라 이해
 * **[개발자 트랙 모듈 3: Daml 개발](https://docs.canton.network/appdev/modules/m3-dev-environment)** — 코드에서 프라이버시 패턴 적용
 * **[용어집](https://docs.canton.network/overview/understand/glossary)** — 프라이버시 관련 용어 포함 용어 레퍼런스
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [다중 동기화자 아키텍처](multi-synchronizer.md) ・ ➡️ **다음**: [신뢰 모델 개요](trust-model.md)</sub>
+<!-- nav:end -->

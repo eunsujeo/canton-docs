@@ -71,3 +71,8 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 - [Canton Network이란?](../overview/understand/what-is-canton.md) — Canton이 L1으로서 갖는 차별점
 - [Ethereum: Layer 2 / scaling](https://ethereum.org/en/layer-2/)
 - [Polkadot (Layer 0)](https://polkadot.network/) · [Cosmos (IBC)](https://cosmos.network/)
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [블록체인 개발자를 위한 Canton (모듈 2)](../appdev/modules/m2-canton-for-ethereum-devs.md)</sub>
+<!-- nav:end -->

@@ -300,3 +300,8 @@ sequenceDiagram
 * 외부 파티 온보딩 튜토리얼
 * 외부 파티 트랜잭션 제출 튜토리얼
 * 외부 서명 트랜잭션 해시
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [탈중앙화 (Decentralization)](decentralization.md) ・ ➡️ **다음**: [Canton Foundation 정책 (CF Policies)](gsf-policies.md)</sub>
+<!-- nav:end -->

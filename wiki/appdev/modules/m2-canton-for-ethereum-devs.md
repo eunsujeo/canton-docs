@@ -304,3 +304,8 @@ Ethereum에서 왔다면, 다음 습관을 바꿔야 한다.
 * **[아키텍처 개요](../../overview/learn/architecture.md)** — Canton의 구성 요소 모델 심층 분석
 * **[프라이버시 모델 설명](../../overview/learn/privacy-model.md)** — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> 이해
 * **[개발자 트랙 모듈 3: Daml 개발](https://docs.canton.network/appdev/modules/m3-dev-environment)** — Daml 코드 작성 시작
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [모듈 1 — Canton 이해](m1-understanding-canton.md) ・ ➡️ **다음**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](../../notes/blockchain-layers-l0-l1-l2.md)</sub>
+<!-- nav:end -->

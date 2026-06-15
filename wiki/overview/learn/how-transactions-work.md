@@ -88,3 +88,8 @@ Alice(밸리데이터 A)가 Bob(밸리데이터 B)에게 자산을 이전한다:
 * [아키텍처 개요](architecture.md) — 밸리데이터·동기화자·애플리케이션이 맞물리는 방식
 * [프라이버시 모델 설명](privacy-model.md) — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>와 뷰 분해의 상세 설명
 * [2계층 합의](https://docs.canton.network/overview/learn/two-layer-consensus) — 합의 프로토콜의 더 기술적인 상세
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [글로벌 동기화자 아키텍처](global-synchronizer-architecture.md) ・ ➡️ **다음**: [원장 모델](ledger-model.md)</sub>
+<!-- nav:end -->

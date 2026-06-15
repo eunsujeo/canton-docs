@@ -96,6 +96,7 @@ tags: [overview, ...]   # 섹션/주제
 - 번역 페이지 간 교차링크는 **상대경로 마크다운 링크**로 작성한다(Obsidian·Docsify 둘 다 해석). 미번역 대상 링크만 원문 URL 유지.
 - 새 페이지를 추가하면 `cd wiki && python3 scripts/gen_sidebar.py`로 Docsify `_sidebar.md`를 재생성한다(translate-canton이 자동 수행).
 - **용어 tooltip**: `glossary.md`의 "툴팁 정의" 표 → `cd wiki && python3 scripts/gen_tooltips.py`가 각 페이지 첫 등장 용어에 `<abbr class="gloss" title="정의">` 삽입. 웹은 tippy.js, Obsidian은 네이티브 title 툴팁. 멱등(반복 실행 안전).
+- **이전/다음 내비**: `cd wiki && python3 scripts/gen_nav.py`가 `_sidebar.md` 순서대로 각 페이지 하단에 `<!-- nav:start -->`~`<!-- nav:end -->` 블록(이전/다음 상대경로 링크)을 삽입. 웹·Obsidian 공용, 멱등. gen_sidebar 다음에 실행. (웹은 docsify-pagination 대신 이 정적 링크 사용.)
 
 ## 진행 상황 확인
 - 남은 작업: `grep -c "| ☐ |" wiki/sources.md`

@@ -872,3 +872,8 @@ proposeDvP2 <- submit alice $ do
 유사하게, 상태 서비스는 플랫 트랜잭션 스트림에 따라 반환된 오프셋에 활성인 컨트랙트 집합을 제공한다. 즉, 트랜잭션 이벤트 스트림의 모든 이벤트의 컨트랙트 상태 변경이 제공된 컨트랙트 집합에 반영된다.
 
 단일 Daml 원장의 순서 보장이 그에 맞게 확장된다. 특히 상호운용성은 모든 로컬 원장이 위에서 기술한 대로 Daml 원장 모델에 연결되는 가상 공유 멀티원장 인과성 그래프의 투영임을 보장한다. 따라서 원장 유효성 보장이 로컬 원장을 통해 Ledger API로 확장된다.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [인과성과 시간 (Causality and Time)](ledger-causality.md) ・ ➡️ **다음**: [순서화 합의 (Ordering Consensus)](ordering-consensus.md)</sub>
+<!-- nav:end -->

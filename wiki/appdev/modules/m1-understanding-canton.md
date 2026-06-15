@@ -105,3 +105,8 @@ flowchart LR
 
 * **[모듈 2](m2-canton-for-ethereum-devs.md)**: Ethereum/블록체인 경험이 있다면
 * **[학습 경로 선택](../get-started/choose-your-path.md)**: <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 작성을 시작할 준비가 됐다면
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [학습 경로 선택](../get-started/choose-your-path.md) ・ ➡️ **다음**: [블록체인 개발자를 위한 Canton (모듈 2)](m2-canton-for-ethereum-devs.md)</sub>
+<!-- nav:end -->

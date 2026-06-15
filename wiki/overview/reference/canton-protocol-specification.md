@@ -67,3 +67,8 @@ Canton의 프로토콜은 다음 보장을 제공한다:
 5. 미디에이터가 확인을 집계하고 필요한 시간 창 내에 평결을 내리며, 시퀀서가 이를 모든 참여자에게 분배한다 (순서화 계층)
 
 [트랜잭션 생애주기](transaction-lifecycle.md) 페이지가 각 단계를 상세히 다룬다.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [Canton 네임 서비스 (CNS)](canton-name-service.md) ・ ➡️ **다음**: ["CIP-0056: Canton Network 토큰 표준"](cip-0056.md)</sub>
+<!-- nav:end -->

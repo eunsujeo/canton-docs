@@ -129,3 +129,8 @@ sequenceDiagram
 
 * [재할당 프로토콜](reassignment-protocol.md) — 언어사인·어사인의 상세 프로토콜 메커니즘
 * [아키텍처 개요](../learn/architecture.md) — 동기화자·밸리데이터·글로벌 동기화자가 맞물리는 방식
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [CIP 인덱스](cip-index.md) ・ ➡️ **다음**: [탈중앙화 (Decentralization)](decentralization.md)</sub>
+<!-- nav:end -->

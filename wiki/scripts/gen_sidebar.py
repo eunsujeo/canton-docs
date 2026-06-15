@@ -6,11 +6,29 @@ import os, re
 from collections import OrderedDict
 
 WIKI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-META = {'index.md','sources.md','glossary.md','log.md','how-to-read.md',
+META = {'index.md','sources.md','glossary.md','log.md','how-to-read.md','next-step.md',
         '_sidebar.md','_coverpage.md','README.md'}
 SEC_LABEL = {'overview':'개요 (Overview)','appdev':'앱 개발 (App Dev)',
              'global-synchronizer':'글로벌 동기화자','integrations':'통합 (Integrations)',
              'notes':'정리 노트 (Notes)'}
+# 섹션 표시 순서 (학습 흐름: 개념→앱개발→운영→통합→노트)
+SECTION_ORDER = ['overview','appdev','global-synchronizer','integrations','notes']
+# 섹션 내 하위 디렉토리 순서 (그 외/루트 파일은 뒤에서 알파벳순)
+SUBDIR_ORDER = {
+    'overview': ['understand','learn','reference'],
+    'appdev': ['get-started','modules','quickstart','deep-dives','reference','tooling','troubleshooting-guide'],
+    'global-synchronizer': ['understand','splice-fundamentals','canton-console','deployment',
+                            'production-operations','extension-synchronizers','reference',
+                            'troubleshooting-guide','release-notes'],
+}
+
+def page_sort_key(rel):
+    parts = rel.split('/')
+    sec = parts[0]
+    subdir = parts[1] if len(parts) >= 3 else ''
+    order = SUBDIR_ORDER.get(sec, [])
+    sub_rank = order.index(subdir) if subdir in order else len(order)
+    return (sub_rank, rel)
 
 def title_of(path):
     try:
@@ -39,10 +57,16 @@ pages.sort()
 groups = OrderedDict()
 for p in pages:
     groups.setdefault(p.split('/')[0], []).append(p)
+# 섹션 순서 정렬 + 섹션 내 하위 디렉토리 순서 정렬
+groups = OrderedDict(sorted(groups.items(),
+                            key=lambda kv: (SECTION_ORDER.index(kv[0]) if kv[0] in SECTION_ORDER else len(SECTION_ORDER), kv[0])))
+for sec in groups:
+    groups[sec].sort(key=page_sort_key)
 
 out = ["- **시작하기**",
        "  - [📖 읽는 방법](how-to-read.md)",
        "  - [🗂 인덱스/학습순서](index.md)",
+       "  - [🗺️ 다음 작업/남은 순서](next-step.md)",
        "  - [📚 용어집](glossary.md)",
        "  - [🔗 출처/진행상태](sources.md)",
        "  - [🕒 작업 로그](log.md)"]

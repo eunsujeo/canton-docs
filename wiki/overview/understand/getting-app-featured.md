@@ -67,3 +67,8 @@ Canton Network 생태계가 성장하면서, 당신의 애플리케이션을 피
 
 * **[앱 만들기](https://docs.canton.network/appdev/get-started/choose-your-path)** — 애플리케이션 개발 시작.
 * **[Canton 생태계](https://www.canton.network/ecosystem)** — 기존 생태계 애플리케이션 둘러보기.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [5분 만에 보는 Canton Network](five-minute-overview.md) ・ ➡️ **다음**: [글로벌 동기화자](global-synchronizer.md)</sub>
+<!-- nav:end -->

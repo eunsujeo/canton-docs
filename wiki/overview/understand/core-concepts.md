@@ -294,3 +294,8 @@ sequenceDiagram
 * **[글로벌 동기화자](https://docs.canton.network/overview/understand/global-synchronizer)** — 퍼블릭 조율 계층 학습.
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> 상세 이해.
 * **[구축 시작하기](https://docs.canton.network/appdev/get-started/choose-your-path)** — Canton 개발 시작.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md) ・ ➡️ **다음**: [5분 만에 보는 Canton Network](five-minute-overview.md)</sub>
+<!-- nav:end -->

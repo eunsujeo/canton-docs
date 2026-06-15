@@ -131,3 +131,8 @@ Canton Network은 2023년 5월 은행, 시장 인프라, 트레이딩 전반의 
 * **[블록체인 개발자를 위한 Canton](https://docs.canton.network/appdev/modules/m2-canton-for-ethereum-devs)** — 기존 블록체인 지식을 Canton 개념에 매핑한다
 * **[아키텍처 개요](https://docs.canton.network/overview/learn/architecture)** — Canton 구성 요소가 어떻게 함께 작동하는지 이해한다
 * **[프라이버시 모델 설명](https://docs.canton.network/overview/learn/privacy-model)** — 부분 트랜잭션 프라이버시 심층 분석
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [활용 사례](use-cases.md) ・ ➡️ **다음**: [누가 이 문서를 읽어야 하나](who-should-read.md)</sub>
+<!-- nav:end -->

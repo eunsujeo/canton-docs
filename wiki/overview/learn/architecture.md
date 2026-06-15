@@ -324,3 +324,8 @@ flowchart TB
 * **[프라이버시 모델 설명](privacy-model.md)** — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> 심층 분석
 * **[글로벌 동기화자](https://docs.canton.network/overview/understand/global-synchronizer)** — 퍼블릭 네트워크 인프라 이해
 * **[밸리데이터 운영](https://docs.canton.network/global-synchronizer/understand/introduction)** — 밸리데이터 배포·운영자용
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [누가 이 문서를 읽어야 하나](../understand/who-should-read.md) ・ ➡️ **다음**: [Canton의 암호 키](cryptographic-keys.md)</sub>
+<!-- nav:end -->

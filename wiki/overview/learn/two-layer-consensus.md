@@ -163,3 +163,8 @@ flowchart TB
 * [신뢰 모델 개요](trust-model.md) — 각 계층의 신뢰 가정
 * [아키텍처 개요](architecture.md) — 구성 요소가 맞물리는 방식
 * [프라이버시 모델](privacy-model.md) — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> 상세
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [신뢰 모델 개요](trust-model.md) ・ ➡️ **다음**: [밸리데이터 아키텍처](validator-architecture.md)</sub>
+<!-- nav:end -->

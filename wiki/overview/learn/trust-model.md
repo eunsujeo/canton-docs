@@ -167,3 +167,8 @@ Canton은 각 계층에서 탈중앙화를 지원한다.
 * [2계층 합의](https://docs.canton.network/overview/learn/two-layer-consensus) — 합의 계층들이 상호작용하는 방식
 * [아키텍처 개요](architecture.md) — 구성 요소 책임
 * [프라이버시 모델](privacy-model.md) — 각 파티가 볼 수 있는 것
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [프라이버시 모델 설명](privacy-model.md) ・ ➡️ **다음**: [2계층 합의](two-layer-consensus.md)</sub>
+<!-- nav:end -->

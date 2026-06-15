@@ -151,3 +151,8 @@ CF는 네트워크에 대한 일방적 통제권이 없다. 그 SV 노드는 다
 * **유효한 트랜잭션** — 모든 DSO 확인 트랜잭션은 Daml의 [원장 유효성 모델](../learn/ledger-model.md)을 만족한다
 * **적시 자동화** — 일상적 운영 동작(라운드 진행, 보상 발행)이 지연 없이 실행된다
 * **예측 가능한 파라미터** — 수수료와 구성 값이 적어도 2/3 SV 운영자의 집계 선호를 반영한다
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [슈퍼 밸리데이터 구성 요소](super-validator-components.md) ・ ➡️ **다음**: [동기화자 (Synchronizer) 개요](synchronizer-overview.md)</sub>
+<!-- nav:end -->

@@ -223,3 +223,8 @@ flowchart LR
 * **[핵심 개념](https://docs.canton.network/overview/understand/core-concepts)** — 파티, 밸리데이터, 동기화자에 대해 학습.
 * **[아키텍처 심층 분석](https://docs.canton.network/overview/learn/architecture)** — 구성 요소가 기술적으로 함께 작동하는 방식 이해.
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — 프라이버시 보장을 상세히 탐구.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [Canton Coin과 글로벌 동기화자](canton-coin.md) ・ ➡️ **다음**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md)</sub>
+<!-- nav:end -->

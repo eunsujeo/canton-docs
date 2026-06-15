@@ -137,3 +137,8 @@ flowchart TB
 * **[커뮤니티 Slack](mailto:cf-global-synchronize-aaaapqznpatdmupdm5thaarsly@daholdings.slack.com)**: 앱 개발자 Slack 채널 참여를 이메일로 요청.
 * **[포럼](https://forum.canton.network/)**: 기술 토론과 Q&A
 * **[FAQ](https://docs.canton.network/appdev/faq)**: 흔한 질문 정리
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [CIP 레퍼런스 (CIP란?)](../../overview/reference/what-are-cips.md) ・ ➡️ **다음**: [모듈 1 — Canton 이해](../modules/m1-understanding-canton.md)</sub>
+<!-- nav:end -->

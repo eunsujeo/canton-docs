@@ -134,3 +134,8 @@ CIP를 제안하거나 기여하려면:
 
 * **[토큰 표준](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0056/cip-0056.md)** — Canton 토큰 표준 구현.
 * **[CIP 저장소](https://github.com/global-synchronizer-foundation/cips)** — GitHub에서 모든 CIP 둘러보기.
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md) ・ ➡️ **다음**: [핵심 개념](core-concepts.md)</sub>
+<!-- nav:end -->

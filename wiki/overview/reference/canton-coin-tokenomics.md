@@ -166,3 +166,8 @@ API 상세는 [CIP-0056 텍스트](https://github.com/global-synchronizer-founda
 * [CIP-0056 (CN 토큰 표준)](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0056/cip-0056.md) — 토큰 연산을 위한 표준 인터페이스
 * [CIP-0073 (가중 밸리데이터 라이브니스 보상)](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0073/cip-0073.md) — SV가 결정한 파티를 위한 라이브니스 보상 지원
 * [Canton Coin 백서](https://www.digitalasset.com/hubfs/Canton%20Network%20Files/Documents%20(whitepapers%2c%20etc...)/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf) — 전체 형식 명세
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [밸리데이터 아키텍처](../learn/validator-architecture.md) ・ ➡️ **다음**: [Canton 네임 서비스 (CNS)](canton-name-service.md)</sub>
+<!-- nav:end -->

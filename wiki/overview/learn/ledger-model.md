@@ -311,3 +311,8 @@ choice ExecuteSwap : ()
 * [컨트랙트 템플릿](https://docs.canton.network/appdev/modules/m3-contract-templates) — 첫 <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 컨트랙트 작성
 * [초이스](https://docs.canton.network/appdev/modules/m3-choices) — 컨트랙트에 동작 추가
 * [프라이버시 모델](privacy-model.md) — 뷰가 프라이버시를 가능하게 하는 방식
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [트랜잭션 작동 방식](how-transactions-work.md) ・ ➡️ **다음**: [다중 동기화자 아키텍처](multi-synchronizer.md)</sub>
+<!-- nav:end -->

@@ -109,3 +109,8 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 * [Canton Coin 백서](https://www.digitalasset.com/hubfs/Canton%20Network%20Files/Documents%20(whitepapers%2c%20etc...)/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf) — 소각-발행 메커니즘의 전체 기술 명세
 * [Canton Network 백서](https://www.digitalasset.com/hubfs/Canton/Canton%20Network%20-%20White%20Paper.pdf) — 더 넓은 네트워크 아키텍처와 설계
 * [CIP 저장소](https://github.com/global-synchronizer-foundation/cips) — 수수료·보상 변경을 포함한 거버넌스 제안
+
+<!-- nav:start -->
+---
+<sub>⬅️ **이전**: [동기화자 (Synchronizer) 개요](synchronizer-overview.md) ・ ➡️ **다음**: [토폴로지 (Topology)](topology.md)</sub>
+<!-- nav:end -->
