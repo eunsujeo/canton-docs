@@ -80,3 +80,6 @@
 
 ## 2026-06-15 — note | 로컬 파티 vs 외부 파티
 - `notes/local-vs-external-party.md` 신설: 키 보유 주체(노드 vs 본인) 중심 비교, SPN/CPN/OPN 권한, 자기수탁, 외부 파티 제출 흐름(PPN/EPN), B2B 정산 맥락
+
+## 2026-06-15 — note | 파티 설계 per-user vs 옴니버스
+- `notes/party-design-per-user-vs-omnibus.md` 신설: 파티 생성 비용·상태 때문에 유저별 파티는 선택사항, 거래소식 옴니버스 패턴, B2B 정산 맥락

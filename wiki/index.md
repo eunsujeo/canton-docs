@@ -104,3 +104,4 @@ _(아직 없음)_
 - [블록체인 계층 (L0/L1/L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md) — L0·L1·L2 구분과 대표 네트워크, Canton이 프라이버시 보존 L1으로서 갖는 위치.
 - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md) — 지폐 비유로 푸는 eUTXO 원장 모델과 이중지불 방지(세 가지 방어선).
 - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md) — 키를 노드에 맡기느냐(로컬) 내가 직접 쥐느냐(외부). SPN/CPN/OPN 권한과 자기수탁.
+- [파티는 유저마다 만들까? — per-user vs 옴니버스](notes/party-design-per-user-vs-omnibus.md) — 파티 생성 비용 때문에 유저별 파티는 선택. 거래소식 옴니버스(소수 파티+오프체인 장부) 패턴.
