@@ -9,7 +9,8 @@ WIKI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META = {'index.md','sources.md','glossary.md','log.md','how-to-read.md',
         '_sidebar.md','_coverpage.md','README.md'}
 SEC_LABEL = {'overview':'개요 (Overview)','appdev':'앱 개발 (App Dev)',
-             'global-synchronizer':'글로벌 동기화자','integrations':'통합 (Integrations)'}
+             'global-synchronizer':'글로벌 동기화자','integrations':'통합 (Integrations)',
+             'notes':'정리 노트 (Notes)'}
 
 def title_of(path):
     try:

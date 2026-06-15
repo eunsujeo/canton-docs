@@ -4,5 +4,7 @@
   - [📚 용어집](glossary.md)
   - [🔗 출처/진행상태](sources.md)
   - [🕒 작업 로그](log.md)
+- **정리 노트 (Notes)**
+  - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
 - **개요 (Overview)**
   - [Canton Network이란?](overview/understand/what-is-canton.md)

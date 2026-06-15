@@ -32,3 +32,6 @@ _(아직 없음)_
 
 ### integrations — 통합/연동
 _(아직 없음)_
+
+### notes — 정리 노트 (직접 작성)
+- [블록체인 계층 (L0/L1/L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md) — L0·L1·L2 구분과 대표 네트워크, Canton이 프라이버시 보존 L1으로서 갖는 위치.

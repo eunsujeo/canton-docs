@@ -21,3 +21,9 @@
 - `index.html`(Docsify 셸: 검색·mermaid·코드복사·페이지네이션), `_sidebar.md`, `.nojekyll`, `scripts/gen_sidebar.py` 추가.
 - 로컬 서빙 검증: 셸/콘텐츠/사이드바 HTTP 200. translate-canton에 사이드바 자동 갱신 단계 연결.
 - GitHub Pages는 branch 배포 시 root/docs 폴더만 허용 → `wiki/` 유지 위해 `.github/workflows/deploy-pages.yml`(Actions 배포) 추가. Source를 "GitHub Actions"로 설정.
+
+## [2026-06-15] setup | 용어 tooltip
+- `glossary.md` "툴팁 정의" 표 + `scripts/gen_tooltips.py`(멱등, 중첩방지). 웹은 tippy.js, Obsidian은 네이티브 abbr title.
+
+## [2026-06-15] note | 블록체인 계층 (L0/L1/L2)
+- 내부 작성 정리 노트 `notes/blockchain-layers-l0-l1-l2.md` 추가. L0/L1/L2 구분 + Canton 위치. glossary에 레이어 0/2 정의 추가. 사이드바에 "정리 노트" 섹션.
