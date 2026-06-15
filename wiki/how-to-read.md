@@ -38,10 +38,14 @@ python3 -m http.server 4500
 ```
 
 **GitHub Pages로 무료 배포** (다른 개발자에게 웹 링크 공유):
-1. 이 저장소를 GitHub에 푸시.
-2. 저장소 **Settings → Pages → Source**를 배포 브랜치 + `/wiki` 폴더로 지정.
-   - (또는 `wiki/`만 별도 repo로 올려 루트로 배포)
-3. 발급된 URL을 공유. `.nojekyll`이 있어 폴더 구조 그대로 서빙됨.
+> ⚠️ GitHub의 "Deploy from a branch"는 폴더를 `/ (root)` 또는 `/docs`만 허용한다. `/wiki`는 못 고른다.
+> 그래서 폴더명을 유지한 채 **GitHub Actions**로 배포한다 (`.github/workflows/deploy-pages.yml` 포함됨).
+
+1. 이 저장소를 GitHub에 푸시 (기본 브랜치 `main` 또는 `master`).
+2. 저장소 **Settings → Pages → Source**를 **"GitHub Actions"**로 변경.
+3. 푸시 때마다 워크플로가 `wiki/` 폴더를 자동 배포. Actions 탭에서 완료되면 URL이 발급됨.
+
+> 대안(Actions 없이): `wiki/` 폴더를 `docs/`로 이름만 바꾸면 "Deploy from a branch + /docs"로도 배포 가능.
 
 > `_sidebar.md`(왼쪽 내비)는 번역이 늘면 다시 생성해야 합니다 → `translate-canton` 실행 시 자동 갱신.
 > 검색·이전/다음·코드 복사·mermaid 렌더링 플러그인이 포함돼 있습니다.

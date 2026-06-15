@@ -20,3 +20,4 @@
 ## [2026-06-15] setup | Docsify 웹 뷰어
 - `index.html`(Docsify 셸: 검색·mermaid·코드복사·페이지네이션), `_sidebar.md`, `.nojekyll`, `scripts/gen_sidebar.py` 추가.
 - 로컬 서빙 검증: 셸/콘텐츠/사이드바 HTTP 200. translate-canton에 사이드바 자동 갱신 단계 연결.
+- GitHub Pages는 branch 배포 시 root/docs 폴더만 허용 → `wiki/` 유지 위해 `.github/workflows/deploy-pages.yml`(Actions 배포) 추가. Source를 "GitHub Actions"로 설정.
