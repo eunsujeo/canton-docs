@@ -9,7 +9,7 @@ tags: [overview, reference, 합의, 프라이버시]
 > **출처(원문)**: [Smart Contract Consensus](https://docs.canton.network/overview/reference/smart-contract-consensus) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: 누가 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>을 검증하고 그 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>이 어떻게 구속력 있는 결과를 내는지 — <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 증명(Proof of Stakeholder), P2P 검증, 확인 정책(단일/다중 호스팅·임계값), <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>가 프라이버시를 가능하게 하는 원리, 신뢰 도메인 비교, 보안 속성.
+- **한 줄 요약**: 누가 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>을 검증하고 그 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>이 어떻게 구속력 있는 결과를 내는지 — <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 증명(Proof of Stakeholder), P2P 검증, 확인 정책(단일/다중 <abbr class="gloss" title="참여자 노드가 파티의 데이터·키를 맡아 두고, 그 파티를 대신해 원장에서 활동(저장·제출·확인)해 주는 것">호스팅</abbr>·임계값), <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>가 프라이버시를 가능하게 하는 원리, 신뢰 도메인 비교, 보안 속성.
 - **핵심 용어**: 이해관계자 증명, 확인 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>(CPN), 확인 임계값(m-of-n), 평결(verdict), <abbr class="gloss" title="같은 자산을 두 번 쓰는 부정행위">이중지불</abbr> 방지
 - **선행 개념**: [2계층 합의](../learn/two-layer-consensus.md), [순서화 합의](ordering-consensus.md), [트랜잭션 생애주기](transaction-lifecycle.md).
 

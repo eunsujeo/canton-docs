@@ -10,7 +10,7 @@ tags: [overview, learn, 신뢰모델]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton은 "모두 신뢰"도 "아무도 불신"도 아닌 **선택적 신뢰** — 무엇을 위해 누구를 신뢰하는지 5개 신뢰 영역(내 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, 거래 상대방, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, 앱 제공자, 네트워크 거버넌스)으로 나누고, 각 영역의 신뢰/불신 항목과 완화책을 정리.
-- **핵심 용어**: 선택적 신뢰, 신뢰 영역(trust domain), <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>, 다중 호스팅 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, 외부 파티 서명
+- **핵심 용어**: 선택적 신뢰, 신뢰 영역(trust domain), <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>, 다중 <abbr class="gloss" title="참여자 노드가 파티의 데이터·키를 맡아 두고, 그 파티를 대신해 원장에서 활동(저장·제출·확인)해 주는 것">호스팅</abbr> <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, 외부 파티 서명
 - **선행 개념**: [프라이버시 모델](privacy-model.md), [아키텍처 개요](architecture.md). 다음 → [글로벌 Synchronizer](https://docs.canton.network/overview/understand/global-synchronizer)
 
 ---
