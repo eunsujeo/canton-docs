@@ -62,3 +62,7 @@
 - `gsf-policies.md` (Canton Foundation 정책 — 멤버십·위원회·거버넌스·네트워크 정책·업그레이드·CIP·채널) 번역
 - **overview/reference 24개 전부 완료** → overview 섹션(understand+learn+reference) 전체 번역 완료
 - 누적: 49 content pages + 1 note
+
+## 2026-06-15 — note | eUTXO와 이중지불 방지 (지폐 비유)
+- `notes/eutxo-double-spend.md` 신설: "존재하지 않는 것은 쓸 수 없다"를 지폐 비유로 쉽게 설명(eUTXO·세 방어선·전역 가시성 없는 무결성)
+- `cantons-solution.md`: 욱여넣은 이중지불 방지 한 문장을 풀어주는 💡 설명 + 노트 링크 추가(충실성 유지)

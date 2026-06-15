@@ -74,5 +74,5 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 
 <!-- nav:start -->
 ---
-<sub>⬅️ **이전**: [블록체인 개발자를 위한 Canton (모듈 2)](../appdev/modules/m2-canton-for-ethereum-devs.md)</sub>
+<sub>⬅️ **이전**: [블록체인 개발자를 위한 Canton (모듈 2)](../appdev/modules/m2-canton-for-ethereum-devs.md) ・ ➡️ **다음**: [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](eutxo-double-spend.md)</sub>
 <!-- nav:end -->
