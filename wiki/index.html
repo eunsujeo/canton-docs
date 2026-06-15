@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canton 한국어 위키</title>
+  <meta name="description" content="Canton Network 공식 문서 한국어 번역 — 개발자용 지식베이스" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <style>
+    :root { --theme-color: #2c5fff; }
+    .sidebar { font-size: 14.5px; }
+    .markdown-section { max-width: 880px; }
+    .app-name-link img, .app-name-link { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div id="app">로딩 중…</div>
+  <script>
+    window.$docsify = {
+      name: 'Canton 한국어 위키',
+      repo: '',
+      homepage: 'how-to-read.md',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      maxLevel: 4,
+      auto2top: true,
+      relativePath: true,
+      notFoundPage: true,
+      search: {
+        paths: 'auto',
+        placeholder: '검색…',
+        noData: '결과 없음',
+        depth: 4
+      },
+      pagination: { previousText: '이전', nextText: '다음', crossChapter: true },
+      copyCode: { buttonText: '복사', successText: '복사됨' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <!-- mermaid 다이어그램 렌더링 -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
+  <script>mermaid.initialize({ startOnLoad: false });</script>
+  <!-- 코드 구문 강조 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-haskell.min.js"></script>
+</body>
+</html>

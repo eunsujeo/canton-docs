@@ -1,0 +1,8 @@
+- **시작하기**
+  - [📖 읽는 방법](how-to-read.md)
+  - [🗂 인덱스/학습순서](index.md)
+  - [📚 용어집](glossary.md)
+  - [🔗 출처/진행상태](sources.md)
+  - [🕒 작업 로그](log.md)
+- **개요 (Overview)**
+  - [Canton Network이란?](overview/understand/what-is-canton.md)
