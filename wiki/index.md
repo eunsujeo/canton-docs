@@ -29,6 +29,10 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [5분 만에 보는 Canton Network](overview/understand/five-minute-overview.md) — "데이터는 필요한 곳에만" 통찰부터 네트워크 구성·타 체인 차이까지 빠른 개요.
 - [핵심 개념](overview/understand/core-concepts.md) — 파티·밸리데이터·동기화자·템플릿 네 개념과 트랜잭션 흐름.
 - [활용 사례](overview/understand/use-cases.md) — DvP·토큰화 증권·국경 간 결제·신디케이트 대출·공급망 금융 사례와 적합/부적합 기준.
+- [Canton Coin과 글로벌 동기화자](overview/understand/canton-coin.md) — CC의 역할, 트래픽(수수료) 2단계, 획득 방법, 밸리데이터 보상, 토크노믹스.
+- [CIP 소개](overview/understand/cips-introduction.md) — 개선 제안 절차, CIP-0056 토큰 표준, 생애주기·기여 방법.
+- [앱을 피처드로 등록하기](overview/understand/getting-app-featured.md) — 생태계 등록 요건·절차·홍보·모범 사례.
+- [용어집 (Glossary)](overview/understand/glossary.md) — Canton 개념 공식 용어 레퍼런스(A~W).
 
 ### overview/learn — 작동 원리
 - [아키텍처 개요](overview/learn/architecture.md) — 조율(동기화자)과 저장(밸리데이터)의 분리, 트랜잭션 흐름, 네트워크 토폴로지, 코드 실행 위치.
@@ -36,6 +40,10 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [트랜잭션 작동 방식](overview/learn/how-transactions-work.md) — 제출→순서화·분배→검증·확인→커밋 4단계 생애주기.
 - [프라이버시 모델 설명](overview/learn/privacy-model.md) — 뷰 분해, 가시성 규칙, 디벌전스, 프라이버시 패턴·실수·체크리스트.
 - [신뢰 모델 개요](overview/learn/trust-model.md) — 선택적 신뢰의 5개 영역과 완화책, 탈중앙화 옵션.
+- [2계층 합의](overview/learn/two-layer-consensus.md) — 스마트 컨트랙트 합의(이해관계자 증명) + 순서화 합의(BFT 시퀀싱) 분리.
+- [다중 동기화자 아키텍처](overview/learn/multi-synchronizer.md) — 컨트랙트 할당·재할당 프로토콜, 동기화자 라우팅, 트래픽 관리.
+- [밸리데이터 아키텍처](overview/learn/validator-architecture.md) — 밸리데이터 노드 내부 구성(참여자 노드·밸리데이터 프로세스·DB).
+- [Canton의 암호 키](overview/learn/cryptographic-keys.md) — 비밀 저장 옵션(평문/비영속/KMS), 키 종류별 용도·저장.
 - [글로벌 동기화자](overview/understand/global-synchronizer.md) — SV(DSO)가 운영하는 퍼블릭 백본, Canton Coin·트래픽, 4개 환경, 거버넌스·Splice·업그레이드.
 - [글로벌 동기화자 아키텍처](overview/learn/global-synchronizer-architecture.md) — 분산 시퀀서·미디에이터의 BFT 합의, 트랜잭션 흐름, SV 1/3 미만 결함 허용.
 

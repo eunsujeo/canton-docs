@@ -233,7 +233,7 @@
 | ☐ | Canton Security Configuration | [security-configuration.md](https://docs.canton.network/global-synchronizer/reference/security-configuration.md) | `wiki/global-synchronizer/reference/security-configuration.md` |
 | ☐ | Canton | [canton.md](https://docs.canton.network/global-synchronizer/release-notes/canton.md) | `wiki/global-synchronizer/release-notes/canton.md` |
 | ☐ | Splice | [splice.md](https://docs.canton.network/global-synchronizer/release-notes/splice.md) | `wiki/global-synchronizer/release-notes/splice.md` |
-| ☐ | Glossary | [glossary.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/glossary.md) | `wiki/global-synchronizer/splice-fundamentals/glossary.md` |
+| ☑ | Glossary | [glossary.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/glossary.md) | `wiki/global-synchronizer/splice-fundamentals/glossary.md` |
 | ☐ | Minting Delegations | [rewards-minting.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/rewards-minting.md) | `wiki/global-synchronizer/splice-fundamentals/rewards-minting.md` |
 | ☐ | Super Validator Rewards | [sv-live-tokenomics.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/sv-live-tokenomics.md) | `wiki/global-synchronizer/splice-fundamentals/sv-live-tokenomics.md` |
 | ☐ | Development Fund | [validator-development-fund.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/validator-development-fund.md) | `wiki/global-synchronizer/splice-fundamentals/validator-development-fund.md` |
@@ -294,15 +294,15 @@
 | 상태 | 제목 | 원문(출처) | 저장 경로 |
 |---|---|---|---|
 | ☑ | Architecture Overview | [architecture.md](https://docs.canton.network/overview/learn/architecture.md) | `wiki/overview/learn/architecture.md` |
-| ☐ | Cryptographic keys in Canton | [cryptographic-keys.md](https://docs.canton.network/overview/learn/cryptographic-keys.md) | `wiki/overview/learn/cryptographic-keys.md` |
+| ☑ | Cryptographic keys in Canton | [cryptographic-keys.md](https://docs.canton.network/overview/learn/cryptographic-keys.md) | `wiki/overview/learn/cryptographic-keys.md` |
 | ☑ | Global Synchronizer Architecture | [global-synchronizer-architecture.md](https://docs.canton.network/overview/learn/global-synchronizer-architecture.md) | `wiki/overview/learn/global-synchronizer-architecture.md` |
 | ☑ | How Transactions Work | [how-transactions-work.md](https://docs.canton.network/overview/learn/how-transactions-work.md) | `wiki/overview/learn/how-transactions-work.md` |
 | ☑ | The Ledger Model | [ledger-model.md](https://docs.canton.network/overview/learn/ledger-model.md) | `wiki/overview/learn/ledger-model.md` |
-| ☐ | Multi-Synchronizer Architecture | [multi-synchronizer.md](https://docs.canton.network/overview/learn/multi-synchronizer.md) | `wiki/overview/learn/multi-synchronizer.md` |
+| ☑ | Multi-Synchronizer Architecture | [multi-synchronizer.md](https://docs.canton.network/overview/learn/multi-synchronizer.md) | `wiki/overview/learn/multi-synchronizer.md` |
 | ☑ | Privacy Model Explained | [privacy-model.md](https://docs.canton.network/overview/learn/privacy-model.md) | `wiki/overview/learn/privacy-model.md` |
 | ☑ | Trust Model Overview | [trust-model.md](https://docs.canton.network/overview/learn/trust-model.md) | `wiki/overview/learn/trust-model.md` |
-| ☐ | Two-Layer Consensus | [two-layer-consensus.md](https://docs.canton.network/overview/learn/two-layer-consensus.md) | `wiki/overview/learn/two-layer-consensus.md` |
-| ☐ | Validator Architecture | [validator-architecture.md](https://docs.canton.network/overview/learn/validator-architecture.md) | `wiki/overview/learn/validator-architecture.md` |
+| ☑ | Two-Layer Consensus | [two-layer-consensus.md](https://docs.canton.network/overview/learn/two-layer-consensus.md) | `wiki/overview/learn/two-layer-consensus.md` |
+| ☑ | Validator Architecture | [validator-architecture.md](https://docs.canton.network/overview/learn/validator-architecture.md) | `wiki/overview/learn/validator-architecture.md` |
 | ☐ | Canton Coin Tokenomics | [canton-coin-tokenomics.md](https://docs.canton.network/overview/reference/canton-coin-tokenomics.md) | `wiki/overview/reference/canton-coin-tokenomics.md` |
 | ☐ | Canton Name Service | [canton-name-service.md](https://docs.canton.network/overview/reference/canton-name-service.md) | `wiki/overview/reference/canton-name-service.md` |
 | ☐ | Canton Protocol Specification | [canton-protocol-specification.md](https://docs.canton.network/overview/reference/canton-protocol-specification.md) | `wiki/overview/reference/canton-protocol-specification.md` |
@@ -327,12 +327,12 @@
 | ☐ | Transaction Lifecycle | [transaction-lifecycle.md](https://docs.canton.network/overview/reference/transaction-lifecycle.md) | `wiki/overview/reference/transaction-lifecycle.md` |
 | ☐ | Validator Node Components | [validator-node-components.md](https://docs.canton.network/overview/reference/validator-node-components.md) | `wiki/overview/reference/validator-node-components.md` |
 | ☐ | CIP Reference | [what-are-cips.md](https://docs.canton.network/overview/reference/what-are-cips.md) | `wiki/overview/reference/what-are-cips.md` |
-| ☐ | Canton Coin and the Global Synchronizer | [canton-coin.md](https://docs.canton.network/overview/understand/canton-coin.md) | `wiki/overview/understand/canton-coin.md` |
+| ☑ | Canton Coin and the Global Synchronizer | [canton-coin.md](https://docs.canton.network/overview/understand/canton-coin.md) | `wiki/overview/understand/canton-coin.md` |
 | ☑ | Canton's Solution: Three Pillars | [cantons-solution.md](https://docs.canton.network/overview/understand/cantons-solution.md) | `wiki/overview/understand/cantons-solution.md` |
-| ☐ | Canton Improvement Proposals (CIPs) | [cips-introduction.md](https://docs.canton.network/overview/understand/cips-introduction.md) | `wiki/overview/understand/cips-introduction.md` |
+| ☑ | Canton Improvement Proposals (CIPs) | [cips-introduction.md](https://docs.canton.network/overview/understand/cips-introduction.md) | `wiki/overview/understand/cips-introduction.md` |
 | ☑ | Core Concepts | [core-concepts.md](https://docs.canton.network/overview/understand/core-concepts.md) | `wiki/overview/understand/core-concepts.md` |
 | ☑ | Canton Network in 5 Minutes | [five-minute-overview.md](https://docs.canton.network/overview/understand/five-minute-overview.md) | `wiki/overview/understand/five-minute-overview.md` |
-| ☐ | Getting Your App Featured | [getting-app-featured.md](https://docs.canton.network/overview/understand/getting-app-featured.md) | `wiki/overview/understand/getting-app-featured.md` |
+| ☑ | Getting Your App Featured | [getting-app-featured.md](https://docs.canton.network/overview/understand/getting-app-featured.md) | `wiki/overview/understand/getting-app-featured.md` |
 | ☑ | The Global Synchronizer | [global-synchronizer.md](https://docs.canton.network/overview/understand/global-synchronizer.md) | `wiki/overview/understand/global-synchronizer.md` |
 | ☐ | Glossary | [glossary.md](https://docs.canton.network/overview/understand/glossary.md) | `wiki/overview/understand/glossary.md` |
 | ☑ | The Problem Canton Solves | [the-problem.md](https://docs.canton.network/overview/understand/the-problem.md) | `wiki/overview/understand/the-problem.md` |
