@@ -10,7 +10,7 @@ tags: [overview, understand, 입문]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton은 규제 자산과 다자간 워크플로를 위한 프라이버시 보존형 퍼블릭 L1 블록체인으로, 모든 참여자에게 데이터가 공개되는 일반 블록체인과 달리 "선택적 공개"를 제공한다.
-- **핵심 용어**: 부분 트랜잭션 프라이버시(Sub-transaction privacy), 동기화자(Synchronizer), 밸리데이터(Validator), Daml, Canton Coin(CC)
+- **핵심 용어**: <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>(Sub-transaction privacy), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>(Synchronizer), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>(Validator), <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)
 - **선행 개념**: 없음 (입문 페이지). 다음 → 아키텍처([overview/learn/architecture](https://docs.canton.network/overview/learn/architecture)), 프라이버시 모델([overview/learn/privacy-model](https://docs.canton.network/overview/learn/privacy-model))
 
 ---
@@ -19,7 +19,7 @@ tags: [overview, understand, 입문]
 
 > 규제 자산과 다자간 워크플로를 위한 프라이버시 지원 블록체인
 
-Canton Network은 프라이버시 보존 트랜잭션을 위해 설계된 퍼블릭 레이어 1 블록체인이다. 모든 트랜잭션이 모든 참여자에게 보이는 전통적 블록체인과 달리, Canton은 선택적 공개(selective disclosure)를 가능하게 한다 — 각 파티(party)는 자신이 볼 권한이 있는 데이터만 본다.
+Canton Network은 프라이버시 보존 트랜잭션을 위해 설계된 퍼블릭 <abbr class="gloss" title="자체 합의로 트랜잭션을 직접 확정하는 기반 블록체인(L1). 다른 체인에 의존하지 않음">레이어 1</abbr> 블록체인이다. 모든 트랜잭션이 모든 참여자에게 보이는 전통적 블록체인과 달리, Canton은 선택적 공개(selective disclosure)를 가능하게 한다 — 각 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>(party)는 자신이 볼 권한이 있는 데이터만 본다.
 
 ## 60초 요약 (The 60-Second Pitch)
 
@@ -38,7 +38,7 @@ Canton은 다음을 제공한다:
 
 규제 금융에서 이는 시작조차 불가능한 조건이다. 포지션 가시성은 선행매매(front-running)를 가능하게 한다. 트랜잭션 패턴은 거래 전략을 드러낸다. 규정 준수 요건상 특정 데이터를 권한 없는 당사자와 공유하는 것이 금지될 수 있다.
 
-Canton은 **어떤 데이터가 어디로 분산되는지**를 근본적으로 바꿔 이 문제를 해결한다. 대부분의 블록체인에서는 모든 상태와 트랜잭션이 모든 노드로 복제된다. Canton에서는 상태와 트랜잭션이 스마트 컨트랙트에 명시된 노드로만 분산된다. 이것은 추가된 프라이버시 계층(bolt-on)이 아니라 핵심 아키텍처 원칙이다.
+Canton은 **어떤 데이터가 어디로 분산되는지**를 근본적으로 바꿔 이 문제를 해결한다. 대부분의 블록체인에서는 모든 상태와 트랜잭션이 모든 노드로 복제된다. Canton에서는 상태와 트랜잭션이 스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>에 명시된 노드로만 분산된다. 이것은 추가된 프라이버시 계층(bolt-on)이 아니라 핵심 아키텍처 원칙이다.
 
 ## Canton은 무엇이 다른가
 
@@ -95,7 +95,7 @@ flowchart TB
 
 **주요 구성 요소:**
 
-* **글로벌 동기화자(Global Synchronizer)**: 슈퍼 밸리데이터가 운영하는 퍼블릭 조율 계층
+* **<abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>(Global Synchronizer)**: <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 운영하는 퍼블릭 조율 계층
 * **Canton Coin (CC)**: 트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰
 * **밸리데이터(Validators)**: 파티를 호스팅하고 그들의 컨트랙트 데이터를 저장하는 참여자 노드
 * **애플리케이션(Applications)**: 당신이 만드는 것 — Ledger API를 통해 밸리데이터에 연결된다

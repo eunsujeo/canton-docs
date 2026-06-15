@@ -6,6 +6,8 @@
   <title>Canton 한국어 위키</title>
   <meta name="description" content="Canton Network 공식 문서 한국어 번역 — 개발자용 지식베이스" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tippy.js@6/themes/light-border.css" />
   <style>
     :root { --theme-color: #2c5fff; }
     .sidebar { font-size: 14.5px; }
@@ -20,6 +22,8 @@
       overflow: hidden; resize: vertical;
     }
     .mermaid.zoom-box svg { max-width: none; width: 100%; height: 100%; cursor: grab; }
+    /* 용어 tooltip: 점선 밑줄 + 도움 커서 */
+    abbr.gloss { text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; }
   </style>
 </head>
 <body>
@@ -51,13 +55,13 @@
       },
       plugins: [
         function (hook) {
-          // 페이지가 그려질 때마다 mermaid 렌더 + pan/zoom 부착
+          // 페이지가 그려질 때마다: 용어 tooltip 초기화 + mermaid 렌더 + pan/zoom
           hook.doneEach(function () {
+            attachTooltips();
             if (!window.mermaid) return;
             try {
               window.mermaid.run({ querySelector: '.mermaid' }).then(attachZoom).catch(function(){});
             } catch (e) {
-              // 구버전 호환
               try { window.mermaid.init(undefined, '.mermaid'); } catch (e2) {}
               setTimeout(attachZoom, 300);
             }
@@ -65,6 +69,15 @@
         }
       ]
     };
+
+    // 용어(abbr.gloss)에 tippy 툴팁 부착 (title 속성을 내용으로 사용)
+    function attachTooltips() {
+      if (!window.tippy) return;
+      window.tippy('abbr.gloss', {
+        theme: 'light-border', allowHTML: false, maxWidth: 320,
+        delay: [120, 0], placement: 'top'
+      });
+    }
 
     // 각 mermaid SVG에 마우스 휠 줌 + 드래그 이동
     function attachZoom() {
@@ -97,6 +110,8 @@
   <!-- mermaid v10 (UMD) + 다이어그램 줌/이동 -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <!-- 용어 tooltip (popper 포함 번들) -->
+  <script src="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
   <script>window.mermaid && mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' });</script>
 </body>
 </html>

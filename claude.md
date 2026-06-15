@@ -95,6 +95,7 @@ tags: [overview, ...]   # 섹션/주제
 - **Docsify (웹)**: `wiki/index.html`이 셸. 로컬은 `cd wiki && python3 -m http.server 4500`, 웹은 GitHub Pages(`/wiki`) 배포. 검색·mermaid·코드복사 플러그인 포함.
 - 번역 페이지 간 교차링크는 **상대경로 마크다운 링크**로 작성한다(Obsidian·Docsify 둘 다 해석). 미번역 대상 링크만 원문 URL 유지.
 - 새 페이지를 추가하면 `cd wiki && python3 scripts/gen_sidebar.py`로 Docsify `_sidebar.md`를 재생성한다(translate-canton이 자동 수행).
+- **용어 tooltip**: `glossary.md`의 "툴팁 정의" 표 → `cd wiki && python3 scripts/gen_tooltips.py`가 각 페이지 첫 등장 용어에 `<abbr class="gloss" title="정의">` 삽입. 웹은 tippy.js, Obsidian은 네이티브 title 툴팁. 멱등(반복 실행 안전).
 
 ## 진행 상황 확인
 - 남은 작업: `grep -c "| ☐ |" wiki/sources.md`

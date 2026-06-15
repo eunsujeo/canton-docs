@@ -15,3 +15,10 @@ svg[id^="mermaid-"] {
   max-width: 100% !important;
   height: auto !important;
 }
+
+/* 용어 tooltip: 점선 밑줄 + 도움 커서. Obsidian은 abbr title 네이티브 툴팁 표시 */
+abbr.gloss {
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: help;
+}
