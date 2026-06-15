@@ -23,7 +23,7 @@ Canton을 이해하려면 네 가지 기본 개념을 파악해야 한다: **파
 
 ## 파티 (Parties)
 
-**파티**는 Canton의 온-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>(on-ledger) 신원으로, 다른 블록체인의 주소나 계정과 유사하지만 명시적 권한 의미론(authorization semantics)을 갖는다.
+**파티**는 Canton의 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr>(on-ledger) 신원으로, 다른 블록체인의 주소나 계정과 유사하지만 명시적 권한 의미론(authorization semantics)을 갖는다.
 
 ### 파티 식별자 형식
 
@@ -110,7 +110,7 @@ flowchart TB
 
 ### 주요 특성
 
-* 각 밸리데이터는 원장의 **국소적·사적 <abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>**(*활성 컨트랙트 집합, Active Contract Set*이라 부름)를 유지한다
+* 각 밸리데이터는 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>의 **국소적·사적 <abbr class="gloss" title="한 트랜잭션을 당사자별로 나눈 조각. 각 당사자는 자기 권한에 해당하는 뷰(자기 몫)만 받아 본다">뷰</abbr>**(*활성 컨트랙트 집합, Active Contract Set*이라 부름)를 유지한다
 * 밸리데이터는 자신이 호스팅하는 파티가 이해관계자인 컨트랙트만 저장한다
 * 하나의 밸리데이터에 여러 파티를 호스팅할 수 있다
 * 밸리데이터는 여러 Synchronizer에 연결할 수 있다

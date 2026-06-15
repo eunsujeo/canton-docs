@@ -85,9 +85,9 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 
 ## 수수료 스케줄과 라운드 스냅숏
 
-수수료 파라미터는 **`AmuletRules`** 컨트랙트에 저장되며, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>가 온-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr> 투표로 거버넌스한다. 새 마이닝 라운드가 열리면, 현재 수수료 값과 환율이 **`OpenMiningRound`** 컨트랙트로 스냅숏되어 그 라운드 내 모든 트랜잭션이 일관된 가격을 쓰게 한다. 라운드가 단계를 거치며, **`IssuingMiningRound`** 컨트랙트가 각 보상 유형에 대한 활동 가중치당 발행량을 기록한다.
+수수료 파라미터는 **`AmuletRules`** 컨트랙트에 저장되며, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>가 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 투표로 거버넌스한다. 새 마이닝 라운드가 열리면, 현재 수수료 값과 환율이 **`OpenMiningRound`** 컨트랙트로 스냅숏되어 그 라운드 내 모든 트랜잭션이 일관된 가격을 쓰게 한다. 라운드가 단계를 거치며, **`IssuingMiningRound`** 컨트랙트가 각 보상 유형에 대한 활동 가중치당 발행량을 기록한다.
 
-[CIP-0078](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0078/cip-0078.md)은 CC 이전과 잠금에 대한 거의 모든 수수료를 없앴다. 보유 수수료(holding fee)는 남는다 — 코인 양과 무관하게 별도 코인 컨트랙트(UTXO)당 단위 시간당 고정 수수료다. 보유 수수료는 온-원장 저장을 줄이기 위해 작은 코인을 병합하도록 유도한다. 이전 중이 아니라 `Amulet_Expire`를 통해 만료된 코인 컨트랙트에만 부과된다.
+[CIP-0078](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0078/cip-0078.md)은 CC 이전과 잠금에 대한 거의 모든 수수료를 없앴다. 보유 수수료(holding fee)는 남는다 — 코인 양과 무관하게 별도 코인 컨트랙트(UTXO)당 단위 시간당 고정 수수료다. 보유 수수료는 온-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr> 저장을 줄이기 위해 작은 코인을 병합하도록 유도한다. 이전 중이 아니라 `Amulet_Expire`를 통해 만료된 코인 컨트랙트에만 부과된다.
 
 ## CC-USD 환율
 

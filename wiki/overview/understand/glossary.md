@@ -279,7 +279,7 @@ Canton Network의 프로덕션 환경. 경제 가치가 있는 실제 Canton Coi
 
 ### 파티 (Party)
 
-Canton의 온-원장 신원으로, 주소나 계정과 유사하다. `name::fingerprint` 형식이며, 지문은 파티의 공개키에서 파생된다.
+Canton의 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 신원으로, 주소나 계정과 유사하다. `name::fingerprint` 형식이며, 지문은 파티의 공개키에서 파생된다.
 
 **관련**: 로컬 파티, 외부 파티, 서명자
 

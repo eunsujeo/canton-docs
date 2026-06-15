@@ -53,7 +53,7 @@ tags: [overview, reference, DvP, 재할당]
 
 ### 1단계: 거래 조건 합의
 
-Alice와 Bob이 DvP 거래에 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>한다(오프-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>으로, 또는 `TradeAgreement` 컨트랙트를 통해). 조건은 어떤 현금 컨트랙트와 어떤 증권 컨트랙트가 교환될지 명시한다.
+Alice와 Bob이 DvP 거래에 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>한다(<abbr class="gloss" title="원장 밖, 내 백엔드 인프라에서 실행되는 것. 외부 API·UI·복잡 계산 등 나만 처리">오프-원장</abbr>으로, 또는 `TradeAgreement` 컨트랙트를 통해). 조건은 어떤 현금 컨트랙트와 어떤 증권 컨트랙트가 교환될지 명시한다.
 
 ### 2단계: Settlement Sync에 연결
 
