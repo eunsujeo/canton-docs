@@ -295,7 +295,7 @@
 |---|---|---|---|
 | ☑ | Architecture Overview | [architecture.md](https://docs.canton.network/overview/learn/architecture.md) | `wiki/overview/learn/architecture.md` |
 | ☐ | Cryptographic keys in Canton | [cryptographic-keys.md](https://docs.canton.network/overview/learn/cryptographic-keys.md) | `wiki/overview/learn/cryptographic-keys.md` |
-| ☐ | Global Synchronizer Architecture | [global-synchronizer-architecture.md](https://docs.canton.network/overview/learn/global-synchronizer-architecture.md) | `wiki/overview/learn/global-synchronizer-architecture.md` |
+| ☑ | Global Synchronizer Architecture | [global-synchronizer-architecture.md](https://docs.canton.network/overview/learn/global-synchronizer-architecture.md) | `wiki/overview/learn/global-synchronizer-architecture.md` |
 | ☑ | How Transactions Work | [how-transactions-work.md](https://docs.canton.network/overview/learn/how-transactions-work.md) | `wiki/overview/learn/how-transactions-work.md` |
 | ☑ | The Ledger Model | [ledger-model.md](https://docs.canton.network/overview/learn/ledger-model.md) | `wiki/overview/learn/ledger-model.md` |
 | ☐ | Multi-Synchronizer Architecture | [multi-synchronizer.md](https://docs.canton.network/overview/learn/multi-synchronizer.md) | `wiki/overview/learn/multi-synchronizer.md` |
@@ -333,7 +333,7 @@
 | ☑ | Core Concepts | [core-concepts.md](https://docs.canton.network/overview/understand/core-concepts.md) | `wiki/overview/understand/core-concepts.md` |
 | ☑ | Canton Network in 5 Minutes | [five-minute-overview.md](https://docs.canton.network/overview/understand/five-minute-overview.md) | `wiki/overview/understand/five-minute-overview.md` |
 | ☐ | Getting Your App Featured | [getting-app-featured.md](https://docs.canton.network/overview/understand/getting-app-featured.md) | `wiki/overview/understand/getting-app-featured.md` |
-| ☐ | The Global Synchronizer | [global-synchronizer.md](https://docs.canton.network/overview/understand/global-synchronizer.md) | `wiki/overview/understand/global-synchronizer.md` |
+| ☑ | The Global Synchronizer | [global-synchronizer.md](https://docs.canton.network/overview/understand/global-synchronizer.md) | `wiki/overview/understand/global-synchronizer.md` |
 | ☐ | Glossary | [glossary.md](https://docs.canton.network/overview/understand/glossary.md) | `wiki/overview/understand/glossary.md` |
 | ☑ | The Problem Canton Solves | [the-problem.md](https://docs.canton.network/overview/understand/the-problem.md) | `wiki/overview/understand/the-problem.md` |
 | ☑ | Use Cases | [use-cases.md](https://docs.canton.network/overview/understand/use-cases.md) | `wiki/overview/understand/use-cases.md` |

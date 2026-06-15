@@ -36,6 +36,8 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - [트랜잭션 작동 방식](overview/learn/how-transactions-work.md) — 제출→순서화·분배→검증·확인→커밋 4단계 생애주기.
 - [프라이버시 모델 설명](overview/learn/privacy-model.md) — 뷰 분해, 가시성 규칙, 디벌전스, 프라이버시 패턴·실수·체크리스트.
 - [신뢰 모델 개요](overview/learn/trust-model.md) — 선택적 신뢰의 5개 영역과 완화책, 탈중앙화 옵션.
+- [글로벌 동기화자](overview/understand/global-synchronizer.md) — SV(DSO)가 운영하는 퍼블릭 백본, Canton Coin·트래픽, 4개 환경, 거버넌스·Splice·업그레이드.
+- [글로벌 동기화자 아키텍처](overview/learn/global-synchronizer-architecture.md) — 분산 시퀀서·미디에이터의 BFT 합의, 트랜잭션 흐름, SV 1/3 미만 결함 허용.
 
 ### appdev — 앱 개발자 가이드
 _(아직 없음)_
