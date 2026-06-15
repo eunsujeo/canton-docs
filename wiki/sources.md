@@ -233,7 +233,7 @@
 | ☐ | Canton Security Configuration | [security-configuration.md](https://docs.canton.network/global-synchronizer/reference/security-configuration.md) | `wiki/global-synchronizer/reference/security-configuration.md` |
 | ☐ | Canton | [canton.md](https://docs.canton.network/global-synchronizer/release-notes/canton.md) | `wiki/global-synchronizer/release-notes/canton.md` |
 | ☐ | Splice | [splice.md](https://docs.canton.network/global-synchronizer/release-notes/splice.md) | `wiki/global-synchronizer/release-notes/splice.md` |
-| ☑ | Glossary | [glossary.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/glossary.md) | `wiki/global-synchronizer/splice-fundamentals/glossary.md` |
+| ☐ | Glossary | [glossary.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/glossary.md) | `wiki/global-synchronizer/splice-fundamentals/glossary.md` |
 | ☐ | Minting Delegations | [rewards-minting.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/rewards-minting.md) | `wiki/global-synchronizer/splice-fundamentals/rewards-minting.md` |
 | ☐ | Super Validator Rewards | [sv-live-tokenomics.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/sv-live-tokenomics.md) | `wiki/global-synchronizer/splice-fundamentals/sv-live-tokenomics.md` |
 | ☐ | Development Fund | [validator-development-fund.md](https://docs.canton.network/global-synchronizer/splice-fundamentals/validator-development-fund.md) | `wiki/global-synchronizer/splice-fundamentals/validator-development-fund.md` |
@@ -334,7 +334,7 @@
 | ☑ | Canton Network in 5 Minutes | [five-minute-overview.md](https://docs.canton.network/overview/understand/five-minute-overview.md) | `wiki/overview/understand/five-minute-overview.md` |
 | ☑ | Getting Your App Featured | [getting-app-featured.md](https://docs.canton.network/overview/understand/getting-app-featured.md) | `wiki/overview/understand/getting-app-featured.md` |
 | ☑ | The Global Synchronizer | [global-synchronizer.md](https://docs.canton.network/overview/understand/global-synchronizer.md) | `wiki/overview/understand/global-synchronizer.md` |
-| ☐ | Glossary | [glossary.md](https://docs.canton.network/overview/understand/glossary.md) | `wiki/overview/understand/glossary.md` |
+| ☑ | Glossary | [glossary.md](https://docs.canton.network/overview/understand/glossary.md) | `wiki/overview/understand/glossary.md` |
 | ☑ | The Problem Canton Solves | [the-problem.md](https://docs.canton.network/overview/understand/the-problem.md) | `wiki/overview/understand/the-problem.md` |
 | ☑ | Use Cases | [use-cases.md](https://docs.canton.network/overview/understand/use-cases.md) | `wiki/overview/understand/use-cases.md` |
 | ☑ | What is Canton Network? | [what-is-canton.md](https://docs.canton.network/overview/understand/what-is-canton.md) | `wiki/overview/understand/what-is-canton.md` |

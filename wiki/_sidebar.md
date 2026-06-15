@@ -8,6 +8,8 @@
   - [학습 경로 선택](appdev/get-started/choose-your-path.md)
   - [모듈 1 — Canton 이해](appdev/modules/m1-understanding-canton.md)
   - [블록체인 개발자를 위한 Canton (모듈 2)](appdev/modules/m2-canton-for-ethereum-devs.md)
+- **next-step.md**
+  - [Next Step — 남은 번역 작업과 읽는 순서](next-step.md)
 - **정리 노트 (Notes)**
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
 - **개요 (Overview)**
