@@ -111,7 +111,7 @@ Canton은 개인 네임스페이스 키 저장에 다음 옵션을 지원한다:
 
 * 시퀀서 서버 인증: 시퀀서는 클라이언트에게 보내는 모든 이벤트에 서명한다.
 
-* Ledger API 커맨드를 처리할 때, 참여자 노드는 서명 키를 써서 트랜잭션·<abbr class="gloss" title="컨트랙트를 한 동기화자에서 다른 동기화자로 옮기는 프로토콜">재할당</abbr> 프로토콜의 일부로 보내는 메시지에 서명·인증한다. 여기에는 <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 트랜잭션 처리와 재할당이 모두 포함된다.
+* Ledger API 커맨드를 처리할 때, 참여자 노드는 서명 키를 써서 트랜잭션·<abbr class="gloss" title="컨트랙트를 한 Synchronizer에서 다른 Synchronizer로 옮기는 프로토콜">재할당</abbr> 프로토콜의 일부로 보내는 메시지에 서명·인증한다. 여기에는 <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 트랜잭션 처리와 재할당이 모두 포함된다.
 
 * 시퀀서는 ordering 프로토콜의 일부로 메시지를 교환한다. 그런 메시지의 발신자를 인증하는 데 서명 키를 쓴다.
 
@@ -149,5 +149,5 @@ Canton은 다음 API에서 토큰을 사용한다:
 
 <!-- nav:start -->
 ---
-<sub>⬅️ **이전**: [아키텍처 개요](architecture.md) ・ ➡️ **다음**: [글로벌 동기화자 아키텍처](global-synchronizer-architecture.md)</sub>
+<sub>⬅️ **이전**: [아키텍처 개요](architecture.md) ・ ➡️ **다음**: [글로벌 Synchronizer 아키텍처](global-synchronizer-architecture.md)</sub>
 <!-- nav:end -->

@@ -138,10 +138,10 @@ message PartyToParticipant {
 로컬과 외부 파티의 차이는, 외부 파티의 경우 트랜잭션 인가에 쓰이는 개인키를 파티가 단독 통제한다는 것이다(로컬 파티는 SPN이 그 키를 통제). 대신 외부 파티는 각 트랜잭션 제출에 자기 개인키로 명시적으로 서명한다. 더 구체적으로, 트랜잭션이 원장에 성공적으로 커밋되면 가질 모든 원장 효과를 정확히 나타내는 트랜잭션 트리의 해시에 서명한다. 이 트랜잭션 생성에는 무엇보다 복잡한 로직, Daml 해석 엔진, 최신 토폴로지, ACS 지식이 필요하다. 과정을 단순화하기 위해, 외부 파티의 제출 흐름은 두 단계로 나뉜다:
 
 * **준비(Preparation)**: Ledger API 커맨드를 Daml 트랜잭션으로 변환.
-  이 단계는 트랜잭션의 선택 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>와 트랜잭션이 요구하는 패키지에 연결된 임의의 참여자 노드가 수행할 수 있다. 그런 노드를 **준비 참여자 노드(Preparing Participant Node, PPN)** 라 한다. 파티를 대신해 트랜잭션을 준비하려면 파티에 대한 `readAs` 범위를 가진 Ledger API 사용자가 필요하다.
+  이 단계는 트랜잭션의 선택 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>와 트랜잭션이 요구하는 패키지에 연결된 임의의 참여자 노드가 수행할 수 있다. 그런 노드를 **준비 참여자 노드(Preparing Participant Node, PPN)** 라 한다. 파티를 대신해 트랜잭션을 준비하려면 파티에 대한 `readAs` 범위를 가진 Ledger API 사용자가 필요하다.
 
-* **실행(Execution)**: 트랜잭션과 그 서명이 트랜잭션이 실행될 동기화자에 연결된 참여자 노드로 전송됨.
-  이 참여자 노드는 단순히 트랜잭션을 동기화자로 전달한다. 그런 노드를 **실행 참여자 노드(Executing Participant Node, EPN)** 라 한다. 파티를 대신해 트랜잭션을 실행하려면 파티에 대한 `actAs` 범위를 가진 Ledger API 사용자가 필요하다.
+* **실행(Execution)**: 트랜잭션과 그 서명이 트랜잭션이 실행될 Synchronizer에 연결된 참여자 노드로 전송됨.
+  이 참여자 노드는 단순히 트랜잭션을 Synchronizer로 전달한다. 그런 노드를 **실행 참여자 노드(Executing Participant Node, EPN)** 라 한다. 파티를 대신해 트랜잭션을 실행하려면 파티에 대한 `actAs` 범위를 가진 Ledger API 사용자가 필요하다.
 
 이것이 제출 경로다. 읽기 경로(원장에 커밋된 트랜잭션 관찰)에서, 외부 파티는 CPN이나 OPN에서 트랜잭션 스트림을 읽을 수 있다. 추가 보안을 위해 여러 곳에서 읽고 임계값으로 결과를 교차 비교해 비잔틴 장애 허용을 달성할 수 있다.
 
@@ -251,10 +251,10 @@ sequenceDiagram
 
   * 트랜잭션이 사용자가 생성하려는 원장 효과에 대응한다
 
-  * 준비 시간이 동기화자의 현재 시퀀서 시간보다 앞서지 않는다. 이를 신뢰성 있게 확인하려면 `preparation_time`을 다음의 최솟값과 비교한다:
+  * 준비 시간이 Synchronizer의 현재 시퀀서 시간보다 앞서지 않는다. 이를 신뢰성 있게 확인하려면 `preparation_time`을 다음의 최솟값과 비교한다:
 
     > * 제출 애플리케이션의 벽시계 시간
-    > * 적어도 참여자 임계값 수의 CPN이 방출한 마지막 기록 시간 + 동기화자의 구성된 `mediatorDeduplicationTimeout`
+    > * 적어도 참여자 임계값 수의 CPN이 방출한 마지막 기록 시간 + Synchronizer의 구성된 `mediatorDeduplicationTimeout`
 
     * prepare 요청에 min_ledger_time이 정의되면, 응답의 min_ledger_effective_time이 비어 있거나 요청된 `min_ledger_time`보다 앞서는지 검증한다.
 

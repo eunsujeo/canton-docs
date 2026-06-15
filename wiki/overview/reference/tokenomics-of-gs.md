@@ -1,5 +1,5 @@
 ---
-title: 글로벌 동기화자의 토크노믹스
+title: 글로벌 Synchronizer의 토크노믹스
 source: https://docs.canton.network/overview/reference/tokenomics-of-gs
 translated: 2026-06-15
 status: done
@@ -9,29 +9,29 @@ tags: [overview, reference, 토크노믹스]
 > **출처(원문)**: [Tokenomics of the Global Synchronizer](https://docs.canton.network/overview/reference/tokenomics-of-gs) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>를 지탱하는 경제 모델 — 소각-발행 균형(burn-mint equilibrium), 트래픽 경제(무료 베이스 + 유료 추가), 보상 분배(5개 활동 레코드), 발행 곡선, 수수료·라운드 스냅숏, CC-USD 환율, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 수익 방식.
+- **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>를 지탱하는 경제 모델 — 소각-발행 균형(burn-mint equilibrium), 트래픽 경제(무료 베이스 + 유료 추가), 보상 분배(5개 활동 레코드), 발행 곡선, 수수료·라운드 스냅숏, CC-USD 환율, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 수익 방식.
 - **핵심 용어**: 소각-발행 균형, AmuletRules, burstAmount/burstWindow, RewardCoupon, OpenMiningRound, amuletPrice
 - **선행 개념**: [Canton Coin](../understand/canton-coin.md), [Canton Coin 토크노믹스](canton-coin-tokenomics.md).
 
 ---
 
-# 글로벌 동기화자의 토크노믹스
+# 글로벌 Synchronizer의 토크노믹스
 
-> 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>를 지탱하는 경제 모델: 트래픽 수수료, 보상 분배, 발행, CC-USD 환율
+> 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>를 지탱하는 경제 모델: 트래픽 수수료, 보상 분배, 발행, CC-USD 환율
 
-<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 글로벌 동기화자의 경제 엔진이다. 밸리데이터, <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>, 애플리케이션 제공자는 네트워크에 인프라와 활동을 기여해 CC를 번다. 사용자는 동기화자 트래픽을 구매하기 위해 CC를 (소각해) 쓴다. 그 결과인 소각-발행 균형(burn-mint equilibrium)이 토큰의 가치를 실제 네트워크 유틸리티에 연결한다.
+<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 글로벌 Synchronizer의 경제 엔진이다. 밸리데이터, <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>, 애플리케이션 제공자는 네트워크에 인프라와 활동을 기여해 CC를 번다. 사용자는 Synchronizer 트래픽을 구매하기 위해 CC를 (소각해) 쓴다. 그 결과인 소각-발행 균형(burn-mint equilibrium)이 토큰의 가치를 실제 네트워크 유틸리티에 연결한다.
 
 ## 소각-발행 균형 (Burn-Mint Equilibrium)
 
 Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해, Canton Coin이 네트워크 사용자에게 제공하는 내재 가치 부근으로 환율을 안정화하는 것을 목표로 한다:
 
-* **수수료 소각** — 사용자는 동기화자 트래픽을 구매할 때 수수료(USD로 표시되지만 Canton Coin을 소각해 지불)를 낸다. 소각된 코인은 유통에서 영구히 제거된다.
+* **수수료 소각** — 사용자는 Synchronizer 트래픽을 구매할 때 수수료(USD로 표시되지만 Canton Coin을 소각해 지불)를 낸다. 소각된 코인은 유통에서 영구히 제거된다.
 * **발행 보상** — 밸리데이터, 슈퍼 밸리데이터, 애플리케이션 제공자는 네트워크 기여(인프라 운영, 애플리케이션 서비스, 사용, 라이브니스)의 대가로 새 CC를 발행(mint)한다.
 * **동적 균형** — 장기적으로, 소각된 총 CC(실제 네트워크 유틸리티 반영)는 발행된 CC(미리 정해진 최대 발행 곡선 하에서)와 대략 균형을 이룬다. 사용이 많으면 더 많은 코인이 소각되어 토큰 환율을 올리는 경향이 있고, 사용이 적으면 균형이 회복될 때까지 공급이 늘어난다.
 
 ## 트래픽 경제
 
-글로벌 동기화자에 제출되는 모든 메시지는 트래픽을 소비한다. 보내는 밸리데이터가 부과되며, 수신자는 부과되지 않는다.
+글로벌 Synchronizer에 제출되는 모든 메시지는 트래픽을 소비한다. 보내는 밸리데이터가 부과되며, 수신자는 부과되지 않는다.
 
 ### 베이스 레이트 할당 (무료 등급)
 
@@ -112,5 +112,5 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 
 <!-- nav:start -->
 ---
-<sub>⬅️ **이전**: [동기화자 (Synchronizer) 개요](synchronizer-overview.md) ・ ➡️ **다음**: [토폴로지 (Topology)](topology.md)</sub>
+<sub>⬅️ **이전**: [Synchronizer 개요](synchronizer-overview.md) ・ ➡️ **다음**: [토폴로지 (Topology)](topology.md)</sub>
 <!-- nav:end -->

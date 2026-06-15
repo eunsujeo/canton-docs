@@ -92,7 +92,7 @@ flowchart LR
 이 모듈을 마치면 다음을 이해하게 된다:
 
 1. Canton의 프라이버시 모델을 어떻게 생각해야 하는지
-2. 파티, 밸리데이터, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 사이의 관계
+2. 파티, 밸리데이터, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 사이의 관계
 3. 트랜잭션이 시스템을 통해 흐르는 방식
 4. 개발에 사용할 도구
 

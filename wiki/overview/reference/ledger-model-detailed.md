@@ -9,7 +9,7 @@ tags: [overview, reference, 원장모델, 프로토콜, 형식명세]
 > **출처(원문)**: [Ledger Model (Detailed)](https://docs.canton.network/overview/reference/ledger-model-detailed) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton 원장 모델의 형식 명세 — 구조(액션·트랜잭션·커밋·원장), 유효성(일관성·적합성·인가), 프라이버시(인포미·증인·투영·디벌전스·공개), 다중 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 상호운용성(멀티원장 인과성 그래프·원장 인지 투영). DvP 워크플로 예시 중심.
+- **한 줄 요약**: Canton 원장 모델의 형식 명세 — 구조(액션·트랜잭션·커밋·원장), 유효성(일관성·적합성·인가), 프라이버시(인포미·증인·투영·디벌전스·공개), 다중 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 상호운용성(멀티원장 인과성 그래프·원장 인지 투영). DvP 워크플로 예시 중심.
 - **핵심 용어**: 액션(Create/Exercise/Fetch)·트랜잭션·커밋, 일관성·적합성·인가, <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/액터, 인포미·증인·투영, 디벌전스·공개, 멀티원장 인과성 그래프
 - **선행 개념**: [원장 모델](../learn/ledger-model.md), [프라이버시 모델](../learn/privacy-model.md), [인과성과 시간](ledger-causality.md).
 - **참고**: 원문 첨자(actₙ, cₙ, txₙ 등)는 act1, c1, tx1 형태로 표기. 다수의 도식은 원문 이미지를 그대로 포함.
@@ -656,7 +656,7 @@ proposeDvP2 <- submit alice $ do
 
 ---
 
-# 동기화자 인지 투영 (Synchronizer-aware projection)
+# Synchronizer 인지 투영 (Synchronizer-aware projection)
 
 특정 Daml 원장은 다른 Daml 원장과 상호운용할 수 있다. 즉, 한 원장에서 생성된 컨트랙트가 다른 원장의 트랜잭션에서 쓰이고 보관될 수 있다. 일부 참여자 노드는 여러 원장에 연결해 Ledger API로 그 원장에 대한 통합 접근을 파티에 제공할 수 있다. 예컨대 조직이 처음에 두 워크플로를 두 Daml 원장에 배포하면, 나중에 그것들을 두 원장에 걸친 더 큰 워크플로로 조합할 수 있다.
 

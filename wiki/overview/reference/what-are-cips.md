@@ -27,9 +27,9 @@ CIP에 대한 입문 개요와 그 중요성은 [CIP 소개](../understand/cips-
 
 각 CIP는 다섯 범주 중 하나에 속한다:
 
-* **Standards Track** — <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr> 구현에 영향을 주는 기술 명세와 프로토콜 변경. Final 상태에 도달하기 전에 설계 문서와 레퍼런스 구현을 요구한다.
-* **Governance** — <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 권리, 투표 가중치, 기초 거버넌스 규칙(온체인 투표 절차 포함)을 정의·수정하는 제안.
-* **Tokenomics** — 보상 구조, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> 수수료, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 트래픽 가격에 대한 변경.
+* **Standards Track** — <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr> 구현에 영향을 주는 기술 명세와 프로토콜 변경. Final 상태에 도달하기 전에 설계 문서와 레퍼런스 구현을 요구한다.
+* **Governance** — <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 권리, 투표 가중치, 기초 거버넌스 규칙(온체인 투표 절차 포함)을 정의·수정하는 제안.
+* **Tokenomics** — 보상 구조, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> 수수료, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 트래픽 가격에 대한 변경.
 * **Process** — 워크플로·도구 조정, 또는 CIP 절차 자체에 관한 메타-CIP. 보통 커뮤니티 합의가 적용된다.
 * **Informational** — 일반 설계 지침이나 권고. Informational CIP는 채택을 요구하지 않으며 구속력이 없다.
 

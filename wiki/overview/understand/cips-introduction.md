@@ -11,7 +11,7 @@ tags: [overview, understand, 거버넌스, CIP]
 ## 📌 개발자 노트
 - **한 줄 요약**: CIP는 Canton Network에 변경·표준·개선을 제안하는 공식 메커니즘. CIP 유형, 핵심 CIP(CIP-0056 토큰 표준), 생애주기, 제안 주체, 구현·기여 방법.
 - **핵심 용어**: CIP(Canton 개선 제안), Standards Track/Process/Informational, CIP-0056 토큰 표준, Holding/Transfer/Lock 인터페이스
-- **선행 개념**: [글로벌 동기화자](global-synchronizer.md). 다음 → [앱 피처드 되기](getting-app-featured.md)
+- **선행 개념**: [글로벌 Synchronizer](global-synchronizer.md). 다음 → [앱 피처드 되기](getting-app-featured.md)
 
 ---
 
@@ -77,7 +77,7 @@ CIP는 다음을 보장한다:
 
 CIP는 다음이 제안할 수 있다:
 
-* <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>
+* <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>
 * 커뮤니티 구성원
 * 개발팀
 * 생태계 참여자

@@ -10,7 +10,7 @@ tags: [overview, understand, 프라이버시, 아키텍처]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton은 ①<abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> ②<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 합의 증명 ③가시성 없는 동기화 — 세 기둥으로 프라이버시와 무결성을 동시에 달성한다.
-- **핵심 용어**: 뷰(view) 분해, 이해관계자 합의(Proof of stakeholder), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>(Synchronizer), 시퀀서(Sequencer)·미디에이터(Mediator), 컨트롤러(controller)
+- **핵심 용어**: 뷰(view) 분해, 이해관계자 합의(Proof of stakeholder), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, 시퀀서(Sequencer)·미디에이터(Mediator), 컨트롤러(controller)
 - **선행 개념**: [Canton이 푸는 문제](the-problem.md). 다음 → [핵심 개념](https://docs.canton.network/overview/understand/core-concepts)
 
 ---
@@ -34,7 +34,7 @@ Canton의 핵심 혁신은 **부분 트랜잭션 프라이버시(sub-transaction
 
 1. **분해(Decomposition)**: 트랜잭션이 이해관계자 관계에 따라 여러 뷰로 분할된다
 2. **암호화(Encryption)**: 각 뷰는 특정 수신자를 위해 암호화된다
-3. **분배(Distribution)**: 동기화자는 각 참여자에게 권한 있는 뷰만 전달한다
+3. **분배(Distribution)**: Synchronizer는 각 참여자에게 권한 있는 뷰만 전달한다
 4. **검증(Validation)**: 각 참여자는 자신의 뷰를 독립적으로 검증한다
 5. **확인(Confirmation)**: 참여자는 자신의 뷰만으로 확인한다
 
@@ -62,7 +62,7 @@ flowchart LR
 | **Alice** | Bob에게의 자기 지불 | Bob의 Charlie에게의 지불; Charlie의 신원 |
 | **Bob** | 두 지불 모두 (둘 다 관여) | 숨겨진 것 없음 |
 | **Charlie** | Bob으로부터의 수취 | Alice의 관여; 원래 출처 |
-| **동기화자** | 암호화된 메시지만 | 어떤 트랜잭션 내용도 보지 못함 |
+| **Synchronizer** | 암호화된 메시지만 | 어떤 트랜잭션 내용도 보지 못함 |
 
 이것은 단지 데이터를 숨기는 것이 아니라, 정보 흐름에 대해 **수학적으로 강제되는 경계**를 제공하는 것이다.
 
@@ -107,23 +107,23 @@ sequenceDiagram
 * **이중지불 방지**: 세 가지가 함께 막는다 — Alice의 밸리데이터는 Alice의 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>를 추적하고; 존재하지 않는 것은 쓸 수 없으며; 평판 있는 토큰의 예에서는 발행에 발행자의 승인이 필요하다.
   > 💡 풀어 보면: ①소유자 쪽 밸리데이터가 그 컨트랙트가 아직 **활성**인지 안다 → ②없거나 이미 소비된 컨트랙트는 쓸 수 없다(이중지불 불가) → ③새로 발행(생성)하려면 발행자 승인이 필요하다(무에서 찍어낼 수 없음). 직관적 설명은 [노트: eUTXO와 이중지불 방지 — 지폐 비유](../../notes/eutxo-double-spend.md) 참고.
 * **권한 강제**: 컨트롤러로 선언된 당사자만 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>를 실행할 수 있다
-* **일관성**: 동기화자는 모든 당사자가 일관된 이벤트 순서를 보도록 보장한다
+* **일관성**: Synchronizer는 모든 당사자가 일관된 이벤트 순서를 보도록 보장한다
 * **원자성(Atomicity)**: 관련된 모든 당사자가 확인하거나, 아니면 트랜잭션이 거부된다
 
 ## 기둥 3: 가시성 없는 동기화
 
-**동기화자**(시퀀서 + 미디에이터 노드)는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 확인을 동기화한다.
+**Synchronizer**(시퀀서 + 미디에이터 노드)는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 확인을 동기화한다.
 
-### 동기화자가 하는 일
+### Synchronizer가 하는 일
 
-| 기능 | 설명 |
-| --- | --- |
-| **순서화(Ordering)** | 트랜잭션·이벤트에 타임스탬프와 전체 순서를 부여 |
-| **분배(Distribution)** | 암호화된 뷰를 권한 있는 참여자에게 라우팅 |
-| **중재(Mediation)** | 확인을 수집하고 결과를 선언 |
-| **일관성(Consistency)** | 모든 참여자가 같은 순서를 보도록 보장 |
+| 기능                   | 설명                         |
+| -------------------- | -------------------------- |
+| **순서화(Ordering)**    | 트랜잭션·이벤트에 타임스탬프와 전체 순서를 부여 |
+| **분배(Distribution)** | 암호화된 뷰를 권한 있는 참여자에게 라우팅    |
+| **중재(Mediation)**    | 확인을 수집하고 결과를 선언            |
+| **일관성(Consistency)** | 모든 참여자가 같은 순서를 보도록 보장      |
 
-### 동기화자가 할 수 없는 일
+### Synchronizer가 할 수 없는 일
 
 | 한계 | 보장 |
 | --- | --- |
@@ -154,17 +154,17 @@ flowchart TB
 
 ### 신뢰 모델
 
-동기화자의 제한된 능력은 한계가 아니라 **기능**이다:
+Synchronizer의 제한된 능력은 한계가 아니라 **기능**이다:
 
-* 데이터에 관해 **동기화자를 신뢰할 필요가 없다** — 읽을 수 없기 때문이다
-* 순서화와 가용성에 대해서는 **동기화자를 신뢰한다**
-* 동기화자는 자신이 동기화하는 것을 볼 수 없으므로 **부정행위를 할 수 없다**
+* 데이터에 관해 **Synchronizer를 신뢰할 필요가 없다** — 읽을 수 없기 때문이다
+* 순서화와 가용성에 대해서는 **Synchronizer를 신뢰한다**
+* Synchronizer는 자신이 동기화하는 것을 볼 수 없으므로 **부정행위를 할 수 없다**
 
 이러한 관심사의 분리가 의미하는 바:
 
 * 프라이버시는 정책이 아니라 암호학적으로 강제된다
-* 동기화자 운영자는 트랜잭션 정보를 추출할 수 없다
-* 동기화자 운영자를 더 추가해도 데이터 노출이 늘지 않는다
+* Synchronizer 운영자는 트랜잭션 정보를 추출할 수 없다
+* Synchronizer 운영자를 더 추가해도 데이터 노출이 늘지 않는다
 
 ## 세 기둥이 함께 작동하는 방식
 
@@ -180,7 +180,7 @@ flowchart TB
 
 1. 각 당사자는 자신의 뷰만 받는다
 2. 각 당사자는 자신의 뷰만 검증한다
-3. 동기화자는 어떤 뷰도 보지 않는다
+3. Synchronizer는 어떤 뷰도 보지 않는다
 4. 모든 이해관계자가 확인하면 트랜잭션이 원자적으로 커밋된다
 
 ## 실세계 영향
@@ -221,11 +221,11 @@ flowchart LR
 ## 다음 단계
 
 * **[활용 사례](https://docs.canton.network/overview/understand/use-cases)** — Canton이 실제로 동작하는 구체적 예시.
-* **[핵심 개념](https://docs.canton.network/overview/understand/core-concepts)** — 파티, 밸리데이터, 동기화자에 대해 학습.
+* **[핵심 개념](https://docs.canton.network/overview/understand/core-concepts)** — 파티, 밸리데이터, Synchronizer에 대해 학습.
 * **[아키텍처 심층 분석](https://docs.canton.network/overview/learn/architecture)** — 구성 요소가 기술적으로 함께 작동하는 방식 이해.
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — 프라이버시 보장을 상세히 탐구.
 
 <!-- nav:start -->
 ---
-<sub>⬅️ **이전**: [Canton Coin과 글로벌 동기화자](canton-coin.md) ・ ➡️ **다음**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md)</sub>
+<sub>⬅️ **이전**: [Canton Coin과 글로벌 Synchronizer](canton-coin.md) ・ ➡️ **다음**: [Canton 개선 제안 (CIP) 소개](cips-introduction.md)</sub>
 <!-- nav:end -->

@@ -50,7 +50,7 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 - **프라이버시 우선**: 모든 노드에 전역 복제하지 않고, 데이터를 관련 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>에게만 분산 (<abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>)
 - **기관·규제 자산용 B2B 정산**에 초점 — 익명 퍼블릭 참여가 아니라 신원 기반 파티
 - **EVM 네이티브 호환 없음** → Ethereum·Base 등 퍼블릭 EVM 체인과는 브릿지로 연결
-- **L0적 성격도**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr> + 다중 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 구조는 여러 원장을 조율·연결하는 면이 있다
+- **L0적 성격도**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr> + 다중 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 구조는 여러 원장을 조율·연결하는 면이 있다
 
 > 실무 맥락: 스테이블코인 등 B2C 토큰은 퍼블릭 EVM 체인(예: Ethereum, Base)에서 발행하고, Canton은 기관 간 B2B 정산 계층으로 쓰는 멀티체인 분담 구조를 흔히 본다.
 

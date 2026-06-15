@@ -271,14 +271,14 @@ template Account
 
 이를 통해 **조회(lookup)** 가 가능해, 컨트랙트 ID를 모르고도 키로 컨트랙트를 찾을 수 있다. 모든 키에는 **유지자(maintainer)**, 즉 그 키를 책임지는 파티가 있다.
 
-> ⚠️ **주의:** 키는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 내에서 전역적이다. 컨트랙트 존재에 관한 정보가 새지 않도록 키를 신중히 설계하라.
+> ⚠️ **주의:** 키는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 내에서 전역적이다. 컨트랙트 존재에 관한 정보가 새지 않도록 키를 신중히 설계하라.
 
 ## 원장 시간 (Ledger Time)
 
 Canton은 컨트랙트 연산에 **원장 시간(ledger time)** 을 사용한다. 시간은:
 
-* 동기화자가 부여한다
-* 동기화자별로 단조 증가한다
+* Synchronizer가 부여한다
+* Synchronizer별로 단조 증가한다
 * 시간 기반 컨트랙트 로직에 사용된다
 
 ```haskell
@@ -314,5 +314,5 @@ choice ExecuteSwap : ()
 
 <!-- nav:start -->
 ---
-<sub>⬅️ **이전**: [트랜잭션 작동 방식](how-transactions-work.md) ・ ➡️ **다음**: [다중 동기화자 아키텍처](multi-synchronizer.md)</sub>
+<sub>⬅️ **이전**: [트랜잭션 작동 방식](how-transactions-work.md) ・ ➡️ **다음**: [다중 Synchronizer 아키텍처](multi-synchronizer.md)</sub>
 <!-- nav:end -->

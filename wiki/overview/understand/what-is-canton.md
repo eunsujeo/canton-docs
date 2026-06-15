@@ -10,7 +10,7 @@ tags: [overview, understand, 입문]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton은 규제 자산과 다자간 워크플로를 위한 프라이버시 보존형 퍼블릭 L1 블록체인으로, 모든 참여자에게 데이터가 공개되는 일반 블록체인과 달리 "선택적 공개"를 제공한다.
-- **핵심 용어**: <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>(Sub-transaction privacy), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>(Synchronizer), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>(Validator), <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)
+- **핵심 용어**: <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>(Sub-transaction privacy), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>(Validator), <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)
 - **선행 개념**: 없음 (입문 페이지). 다음 → 아키텍처([overview/learn/architecture](https://docs.canton.network/overview/learn/architecture)), 프라이버시 모델([overview/learn/privacy-model](https://docs.canton.network/overview/learn/privacy-model))
 
 ---
@@ -48,9 +48,9 @@ Canton은 세 가지 근본적인 면에서 다른 블록체인 플랫폼과 다
 
 다른 블록체인이 프라이버시를 사후에 덧붙이는(<abbr class="gloss" title="영지식 증명으로 다수 트랜잭션을 체인 밖에서 처리하고 유효성 증명만 L1에 올리는 L2 기술. 내용을 공개하지 않고 검증 가능해 프라이버시에도 활용">ZK-롤업</abbr>, <abbr class="gloss" title="특정 참여자끼리만 거래 데이터를 공유하는 별도 통로. 채널 밖에서는 내용이 보이지 않음(예: 상태/결제 채널, Hyperledger Fabric channel)">프라이빗 채널</abbr>) 반면, Canton은 프라이버시를 프로토콜 계층에 내장한다. 트랜잭션은 "뷰(view)"로 분해되며, 각 파티는 자신의 부분만 본다.
 
-### 동기화자(Synchronizers) vs. 전역 합의
+### Synchronizer(Synchronizers) vs. 전역 합의
 
-Canton은 모든 노드가 복제하는 단일 블록체인을 사용하지 않는다. 대신 **동기화자(synchronizer)**가 상태를 저장하지 않으면서 합의를 조율하고, **참여자 노드(밸리데이터)**는 자신이 호스팅하는 파티와 관련된 데이터만 수신·저장한다.
+Canton은 모든 노드가 복제하는 단일 블록체인을 사용하지 않는다. 대신 **Synchronizer(synchronizer)**가 상태를 저장하지 않으면서 합의를 조율하고, **참여자 노드(밸리데이터)**는 자신이 호스팅하는 파티와 관련된 데이터만 수신·저장한다.
 
 ### Daml 스마트 컨트랙트
 
@@ -95,7 +95,7 @@ flowchart TB
 
 **주요 구성 요소:**
 
-* **<abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>(Global Synchronizer)**: <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 운영하는 퍼블릭 조율 계층
+* **<abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>**: <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 운영하는 퍼블릭 조율 계층
 * **Canton Coin (CC)**: 트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰
 * **밸리데이터(Validators)**: 파티를 호스팅하고 그들의 컨트랙트 데이터를 저장하는 참여자 노드
 * **애플리케이션(Applications)**: 당신이 만드는 것 — Ledger API를 통해 밸리데이터에 연결된다
@@ -104,7 +104,7 @@ flowchart TB
 
 Canton Network은 2023년 5월 은행, 시장 인프라, 트레이딩 전반의 주요 금융기관들의 지원을 받아 출범했다. 현재 참여자 목록은 [Canton Network 웹사이트](https://www.canton.network/)를 참고하라.
 
-이러한 기관의 지원은 엔터프라이즈 활용 사례에 대한 Canton의 접근 방식을 검증해 주지만, 동시에 플랫폼이 직접적인 지원 관계를 가진 엔터프라이즈 개발자를 중심으로 발전해 왔음을 의미하기도 한다. 글로벌 동기화자의 출범으로 Canton은 금융 인프라를 구축하려는 누구나 접근할 수 있게 되었다.
+이러한 기관의 지원은 엔터프라이즈 활용 사례에 대한 Canton의 접근 방식을 검증해 주지만, 동시에 플랫폼이 직접적인 지원 관계를 가진 엔터프라이즈 개발자를 중심으로 발전해 왔음을 의미하기도 한다. 글로벌 Synchronizer의 출범으로 Canton은 금융 인프라를 구축하려는 누구나 접근할 수 있게 되었다.
 
 ## 언제 Canton을 사용하는가
 

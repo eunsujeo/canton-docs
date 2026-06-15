@@ -9,7 +9,7 @@ tags: [overview, reference, CNS, 네이밍]
 > **출처(원문)**: [Canton Name Service](https://docs.canton.network/overview/reference/canton-name-service) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: CNS는 사람이 읽을 수 있는 이름을 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 식별자에 매핑한다(인터넷의 DNS와 유사). 이름 형식, 등록(구독 결제 모델)·갱신·이름 해석(정방향/역방향), <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr> 저장(<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>), API 레퍼런스.
+- **한 줄 요약**: CNS는 사람이 읽을 수 있는 이름을 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 식별자에 매핑한다(인터넷의 DNS와 유사). 이름 형식, 등록(구독 결제 모델)·갱신·이름 해석(정방향/역방향), <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr> 저장(<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>), API 레퍼런스.
 - **핵심 용어**: CNS·ANS(Amulet Name Service), `.unverified.cns`, DSO 파티, AnsRules/AnsEntry/AnsEntryContext, Scan API
 - **선행 개념**: [핵심 개념](../understand/core-concepts.md), [Canton Coin](../understand/canton-coin.md).
 
@@ -21,7 +21,7 @@ tags: [overview, reference, CNS, 네이밍]
 
 Canton 네임 서비스(Canton Name Service, CNS)는 사람이 읽을 수 있는 이름을 Canton Network의 파티 식별자에 매핑한다. 인터넷의 DNS와 유사한 기능을 한다: `auth0_007c675a429eaf831f0991308d85::12201abe669f...` 같은 길고 불투명한 파티 ID 대신, `alice.unverified.cns` 같은 이름을 공유할 수 있다.
 
-CNS는 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 위의 Daml 컨트랙트 집합으로 구현되며 DSO 파티가 거버넌스한다. 기반 코드는 [Splice](https://github.com/canton-network/splice) 코드베이스에서 Amulet Name Service(ANS)라 불린다.
+CNS는 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 위의 Daml 컨트랙트 집합으로 구현되며 DSO 파티가 거버넌스한다. 기반 코드는 [Splice](https://github.com/canton-network/splice) 코드베이스에서 Amulet Name Service(ANS)라 불린다.
 
 ## 이름 형식
 
@@ -60,11 +60,11 @@ Scan API는 조회를 위한 세 가지 공개 엔드포인트를 제공한다:
 
 월렛 같은 애플리케이션은 이 엔드포인트를 써서 원시 파티 식별자 대신 사람이 읽을 수 있는 이름을 표시한다. 예컨대 다른 사용자에게 Canton Coin을 보낼 때 전체 파티 ID 대신 `alice.unverified.cns`를 입력할 수 있다.
 
-이 동일한 엔드포인트는 Validator App의 Scan Proxy API(`/v0/scan-proxy/ans-entries/*` 아래)를 통해서도 제공되며, 여러 <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 노드를 조회해 합의 결과를 반환함으로써 BFT 검증을 제공한다.
+이 동일한 엔드포인트는 Validator App의 Scan Proxy API(`/v0/scan-proxy/ans-entries/*` 아래)를 통해서도 제공되며, 여러 <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 노드를 조회해 합의 결과를 반환함으로써 BFT 검증을 제공한다.
 
-## 글로벌 동기화자에서의 저장
+## 글로벌 Synchronizer에서의 저장
 
-CNS 상태는 전적으로 글로벌 동기화자에 `splice-amulet-name-service` 패키지의 Daml 컨트랙트로 존재한다. 핵심 컨트랙트 유형은:
+CNS 상태는 전적으로 글로벌 Synchronizer에 `splice-amulet-name-service` 패키지의 Daml 컨트랙트로 존재한다. 핵심 컨트랙트 유형은:
 
 * **`AnsRules`** — 구성(엔트리 수수료, 수명, 갱신 기간)을 보유하는 싱글톤 컨트랙트. DSO 파티가 서명.
 * **`AnsEntryContext`** — CNS 엔트리와 그 구독 사이의 관계를 추적. DSO와 엔트리 소유자가 함께 서명.

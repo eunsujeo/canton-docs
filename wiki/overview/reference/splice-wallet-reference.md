@@ -48,7 +48,7 @@ Eth나 Bitcoin 같은 다른 자산과 달리, Canton Coin은 파티가 Canton C
 
 어떤 송신자로부터든 들어오는 Canton Coin 이전을 받아도 괜찮은 파티는 `TransferPreapproval`을 설정할 수 있다. 이로써 임의의 파티가 `TransferPreapproval`을 설정한 파티에게 Canton Coin을 보낼 수 있다. 이는 Canton Coin 이전에만 적용되고 다른 자산에는 적용되지 않는다. 다른 자산은 별도로 설정해야 하는 자체 사전 승인 변형을 제공하거나, 들어오는 각 이전에 개별 승인을 요구할 수 있다.
 
-<abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 더 이상 활성이 아닌 파티의 `TransferPreapproval` 컨트랙트를 저장·제공하지 않아도 되도록, 또 악의적 파티가 스팸하지 못하도록, 사전 승인은 만료까지의 제한된 수명을 가지며 생성 시 수명에 비례한 수수료를 소각해야 한다. 수수료는 슈퍼 밸리데이터가 `transferPreapprovalFee` 파라미터로 통제한다. 현재 값은 CC Scan([링크](https://scan.sv-1.unknown_cluster.global.canton.network.sync.global/dso))에서 관찰할 수 있으며 기본값은 연 $1이다.
+<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 더 이상 활성이 아닌 파티의 `TransferPreapproval` 컨트랙트를 저장·제공하지 않아도 되도록, 또 악의적 파티가 스팸하지 못하도록, 사전 승인은 만료까지의 제한된 수명을 가지며 생성 시 수명에 비례한 수수료를 소각해야 한다. 수수료는 슈퍼 밸리데이터가 `transferPreapprovalFee` 파라미터로 통제한다. 현재 값은 CC Scan([링크](https://scan.sv-1.unknown_cluster.global.canton.network.sync.global/dso))에서 관찰할 수 있으며 기본값은 연 $1이다.
 
 각 사전 승인에는 두 파티가 있다: 들어오는 이전을 승인하는 `receiver` 파티와 `provider` 파티. provider 파티는 수수료를 내고 만료일이 가까워지면 사전 승인을 갱신할 책임이 있다. 그 대가로 `provider` 파티는 이 사전 승인을 쓰는 모든 들어오는 이전의 앱 제공자가 되어 그에 대한 앱 보상을 받는다. `provider` 파티가 `receiver` 파티와 같은 노드에 호스팅될 필요는 없으나, 실무에서는 그것이 가장 흔한 설정이다.
 

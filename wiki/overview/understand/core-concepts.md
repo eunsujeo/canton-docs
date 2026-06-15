@@ -9,17 +9,17 @@ tags: [overview, understand, 아키텍처]
 > **출처(원문)**: [Core Concepts](https://docs.canton.network/overview/understand/core-concepts) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton을 이루는 네 가지 기본 개념 — <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>(스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>) — 을 소개하고 이들이 트랜잭션 흐름에서 어떻게 맞물리는지 설명.
-- **핵심 용어**: 파티(Party), 밸리데이터(Validator), 동기화자(Synchronizer), 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러, 활성 컨트랙트 집합(Active Contract Set)
+- **한 줄 요약**: Canton을 이루는 네 가지 기본 개념 — <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>(스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>) — 을 소개하고 이들이 트랜잭션 흐름에서 어떻게 맞물리는지 설명.
+- **핵심 용어**: 파티(Party), 밸리데이터(Validator), Synchronizer, 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러, 활성 컨트랙트 집합(Active Contract Set)
 - **선행 개념**: [5분 만에 보는 Canton Network](five-minute-overview.md). 다음 → [활용 사례](use-cases.md)
 
 ---
 
 # 핵심 개념
 
-> Canton Network의 필수 빌딩 블록: 파티, 밸리데이터, 동기화자, 스마트 컨트랙트
+> Canton Network의 필수 빌딩 블록: 파티, 밸리데이터, Synchronizer, 스마트 컨트랙트
 
-Canton을 이해하려면 네 가지 기본 개념을 파악해야 한다: **파티(parties)**, **밸리데이터(validator)** 노드, **동기화자(synchronizers)**, **템플릿(templates)**(스마트 컨트랙트). 이 페이지는 각각을 소개하고 이들이 어떻게 함께 작동하는지 설명한다.
+Canton을 이해하려면 네 가지 기본 개념을 파악해야 한다: **파티(parties)**, **밸리데이터(validator)** 노드, **Synchronizer(synchronizers)**, **템플릿(templates)**(스마트 컨트랙트). 이 페이지는 각각을 소개하고 이들이 어떻게 함께 작동하는지 설명한다.
 
 ## 파티 (Parties)
 
@@ -113,14 +113,14 @@ flowchart TB
 * 각 밸리데이터는 원장의 **국소적·사적 뷰**(*활성 컨트랙트 집합, Active Contract Set*이라 부름)를 유지한다
 * 밸리데이터는 자신이 호스팅하는 파티가 이해관계자인 컨트랙트만 저장한다
 * 하나의 밸리데이터에 여러 파티를 호스팅할 수 있다
-* 밸리데이터는 여러 동기화자에 연결할 수 있다
+* 밸리데이터는 여러 Synchronizer에 연결할 수 있다
 * 하나의 파티는 여러 밸리데이터에 호스팅될 수 있다
 
 > ⚠️ **주의:** 당신을 호스팅하는 밸리데이터는 당신의 모든 데이터를 본다. 밸리데이터를 신중히 선택하라 — 이것은 신뢰 관계다.
 
-## 동기화자 (Synchronizers)
+## Synchronizer (Synchronizers)
 
-**동기화자**는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 합의를 조율한다. 두 구성 요소로 이루어진다:
+**Synchronizer**는 트랜잭션 내용을 보지 않고 트랜잭션 순서와 합의를 조율한다. 두 구성 요소로 이루어진다:
 
 ### 시퀀서 (Sequencer)
 
@@ -155,9 +155,9 @@ flowchart TB
 * 무엇이 확인되는지 파악
 * 확인 상세 저장
 
-### 글로벌 동기화자
+### 글로벌 Synchronizer
 
-**<abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>**는 Canton Network의 퍼블릭 동기화자다:
+**<abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>**는 Canton Network의 퍼블릭 Synchronizer다:
 
 ```mermaid
 flowchart TB
@@ -177,7 +177,7 @@ flowchart TB
     SEQ <--> MED
 ```
 
-* **<abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>**(주요 기관)가 운영
+* **<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>**(주요 기관)가 운영
 * 탈중앙화 — 단일 운영자가 통제하지 않음
 * 트랜잭션 수수료를 내기 위한 트래픽 구매에 **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> (CC)** 사용
 * **Canton Foundation**이 거버넌스를 담당
@@ -273,9 +273,9 @@ sequenceDiagram
 | --- | --- | --- |
 | 1 | **애플리케이션** | Ledger API로 커맨드 제출 |
 | 2 | **밸리데이터 A** | Daml 실행, 트랜잭션 뷰 생성 |
-| 3 | **동기화자** | 암호화된 뷰 순서화·분배 |
+| 3 | **Synchronizer** | 암호화된 뷰 순서화·분배 |
 | 4 | **밸리데이터들** | 각자의 뷰 검증 |
-| 5 | **동기화자** | 확인 수집, 커밋 선언 |
+| 5 | **Synchronizer** | 확인 수집, 커밋 선언 |
 | 6 | **밸리데이터들** | 커밋된 컨트랙트 저장 |
 
 ## 요약 표
@@ -284,14 +284,14 @@ sequenceDiagram
 | --- | --- | --- |
 | **파티(Party)** | 온-원장 신원 | 명시적 권한 역할을 가짐 |
 | **밸리데이터(Validator)** | 파티를 호스팅하는 노드 | 호스팅 파티의 데이터만 저장 |
-| **동기화자(Synchronizer)** | 조율 계층 | 내용을 보지 않고 순서화 |
+| **Synchronizer** | 조율 계층 | 내용을 보지 않고 순서화 |
 | **템플릿(Template)** | 스마트 컨트랙트 정의 | 데이터·파티·초이스를 정의 |
 | **컨트랙트(Contract)** | 템플릿 인스턴스 | 불변; 변경은 새 컨트랙트를 생성 |
 
 ## 다음 단계
 
 * **[아키텍처 심층 분석](https://docs.canton.network/overview/learn/architecture)** — 구성 요소가 기술적으로 함께 작동하는 방식 보기.
-* **[글로벌 동기화자](https://docs.canton.network/overview/understand/global-synchronizer)** — 퍼블릭 조율 계층 학습.
+* **[글로벌 Synchronizer](https://docs.canton.network/overview/understand/global-synchronizer)** — 퍼블릭 조율 계층 학습.
 * **[프라이버시 모델](https://docs.canton.network/overview/learn/privacy-model)** — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> 상세 이해.
 * **[구축 시작하기](https://docs.canton.network/appdev/get-started/choose-your-path)** — Canton 개발 시작.
 

@@ -17,9 +17,9 @@ tags: [overview, reference, 토크노믹스, CantonCoin]
 
 # Canton Coin 토크노믹스
 
-<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>의 네이티브 유틸리티 토큰이다. [Splice](https://github.com/canton-network/splice) 오픈소스 인프라를 통해 구현되며, <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 수준에서는 "Amulet"이라 불린다. CC는 세 기능을 한다: 네트워크 사용료(트래픽) 지불, 인프라 운영자·애플리케이션 제공자 보상, <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 참여를 통한 네트워크 거버넌스.
+<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>의 네이티브 유틸리티 토큰이다. [Splice](https://github.com/canton-network/splice) 오픈소스 인프라를 통해 구현되며, <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 수준에서는 "Amulet"이라 불린다. CC는 세 기능을 한다: 네트워크 사용료(트래픽) 지불, 인프라 운영자·애플리케이션 제공자 보상, <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 참여를 통한 네트워크 거버넌스.
 
-CC의 네트워크 내 역할과 획득 방법에 대한 배경은 [Canton Coin과 글로벌 동기화자](../understand/canton-coin.md)를 참고하라. [Canton Coin 백서](https://www.digitalasset.com/hubfs/Canton%20Network%20Files/Documents%20(whitepapers%2c%20etc...)/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf)가 전체 형식 명세를 제공한다.
+CC의 네트워크 내 역할과 획득 방법에 대한 배경은 [Canton Coin과 글로벌 Synchronizer](../understand/canton-coin.md)를 참고하라. [Canton Coin 백서](https://www.digitalasset.com/hubfs/Canton%20Network%20Files/Documents%20(whitepapers%2c%20etc...)/Canton%20Coin_%20A%20Canton-Network-native%20payment%20application.pdf)가 전체 형식 명세를 제공한다.
 
 ## 수수료 구조
 
@@ -100,7 +100,7 @@ Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반
 
 발행 보상은 네 범주의 기여자에게 분배된다:
 
-* **슈퍼 밸리데이터**는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr> 노드(시퀀서, 미디에이터, 거버넌스 인프라)를 운영해 발행 권한을 번다.
+* **슈퍼 밸리데이터**는 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 노드(시퀀서, 미디에이터, 거버넌스 인프라)를 운영해 발행 권한을 번다.
 * **애플리케이션 제공자**는 피처드 애플리케이션을 통해 트랜잭션을 촉진할 때 보상을 번다.
 * **밸리데이터**는 자신이 소각하는 수수료에 비례해 발행 권한을 번다. 네트워크는 이를 그 노드가 생성한 활동의 대리 지표로 취급한다.
 * **라이브니스 인센티브**는 가동 시간과 준비 상태에 대해 밸리데이터에 보상한다. 밸리데이터가 직접 활동으로 발행 허용량을 다 쓰지 않으면, 일부가 라이브니스 보너스로 할당된다.
@@ -161,7 +161,7 @@ API 상세는 [CIP-0056 텍스트](https://github.com/global-synchronizer-founda
 
 ## 관련 자원
 
-* [Canton Coin과 글로벌 동기화자](../understand/canton-coin.md) — 개념 개요와 CC 획득 방법
+* [Canton Coin과 글로벌 Synchronizer](../understand/canton-coin.md) — 개념 개요와 CC 획득 방법
 * [CIP-0078 (CC 수수료 제거)](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0078/cip-0078.md) — 이전·잠금 수수료를 없앤 제안
 * [CIP-0056 (CN 토큰 표준)](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0056/cip-0056.md) — 토큰 연산을 위한 표준 인터페이스
 * [CIP-0073 (가중 밸리데이터 라이브니스 보상)](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0073/cip-0073.md) — SV가 결정한 파티를 위한 라이브니스 보상 지원

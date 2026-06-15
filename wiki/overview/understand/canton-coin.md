@@ -1,5 +1,5 @@
 ---
-title: Canton Coin과 글로벌 동기화자
+title: Canton Coin과 글로벌 Synchronizer
 source: https://docs.canton.network/overview/understand/canton-coin
 translated: 2026-06-15
 status: done
@@ -9,17 +9,17 @@ tags: [overview, understand, 토크노믹스]
 > **출처(원문)**: [Canton Coin and the Global Synchronizer](https://docs.canton.network/overview/understand/canton-coin) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>의 네이티브 유틸리티 토큰. 트래픽(수수료)의 2단계(충전→소비) 메커니즘, CC 획득 방법(환경별), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 보상, 토크노믹스, 잔액이 비공개인 점까지.
+- **한 줄 요약**: <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)은 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>의 네이티브 유틸리티 토큰. 트래픽(수수료)의 2단계(충전→소비) 메커니즘, CC 획득 방법(환경별), <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 보상, 토크노믹스, 잔액이 비공개인 점까지.
 - **핵심 용어**: Canton Coin(CC), 트래픽 크레딧·트래픽 예산, 자동 충전(auto-top-up), 라이브니스 보상, Splice
-- **선행 개념**: [글로벌 동기화자](global-synchronizer.md). 다음 → [CIP 소개](cips-introduction.md)
+- **선행 개념**: [글로벌 Synchronizer](global-synchronizer.md). 다음 → [CIP 소개](cips-introduction.md)
 
 ---
 
-# Canton Coin과 글로벌 동기화자
+# Canton Coin과 글로벌 Synchronizer
 
 > 네트워크 경제에서 Canton Coin의 역할 이해
 
-Canton Coin(CC)은 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>의 네이티브 유틸리티 토큰으로, 네트워크 운영의 경제적 토대를 제공한다.
+Canton Coin(CC)은 글로벌 <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>의 네이티브 유틸리티 토큰으로, 네트워크 운영의 경제적 토대를 제공한다.
 
 ## Canton Coin이란?
 
@@ -29,13 +29,13 @@ Canton Coin은 다음에 쓰이는 네이티브 토큰이다:
 | --- | --- |
 | **트랜잭션 수수료(트래픽)** | 트랜잭션 제출 시 네트워크 사용료 지불 |
 | **밸리데이터 보상** | 인프라 운영자에게 인센티브 |
-| **거버넌스** | <abbr class="gloss" title="글로벌 동기화자를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 참여를 위해 CC를 스테이킹 |
+| **거버넌스** | <abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr>가 참여를 위해 CC를 스테이킹 |
 
-Canton Coin은 탈중앙화 Canton 동기화자를 위한 오픈소스 인프라인 [Splice](https://github.com/canton-network/splice)를 통해 구현된다.
+Canton Coin은 탈중앙화 Canton Synchronizer를 위한 오픈소스 인프라인 [Splice](https://github.com/canton-network/splice)를 통해 구현된다.
 
 ## 트래픽: 트랜잭션 수수료
 
-"트래픽(Traffic)"은 트랜잭션 수수료를 가리키는 Canton 용어다. 글로벌 동기화자에서 거래하려면 밸리데이터의 트래픽 예산(traffic budget)에 트래픽 크레딧이 필요하다.
+"트래픽(Traffic)"은 트랜잭션 수수료를 가리키는 Canton 용어다. 글로벌 Synchronizer에서 거래하려면 밸리데이터의 트래픽 예산(traffic budget)에 트래픽 크레딧이 필요하다.
 
 **2단계 과정:**
 
@@ -113,18 +113,18 @@ MainNet에서 CC는 실제 경제 가치를 갖는다:
 
 ## 밸리데이터 보상
 
-글로벌 동기화자에서 운영하는 밸리데이터는 다음으로 CC를 벌 수 있다:
+글로벌 Synchronizer에서 운영하는 밸리데이터는 다음으로 CC를 벌 수 있다:
 
 | 보상 유형 | 설명 |
 | --- | --- |
 | **라이브니스 보상(Liveness rewards)** | 노드 가용성 유지에 대해 |
 | **트랜잭션 보상** | 트래픽 수수료의 몫 |
 
-슈퍼 밸리데이터는 동기화자 인프라 운영에 대한 추가 보상 메커니즘을 갖는다.
+슈퍼 밸리데이터는 Synchronizer 인프라 운영에 대한 추가 보상 메커니즘을 갖는다.
 
 ## 토크노믹스
 
-글로벌 동기화자의 토크노믹스는 다음을 위해 설계되었다:
+글로벌 Synchronizer의 토크노믹스는 다음을 위해 설계되었다:
 
 | 목표 | 메커니즘 |
 | --- | --- |

@@ -34,7 +34,7 @@
 ## [2026-06-15] ingest | overview/learn "작동 원리" 5종
 - architecture, ledger-model, how-transactions-work, privacy-model, trust-model 번역 완료. haskell/mermaid 펜스 정규화, Card/Note/Warning/Check→마크다운. 완료 12/315.
 
-## [2026-06-15] ingest | 글로벌 동기화자 묶음 2종
+## [2026-06-15] ingest | 글로벌 Synchronizer 묶음 2종
 - overview/understand/global-synchronizer, overview/learn/global-synchronizer-architecture 번역 완료. 내부 todo div 제외, mermaid 펜스 정규화. 완료 14/315.
 
 ## [2026-06-15] ingest | appdev 앱 개발 입문 3종
@@ -66,3 +66,8 @@
 ## 2026-06-15 — note | eUTXO와 이중지불 방지 (지폐 비유)
 - `notes/eutxo-double-spend.md` 신설: "존재하지 않는 것은 쓸 수 없다"를 지폐 비유로 쉽게 설명(eUTXO·세 방어선·전역 가시성 없는 무결성)
 - `cantons-solution.md`: 욱여넣은 이중지불 방지 한 문장을 풀어주는 💡 설명 + 노트 링크 추가(충실성 유지)
+
+## 2026-06-15 — 용어 변경 | 동기화자 → Synchronizer
+- 사용자 결정: Synchronizer를 시퀀서·미디에이터·밸리데이터 등 형제 구성요소와 톤을 맞춰 영문 유지
+- 위키 전체 일괄 치환(동기화자→Synchronizer, 723곳/51파일), 첫등장 병기 중복 정리, glossary 변환표·툴팁 갱신
+- 동사 '동기화'(synchronize)는 보존
