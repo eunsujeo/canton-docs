@@ -61,6 +61,8 @@ _(아직 없음)_
 ### overview/reference — 심화 레퍼런스
 - [동기화자 개요](overview/reference/synchronizer-overview.md) · [Canton 프로토콜 명세](overview/reference/canton-protocol-specification.md) · [CIP 인덱스](overview/reference/cip-index.md) · [Canton 네임 서비스](overview/reference/canton-name-service.md)
 - [글로벌 동기화자 토크노믹스](overview/reference/tokenomics-of-gs.md) · [탈중앙화](overview/reference/decentralization.md) · [순서화 합의](overview/reference/ordering-consensus.md) · [크로스-동기화자 DvP 예시](overview/reference/cross-sync-dvp-example.md)
+- [트랜잭션 생애주기](overview/reference/transaction-lifecycle.md) · [스마트 컨트랙트 합의](overview/reference/smart-contract-consensus.md) · [Splice 월렛 레퍼런스](overview/reference/splice-wallet-reference.md) · [SV 거버넌스 레퍼런스](overview/reference/sv-governance-reference.md)
+- [Canton Coin 토크노믹스](overview/reference/canton-coin-tokenomics.md) · [재할당 프로토콜](overview/reference/reassignment-protocol.md) · [CIP-0056 토큰 표준](overview/reference/cip-0056.md) · [CIP 레퍼런스](overview/reference/what-are-cips.md) · [슈퍼 밸리데이터 구성 요소](overview/reference/super-validator-components.md)
 
 ### notes — 정리 노트 (직접 작성)
 - [블록체인 계층 (L0/L1/L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md) — L0·L1·L2 구분과 대표 네트워크, Canton이 프라이버시 보존 L1으로서 갖는 위치.

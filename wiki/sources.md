@@ -303,10 +303,10 @@
 | ☑ | Trust Model Overview | [trust-model.md](https://docs.canton.network/overview/learn/trust-model.md) | `wiki/overview/learn/trust-model.md` |
 | ☑ | Two-Layer Consensus | [two-layer-consensus.md](https://docs.canton.network/overview/learn/two-layer-consensus.md) | `wiki/overview/learn/two-layer-consensus.md` |
 | ☑ | Validator Architecture | [validator-architecture.md](https://docs.canton.network/overview/learn/validator-architecture.md) | `wiki/overview/learn/validator-architecture.md` |
-| ☐ | Canton Coin Tokenomics | [canton-coin-tokenomics.md](https://docs.canton.network/overview/reference/canton-coin-tokenomics.md) | `wiki/overview/reference/canton-coin-tokenomics.md` |
+| ☑ | Canton Coin Tokenomics | [canton-coin-tokenomics.md](https://docs.canton.network/overview/reference/canton-coin-tokenomics.md) | `wiki/overview/reference/canton-coin-tokenomics.md` |
 | ☑ | Canton Name Service | [canton-name-service.md](https://docs.canton.network/overview/reference/canton-name-service.md) | `wiki/overview/reference/canton-name-service.md` |
 | ☑ | Canton Protocol Specification | [canton-protocol-specification.md](https://docs.canton.network/overview/reference/canton-protocol-specification.md) | `wiki/overview/reference/canton-protocol-specification.md` |
-| ☐ | CIP-0056: Canton Network Token Standard | [cip-0056.md](https://docs.canton.network/overview/reference/cip-0056.md) | `wiki/overview/reference/cip-0056.md` |
+| ☑ | CIP-0056: Canton Network Token Standard | [cip-0056.md](https://docs.canton.network/overview/reference/cip-0056.md) | `wiki/overview/reference/cip-0056.md` |
 | ☑ | CIP Index | [cip-index.md](https://docs.canton.network/overview/reference/cip-index.md) | `wiki/overview/reference/cip-index.md` |
 | ☑ | Cross-Synchronizer DvP Example | [cross-sync-dvp-example.md](https://docs.canton.network/overview/reference/cross-sync-dvp-example.md) | `wiki/overview/reference/cross-sync-dvp-example.md` |
 | ☑ | Decentralization | [decentralization.md](https://docs.canton.network/overview/reference/decentralization.md) | `wiki/overview/reference/decentralization.md` |
@@ -316,17 +316,17 @@
 | ☐ | Ledger Model (Detailed) | [ledger-model-detailed.md](https://docs.canton.network/overview/reference/ledger-model-detailed.md) | `wiki/overview/reference/ledger-model-detailed.md` |
 | ☑ | Ordering Consensus | [ordering-consensus.md](https://docs.canton.network/overview/reference/ordering-consensus.md) | `wiki/overview/reference/ordering-consensus.md` |
 | ☐ | Pruning | [pruning.md](https://docs.canton.network/overview/reference/pruning.md) | `wiki/overview/reference/pruning.md` |
-| ☐ | Reassignment Protocol | [reassignment-protocol.md](https://docs.canton.network/overview/reference/reassignment-protocol.md) | `wiki/overview/reference/reassignment-protocol.md` |
-| ☐ | Smart Contract Consensus | [smart-contract-consensus.md](https://docs.canton.network/overview/reference/smart-contract-consensus.md) | `wiki/overview/reference/smart-contract-consensus.md` |
-| ☐ | Splice Wallet Reference | [splice-wallet-reference.md](https://docs.canton.network/overview/reference/splice-wallet-reference.md) | `wiki/overview/reference/splice-wallet-reference.md` |
-| ☐ | Super Validator Components | [super-validator-components.md](https://docs.canton.network/overview/reference/super-validator-components.md) | `wiki/overview/reference/super-validator-components.md` |
-| ☐ | SV Governance Reference | [sv-governance-reference.md](https://docs.canton.network/overview/reference/sv-governance-reference.md) | `wiki/overview/reference/sv-governance-reference.md` |
+| ☑ | Reassignment Protocol | [reassignment-protocol.md](https://docs.canton.network/overview/reference/reassignment-protocol.md) | `wiki/overview/reference/reassignment-protocol.md` |
+| ☑ | Smart Contract Consensus | [smart-contract-consensus.md](https://docs.canton.network/overview/reference/smart-contract-consensus.md) | `wiki/overview/reference/smart-contract-consensus.md` |
+| ☑ | Splice Wallet Reference | [splice-wallet-reference.md](https://docs.canton.network/overview/reference/splice-wallet-reference.md) | `wiki/overview/reference/splice-wallet-reference.md` |
+| ☑ | Super Validator Components | [super-validator-components.md](https://docs.canton.network/overview/reference/super-validator-components.md) | `wiki/overview/reference/super-validator-components.md` |
+| ☑ | SV Governance Reference | [sv-governance-reference.md](https://docs.canton.network/overview/reference/sv-governance-reference.md) | `wiki/overview/reference/sv-governance-reference.md` |
 | ☑ | Synchronizer | [synchronizer-overview.md](https://docs.canton.network/overview/reference/synchronizer-overview.md) | `wiki/overview/reference/synchronizer-overview.md` |
 | ☑ | Tokenomics of the Global Synchronizer | [tokenomics-of-gs.md](https://docs.canton.network/overview/reference/tokenomics-of-gs.md) | `wiki/overview/reference/tokenomics-of-gs.md` |
 | ☐ | Topology | [topology.md](https://docs.canton.network/overview/reference/topology.md) | `wiki/overview/reference/topology.md` |
-| ☐ | Transaction Lifecycle | [transaction-lifecycle.md](https://docs.canton.network/overview/reference/transaction-lifecycle.md) | `wiki/overview/reference/transaction-lifecycle.md` |
+| ☑ | Transaction Lifecycle | [transaction-lifecycle.md](https://docs.canton.network/overview/reference/transaction-lifecycle.md) | `wiki/overview/reference/transaction-lifecycle.md` |
 | ☐ | Validator Node Components | [validator-node-components.md](https://docs.canton.network/overview/reference/validator-node-components.md) | `wiki/overview/reference/validator-node-components.md` |
-| ☐ | CIP Reference | [what-are-cips.md](https://docs.canton.network/overview/reference/what-are-cips.md) | `wiki/overview/reference/what-are-cips.md` |
+| ☑ | CIP Reference | [what-are-cips.md](https://docs.canton.network/overview/reference/what-are-cips.md) | `wiki/overview/reference/what-are-cips.md` |
 | ☑ | Canton Coin and the Global Synchronizer | [canton-coin.md](https://docs.canton.network/overview/understand/canton-coin.md) | `wiki/overview/understand/canton-coin.md` |
 | ☑ | Canton's Solution: Three Pillars | [cantons-solution.md](https://docs.canton.network/overview/understand/cantons-solution.md) | `wiki/overview/understand/cantons-solution.md` |
 | ☑ | Canton Improvement Proposals (CIPs) | [cips-introduction.md](https://docs.canton.network/overview/understand/cips-introduction.md) | `wiki/overview/understand/cips-introduction.md` |
