@@ -10,7 +10,7 @@ tags: [overview, understand, 입문]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: "데이터는 필요한 곳에만 간다"는 핵심 통찰로 Canton을 5분 만에 훑는 페이지 — <abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>, <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>의 프라이버시 선언, 네트워크 구성, 타 블록체인과의 차이까지.
-- **핵심 용어**: 뷰(view), 서명자(signatory)·관찰자(observer)·컨트롤러(controller), <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>
+- **핵심 용어**: 뷰(view), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>(signatory)·<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>(observer)·컨트롤러(controller), <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 동기화자</abbr>, <abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>
 - **선행 개념**: [Canton Network이란?](what-is-canton.md). 다음 → [핵심 개념](core-concepts.md)
 
 ---

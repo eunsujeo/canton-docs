@@ -27,7 +27,7 @@ tags: [overview, reference, DvP, 재할당]
 
 * **Alice** (매수자) — 증권을 취득하려 하며 현금을 보유
 * **Bob** (매도자) — 증권을 팔려 하며 현금을 받음
-* **PaymentBank** — 현금 컨트랙트의 서명자
+* **PaymentBank** — 현금 컨트랙트의 <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>
 * **SecuritiesDepository** — 증권 컨트랙트의 서명자
 
 **동기화자:**

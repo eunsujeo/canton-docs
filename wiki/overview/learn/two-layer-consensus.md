@@ -9,7 +9,7 @@ tags: [overview, learn, 합의, 아키텍처]
 > **출처(원문)**: [Two-Layer Consensus](https://docs.canton.network/overview/learn/two-layer-consensus) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 합의를 두 계층으로 분리한다 — ①스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 합의(이해관계자 증명, 프라이버시) ②순서화 합의(BFT 시퀀싱, 무결성). 두 계층의 작동·상호작용·분리의 이점과 타 접근과의 비교.
+- **한 줄 요약**: Canton은 합의를 두 계층으로 분리한다 — ①스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr> 합의(<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 증명, 프라이버시) ②순서화 합의(BFT 시퀀싱, 무결성). 두 계층의 작동·상호작용·분리의 이점과 타 접근과의 비교.
 - **핵심 용어**: 이해관계자 증명(Proof of Stakeholder), BFT 시퀀싱, 전체 순서(total order), ISS 알고리즘, 1/3 비잔틴 허용
 - **선행 개념**: [트랜잭션 작동 방식](how-transactions-work.md), [신뢰 모델](trust-model.md), [글로벌 동기화자 아키텍처](global-synchronizer-architecture.md).
 
@@ -36,7 +36,7 @@ Canton의 스마트 컨트랙트 합의는 **이해관계자 증명(Proof of Sta
 
 ### 작동 방식
 
-1. **이해관계자 식별**: 트랜잭션이 컨트랙트에 영향을 줄 때, Canton은 모든 이해관계자(서명자, 관찰자, 컨트롤러)를 식별한다
+1. **이해관계자 식별**: 트랜잭션이 컨트랙트에 영향을 줄 때, Canton은 모든 이해관계자(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>, <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>, 컨트롤러)를 식별한다
 2. **뷰 분배**: 각 이해관계자는 자신이 볼 권한이 있는 트랜잭션 뷰만 받는다
 3. **독립 검증**: 각 이해관계자는 자기 뷰를 <abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 규칙에 대해 검증한다
 4. **확인**: 이해관계자가 확인 또는 거부를 미디에이터에 보낸다

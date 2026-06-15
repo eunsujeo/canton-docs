@@ -9,7 +9,7 @@ tags: [overview, learn, 아키텍처]
 > **출처(원문)**: [The Ledger Model](https://docs.canton.network/overview/learn/ledger-model) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 가변 계정 잔액이 아니라 생성·보관되는 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>(확장 UTXO, eUTXO)로 원장을 구성한다. 컨트랙트 생애주기, 이해관계자 역할(서명자/관찰자/컨트롤러/액터), 트랜잭션 트리·뷰·키·원장 시간·원자적 조합까지.
+- **한 줄 요약**: Canton은 가변 계정 잔액이 아니라 생성·보관되는 불변 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>(확장 UTXO, eUTXO)로 원장을 구성한다. 컨트랙트 생애주기, <abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 역할(<abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러/액터), 트랜잭션 트리·뷰·키·원장 시간·원자적 조합까지.
 - **핵심 용어**: eUTXO, 컨트랙트 ID, 이해관계자(stakeholder), 소비형/비소비형 <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>, 트랜잭션 트리, 컨트랙트 키, 원장 시간(ledger time)
 - **선행 개념**: [아키텍처 개요](architecture.md). 다음 → [트랜잭션 작동 방식](how-transactions-work.md)
 

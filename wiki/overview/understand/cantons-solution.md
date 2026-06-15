@@ -9,7 +9,7 @@ tags: [overview, understand, 프라이버시, 아키텍처]
 > **출처(원문)**: [Canton's Solution: Three Pillars](https://docs.canton.network/overview/understand/cantons-solution) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton은 ①<abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> ②이해관계자 합의 증명 ③가시성 없는 동기화 — 세 기둥으로 프라이버시와 무결성을 동시에 달성한다.
+- **한 줄 요약**: Canton은 ①<abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr> ②<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 합의 증명 ③가시성 없는 동기화 — 세 기둥으로 프라이버시와 무결성을 동시에 달성한다.
 - **핵심 용어**: 뷰(view) 분해, 이해관계자 합의(Proof of stakeholder), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>(Synchronizer), 시퀀서(Sequencer)·미디에이터(Mediator), 컨트롤러(controller)
 - **선행 개념**: [Canton이 푸는 문제](the-problem.md). 다음 → [핵심 개념](https://docs.canton.network/overview/understand/core-concepts)
 
@@ -204,7 +204,7 @@ flowchart LR
 
 ### 프라이버시 보존 정산
 
-거래 당사자가 관찰자에게 가격을 노출하지 않고 정산한다:
+거래 당사자가 <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>에게 가격을 노출하지 않고 정산한다:
 
 * 매수자가 보는 것: 받은 자산, 지불한 대금
 * 매도자가 보는 것: 이전한 자산, 받은 대금

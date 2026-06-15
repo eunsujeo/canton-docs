@@ -10,7 +10,7 @@ tags: [overview, understand, 아키텍처]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Canton을 이루는 네 가지 기본 개념 — <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>, <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">동기화자</abbr>, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>(스마트 <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>) — 을 소개하고 이들이 트랜잭션 흐름에서 어떻게 맞물리는지 설명.
-- **핵심 용어**: 파티(Party), 밸리데이터(Validator), 동기화자(Synchronizer), 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), 서명자/관찰자/컨트롤러, 활성 컨트랙트 집합(Active Contract Set)
+- **핵심 용어**: 파티(Party), 밸리데이터(Validator), 동기화자(Synchronizer), 템플릿(template)·<abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr>(choice), <abbr class="gloss" title="컨트랙트의 주된 권한자. 생성·보관(소비)에 반드시 동의해야 하는 파티">서명자</abbr>/<abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>/컨트롤러, 활성 컨트랙트 집합(Active Contract Set)
 - **선행 개념**: [5분 만에 보는 Canton Network](five-minute-overview.md). 다음 → [활용 사례](use-cases.md)
 
 ---
@@ -39,7 +39,7 @@ name                                fingerprint (hash of public key)
 | --- | --- |
 | **서명(Sign)** | 컨트랙트 생성 승인 (서명자로서) |
 | **행위(Act)** | 컨트랙트에서 초이스 실행 (컨트롤러로서) |
-| **관람(See)** | 컨트랙트와 트랜잭션 관찰 (이해관계자로서) |
+| **관람(See)** | 컨트랙트와 트랜잭션 관찰 (<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr>로서) |
 | **검증(Validate)** | 자신의 컨트랙트에 영향을 주는 트랜잭션 확인 |
 
 ### 로컬 파티 vs. 외부 파티

@@ -46,7 +46,7 @@ tags: [appdev, get-started, 입문]
 
 * 불변 컨트랙트 (수정이 아니라 보관 + 생성)
 * 명시적 권한 (msg.sender가 아니라 signatory/controller)
-* 기본 프라이버시 (데이터를 숨기는 게 아니라 관찰자를 선언)
+* 기본 프라이버시 (데이터를 숨기는 게 아니라 <abbr class="gloss" title="컨트랙트를 볼 수 있으나 단독으로 행위할 수는 없는 파티">관찰자</abbr>를 선언)
 
 ### 다른 블록체인(Solana, Cosmos 등) 경험이 있습니다
 
