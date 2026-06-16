@@ -9,7 +9,7 @@ tags: [overview, reference, 합의, BFT, 시퀀서]
 > **출처(원문)**: [Ordering Consensus](https://docs.canton.network/overview/reference/ordering-consensus) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton 2계층 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr> 중 순서화 계층 — <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr> 노드, <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> 순서화 서비스(ISS·Narwhal 기반 4모듈 파이프라인), BFT 신뢰 모델(1/3 미만 결함), 중앙집중/CometBFT/네이티브 BFT 백엔드, 시퀀서 보장.
+- **한 줄 요약**: Canton 2계층 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr> 중 순서화 계층 — <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr> 노드, <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> 순서화 서비스(<abbr class="gloss" title="Insanely Scalable State-machine replication. Canton 시퀀서가 메시지 전체 순서에 합의하는 데 쓰는 BFT 합의 알고리즘(1/3 미만 비잔틴 허용)">ISS</abbr>·Narwhal 기반 4모듈 파이프라인), BFT 신뢰 모델(1/3 미만 결함), 중앙집중/CometBFT/네이티브 BFT 백엔드, 시퀀서 보장.
 - **핵심 용어**: 시퀀서·미디에이터, BFT, ISS·Narwhal, PoA(가용성 증명), Mempool/Availability/Consensus/Output 모듈, 전체 순서
 - **선행 개념**: [2계층 합의](../learn/two-layer-consensus.md), [Canton 프로토콜 명세](canton-protocol-specification.md).
 
