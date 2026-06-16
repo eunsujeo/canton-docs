@@ -105,3 +105,7 @@
 
 ## 2026-06-16 — note | BTC vs Ethereum vs Canton 비교
 - `notes/btc-ethereum-canton-compare.md` 신설: 데이터모델·합의·확정·프라이버시·용도 3자 비교 + 블록 익스플로러(mempool/etherscan/cantonscan) URL
+
+## 2026-06-16 — note + 다듬기 | Synchronizer 종류(사설/컨소시엄/글로벌)
+- two-layer-consensus: "그 Synchronizer에 대해 전역적으로 고유한" → "그 Synchronizer 안에서 고유한"으로 명확화
+- `notes/synchronizer-types-private-consortium-global.md` 신설: 운영주체·참여범위·신뢰·탈중앙 비교

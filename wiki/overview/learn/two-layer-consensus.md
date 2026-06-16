@@ -74,7 +74,7 @@ sequenceDiagram
 Synchronizer의 <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr> 구성 요소는:
 
 1. 참여자로부터 암호화된 트랜잭션 메시지를 받는다
-2. 그 Synchronizer에 대해 전역적으로 고유한 타임스탬프/시퀀스 번호를 부여한다
+2. 그 Synchronizer 안에서 고유한 타임스탬프/시퀀스 번호를 부여한다 (각 Synchronizer는 자기만의 순서줄을 가짐 — 다른 Synchronizer와는 별개)
 3. 메시지를 권한 있는 모든 수신자에게 순서대로 분배한다
 4. 모든 수신자가 같은 순서를 보도록 보장한다
 

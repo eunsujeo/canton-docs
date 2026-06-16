@@ -62,6 +62,6 @@ tags: [개요, 정리, note, 파티, 설계, 수탁]
 
 ---
 
-⬅️ **이전**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md) ・ ➡️ **다음**: [용어 한 컷 카드 — 자주 막히는 용어 모음](term-cheatsheet.md)
+⬅️ **이전**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md) ・ ➡️ **다음**: [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](synchronizer-types-private-consortium-global.md)
 
 <!-- nav:end -->

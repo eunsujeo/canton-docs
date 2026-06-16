@@ -69,4 +69,5 @@
   - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md)
   - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md)
   - [파티는 유저마다 만들까? — per-user vs 옴니버스](notes/party-design-per-user-vs-omnibus.md)
+  - [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](notes/synchronizer-types-private-consortium-global.md)
   - [용어 한 컷 카드 — 자주 막히는 용어 모음](notes/term-cheatsheet.md)

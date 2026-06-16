@@ -79,6 +79,6 @@ tags: [개요, 정리, note, 용어, 치트시트, 복습]
 
 ---
 
-⬅️ **이전**: [파티는 유저마다 만들까? — per-user vs 옴니버스](party-design-per-user-vs-omnibus.md)
+⬅️ **이전**: [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](synchronizer-types-private-consortium-global.md)
 
 <!-- nav:end -->
