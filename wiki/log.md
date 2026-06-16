@@ -96,3 +96,6 @@
 
 ## 2026-06-16 — note | Canton vs Splice
 - `notes/canton-vs-splice.md` 신설: Canton=기반 프로토콜(엔진), Splice=공개망 운영 앱 묶음(토큰·월렛·Scan·거버넌스). CC=Splice의 Amulet
+
+## 2026-06-16 — note | 용어 한 컷 카드(치트시트)
+- `notes/term-cheatsheet.md` 신설: 학습 중 자주 재질문한 핵심 용어를 한 줄 비유로 모음(복습용). index notes 최상단 ⭐ 등록

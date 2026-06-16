@@ -103,6 +103,7 @@ _(아직 없음)_
 - [원장 모델 상세 명세](overview/reference/ledger-model-detailed.md) · [Canton Foundation 정책 (CF Policies)](overview/reference/gsf-policies.md)
 
 ### notes — 정리 노트 (직접 작성)
+- ⭐ [용어 한 컷 카드 — 자주 막히는 용어 모음](notes/term-cheatsheet.md) — 파티·뷰·샤드·초이스·Splice 등 핵심 용어를 한 줄 비유로. 미팅 전 빠른 복습용.
 - [블록체인 계층 (L0/L1/L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md) — L0·L1·L2 구분과 대표 네트워크, Canton이 프라이버시 보존 L1으로서 갖는 위치.
 - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md) — 지폐 비유로 푸는 eUTXO 원장 모델과 이중지불 방지(세 가지 방어선).
 - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md) — 키를 노드에 맡기느냐(로컬) 내가 직접 쥐느냐(외부). SPN/CPN/OPN 권한과 자기수탁.
