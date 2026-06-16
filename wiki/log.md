@@ -99,3 +99,6 @@
 
 ## 2026-06-16 — note | 용어 한 컷 카드(치트시트)
 - `notes/term-cheatsheet.md` 신설: 학습 중 자주 재질문한 핵심 용어를 한 줄 비유로 모음(복습용). index notes 최상단 ⭐ 등록
+
+## 2026-06-16 — note | Canton 위 기관 간 DvP 정산 앱 2층 구조
+- `notes/dvp-settlement-app-architecture.md` 신설: 온-원장 Daml(정산 강제)+오프-원장 백엔드, 구조도, 밸리데이터 자체호스팅/NaaS. 역할 기반(공개 배포)
