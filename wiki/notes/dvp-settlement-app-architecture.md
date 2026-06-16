@@ -63,6 +63,22 @@ flowchart TB
 | 내 데이터는 내가 통제 | **자체 호스팅 밸리데이터** |
 | 단계적 검증 | **LocalNet → DevNet/TestNet** 환경 사다리 |
 
+## LocalNet에서 동일 "기능 스펙"으로 PoC 가능
+
+이 앱 전체를 **LocalNet에 동일한 기능 스펙으로 만들어 테스트**할 수 있다. (QuickStart가 라이선스 앱으로 한 걸 정산 앱으로 하는 셈)
+
+| | LocalNet에서 | 비고 |
+|---|---|---|
+| 정산 Daml 모델·초이스 | ✅ 그대로 배포 | 동일 |
+| 원자성·프라이버시 보장 | ✅ 동일 동작 | 같은 Canton 프로토콜 |
+| 기관 A·B·MM 파티/밸리데이터 | ✅ 로컬에서 시뮬레이션 | 한 머신에 여러 노드 |
+| 백엔드·Ledger API 연동 | ✅ end-to-end | 동일 |
+| **실제 망의 분산·지연·<abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr>** | ⚠️ 모사만 | 진짜는 DevNet/TestNet |
+| **외부 연동**(커스터디·은행·MM·브릿지·실제 스테이블코인) | ⚠️ mock | 실제는 통합 필요 |
+| **CC·<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 경제, 온보딩·신원** | ⚠️ 가치 없음/절차 없음 | 실제는 DevNet+ |
+
+> 즉 **로직(정산·원자성·프라이버시)은 진짜와 똑같이** 동작하고, **실제 망의 분산·지연·경제·외부연동만 LocalNet이 흉내**낸다. → LocalNet에서 만들고 DevNet/TestNet으로 올린다. 출발점은 cn-quickstart의 데모 자리에 DvP 정산 Daml을 넣는 것.
+
 ## 멀티체인 맥락 (미확정)
 
 스테이블코인이 **다른 체인(Base/Ethereum)에서 발행되고 Canton으로 브릿지돼 정산**되는 시나리오도 가능 — 이 경우 "Canton에서 DvP 정산하는 대상"이 브릿지된 표현일 수 있다. 발행 체인·브릿지 설계는 열려 있으니 양쪽 시나리오를 모두 염두에 둔다.
