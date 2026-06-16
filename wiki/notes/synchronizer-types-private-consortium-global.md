@@ -36,6 +36,24 @@ tags: [개요, 정리, note, synchronizer, 토폴로지]
 - 각 Synchronizer는 **자기만의 순서줄(total order)** 을 가진다 — <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>를 다른 Synchronizer로 옮기려면 **<abbr class="gloss" title="컨트랙트를 한 Synchronizer에서 다른 Synchronizer로 옮기는 프로토콜">재할당</abbr>(reassignment)** 프로토콜이 필요.
 - **<abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr> 합의(<abbr class="gloss" title="어떤 컨트랙트와 관계를 맺어 그것을 보거나 승인하는 파티 = 서명자 + 관찰자">이해관계자</abbr> 검증)는 종류와 무관하게 동일**; 달라지는 건 **순서화(ordering) 신뢰 모델**뿐 (사설=단일 운영자, 컨소시엄·글로벌=BFT).
 
+## 누가 설치·운영하나 (특히 컨소시엄)
+
+Synchronizer를 운영한다 = **<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr> + <abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr> 노드**(Canton/<abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 표준 소프트웨어)를 **배포·운영**하는 것. (새로 만드는 게 아니라 배포)
+
+| 종류 | 시퀀서·미디에이터 노드를 누가 운영 |
+|---|---|
+| **사설** | 한 조직이 단독 |
+| **컨소시엄** | **멤버 기관들이 각자 노드를 나눠 운영**(분담) → 함께 BFT |
+| **글로벌** | 독립 슈퍼 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr>들이 분담 → BFT |
+
+> ⚠️ **컨소시엄 핵심**: 한 멤버만 노드를 돌리면 신뢰가 그 한 곳에 쏠려 **사실상 사설**이다. **여러 멤버가 노드를 나눠 운영**해야 신뢰가 분산되고(BFT, 1/3 미만 비잔틴 견딤) 진짜 컨소시엄이 된다. → "컨소시엄에서 직접 설치" = *멤버 각자가 자기 시퀀서·미디에이터 노드를 깔아 공동 운영·거버넌스*.
+
+> 참고: **밸리데이터(<abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>)** 는 *정산 참여*용(각 기관이 자기 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr>), **Synchronizer 노드(시퀀서·미디에이터)** 는 *그 망의 순서·조율 인프라*. 한 기관이 둘 다 운영할 수도 있다.
+
+## Canton Coin(CC)은 글로벌 전용
+
+**CC는 <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>의 <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>(수수료)·보상 토큰**이다. 사설/컨소시엄 Synchronizer는 **자체 과금 모델**(또는 무과금)을 쓸 수 있어 CC를 꼭 쓰지 않는다. CC는 Canton 프로토콜 필수가 아니라 Splice가 공용망에 붙인 경제 장치다. ([Canton Coin](../overview/understand/canton-coin.md) 참고)
+
 ## B2B 정산 맥락
 
 - 특정 **기관 그룹끼리만** 정산하고 외부엔 닫고 싶다 → **컨소시엄 Synchronizer**
