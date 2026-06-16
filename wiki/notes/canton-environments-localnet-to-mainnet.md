@@ -41,6 +41,19 @@ tags: [appdev, 정리, note, 환경, 배포, 온보딩]
 - **네트워크당 IP 1개**만 허용, **DevNet·TestNet·MainNet에서 서로 구별되는 IP**여야 함
 - DevNet도 위원회 승인은 없지만 **IP allowlist 등록은 필요**
 
+## 하드웨어 요구사항
+
+| 환경/용도 | 노드 | DB |
+|---|---|---|
+| **LocalNet(개발·PoC)** | Docker에 **RAM 8GB+** 할당 가능한 일반 노트북, 디스크 여유 (16GB면 여유) | (단일 PostgreSQL 포함) |
+| **운영 밸리데이터(활동 적음)** | CPU 2코어 · **RAM 8GB** | 2코어 · 4GB · 디스크 10GB |
+| **운영 밸리데이터(앱 제공자, 중간 활동)** | CPU 2코어 · **RAM 16GB** | 2코어 · 4GB · 디스크 **100GB** |
+
+- **DB 지연(latency)에 민감** → 관리형 DB를 노드와 **같은 리전·존**에 둔다.
+- "실제 요구치는 사용량에 따라 달라짐" → 운영 중 CPU·메모리·디스크 **모니터링하며 조정**.
+- 소프트웨어(Canton·<abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr>)는 **오픈소스(무료)** — Docker 이미지/cn-quickstart로 받음. 비용은 *글로벌 <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>(CC)·서버 운영비*뿐.
+- ⚠️ 위는 **밸리데이터** 기준. **슈퍼 밸리데이터/<abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 노드(<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>·<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>)** 는 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr> 부하로 더 크며, 값은 deployment 문서 별도 절 참고. (출처: [Validator 배포 Prerequisites](https://docs.canton.network/global-synchronizer/deployment/prerequisites))
+
 ## 권장 개발 흐름
 
 ```
