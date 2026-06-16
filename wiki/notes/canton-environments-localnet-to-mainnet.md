@@ -66,6 +66,6 @@ LocalNet (내 PC, 매일 개발·단위 테스트 — 절차 없음)
 
 ---
 
-⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](eutxo-double-spend.md)
+⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md)
 
 <!-- nav:end -->

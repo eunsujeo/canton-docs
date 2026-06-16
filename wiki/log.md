@@ -93,3 +93,6 @@
 
 ## 2026-06-16 — note | Canton 환경 4단계(LocalNet→DevNet→TestNet→MainNet)
 - `notes/canton-environments-localnet-to-mainnet.md` 신설: 로컬=LocalNet vs 공유망(연결+온보딩), 절차·IP allowlist·환경별 차이
+
+## 2026-06-16 — note | Canton vs Splice
+- `notes/canton-vs-splice.md` 신설: Canton=기반 프로토콜(엔진), Splice=공개망 운영 앱 묶음(토큰·월렛·Scan·거버넌스). CC=Splice의 Amulet

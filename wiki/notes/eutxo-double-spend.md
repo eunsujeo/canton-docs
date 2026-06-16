@@ -164,6 +164,6 @@ Canton은 다르다. **지갑 속 지폐**처럼 생각하면 된다.
 
 ---
 
-⬅️ **이전**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md) ・ ➡️ **다음**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md)
+⬅️ **이전**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md) ・ ➡️ **다음**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md)
 
 <!-- nav:end -->
