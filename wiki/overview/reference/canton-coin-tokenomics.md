@@ -9,7 +9,7 @@ tags: [overview, reference, 토크노믹스, CantonCoin]
 > **출처(원문)**: [Canton Coin Tokenomics](https://docs.canton.network/overview/reference/canton-coin-tokenomics) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: CC 수수료 구조(<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>·보유 수수료), 마이닝 라운드(5단계)·활동 레코드(5개 <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>), 소각-발행 균형, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 발행, UTXO 모델·더스트 만료, CN 토큰 표준(<abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr>-0056)의 기술 레퍼런스.
+- **한 줄 요약**: CC 수수료 구조(<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr>·보유 수수료), 마이닝 라운드(5단계)·활동 레코드(5개 <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr>), 소각-발행 균형, <abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr> 발행, UTXO 모델·더스트 만료, CN 토큰 표준(<abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr>-0056)의 기술 레퍼런스.
 - **핵심 용어**: Amulet, AmuletRules/OpenMiningRound/IssuingMiningRound, 활동 레코드·가중치, 보유 수수료(holding fee), 피처드 앱, UTXO 더스트 만료
 - **선행 개념**: [Canton Coin](../understand/canton-coin.md), [GS 토크노믹스](tokenomics-of-gs.md).
 
@@ -33,13 +33,13 @@ CC는 세 가지 수수료 유형이 있었다. [CIP-0078](https://github.com/gl
 
 ### 보유 수수료 (Holding Fees)
 
-Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반한다. 활동 레코드는 네트워크에 가치를 제공하는 동작을 수행한 파티를 식별한다. 활동 레코드는 *가중치(weight)* 를 가지며, 이는 그 활동 레코드와 연관된 CC 발행의 상대적 몫이다.
+Canton Network 토크노믹스는 *활동 레코드(Activity Record)* 에 기반한다. 활동 레코드는 네트워크에 가치를 제공하는 동작을 수행한 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>를 식별한다. 활동 레코드는 *가중치(weight)* 를 가지며, 이는 그 활동 레코드와 연관된 CC 발행의 상대적 몫이다.
 
 활동 레코드를 생성하는 것과 연관된 CC를 발행하는 것은 두 별개 단계다. 생성·발행 단계는 다섯 단계를 가진 *라운드(round)* 라 부르는 사이클로 수행된다. 첫 단계에서 그 라운드의 수수료 값이 <abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr>에 기록된다(수수료는 Scan State API로 얻을 수 있다). 두 번째 단계는 *활동 기록(activity recording)* 으로, 활동 레코드가 생성되는 때다; 이 단계에 생성된 레코드는 그 라운드에 속한다. 다음 단계는 각 종류의 활동 레코드에 대한 [활동 가중치당 CC 발행량](https://github.com/canton-network/splice/blob/332e06a7ae9e13fde5bba0bf7dcb059aa36f979e/daml/splice-amulet/daml/Splice/Issuance.daml#L67)을 계산하는데, 이는 그 유형의 활동 레코드에 대해 발행될 수 있는 총 CC의 몫이다. 그 뒤 *발행 단계(minting phase)* 에서 활동 레코드의 소유자가 발행 가중치에 비례해 CC를 발행할 수 있다.
 
 여러 라운드가 동시에 활성이며, 각 라운드는 서로 다른 단계에 있다. 라운드는 10분마다 시작하며, 이는 슈퍼 밸리데이터가 향후 거버넌스 투표로 바꿀 수 있는 구성 파라미터다. 자세한 내용은 CC 백서 참고.
 
-외부 파티든 로컬 파티든 활동 레코드 생성에는 차이가 없지만, 발행 단계에 쓰이는 자동화 지원에는 차이가 있다. 밸리데이터에 온보딩된 로컬 파티의 경우, 밸리데이터 애플리케이션이 모든 활동 레코드를 자동 발행하는 백그라운드 자동화를 실행한다. 외부 파티는 자신이 통제하는 키로 트랜잭션에 서명한다. 따라서 밸리데이터 자동화가 외부 파티를 대신해 직접 발행할 수 없다. 외부 파티에는 두 옵션이 있다:
+외부 파티든 <abbr class="gloss" title="키를 노드(밸리데이터)가 보관·서명하는 파티(=수탁형). '로컬'은 노드 시점 작명 — 키·신원이 노드 안에 있음">로컬 파티</abbr>든 활동 레코드 생성에는 차이가 없지만, 발행 단계에 쓰이는 자동화 지원에는 차이가 있다. 밸리데이터에 온보딩된 로컬 파티의 경우, 밸리데이터 애플리케이션이 모든 활동 레코드를 자동 발행하는 백그라운드 자동화를 실행한다. 외부 파티는 자신이 통제하는 키로 트랜잭션에 서명한다. 따라서 밸리데이터 자동화가 외부 파티를 대신해 직접 발행할 수 없다. 외부 파티에는 두 옵션이 있다:
 
 1. 발행 위임(minting delegation)을 써서 보상 수집을 밸리데이터에 위임 — 커스텀 자동화 구축 불필요.
 2. 모든 활동 레코드를 입력으로 하여 라운드당 적어도 한 번 `AmuletRules_Transfer`를 호출하는 커스텀 자동화 개발.

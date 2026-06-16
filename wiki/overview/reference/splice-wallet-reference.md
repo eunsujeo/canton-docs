@@ -9,8 +9,8 @@ tags: [overview, reference, 월렛, Splice]
 > **출처(원문)**: [Splice Wallet Reference](https://docs.canton.network/overview/reference/splice-wallet-reference) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: 모든 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 노드에 내장된 <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 월렛 — UI·자동화(보상 수집·<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 충전·스윕·자동수락), 사전 승인(TransferPreapproval) 설정·갱신·취소, 이전 워크플로(2단계/1단계), 월렛 API, UTXO 관리(병합 위임), 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 지원.
-- **핵심 용어**: Splice 월렛, TransferPreapproval(provider/receiver), 스윕(sweep), MergeDelegation, UTXO·더스트, 외부 파티 서명
+- **한 줄 요약**: 모든 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 노드에 내장된 <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 월렛 — UI·자동화(보상 수집·<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 충전·스윕·자동수락), 사전 승인(TransferPreapproval) 설정·갱신·취소, 이전 워크플로(2단계/1단계), 월렛 API, UTXO 관리(병합 위임), <abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr> 지원.
+- **핵심 용어**: Splice 월렛, TransferPreapproval(provider/receiver), 스윕(sweep), MergeDelegation, UTXO·더스트, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 서명
 - **선행 개념**: [Canton Coin](../understand/canton-coin.md), [Canton Coin 토크노믹스](canton-coin-tokenomics.md).
 
 ---

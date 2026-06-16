@@ -9,8 +9,8 @@ tags: [overview, learn, 보안, 키관리]
 > **출처(원문)**: [Cryptographic keys in Canton](https://docs.canton.network/overview/learn/cryptographic-keys) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton에서 비밀(secret)을 저장하는 옵션(평문/비영속/KMS)과, 키 종류(TLS·네임스페이스·노드 서명·외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 서명·암호화 키)별 용도·저장 방식. 세션 서명/암호화 키로 KMS 지연·부하를 줄이는 기법까지.
-- **핵심 용어**: KMS(키 관리 서비스), 봉투 암호화(envelope encryption), 세션 서명/암호화 키, 네임스페이스 루트 키, 외부 파티 서명 키
+- **한 줄 요약**: Canton에서 비밀(secret)을 저장하는 옵션(평문/비영속/KMS)과, 키 종류(TLS·네임스페이스·노드 서명·<abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr> 서명·암호화 키)별 용도·저장 방식. 세션 서명/암호화 키로 KMS 지연·부하를 줄이는 기법까지.
+- **핵심 용어**: KMS(키 관리 서비스), 봉투 암호화(envelope encryption), 세션 서명/암호화 키, 네임스페이스 루트 키, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 서명 키
 - **선행 개념**: [아키텍처 개요](architecture.md), [신뢰 모델](trust-model.md).
 
 ---

@@ -131,7 +131,7 @@ Canton 키 보유자는 인가 권한을 다른 키에 위임할 수도 있다. 
 
 Canton 키 보유자는 <abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>를 통해 공유 원장에서 서로 통신할 때 암호학적 서명·암호화 키를 쓴다. 서명은 수신자가 각 메시지의 발신자를 검증하게 하고, 암호화는 그 메시지의 민감한 데이터가 기밀로 유지되게 한다.
 
-Canton 키 보유자는 토폴로지 매핑으로 쓰려는 키를 선언한다; Canton 노드는 `OwnerToKeyMapping`, 외부 파티는 `PartyToParticipant`(Canton 외부 파티 참고). Canton 키 보유자는 토폴로지 관리를 제외한 Canton 통신 프로토콜의 여러 계층에 걸친 다양한 활용 사례에 이 토폴로지 매핑에 나열된 키를 쓴다(프로토콜 참고). 구체적으로, `OwnerToKeyMapping`과 `PartyToParticipant`의 서명 키는, 같은 키가 `NamespaceDelegation`의 대상이기도 하지 않은 한, 토폴로지 트랜잭션 서명에 쓸 수 없다. 이 관행은 보안상 강하게 권장되지 않는다.
+Canton 키 보유자는 토폴로지 매핑으로 쓰려는 키를 선언한다; Canton 노드는 `OwnerToKeyMapping`, <abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr>는 `PartyToParticipant`(Canton 외부 파티 참고). Canton 키 보유자는 토폴로지 관리를 제외한 Canton 통신 프로토콜의 여러 계층에 걸친 다양한 활용 사례에 이 토폴로지 매핑에 나열된 키를 쓴다(프로토콜 참고). 구체적으로, `OwnerToKeyMapping`과 `PartyToParticipant`의 서명 키는, 같은 키가 `NamespaceDelegation`의 대상이기도 하지 않은 한, 토폴로지 트랜잭션 서명에 쓸 수 없다. 이 관행은 보안상 강하게 권장되지 않는다.
 
 ### 토폴로지 상태의 파티
 
