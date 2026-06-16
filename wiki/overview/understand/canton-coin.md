@@ -48,15 +48,15 @@ Canton Coin은 탈중앙화 Canton Synchronizer를 위한 오픈소스 인프라
 
 ```mermaid
 flowchart TB
-    subgraph TopUp["1. Top Up Traffic"]
-        CC["Canton Coin"] --> CONVERT["Convert to Traffic"]
-        CONVERT --> BUDGET["Validator Traffic Budget"]
+    subgraph TopUp[Step 1 - Top Up Traffic]
+        CC[Canton Coin] --> CONVERT[Convert to Traffic]
+        CONVERT --> BUDGET[Validator Traffic Budget]
     end
 
-    subgraph Submit["2. Submit Transaction"]
-        TX["Transaction"] --> SIZE["Calculate Size"]
-        SIZE --> DEDUCT["Deduct from Budget"]
-        DEDUCT --> COMMIT["Transaction Commits"]
+    subgraph Submit[Step 2 - Submit Transaction]
+        TX[Transaction] --> SIZE[Calculate Size]
+        SIZE --> DEDUCT[Deduct from Budget]
+        DEDUCT --> COMMIT[Transaction Commits]
     end
 
     BUDGET -.-> DEDUCT
