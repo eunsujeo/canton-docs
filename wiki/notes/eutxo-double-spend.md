@@ -164,6 +164,6 @@ Canton은 다르다. **지갑 속 지폐**처럼 생각하면 된다.
 
 ---
 
-⬅️ **이전**: [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](dvp-settlement-app-architecture.md) ・ ➡️ **다음**: [로컬 파티 vs 외부 파티 — 쉽게 이해하기](local-vs-external-party.md)
+⬅️ **이전**: [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](dvp-settlement-app-architecture.md) ・ ➡️ **다음**: [ISS — Canton 시퀀서의 BFT 순서화 알고리즘](iss-consensus.md)
 
 <!-- nav:end -->

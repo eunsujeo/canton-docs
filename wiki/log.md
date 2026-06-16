@@ -109,3 +109,6 @@
 ## 2026-06-16 — note + 다듬기 | Synchronizer 종류(사설/컨소시엄/글로벌)
 - two-layer-consensus: "그 Synchronizer에 대해 전역적으로 고유한" → "그 Synchronizer 안에서 고유한"으로 명확화
 - `notes/synchronizer-types-private-consortium-global.md` 신설: 운영주체·참여범위·신뢰·탈중앙 비교
+
+## 2026-06-16 — note | ISS 합의 알고리즘
+- `notes/iss-consensus.md` 신설: 멀티 리더 BFT 순서화, 단일 리더 병목 해소, 1/3 비잔틴·결정적 확정·프라이버시
