@@ -107,3 +107,4 @@ _(아직 없음)_
 - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md) — 지폐 비유로 푸는 eUTXO 원장 모델과 이중지불 방지(세 가지 방어선).
 - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md) — 키를 노드에 맡기느냐(로컬) 내가 직접 쥐느냐(외부). SPN/CPN/OPN 권한과 자기수탁.
 - [파티는 유저마다 만들까? — per-user vs 옴니버스](notes/party-design-per-user-vs-omnibus.md) — 파티 생성 비용 때문에 유저별 파티는 선택. 거래소식 옴니버스(소수 파티+오프체인 장부) 패턴.
+- [Canton 환경 4단계 — LocalNet→DevNet→TestNet→MainNet](notes/canton-environments-localnet-to-mainnet.md) — 로컬=LocalNet, 공유망은 연결+온보딩(후원 SV·IP allowlist) 필요. 환경별 절차 비교.

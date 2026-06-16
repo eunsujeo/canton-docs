@@ -90,3 +90,6 @@
 - `appdev/quickstart/running-the-demo.md` (데모 실행하기 — 라이선스 워크플로)
 - `appdev/modules/m5-localnet-development.md` (LocalNet 개발)
 - 목적: overview 학습 후 로컬 PC에서 직접 실습(LocalNet)하기 위한 입문 4페이지
+
+## 2026-06-16 — note | Canton 환경 4단계(LocalNet→DevNet→TestNet→MainNet)
+- `notes/canton-environments-localnet-to-mainnet.md` 신설: 로컬=LocalNet vs 공유망(연결+온보딩), 절차·IP allowlist·환경별 차이

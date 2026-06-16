@@ -62,6 +62,7 @@
   - [데모 실행하기 (Running the Demo)](appdev/quickstart/running-the-demo.md)
 - **정리 노트 (Notes)**
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
+  - [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](notes/canton-environments-localnet-to-mainnet.md)
   - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](notes/eutxo-double-spend.md)
   - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md)
   - [파티는 유저마다 만들까? — per-user vs 옴니버스](notes/party-design-per-user-vs-omnibus.md)

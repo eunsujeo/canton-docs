@@ -76,6 +76,6 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 
 ---
 
-⬅️ **이전**: [데모 실행하기 (Running the Demo)](../appdev/quickstart/running-the-demo.md) ・ ➡️ **다음**: [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](eutxo-double-spend.md)
+⬅️ **이전**: [데모 실행하기 (Running the Demo)](../appdev/quickstart/running-the-demo.md) ・ ➡️ **다음**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md)
 
 <!-- nav:end -->
