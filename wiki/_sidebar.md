@@ -62,6 +62,7 @@
   - [데모 실행하기 (Running the Demo)](appdev/quickstart/running-the-demo.md)
 - **정리 노트 (Notes)**
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
+  - [BTC vs Ethereum vs Canton — 한눈 비교](notes/btc-ethereum-canton-compare.md)
   - [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](notes/canton-environments-localnet-to-mainnet.md)
   - [Canton vs Splice — 엔진 vs 운영 소프트웨어](notes/canton-vs-splice.md)
   - [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](notes/dvp-settlement-app-architecture.md)

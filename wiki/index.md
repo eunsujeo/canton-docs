@@ -111,3 +111,4 @@ _(아직 없음)_
 - [Canton 환경 4단계 — LocalNet→DevNet→TestNet→MainNet](notes/canton-environments-localnet-to-mainnet.md) — 로컬=LocalNet, 공유망은 연결+온보딩(후원 SV·IP allowlist) 필요. 환경별 절차 비교.
 - [Canton vs Splice — 엔진 vs 운영 소프트웨어](notes/canton-vs-splice.md) — Canton=기반 프로토콜(엔진), Splice=그 위에서 공개망을 운영하는 앱 묶음(토큰·월렛·Scan·거버넌스).
 - [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](notes/dvp-settlement-app-architecture.md) — 온-원장 Daml(정산 강제) + 오프-원장 백엔드(RFQ·연동). 각 기관이 파티·밸리데이터로 참여.
+- [BTC vs Ethereum vs Canton — 한눈 비교](notes/btc-ethereum-canton-compare.md) — 데이터모델·합의·확정·프라이버시·용도 3자 비교표.

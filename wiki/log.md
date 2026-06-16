@@ -102,3 +102,6 @@
 
 ## 2026-06-16 — note | Canton 위 기관 간 DvP 정산 앱 2층 구조
 - `notes/dvp-settlement-app-architecture.md` 신설: 온-원장 Daml(정산 강제)+오프-원장 백엔드, 구조도, 밸리데이터 자체호스팅/NaaS. 역할 기반(공개 배포)
+
+## 2026-06-16 — note | BTC vs Ethereum vs Canton 비교
+- `notes/btc-ethereum-canton-compare.md` 신설: 데이터모델·합의·확정·프라이버시·용도 3자 비교 + 블록 익스플로러(mempool/etherscan/cantonscan) URL

@@ -66,6 +66,6 @@ LocalNet (내 PC, 매일 개발·단위 테스트 — 절차 없음)
 
 ---
 
-⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md)
+⬅️ **이전**: [BTC vs Ethereum vs Canton — 한눈 비교](btc-ethereum-canton-compare.md) ・ ➡️ **다음**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md)
 
 <!-- nav:end -->
