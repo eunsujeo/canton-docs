@@ -26,3 +26,5 @@ wiki/.obsidian/.trash/
 
 # Claude Code — 로컬 권한/상태는 제외, 공유 자산(skills, CLAUDE.md)은 유지
 .claude/settings.local.json
+
+.wrangler/
