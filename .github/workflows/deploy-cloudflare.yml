@@ -23,4 +23,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # 정적 Docsify 사이트 — 빌드 없이 wiki/ 디렉토리를 그대로 업로드
-          command: pages deploy wiki --project-name=canton-wiki --branch=main
+          command: pages deploy wiki --project-name=canton-docs --branch=main
