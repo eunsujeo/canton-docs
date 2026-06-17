@@ -115,3 +115,6 @@
 
 ## [2026-06-17] ingest | Scan 읽는 법 (notes)
 - LocalNet Scan UI 학습 정리 노트 추가. SV/DSO·마이닝 라운드·Amulet·Tap·Automation. glossary 툴팁 4개(Scan/Amulet/마이닝 라운드/Tap) 추가, index 등록, gen 3종 실행.
+
+## [2026-06-17] edit | 블록 개념 정정 (ISS·Scan 노트)
+- "Canton엔 블록 없음" 오해 정정: 시퀀서 순서화 계층엔 블록 있음(암호봉투 순서묶음), 확정은 이해관계자 계층. 라운드≠블록≠트랜잭션 박스 추가.
