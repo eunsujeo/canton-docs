@@ -16,7 +16,7 @@
 | git | ✅ | cn-quickstart 저장소 클론 | 2.39.5 |
 | Java | ✅ | Canton·Daml 툴이 JVM 위에서 실행 | OpenJDK 21 |
 | **Direnv** | ✅ | cn-quickstart 폴더 진입 시 `.envrc`(환경변수·SDK 경로) 자동 로드 | 2.37.1 (`brew install direnv` + zsh 훅) — 2026-06-17 |
-| **Nix** | ⬜ | cn-quickstart가 빌드 도구·의존성을 Nix로 재현성 있게 고정 | 사용자 터미널에서 직접 설치 필요 (sudo) |
+| **Nix** | ✅ | cn-quickstart가 빌드 도구·의존성을 Nix로 재현성 있게 고정 | 2.34.7 (사용자 직접 설치) — 2026-06-17 |
 | Daml SDK | ⬜ | Daml 컨트랙트 컴파일·`daml` CLI(빌드/스크립트 실행) | 전역 설치 X — cn-quickstart에서 `make install-daml-sdk`로 설치 |
 
 ## 설치 절차 / 기록
@@ -36,6 +36,17 @@ macOS는 sudo 비밀번호 + 별도 APFS 볼륨/데몬 생성이 필요해 **본
 sh <(curl -L https://nixos.org/nix/install)
 ```
 - 설치 후 새 터미널에서 `nix --version` 확인.
+
+### 2-1. Nix flakes 활성화 (함정 ⚠️)
+공식 설치 스크립트(`nixos.org/nix/install`)는 **flakes가 기본 비활성**이다. cn-quickstart의 `.envrc`는 `use flake`라서 그대로면 `direnv allow`·`nix develop`이 다음 에러로 실패한다:
+```
+error: experimental Nix feature 'nix-command' is disabled; ...
+```
+해결 — 사용자 레벨 설정에 한 줄 추가(sudo 불필요):
+```bash
+mkdir -p ~/.config/nix
+echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
+```
 
 ### 3. Daml SDK (Phase 1 진행 중 자동)
 전역 설치하지 않는다. cn-quickstart 클론 → `quickstart/` 안에서:
