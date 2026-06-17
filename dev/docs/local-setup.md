@@ -89,4 +89,23 @@ IMAGE_REPO=${IMAGE_REPO:-ghcr.io/digital-asset/decentralized-canton-sync/docker/
 - API 키·토큰·스테이블코인 발행 자격: 전부 로컬 시뮬레이션이라 불필요
 - 디스크: 이미지·볼륨으로 수 GB 사용
 
+## ✅ 구동 성공 (2026-06-17)
+`make setup → build → start` 완료. 컨테이너 16개 전부 healthy, 모든 UI 200 OK.
+
+### 접속 URL (LocalNet)
+| UI | URL | 내용 |
+|---|---|---|
+| **App UI** (App Provider) | http://app-provider.localhost:3000 | 예제 앱(라이선싱/앱설치) 프론트 |
+| **Scan** | http://scan.localhost:4000 | 네트워크·SV·CC 활동 익스플로러 |
+| **SV Interface** | http://sv.localhost:4000 | 슈퍼밸리데이터 인터페이스 |
+| **SV Wallet** | http://wallet.localhost:4000 | SV 지갑 |
+| **App User Wallet** | http://wallet.localhost:2000 | 앱 사용자 지갑 |
+| **Swagger UI** (JSON API v2) | http://localhost:9090 | Ledger JSON API 탐색 |
+| Grafana(Observability) | http://localhost:3030 | (Observability 켰을 때만) |
+
+> `make open-app-ui` / `open-sv-scan` / `open-sv-wallet` / `open-app-user-wallet` / `open-swagger-ui` 로도 열림.
+
+### 종료/정리
+- 멈춤: `make stop` · 데이터까지 정리: `make clean-all` (다음 빌드 충돌 예방차 세션 종료 시 권장)
+
 > 상세 로드맵: [roadmap.md](roadmap.md)
