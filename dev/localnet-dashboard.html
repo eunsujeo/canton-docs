@@ -84,7 +84,7 @@ function buildPanes() {
            <p>이 페이지는 보안 정책(X-Frame-Options)으로 격자 안에 넣을 수 없어요.</p>
            <a href="${p.url}" target="_blank">↗ 새 탭에서 열기</a>
          </div>`
-      : `<iframe src="${p.url}" loading="lazy"></iframe>`;
+      : `<iframe src="${p.url}" loading="lazy" allow="clipboard-read; clipboard-write"></iframe>`;
     el.innerHTML = `
       <header>
         <span class="name">${p.name}</span>
