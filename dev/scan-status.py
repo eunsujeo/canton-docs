@@ -4,7 +4,7 @@
 Scan UI가 보기 불편해서, 학습에 필요한 것만 요약하는 CLI 도구.
   python3 scan-status.py    # 현재 상태 1회 출력
 """
-import json, time, urllib.request
+import json, time, calendar, urllib.request
 
 # macOS 기본 resolver는 *.localhost 서브도메인을 해석 못 하므로
 # 127.0.0.1로 붙고 Host 헤더로 nginx 가상호스트 라우팅을 시킨다.
@@ -38,6 +38,20 @@ def short(pid, n=16):
 def num(p, payload="round"):
     try: return p["contract"]["payload"]["round"]["number"]
     except Exception: return "?"
+
+def hhmmss(iso):
+    """ISO UTC 문자열 → 로컬 시각 HH:MM:SS."""
+    try:
+        s = iso.replace("Z", "+0000").split(".")[0]
+        t = time.strptime(s, "%Y-%m-%dT%H:%M:%S")
+        epoch = calendar.timegm(t)  # UTC 기준 epoch
+        return time.strftime("%H:%M:%S", time.localtime(epoch))
+    except Exception:
+        return (iso or "")[11:19]
+
+def cc(v):
+    try: return f"{float(v):,.0f}"
+    except Exception: return str(v)
 
 def render():
     lines = []
@@ -75,21 +89,42 @@ def render():
         lines.append(f"  총 CC(Amulet) : (집계 전 — 닫힌 라운드 생기면 표시)")
 
     lines.append("  " + "─" * 52)
-    code, act = get("/activities", method="POST", body={"page_size": 8})
+    code, act = get("/activities", method="POST", body={"page_size": 10})
     acts = act.get("activities", []) if isinstance(act, dict) else []
     lines.append(f"  최근 활동 (최신 {len(acts)}):")
     for a in acts:
         t = a.get("activity_type", "?")
         rnd = a.get("round", "?")
-        who, amt = "", ""
+        ts = hhmmss(a.get("date", ""))
+        label = {"devnet_tap": "Tap(무료CC)", "transfer": "Transfer", "mint": "Mint(발행)"}.get(t, t)
         if a.get("tap"):
             tap = a["tap"]
             who = short(tap.get("amulet_owner"))
-            amt = f"+{float(tap.get('amulet_amount',0)):,.0f} CC"
+            head = f"    [{ts}] {label:<12} round {str(rnd):<3} {who}"
+            lines.append(head)
+            lines.append(f"             +{cc(tap.get('amulet_amount',0))} CC 무료 수령")
         elif a.get("transfer"):
-            who = short((a["transfer"] or {}).get("sender", {}).get("party"))
-        label = {"devnet_tap": "Tap(무료CC)", "transfer": "Transfer(송금)", "mint": "Mint(발행)"}.get(t, t)
-        lines.append(f"    • {label:<16} round {str(rnd):<3} {who:<13} {amt}")
+            tr = a["transfer"]; s = tr.get("sender", {})
+            who = short(s.get("party"))
+            recvs = tr.get("receivers", []) or []
+            head = f"    [{ts}] {label:<12} round {str(rnd):<3} {who}"
+            lines.append(head)
+            # 보상 수령(self) vs 실제 송금 구분
+            reward = float(s.get("input_validator_reward_amount", 0) or 0)
+            faucet = float(s.get("input_validator_faucet_amount", 0) or 0)
+            change = s.get("sender_change_amount", 0)
+            fee = float(s.get("sender_fee", 0) or 0) + float(s.get("holding_fees", 0) or 0)
+            parts = []
+            if reward: parts.append(f"밸리데이터보상 +{cc(reward)}")
+            if faucet: parts.append(f"faucet +{cc(faucet)}")
+            if recvs:
+                tgt = ", ".join(f"{short(r.get('party'))} {cc(r.get('amount'))}CC" for r in recvs[:3])
+                parts.append(f"→ {tgt}")
+            parts.append(f"잔액 {cc(change)} CC")
+            if fee: parts.append(f"수수료 {cc(fee)}")
+            lines.append("             " + " · ".join(parts))
+        else:
+            lines.append(f"    [{ts}] {label:<12} round {str(rnd):<3}")
     if not acts:
         lines.append("    (활동 없음)")
     return "\n".join(lines)
