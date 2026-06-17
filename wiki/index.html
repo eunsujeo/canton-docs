@@ -69,6 +69,11 @@
       repo: '',
       homepage: 'how-to-read.md',
       loadSidebar: true,
+      // relativePath:true 라 중첩 경로에서 _sidebar.md를 상대경로로 찾다 실패(무한 로딩) →
+      // 모든 _sidebar.md 요청을 루트 파일로 매핑
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md',
+      },
       subMaxLevel: 2,
       maxLevel: 4,
       auto2top: true,
