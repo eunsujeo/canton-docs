@@ -28,6 +28,7 @@
 - [ ] 서명자·관찰자·컨트롤러 권한 설계(누가 제안/수락/정산을 트리거하나).
 - [ ] **Daml Script로 시나리오 자동 실행** — "제안 → 수락 → 원자적 정산 / 실패 시 전부 롤백" 재현.
 - [ ] 부분 트랜잭션 프라이버시 확인(각 파티가 자기 view만 보는지).
+- ⭐ 직접 근거: [예제 라이선싱 코드 → DvP 골격 → Musubi](dvp-licensing-code-walkthrough.md) — License.daml이 Musubi DvP의 골격(다리 1개→2개).
 - 참고: [원장 모델](../../wiki/overview/ledger-model.md) · [파티 설계: 1인1파티 vs 옴니버스](../../wiki/notes/party-design-per-user-vs-omnibus.md) · [로컬/외부 파티](../../wiki/notes/local-vs-external-party.md)
 
 ## Phase 3 — 백엔드 앱 레이어
