@@ -116,21 +116,30 @@ def render():
             # 보상 수령(self) vs 실제 송금 구분
             reward = float(s.get("input_validator_reward_amount", 0) or 0)
             faucet = float(s.get("input_validator_faucet_amount", 0) or 0)
-            change = s.get("sender_change_amount", 0)
+            change = float(s.get("sender_change_amount", 0) or 0)
             fee = float(s.get("sender_fee", 0) or 0) + float(s.get("holding_fees", 0) or 0)
             parts = []
-            if reward: parts.append(f"밸리데이터보상 +{cc(reward)}")
-            if faucet: parts.append(f"faucet +{cc(faucet)}")
             if recvs:
-                tgt = ", ".join(f"{short(r.get('party'))} {cc(r.get('amount'))}CC" for r in recvs[:3])
-                parts.append(f"→ {tgt}")
-            parts.append(f"잔액 {cc(change)} CC")
+                # 실제 송금: 보낸 금액·상대를 앞세우고, 잔돈은 "이 거래의 잔돈"으로 명확히
+                tgt = ", ".join(f"{short(r.get('party'))}" for r in recvs[:3])
+                sent = sum(float(r.get("amount", 0) or 0) for r in recvs)
+                parts.append(f"보냄 {cc(sent)} CC → {tgt}")
+                parts.append(f"이 거래 잔돈 {cc(change)}")
+            else:
+                # self-보상 수령: change = 그 시점 보상코인 누적액
+                if reward: parts.append(f"밸리데이터보상 +{cc(reward)}")
+                if faucet: parts.append(f"faucet +{cc(faucet)}")
+                parts.append(f"보상코인 누적 ~{cc(change)} CC")
             if fee: parts.append(f"수수료 {cc(fee)}")
             lines.append("             " + " · ".join(parts))
         else:
             lines.append(f"    [{ts}] {label:<12} round {str(rnd):<3}")
     if not acts:
         lines.append("    (활동 없음)")
+    lines.append("  " + "─" * 52)
+    lines.append("  ※ 금액은 '거래 단위' 값(보낸 액·잔돈·보상)이다.")
+    lines.append("    파티의 실시간 전체/잠긴(available) 잔액은 Wallet의")
+    lines.append("    'Total Available Balance'에서 확인 (이 CLI는 지갑 잔액 조회 불가).")
     return "\n".join(lines)
 
 if __name__ == "__main__":
