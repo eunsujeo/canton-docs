@@ -17,7 +17,7 @@
     border:1px solid #3a4252; border-radius:6px; padding:4px 10px; font-size:13px; cursor:pointer; }
   #toolbar button:hover, #toolbar select:hover { border-color:var(--accent); }
   #grid { display:grid; gap:6px; padding:6px; height:calc(100% - 45px);
-    grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(2,1fr); }
+    grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(2,1fr); }
   .pane { display:flex; flex-direction:column; background:var(--bar2);
     border:1px solid #3a4252; border-radius:8px; overflow:hidden; min-height:0; }
   .pane.hidden { display:none; }
@@ -44,8 +44,7 @@
   <b>Canton LocalNet</b> <span class="dot">●</span>
   <span style="color:#8a93a5">레이아웃</span>
   <select id="layout">
-    <option value="3x2">3×2 (6분할)</option>
-    <option value="2x2">2×2 (4분할)</option>
+    <option value="2x2" selected>2×2 (4분할)</option>
     <option value="2x1">2×1 (좌우)</option>
     <option value="1x1">1×1 (단일)</option>
   </select>
@@ -59,14 +58,11 @@
 <script>
 const PANES = [
   { id:'scan',     name:'Scan',          url:'http://scan.localhost:4000',          who:'익스플로러(로그인 없음)' },
-  { id:'appui',    name:'App UI',         url:'http://app-provider.localhost:3000',  who:'login: <code>app-provider</code>' },
   { id:'wprov',    name:'Wallet · Provider', url:'http://wallet.localhost:3000',     who:'login: <code>app-provider</code>' },
   { id:'wuser',    name:'Wallet · User',  url:'http://wallet.localhost:2000',        who:'login: <code>app-user</code>' },
   { id:'sv',       name:'SV Interface',   url:'http://sv.localhost:4000',            who:'login: <code>sv</code>' },
-  { id:'swagger',  name:'Swagger (Ledger API)', url:'http://localhost:9090',         who:'API 탐색', noframe:true },
 ];
 const LAYOUTS = {
-  '3x2': { cols:3, rows:2, n:6 },
   '2x2': { cols:2, rows:2, n:4 },
   '2x1': { cols:2, rows:1, n:2 },
   '1x1': { cols:1, rows:1, n:1 },
@@ -76,7 +72,7 @@ const layoutSel = document.getElementById('layout');
 const picker = document.getElementById('picker');
 
 // 단일/좌우 레이아웃일 때 어떤 패널을 보일지 선택
-let selection = ['scan','appui','wprov','wuser','sv','swagger'];
+let selection = ['scan','wprov','wuser','sv'];
 
 function buildPanes() {
   grid.innerHTML = '';
