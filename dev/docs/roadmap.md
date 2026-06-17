@@ -37,8 +37,8 @@
 
 ## Phase 4 — 원격 공유 & 데모 (나중)
 - [ ] 클라우드 VM에 LocalNet 올리기 + 리버스 프록시/터널 + 접근제한.
-- [ ] 커스텀 데모 대시보드(시나리오 버튼 시연).
-- [ ] 팀 공유용 URL.
+- [ ] **설명용 커스텀 대시보드** — 공식 Wallet/Scan UI가 처음 보는 사람에겐 너무 어려움(잔액=보상코인, Tap→트래픽 등 숨은 맥락 많음). **다른 사람에게 설명할 때** 쓸, 쉬운 말 요약 대시보드를 다시 만든다. (지금은 공식 UI + `scan-status.py`로 충분)
+- [ ] 시나리오 버튼 시연 + 팀 공유용 URL.
 - 상세: [deployment-and-demo-options.md](deployment-and-demo-options.md)
 
 ## Phase 5 — 다른 기관 연동 (그 다음)
