@@ -63,17 +63,20 @@ groups = OrderedDict(sorted(groups.items(),
 for sec in groups:
     groups[sec].sort(key=page_sort_key)
 
+# 링크는 루트 기준(앞에 /)으로 emit한다.
+# relativePath:true 환경에서 상대링크는 현재 페이지 기준으로 해석돼 경로가 누적되는 버그가 있다.
+# 루트 기준(/...)이면 Docsify가 항상 사이트 루트에서 해석 → 누적 없음.
 out = ["- **시작하기**",
-       "  - [📖 읽는 방법](how-to-read.md)",
-       "  - [🗂 인덱스/학습순서](index.md)",
-       "  - [🗺️ 다음 작업/남은 순서](next-step.md)",
-       "  - [📚 용어집](glossary.md)",
-       "  - [🔗 출처/진행상태](sources.md)",
-       "  - [🕒 작업 로그](log.md)"]
+       "  - [📖 읽는 방법](/how-to-read.md)",
+       "  - [🗂 인덱스/학습순서](/index.md)",
+       "  - [🗺️ 다음 작업/남은 순서](/next-step.md)",
+       "  - [📚 용어집](/glossary.md)",
+       "  - [🔗 출처/진행상태](/sources.md)",
+       "  - [🕒 작업 로그](/log.md)"]
 for sec, ps in groups.items():
     out.append(f"- **{SEC_LABEL.get(sec, sec)}**")
     for p in ps:
-        out.append(f"  - [{title_of(p)}]({p})")
+        out.append(f"  - [{title_of(p)}](/{p})")
 
 open(os.path.join(WIKI,'_sidebar.md'),'w',encoding='utf-8').write("\n".join(out)+"\n")
 print(f"_sidebar.md regenerated with {len(pages)} content pages")
