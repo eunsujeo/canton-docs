@@ -71,22 +71,26 @@ def render():
     lines.append(f"  DSO           : {dso.get('dso_party_id','?')[:30]}…  (의결 임계치 {dso.get('voting_threshold')})")
     lines.append(f"  최신 라운드    : {latest}")
 
-    code, cr = get("/closed-rounds")
-    rounds = cr.get("rounds", cr) if isinstance(cr, dict) else cr
-    n_closed = len(rounds) if isinstance(rounds, list) else 0
-    lines.append(f"  닫힌 라운드    : {n_closed}" + ("" if n_closed else "  (아직 결산 전 — 잔액 통계 비어있음)"))
-
-    # 총 잔액: 최신부터 0까지 내려가며 첫 성공값
-    bal = None
-    if isinstance(latest, int):
-        for r in range(latest, -1, -1):
-            code, b = get(f"/total-amulet-balance?asOfEndOfRound={r}")
-            if code == 200 and b:
-                bal = (r, b); break
-    if bal:
-        lines.append(f"  총 CC(Amulet) : round {bal[0]} 기준 {json.dumps(bal[1])[:60]}")
-    else:
-        lines.append(f"  총 CC(Amulet) : (집계 전 — 닫힌 라운드 생기면 표시)")
+    # 라운드 수명: 열림(open) → 발행중(issuing, 보상 지급) → 닫힘(closed, 자동 정리)
+    def round_nums(coll):
+        items = coll.values() if isinstance(coll, dict) else (coll or [])
+        out = []
+        for x in items:
+            c = x.get("contract", x) if isinstance(x, dict) else {}
+            p = c.get("payload", {}) if isinstance(c, dict) else {}
+            n = p.get("round", {}).get("number")
+            if n is not None: out.append(int(n) if str(n).isdigit() else n)
+        return sorted(out, key=lambda v: v if isinstance(v, int) else 1e9)
+    code, oi = get("/open-and-issuing-mining-rounds", method="POST",
+                   body={"cached_open_mining_round_contract_ids": [],
+                         "cached_issuing_round_contract_ids": []})
+    if isinstance(oi, dict):
+        opn = round_nums(oi.get("open_mining_rounds", {}))
+        iss = round_nums(oi.get("issuing_mining_rounds", {}))
+        lines.append(f"  열림 라운드    : {opn}  (활동 받는 중)")
+        lines.append(f"  발행중 라운드  : {iss}  (← 이 라운드들의 보상이 지금 지급됨)")
+        if iss:
+            lines.append(f"  닫힌 라운드    : ~{min(iss)-1 if isinstance(min(iss),int) else '?'}까지 (이미 닫힘·자동 정리됨)")
 
     lines.append("  " + "─" * 52)
     code, act = get("/activities", method="POST", body={"page_size": 30})
