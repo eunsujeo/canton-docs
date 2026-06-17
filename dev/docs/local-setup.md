@@ -48,19 +48,35 @@ mkdir -p ~/.config/nix
 echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
 ```
 
-### 3. Daml SDK (Phase 1 진행 중 자동)
-전역 설치하지 않는다. cn-quickstart 클론 → `quickstart/` 안에서:
-```bash
-make install-daml-sdk
-```
-- 용량이 커서 몇 분 소요.
+### 3. Daml SDK — 별도 설치 단계 없음 (최신 cn-quickstart)
+> ⚠️ 위키 원문엔 `make install-daml-sdk`가 있지만, **현재 받은 cn-quickstart엔 그 타깃이 없다.**
+> Daml SDK(`sdk-version: 3.4.11`)는 **Nix flake / `make build`** 가 처리한다. 전역 설치·별도 명령 불필요.
 
-## 다음 (Nix 설치 후)
-1. `git clone https://github.com/digital-asset/cn-quickstart.git` → `cd cn-quickstart` → `direnv allow`
-2. `docker login`
-3. `cd quickstart` → `make install-daml-sdk`
-4. `make setup` (Observability=n, OAuth2=y, 파티힌트=기본, TEST_MODE=n)
-5. `make build` → 새 터미널 `make capture-logs` → `make start`
-6. 대시보드 확인: Scan / SV / Wallet UI
+## 실제 구동 절차 (최신 README 기준)
+클론한 저장소 루트에서:
+```bash
+direnv allow            # ✅ 완료 — .envrc(use flake) 로드
+cd quickstart
+make setup              # 환경 구성 (대화형 어시스턴트)
+make build              # frontend·backend·Daml 모델·docker 이미지 빌드 (오래 걸림)
+make start              # 앱 + Canton 서비스 기동 (첫 실행 시 배포 어시스턴트)
+```
+선택(별도 터미널):
+- `make capture-logs` — 로그 수집(블로킹, 디버깅용)
+- `make canton-console` / `make shell` — Canton Console / Daml Shell
+
+### make setup 권장 응답 (학습/첫 실행 기준)
+- **LocalNet**: enable (로컬 샌드박스)
+- **Observability**: disable (메모리 절약, 나중에 켜도 됨)
+- **OAuth2**: disable (Keycloak 없이 단순하게 — 첫 실행 마찰 최소화)
+- **TEST_MODE**: disable (standard)
+- 파티 힌트: 기본값(비워둠)
+> 언제든 `make setup` 다시 실행해 변경 가능.
+
+### 편의 타깃 (UI 열기)
+`make open-app-ui` · `open-sv-scan` · `open-sv-wallet` · `open-app-user-wallet` · `open-observe` · `open-swagger-ui`
+
+### 선행: docker login
+DA 이미지를 받으려면 `docker login` (Docker Hub 사용자명 + PAT) 필요.
 
 > 상세 로드맵: [roadmap.md](roadmap.md)
