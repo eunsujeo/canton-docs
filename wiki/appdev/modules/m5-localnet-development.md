@@ -148,7 +148,7 @@ Docker Compose 프로필(`--profile app-provider` 등)을 환경 변수(`APP_PRO
 * App User 월렛: `http://wallet.localhost:2000`
 * App Provider 월렛: `http://wallet.localhost:3000`
 * SV UI: `http://sv.localhost:4000`
-* Scan UI: `http://scan.localhost:4000`
+* <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr> UI: `http://scan.localhost:4000`
 
 > **참고:** 머신에서 `*.localhost` 도메인이 해석되지 않으면 `/etc/hosts`에 항목을 추가하라:
 >

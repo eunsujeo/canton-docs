@@ -70,5 +70,6 @@
   - [ISS — Canton 시퀀서의 BFT 순서화 알고리즘](notes/iss-consensus.md)
   - [로컬 파티 vs 외부 파티 — 쉽게 이해하기](notes/local-vs-external-party.md)
   - [파티는 유저마다 만들까? — per-user vs 옴니버스](notes/party-design-per-user-vs-omnibus.md)
+  - [Scan 읽는 법 — 네트워크 익스플로러 화면 이해](notes/reading-scan-explorer.md)
   - [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](notes/synchronizer-types-private-consortium-global.md)
   - [용어 한 컷 카드 — 자주 막히는 용어 모음](notes/term-cheatsheet.md)

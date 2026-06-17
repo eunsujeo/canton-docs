@@ -30,7 +30,7 @@ Canton 프로토콜만으로는 "공개 네트워크"가 안 굴러간다. **누
 | **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>** | 네이티브 토큰 구현(수수료·보상). Daml <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr> `Amulet` |
 | **Validator App** | <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 노드 관리 |
 | **Wallet** | CC용 사용자 월렛 |
-| **Scan** | 네트워크 익스플로러 |
+| **<abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>** | 네트워크 익스플로러 |
 | **Governance** | 투표·제안 관리 |
 | **토큰 표준(<abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr>-0056)** | 토큰 만들기 표준 인터페이스 |
 
@@ -47,7 +47,7 @@ Canton 프로토콜만으로는 "공개 네트워크"가 안 굴러간다. **누
 
 ## 참고 링크
 - [글로벌 Synchronizer](../overview/understand/global-synchronizer.md) — Splice 애플리케이션 구성·거버넌스
-- [CIP-0056 토큰 표준](../overview/reference/cip-0056.md) — Splice가 포함하는 토큰 표준(Amulet)
+- [CIP-0056 토큰 표준](../overview/reference/cip-0056.md) — Splice가 포함하는 토큰 표준(<abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>)
 - [Canton Coin 토크노믹스](../overview/reference/canton-coin-tokenomics.md) — CC 경제
 
 <!-- nav:start -->

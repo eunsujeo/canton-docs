@@ -10,7 +10,7 @@ tags: [overview, reference, CNS, 네이밍]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: CNS는 사람이 읽을 수 있는 이름을 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 식별자에 매핑한다(인터넷의 DNS와 유사). 이름 형식, 등록(구독 결제 모델)·갱신·이름 해석(정방향/역방향), <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr> 저장(<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>), API 레퍼런스.
-- **핵심 용어**: CNS·ANS(Amulet Name Service), `.unverified.cns`, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr> 파티, AnsRules/AnsEntry/AnsEntryContext, Scan API
+- **핵심 용어**: CNS·ANS(<abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr> Name Service), `.unverified.cns`, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr> 파티, AnsRules/AnsEntry/AnsEntryContext, <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr> API
 - **선행 개념**: [핵심 개념](../understand/core-concepts.md), [Canton Coin](../understand/canton-coin.md).
 
 ---

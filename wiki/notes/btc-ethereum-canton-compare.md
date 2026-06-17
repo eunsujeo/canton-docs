@@ -27,7 +27,7 @@ tags: [개요, 정리, note, 비교, 합의, 프라이버시]
 | **프라이버시** | 없음(가명) | 없음(가명) | **있음**(<abbr class="gloss" title="한 트랜잭션을 &quot;뷰&quot;로 분해해, 각 파티가 자신과 관련된 부분만 보도록 하는 Canton의 핵심 프라이버시 방식">부분 트랜잭션 프라이버시</abbr>) |
 | **신뢰 모델** | 해시파워 과반 정직 | 지분 2/3 정직 | 내 <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> + 순서엔 **SV 2/3** |
 | **주 용도** | P2P 디지털 현금·가치저장 | 퍼블릭 dApp·DeFi·NFT | **규제·기관 정산, 다자간 프라이빗 워크플로** |
-| **블록 익스플로러** | [mempool.space](https://mempool.space) · [blockstream.info](https://blockstream.info) | [etherscan.io](https://etherscan.io) | [cantonscan.com](https://www.cantonscan.com) · CC Scan(망별) |
+| **블록 익스플로러** | [mempool.space](https://mempool.space) · [blockstream.info](https://blockstream.info) | [etherscan.io](https://etherscan.io) | [cantonscan.com](https://www.cantonscan.com) · CC <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>(망별) |
 
 > 💡 익스플로러도 차이가 드러난다: BTC/ETH 스캔은 **누구나 모든 거래·잔액**을 본다(전부 공개). **Canton(CantonScan·CC Scan)** 은 네트워크 통계·SV·밸리데이터·<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr> 활동 같은 **공개 가능한 메타데이터**는 보여주지만, **개별 거래 내용은 당사자만** 본다(부분 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 프라이버시 때문).
 

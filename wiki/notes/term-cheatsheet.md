@@ -62,9 +62,9 @@ tags: [개요, 정리, note, 용어, 치트시트, 복습]
 | 용어 | 한 컷 비유 |
 |---|---|
 | **Canton** | 기반 **프로토콜(엔진)** |
-| **<abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr>** | 그 엔진으로 공개망을 **운영하는 소프트웨어 묶음**(토큰·월렛·Scan·거버넌스) |
+| **<abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr>** | 그 엔진으로 공개망을 **운영하는 소프트웨어 묶음**(토큰·월렛·<abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>·거버넌스) |
 | **글로벌 Synchronizer** | SV들이 공동 운영하는 **공개 백본** |
-| **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)** | 수수료·보상용 토큰(=Splice의 Amulet) |
+| **<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC)** | 수수료·보상용 토큰(=Splice의 <abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>) |
 | **트래픽(Traffic)** | 네트워크 **쓰기 사용료**(CC로 지불) |
 | **<abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr>** | 일부가 **거짓말·고장 나도 견딤**(SV 2/3 정직하면 OK) |
 | **<abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> / <abbr class="gloss" title="원장 밖, 내 백엔드 인프라에서 실행되는 것. 외부 API·UI·복잡 계산 등 나만 처리">오프-원장</abbr>** | 원장(<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr>)에서 실행 / 내 백엔드에서 실행 |

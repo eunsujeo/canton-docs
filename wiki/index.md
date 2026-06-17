@@ -114,3 +114,4 @@ _(아직 없음)_
 - [BTC vs Ethereum vs Canton — 한눈 비교](notes/btc-ethereum-canton-compare.md) — 데이터모델·합의·확정·프라이버시·용도 3자 비교표.
 - [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](notes/synchronizer-types-private-consortium-global.md) — 누가 운영·참여하느냐(단독/그룹/공개)에 따른 차이와 신뢰·탈중앙 스펙트럼.
 - [ISS — Canton 시퀀서의 BFT 순서화 알고리즘](notes/iss-consensus.md) — 멀티 리더 BFT로 암호화 메시지에 단일 전체 순서. 1/3 미만 비잔틴 견딤·결정적 확정.
+- [Scan 읽는 법 — 네트워크 익스플로러 화면 이해](notes/reading-scan-explorer.md) — SV·DSO·마이닝 라운드(open/issuing/closed)·Amulet(=CC)·Tap·Automation. LocalNet이 사람 없이 스스로 도는 이유.

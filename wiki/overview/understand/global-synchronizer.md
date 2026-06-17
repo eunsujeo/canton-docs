@@ -267,7 +267,7 @@ flowchart LR
 | **Canton Coin** | 네이티브 토큰 구현 |
 | **Validator App** | 밸리데이터 노드 관리 |
 | **Wallet** | CC용 사용자 월렛 |
-| **Scan** | 네트워크 익스플로러 |
+| **<abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>** | 네트워크 익스플로러 |
 | **Governance** | 투표·제안 관리 |
 
 ### 토큰 표준

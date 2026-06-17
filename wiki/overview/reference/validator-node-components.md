@@ -10,7 +10,7 @@ tags: [overview, reference, 밸리데이터, 운영]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 노드의 계층별 구성 요소 — 애플리케이션 계층(월렛·CNS UI), <abbr class="gloss" title="글로벌 Synchronizer를 구동하는 오픈소스 애플리케이션 모음(SV·밸리데이터·월렛 등)">Splice</abbr> 계층(Validator App·Splice/토큰표준 DAR), Canton 참여자(<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> 엔진·ACS·프로토콜 계층), API, 데이터 계층(PostgreSQL·PQS), <abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr> 연결, <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 관리, K8s 파드.
-- **핵심 용어**: Validator App, Splice DAR(Amulet/Wallet/ANS), Daml 엔진·ACS, Ledger/Admin/JSON API, PQS, Scan Proxy
+- **핵심 용어**: Validator App, Splice DAR(<abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>/Wallet/ANS), Daml 엔진·ACS, Ledger/Admin/JSON API, PQS, <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr> Proxy
 - **선행 개념**: [밸리데이터 아키텍처](../learn/validator-architecture.md), [트랜잭션 생애주기](transaction-lifecycle.md), [토폴로지](topology.md).
 
 ---
@@ -112,7 +112,7 @@ Validator App은 웹 UI와 Canton 참여자 사이에 위치하는 백엔드 프
 
 Splice DAR는 Canton Network의 내장 애플리케이션을 구현하는 Daml 패키지다. Canton 참여자에서 일반 <abbr class="gloss" title="원장 위에서 규칙대로 자동 실행되는 코드화된 계약. Canton에선 Daml 템플릿으로 작성">스마트 컨트랙트</abbr>로 실행되며 다음을 포함한다:
 
-* **Amulet** — Canton Coin의 Daml 로직: 마이닝 라운드, 보상 쿠폰, 보유 수수료, 코인 이전
+* **Amulet** — Canton Coin의 Daml 로직: <abbr class="gloss" title="CC가 발행·정산되는 시간 단위. 열림→발행중→닫힘으로 진행되며 라운드마다 기여 비례 보상">마이닝 라운드</abbr>, 보상 쿠폰, 보유 수수료, 코인 이전
 * **Wallet** — 이전 오퍼, 트래픽 구매 요청, 구독 결제, 스윕 자동화
 * **Amulet Name Service(ANS)** — 이름 등록, 갱신, 해석
 

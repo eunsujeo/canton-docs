@@ -10,7 +10,7 @@ tags: [overview, reference, 토크노믹스]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: <abbr class="gloss" title="슈퍼 밸리데이터들이 공동 운영하는 Canton의 퍼블릭 조율(합의) 계층">글로벌 Synchronizer</abbr>를 지탱하는 경제 모델 — 소각-발행 균형(burn-mint equilibrium), <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 경제(무료 베이스 + 유료 추가), 보상 분배(5개 활동 레코드), 발행 곡선, 수수료·라운드 스냅숏, CC-USD 환율, <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트 데이터를 저장하는 참여자 노드">밸리데이터</abbr> 수익 방식.
-- **핵심 용어**: 소각-발행 균형, AmuletRules, burstAmount/burstWindow, RewardCoupon, OpenMiningRound, amuletPrice
+- **핵심 용어**: 소각-발행 균형, <abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>Rules, burstAmount/burstWindow, RewardCoupon, OpenMiningRound, amuletPrice
 - **선행 개념**: [Canton Coin](../understand/canton-coin.md), [Canton Coin 토크노믹스](canton-coin-tokenomics.md).
 
 ---
@@ -48,7 +48,7 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 
 밸리데이터가 예기치 않게 트래픽을 소진하지 않도록 자동 충전 자동화가 제공된다. `minTopupAmount` 파라미터는 각 구매가 슈퍼 밸리데이터의 처리 비용을 상각할 만큼 충분히 크도록 보장한다.
 
-트래픽 회계는 밸리데이터별이다 — 같은 밸리데이터에 호스팅된 모든 파티가 하나의 트래픽 잔액을 공유한다. 밸리데이터가 <abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr>를 호스팅하면 그들을 대신해 트래픽을 구매한다. Scan API는 밸리데이터가 외부 파티가 제출한 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>의 비용을 추정하는 데 쓸 수 있는 트래픽 가격 파라미터를 제공한다.
+트래픽 회계는 밸리데이터별이다 — 같은 밸리데이터에 호스팅된 모든 파티가 하나의 트래픽 잔액을 공유한다. 밸리데이터가 <abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr>를 호스팅하면 그들을 대신해 트래픽을 구매한다. <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr> API는 밸리데이터가 외부 파티가 제출한 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr>의 비용을 추정하는 데 쓸 수 있는 트래픽 가격 파라미터를 제공한다.
 
 ### 비용 요인
 
@@ -85,7 +85,7 @@ Canton Coin 애플리케이션은 소각-발행 균형 메커니즘을 채택해
 
 ## 수수료 스케줄과 라운드 스냅숏
 
-수수료 파라미터는 **`AmuletRules`** 컨트랙트에 저장되며, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>가 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 투표로 거버넌스한다. 새 마이닝 라운드가 열리면, 현재 수수료 값과 환율이 **`OpenMiningRound`** 컨트랙트로 스냅숏되어 그 라운드 내 모든 트랜잭션이 일관된 가격을 쓰게 한다. 라운드가 단계를 거치며, **`IssuingMiningRound`** 컨트랙트가 각 보상 유형에 대한 활동 가중치당 발행량을 기록한다.
+수수료 파라미터는 **`AmuletRules`** 컨트랙트에 저장되며, <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>가 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 투표로 거버넌스한다. 새 <abbr class="gloss" title="CC가 발행·정산되는 시간 단위. 열림→발행중→닫힘으로 진행되며 라운드마다 기여 비례 보상">마이닝 라운드</abbr>가 열리면, 현재 수수료 값과 환율이 **`OpenMiningRound`** 컨트랙트로 스냅숏되어 그 라운드 내 모든 트랜잭션이 일관된 가격을 쓰게 한다. 라운드가 단계를 거치며, **`IssuingMiningRound`** 컨트랙트가 각 보상 유형에 대한 활동 가중치당 발행량을 기록한다.
 
 [CIP-0078](https://github.com/global-synchronizer-foundation/cips/blob/main/cip-0078/cip-0078.md)은 CC 이전과 잠금에 대한 거의 모든 수수료를 없앴다. 보유 수수료(holding fee)는 남는다 — 코인 양과 무관하게 별도 코인 컨트랙트(UTXO)당 단위 시간당 고정 수수료다. 보유 수수료는 온-<abbr class="gloss" title="거래·컨트랙트가 기록되는 장부. Canton에선 활성 컨트랙트의 모음">원장</abbr> 저장을 줄이기 위해 작은 코인을 병합하도록 유도한다. 이전 중이 아니라 `Amulet_Expire`를 통해 만료된 코인 컨트랙트에만 부과된다.
 

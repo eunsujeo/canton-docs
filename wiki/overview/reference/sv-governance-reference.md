@@ -10,7 +10,7 @@ tags: [overview, reference, 거버넌스, DSO]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr>(<abbr class="gloss" title="글로벌 Synchronizer를 운영하고 네트워크 거버넌스에 참여하는 노드">슈퍼 밸리데이터</abbr> 집합)의 거버넌스 모델·투표 메커니즘·거버넌스 동작 — <abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr> 거버넌스(DSO <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>·온체인 <abbr class="gloss" title="이해관계자 밸리데이터가 트랜잭션이 유효함을 미디에이터에 응답하는 것(confirmation)">확인</abbr>·탈중앙 자동화·중앙값 투표), 투표 역할·절차, 거버넌스 동작 유형, 파라미터 거버넌스, <abbr class="gloss" title="Canton 개선 제안(Canton Improvement Proposal). 네트워크 규칙·표준 변경을 제안·비준하는 절차">CIP</abbr> 절차, Canton Foundation.
-- **핵심 용어**: DSO 파티, 확인 임계값 t=ceil(2n/3), VoteRequest, ARC_DsoRules/ARC_AmuletRules/ARC_AnsEntryContext, 중앙값 투표, BFT
+- **핵심 용어**: DSO 파티, 확인 임계값 t=ceil(2n/3), VoteRequest, ARC_DsoRules/ARC_<abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>Rules/ARC_AnsEntryContext, 중앙값 투표, BFT
 - **선행 개념**: [글로벌 Synchronizer](../understand/global-synchronizer.md), [CIP 레퍼런스](what-are-cips.md), [탈중앙화](decentralization.md).
 
 ---
@@ -61,7 +61,7 @@ requiredNumVotes = ceiling((numSVs + f + 1) / 2)
 확인이 필요한 동작에는 두 실행 경로가 있다:
 
 * **투표 동작(Voted actions)** — 어떤 SV가 투표 요청을 생성하고; 다른 SV가 수락/거부 투표로 응답한다. `requiredNumVotes`개의 수락 투표가 모이면 동작이 실행된다.
-* **자동 확인(Automated confirmations)** — 일상적 운영 동작(예: 마이닝 라운드 진행)의 경우, 각 SV 노드가 전제 조건이 충족되면 자동으로 확인을 생성한다. 충분한 확인이 쌓이면 수동 투표 없이 실행이 진행된다.
+* **자동 확인(Automated confirmations)** — 일상적 운영 동작(예: <abbr class="gloss" title="CC가 발행·정산되는 시간 단위. 열림→발행중→닫힘으로 진행되며 라운드마다 기여 비례 보상">마이닝 라운드</abbr> 진행)의 경우, 각 SV 노드가 전제 조건이 충족되면 자동으로 확인을 생성한다. 충분한 확인이 쌓이면 수동 투표 없이 실행이 진행된다.
 
 ## 투표 메커니즘
 
@@ -140,7 +140,7 @@ CF는 네트워크에 대한 일방적 통제권이 없다. 그 SV 노드는 다
 
 ## 온체인 거버넌스 아키텍처
 
-모든 거버넌스 상태는 Daml 컨트랙트로 온체인에 존재한다. `DsoRules` 컨트랙트가 DSO 멤버십(`svs` 맵)의 권위 있는 기록과 현재 구성을 보유한다. `AmuletRules` 컨트랙트가 Canton Coin 구성 스케줄을 보유한다. 투표 요청, 확인, SV 상태 컨트랙트가 모두 원장에서 보이므로, Scan 앱에 접근할 수 있는 누구나 거버넌스를 감사할 수 있다.
+모든 거버넌스 상태는 Daml 컨트랙트로 온체인에 존재한다. `DsoRules` 컨트랙트가 DSO 멤버십(`svs` 맵)의 권위 있는 기록과 현재 구성을 보유한다. `AmuletRules` 컨트랙트가 Canton Coin 구성 스케줄을 보유한다. 투표 요청, 확인, SV 상태 컨트랙트가 모두 원장에서 보이므로, <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr> 앱에 접근할 수 있는 누구나 거버넌스를 감사할 수 있다.
 
 탈중앙화 파티 모델은 DSO 파티 자체가 `ceiling(numSVs * 2.0 / 3.0)`의 확인 임계값을 가짐을 의미한다. DSO 파티가 서명한 모든 트랜잭션은 적어도 그만큼의 SV <abbr class="gloss" title="파티를 호스팅하고 그 파티의 컨트랙트를 저장·실행하는 노드. 밸리데이터의 핵심 구성요소">참여자 노드</abbr>가 확인해야 하며, 이는 애플리케이션 수준 투표 로직과 독립적으로 Canton 프로토콜 계층에서 BFT를 강제한다.
 

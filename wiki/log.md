@@ -112,3 +112,6 @@
 
 ## 2026-06-16 — note | ISS 합의 알고리즘
 - `notes/iss-consensus.md` 신설: 멀티 리더 BFT 순서화, 단일 리더 병목 해소, 1/3 비잔틴·결정적 확정·프라이버시
+
+## [2026-06-17] ingest | Scan 읽는 법 (notes)
+- LocalNet Scan UI 학습 정리 노트 추가. SV/DSO·마이닝 라운드·Amulet·Tap·Automation. glossary 툴팁 4개(Scan/Amulet/마이닝 라운드/Tap) 추가, index 등록, gen 3종 실행.
