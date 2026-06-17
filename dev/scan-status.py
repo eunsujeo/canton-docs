@@ -89,9 +89,9 @@ def render():
         lines.append(f"  총 CC(Amulet) : (집계 전 — 닫힌 라운드 생기면 표시)")
 
     lines.append("  " + "─" * 52)
-    code, act = get("/activities", method="POST", body={"page_size": 10})
+    code, act = get("/activities", method="POST", body={"page_size": 30})
     acts = act.get("activities", []) if isinstance(act, dict) else []
-    lines.append(f"  최근 활동 (최신 {len(acts)}):")
+    lines.append(f"  최근 활동 ({len(acts)}건):")
     for a in acts:
         t = a.get("activity_type", "?")
         rnd = a.get("round", "?")
