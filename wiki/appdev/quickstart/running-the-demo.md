@@ -417,6 +417,6 @@ CN App Quickstart에서 비즈니스 작업을 완료했고, Canton Console과 D
 
 ---
 
-⬅️ **이전**: [사전 요구사항·설치 (Prerequisites and Installation)](prerequisites.md) ・ ➡️ **다음**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](../../notes/blockchain-layers-l0-l1-l2.md)
+⬅️ **이전**: [사전 요구사항·설치 (Prerequisites and Installation)](prerequisites.md) ・ ➡️ **다음**: [원자적 DvP는 Canton만 되나? — 원자성·잠금·조합성, "이더도 되잖아?"에 답하기](../../notes/atomic-dvp-real-differentiator.md)
 
 <!-- nav:end -->

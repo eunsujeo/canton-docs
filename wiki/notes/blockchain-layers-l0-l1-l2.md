@@ -102,6 +102,6 @@ Canton은 **프라이버시 보존형 퍼블릭 L1**으로 소개된다. 다른 
 
 ---
 
-⬅️ **이전**: [데모 실행하기 (Running the Demo)](../appdev/quickstart/running-the-demo.md) ・ ➡️ **다음**: [BTC vs Ethereum vs Canton — 한눈 비교](btc-ethereum-canton-compare.md)
+⬅️ **이전**: [원자적 DvP는 Canton만 되나? — 원자성·잠금·조합성, "이더도 되잖아?"에 답하기](atomic-dvp-real-differentiator.md) ・ ➡️ **다음**: [BTC vs Ethereum vs Canton — 한눈 비교](btc-ethereum-canton-compare.md)
 
 <!-- nav:end -->

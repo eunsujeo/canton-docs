@@ -61,6 +61,7 @@
   - [사전 요구사항·설치 (Prerequisites and Installation)](appdev/quickstart/prerequisites.md)
   - [데모 실행하기 (Running the Demo)](appdev/quickstart/running-the-demo.md)
 - **정리 노트 (Notes)**
+  - [원자적 DvP는 Canton만 되나? — 원자성·잠금·조합성, "이더도 되잖아?"에 답하기](notes/atomic-dvp-real-differentiator.md)
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](notes/blockchain-layers-l0-l1-l2.md)
   - [BTC vs Ethereum vs Canton — 한눈 비교](notes/btc-ethereum-canton-compare.md)
   - [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](notes/canton-environments-localnet-to-mainnet.md)
