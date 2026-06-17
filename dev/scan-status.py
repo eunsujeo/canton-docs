@@ -2,11 +2,9 @@
 """Canton LocalNet — Scan 상태 한눈에 보기.
 
 Scan UI가 보기 불편해서, 학습에 필요한 것만 요약하는 CLI 도구.
-  python3 scan-status.py            # 1회 출력
-  python3 scan-status.py --watch    # 5초마다 자동 새로고침
-  python3 scan-status.py --watch 2  # 2초마다
+  python3 scan-status.py    # 현재 상태 1회 출력
 """
-import json, sys, time, urllib.request
+import json, time, urllib.request
 
 # macOS 기본 resolver는 *.localhost 서브도메인을 해석 못 하므로
 # 127.0.0.1로 붙고 Host 헤더로 nginx 가상호스트 라우팅을 시킨다.
@@ -96,19 +94,5 @@ def render():
         lines.append("    (활동 없음)")
     return "\n".join(lines)
 
-def main():
-    watch = "--watch" in sys.argv
-    interval = 5
-    for a in sys.argv:
-        if a.isdigit(): interval = int(a)
-    if not watch:
-        print(render()); return
-    try:
-        while True:
-            print("\033[2J\033[H" + render(), flush=True)  # 화면 클리어 후 출력
-            time.sleep(interval)
-    except KeyboardInterrupt:
-        print("\n  (종료)")
-
 if __name__ == "__main__":
-    main()
+    print(render())
