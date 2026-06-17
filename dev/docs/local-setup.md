@@ -9,15 +9,15 @@
 
 ## 사전 요구사항 체크리스트
 
-| 항목 | 상태 | 비고 |
-|---|---|---|
-| Curl | ✅ | 8.7.1 |
-| Docker Desktop | ✅ | 29.1.2, 데몬 실행중 |
-| git | ✅ | 2.39.5 |
-| Java | ✅ | OpenJDK 21 |
-| **Direnv** | ✅ | 2.37.1 (`brew install direnv` + zsh 훅) — 2026-06-17 |
-| **Nix** | ⬜ | 사용자 터미널에서 직접 설치 필요 (sudo) |
-| Daml SDK | ⬜ | 전역 설치 X — cn-quickstart에서 `make install-daml-sdk`로 설치 |
+| 항목 | 상태 | 왜 필요한가 | 비고 |
+|---|---|---|---|
+| Curl | ✅ | 설치 스크립트·아티팩트 다운로드 | 8.7.1 |
+| Docker Desktop | ✅ | LocalNet이 Docker Compose 컨테이너로 동작(Canton 노드·SV·UI 전부) | 29.1.2, 데몬 실행중 |
+| git | ✅ | cn-quickstart 저장소 클론 | 2.39.5 |
+| Java | ✅ | Canton·Daml 툴이 JVM 위에서 실행 | OpenJDK 21 |
+| **Direnv** | ✅ | cn-quickstart 폴더 진입 시 `.envrc`(환경변수·SDK 경로) 자동 로드 | 2.37.1 (`brew install direnv` + zsh 훅) — 2026-06-17 |
+| **Nix** | ⬜ | cn-quickstart가 빌드 도구·의존성을 Nix로 재현성 있게 고정 | 사용자 터미널에서 직접 설치 필요 (sudo) |
+| Daml SDK | ⬜ | Daml 컨트랙트 컴파일·`daml` CLI(빌드/스크립트 실행) | 전역 설치 X — cn-quickstart에서 `make install-daml-sdk`로 설치 |
 
 ## 설치 절차 / 기록
 
