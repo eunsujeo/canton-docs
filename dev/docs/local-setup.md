@@ -108,4 +108,13 @@ IMAGE_REPO=${IMAGE_REPO:-ghcr.io/digital-asset/decentralized-canton-sync/docker/
 ### 종료/정리
 - 멈춤: `make stop` · 데이터까지 정리: `make clean-all` (다음 빌드 충돌 예방차 세션 종료 시 권장)
 
+### Scan 상태 빠르게 보기 (CLI)
+Scan UI가 보기 불편할 때, 필요한 것만 요약하는 도구:
+```bash
+python3 ~/Workspace/canton/dev/scan-status.py          # 1회
+python3 ~/Workspace/canton/dev/scan-status.py --watch  # 5초마다 자동 새로고침
+```
+SV·DSO·최신 라운드·닫힌 라운드·총 CC·최근 활동(Tap/Transfer)을 한 화면에. (Scan 읽는 법은 위키 [notes/reading-scan-explorer.md](../../wiki/notes/reading-scan-explorer.md))
+> 구현 메모: macOS resolver가 `*.localhost`를 못 풀어서 `127.0.0.1:4000` + `Host: scan.localhost` 헤더로 호출.
+
 > 상세 로드맵: [roadmap.md](roadmap.md)
