@@ -20,7 +20,7 @@ canton/
     └─ (이후 앱 코드: cn-quickstart 기반 등)
 ```
 
-> ⚠️ `dev/`는 위키와 같은 git 저장소 안에 있다. 저장소가 공개라면 `dev/` 내용도 공개될 수 있으니, 대외비 코드는 `.gitignore` 처리하거나 저장소를 비공개로 둘 것. (Cloudflare Pages는 `wiki/`만 배포하므로 사이트엔 노출 안 됨)
+> `dev/`와 `wiki/`는 **목적상 분리**(개발 vs 참고)일 뿐, 대외비는 아니다 — 전부 공개 정보 기반. (Cloudflare Pages는 `wiki/`만 배포하므로 dev/는 사이트엔 노출 안 됨)
 
 ## 앞으로 할 일
 - 단계별 계획: [docs/roadmap.md](docs/roadmap.md)
