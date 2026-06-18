@@ -81,9 +81,9 @@ canton/dev/
 - [ ] 각 기관 Amulet 자금 확인(tap).
 
 ### Phase 1 — 프라이버시 "빠른 증명" (CLI) ✅ 완료
-- [ ] 파티별 토큰으로 Ledger API `active-contracts` 조회하는 스크립트.
-- [ ] 정산 1건 만든 뒤 **A/B/venue/outsider 각각 조회** → "outsider엔 안 보임" 텍스트로 증명.
-- [ ] (scan-status.py 확장 또는 새 cli) — **가장 빠른 가치 확인 지점.**
+- [x] 파티별 토큰(HS256 `unsafe`)으로 `active-contracts` 조회 스크립트 → `dev/demo/cli/ledger-view.py`.
+- [x] **프라이버시 실측 증명**: `Licensing.License` → app-user 2·app-provider 2·**sv(외부자) 0**. "외부자엔 안 보임" 확인.
+- [→] 우리 settlement로 같은 증명은 Phase 2(DAR 업로드 후).
 
 ### Phase 2 — 정산을 LocalNet에서 구동
 - [ ] propose→accept→allocate→execute를 LocalNet 원장에서 실행.
@@ -121,10 +121,11 @@ canton/dev/
 | 프론트 | 정적 단일 HTML + fetch 또는 가벼운 프레임워크. **디자인은 `frontend-design` 스킬로**(제네릭 기본값 X) |
 
 ## 리스크 / 조사 필요
-- [ ] **파티별 토큰 발급**(shared-secret) 구체 방법 — 데모 성패의 핵심.
-- [ ] LocalNet에 **커스텀 DAR 업로드 + 파티 할당** 절차.
-- [ ] **외부자가 정말 0개 보이는지** — 참여자 노드 호스팅 구조에 따라(외부자를 어느 노드가 호스팅하나). 별도 참여자/파티로 깔끔히 분리 필요.
-- [ ] JSON Ledger API v2의 active-contracts/submit 사용법(Swagger로 확인).
+- [x] ~~파티별 토큰 발급~~ → **해결**: HS256 secret `unsafe`, `{sub:ledger-api-user, aud:https://canton.network.global}`. Python 직접 생성.
+- [x] ~~외부자가 정말 0개 보이는지~~ → **확인**: 참여자 노드는 자기 파티 컨트랙트만 저장 → sv가 Licensing.License 0개. 외부자=sv 참여자(또는 신규 파티)로 분리.
+- [x] ~~JSON Ledger API v2 active-contracts 사용법~~ → **확인**(요청 형식 README에).
+- [ ] LocalNet에 **커스텀 settlement DAR 업로드 + (venue/outsider) 파티 할당** 절차 (Phase 2).
+- [ ] submit(커맨드 제출) 형식 — 제안/수락/할당/실행 (Phase 2~3).
 
 ## 관련
 - [settlement 패키지·테스트](../daml/settlement/README.md) · [DvP 흐름 대시보드](../dvp-flow-dashboard.html)(정적 설명용)
