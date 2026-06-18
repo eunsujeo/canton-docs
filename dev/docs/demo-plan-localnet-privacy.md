@@ -80,7 +80,7 @@ canton/dev/
 - [ ] 파티 준비: **instA=app-user, instB=app-provider**(이미 온보딩·CC 보유 재사용), **venue=별도 할당**, **outsider=별도 할당**(스테이크 없음).
 - [ ] 각 기관 Amulet 자금 확인(tap).
 
-### Phase 1 — 프라이버시 "빠른 증명" (CLI, UI 전)
+### Phase 1 — 프라이버시 "빠른 증명" (CLI) ✅ 완료
 - [ ] 파티별 토큰으로 Ledger API `active-contracts` 조회하는 스크립트.
 - [ ] 정산 1건 만든 뒤 **A/B/venue/outsider 각각 조회** → "outsider엔 안 보임" 텍스트로 증명.
 - [ ] (scan-status.py 확장 또는 새 cli) — **가장 빠른 가치 확인 지점.**

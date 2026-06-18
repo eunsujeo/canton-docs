@@ -42,7 +42,22 @@ jwt-cli encode hs256 --s unsafe --p '{"sub":"<user>", "aud":"<audience>"}'
 | venue | (신규 할당 또는 app-provider 겸용) | 운영자 |
 | 외부자 | sv 참여자 또는 신규 파티 | 정산에 스테이크 없음 → 못 봄 |
 
-## TODO (Phase 1)
-- [ ] JSON Ledger API v2 엔드포인트 확인(Swagger `:9090`): ledger-end, active-contracts.
-- [ ] `cli/ledger-view.py`: 토큰 민팅 + 참여자별 active-contracts 조회·요약.
-- [ ] settlement DAR LocalNet 업로드 + 정산 1건 생성 후 → A/B엔 보이고 외부자엔 안 보임 확인.
+## Phase 1 ✅ 완료 — 프라이버시 텍스트 증명
+- [x] JSON Ledger API v2 확정: canton이 **호스트에 직접 노출**(`127.0.0.1:2975` app-user / `3975` app-provider / `4975` sv). nginx 불필요. 엔드포인트: `/v2/version`, `/v2/state/ledger-end`, `/v2/parties`, `POST /v2/state/active-contracts`.
+- [x] **`cli/ledger-view.py`**: 토큰(HS256 unsafe) 민팅 + 참여자별 활성 컨트랙트 템플릿 집계.
+  ```bash
+  python3 dev/demo/cli/ledger-view.py            # 전체
+  python3 dev/demo/cli/ledger-view.py Licensing  # 특정 템플릿만
+  ```
+- [x] **프라이버시 증명(실측)**: `Licensing.License` → app-user 2개·app-provider 2개·**sv(외부자) 0개**. 두 당사자 계약을 외부자는 못 봄.
+
+### active-contracts 요청 형식 (확정)
+```json
+POST /v2/state/active-contracts
+{"filter":{"filtersByParty":{"<party>":{"cumulative":[{"identifierFilter":{"WildcardFilter":{"value":{"includeCreatedEventBlob":false}}}}]}}},
+ "verbose":false,"activeAtOffset":<ledger-end offset>}
+```
+
+## TODO (Phase 2~)
+- [ ] settlement DAR LocalNet 업로드 + 정산 1건 생성 → A/B엔 보이고 외부자엔 안 보임(우리 DvP로).
+- [ ] 백엔드(SSE) + 프론트 파티 패널(Phase 3).
