@@ -58,6 +58,18 @@ POST /v2/state/active-contracts
  "verbose":false,"activeAtOffset":<ledger-end offset>}
 ```
 
-## TODO (Phase 2~)
-- [ ] settlement DAR LocalNet 업로드 + 정산 1건 생성 → A/B엔 보이고 외부자엔 안 보임(우리 DvP로).
-- [ ] 백엔드(SSE) + 프론트 파티 패널(Phase 3).
+## Phase 2 ✅ (일부) — 우리 DvP를 LocalNet에서, 프라이버시 증명
+- [x] settlement DAR을 app-user·app-provider 참여자에 업로드 (`POST /v2/packages`, DAR bytes).
+  - 패키지 ID: `5959344bd3212e47ebf70a2cde52b8125f79939ca6583f18a8873d574cf9095b`
+- [x] **SettlementProposal 생성** (`POST /v2/commands/submit-and-wait`, CreateCommand) → `cli/create-settlement.py`.
+- [x] **프라이버시 증명(우리 DvP)**: `Settlement.FxDvp:SettlementProposal` → app-user 1·app-provider 1·**sv(외부자) 0**.
+  ```bash
+  python3 dev/demo/cli/create-settlement.py    # 제안 1건 생성
+  python3 dev/demo/cli/ledger-view.py Settlement
+  ```
+- 데모 단순화: venue=app-provider 겸용, 통화=Amulet 1종, leg KRW(A→B 100)·JPY(B→A 20).
+
+## TODO (Phase 2 나머지 ~ 3)
+- [ ] 전체 흐름(accept→**실제 CC 할당**→execute)을 LocalNet에서 — 실제 Amulet allocation 필요(테스트 하네스 아님).
+- [ ] (선택) venue·outsider 별도 파티 할당으로 역할 분리.
+- [ ] 백엔드(SSE 실시간) + 프론트 파티 패널 4개 (Phase 3, frontend-design).
