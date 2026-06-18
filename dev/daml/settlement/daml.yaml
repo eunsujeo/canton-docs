@@ -1,0 +1,17 @@
+# Musubi 정산(2-leg FX DvP) Daml 패키지
+# 구조·의존성은 licensing 패키지를 본떴고, 템플릿 로직은 OTCTrade(다중 leg DvP)를 본떴다.
+sdk-version: 3.4.11
+name: quickstart-settlement
+source: daml
+version: 0.0.1
+dependencies:
+  - daml-prim
+  - daml-stdlib
+data-dependencies:
+- ../dars/splice-api-token-metadata-v1-1.0.0.dar
+- ../dars/splice-api-token-holding-v1-1.0.0.dar
+- ../dars/splice-api-token-allocation-v1-1.0.0.dar
+- ../dars/splice-api-token-allocation-request-v1-1.0.0.dar
+build-options:
+  - --ghc-option=-Wunused-binds
+  - --ghc-option=-Wunused-matches

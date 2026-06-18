@@ -1,0 +1,208 @@
+-- Musubi 2-leg FX DvP 정산
+-- SPDX-License-Identifier: Apache-2.0
+--
+-- | 적격기관 ↔ 적격기관 간 "통화 ↔ 통화" 원자적 정산(DvP).
+--
+--   설계 출처: cn-quickstart 의 OTCTrade 예제(다중 leg 토큰표준 DvP)를 본떴다.
+--   라이선싱 예제(판매자→고객, 단방향 1 leg)와 달리 이쪽은 **대칭 P2P, 다중 leg**다.
+--
+--   FX 예시 (KRW ↔ JPY):
+--     transferLegs = {
+--       "legKRW": { sender = 기관A, receiver = 기관B, amount = ..., instrumentId = KRW스테이블코인 },
+--       "legJPY": { sender = 기관B, receiver = 기관A, amount = ..., instrumentId = JPY스테이블코인 }
+--     }
+--   흐름: 제안(SettlementProposal) → 양 기관 Accept → venue가 InitiateSettlement → Settlement 생성
+--         → 각 기관이 자기 leg 자산을 Allocation 으로 잠금 → venue 가 Settlement_Execute
+--         → 모든 leg가 한 트랜잭션에 원자적으로 실행(전부 or 전무).
+module Settlement.FxDvp where
+
+import DA.Foldable qualified as F
+import DA.Optional (fromOptional, fromSomeNote)
+import DA.Set as Set
+import DA.TextMap as TextMap
+import DA.Traversable qualified as Traversable
+
+import Splice.Api.Token.MetadataV1 as Api.Token.MetadataV1
+import Splice.Api.Token.AllocationV1 as Api.Token.AllocationV1
+import Splice.Api.Token.AllocationRequestV1
+
+
+-- | 정산 제안. 거래 당사자들이 합의(Accept)를 모으는 단계.
+template SettlementProposal with
+    venue : Party
+      -- ^ 정산 운영자(예: Musubi/RFQ 베뉴). 정산을 개시·실행하지만 자산 당사자는 아님.
+    settlementCid : Optional (ContractId SettlementProposal)
+      -- ^ 정산 추적용 id. 새 정산이면 None.
+    transferLegs : TextMap Api.Token.AllocationV1.TransferLeg
+      -- ^ 통화 다리들. FX DvP면 보통 2개(통화A↔통화B).
+    approvers : [Party] -- ^ 이미 승인한 거래 당사자들
+  where
+    signatory approvers
+    observer venue, tradingParties transferLegs
+
+    -- | 거래 당사자가 제안을 승인한다. 모두 승인하면 venue가 정산을 개시할 수 있다.
+    choice SettlementProposal_Accept : ContractId SettlementProposal
+      with
+        approver : Party
+      controller approver
+      do
+        let newApprovers = approver :: approvers
+        let traders = tradingParties transferLegs
+        require "Approver is a trading party" (approver `Set.member` traders)
+        require "Approver is new" (approver `notElem` approvers)
+        create this with
+          approvers = newApprovers
+          settlementCid = Some (fromOptional self settlementCid)
+
+    -- | 거래 당사자가 제안을 거절한다.
+    choice SettlementProposal_Reject : ()
+      with
+        trader : Party
+      controller trader
+      do require "Trader is a trading party" (trader `Set.member` tradingParties transferLegs)
+
+    -- | venue가 정산을 개시한다(모든 당사자 승인 후). Settlement 컨트랙트를 만든다.
+    choice SettlementProposal_InitiateSettlement : ContractId Settlement
+      with
+        prepareUntil : Time  -- ^ 이 시각 전까지 각 당사자가 자산을 Allocation으로 잠가야 함
+        settleBefore : Time  -- ^ 이 시각 전까지 venue가 실행(정산)해야 함
+      controller venue
+      do
+        require "All trading parties have approved" (Set.fromList approvers == tradingParties transferLegs)
+        now <- getTime
+        require "Preparation time has not passed" (now < prepareUntil)
+        require "Preparation time before settlement time" (prepareUntil < settleBefore)
+        create Settlement with
+          venue
+          transferLegs
+          settlementCid = fromOptional self settlementCid
+          createdAt = now
+          prepareUntil
+          settleBefore
+
+
+-- | 각 leg에 대한 기대 Allocation 명세를 만든다(검증용).
+settlementAllocations
+  : SettlementInfo -> TextMap Api.Token.AllocationV1.TransferLeg
+  -> TextMap AllocationSpecification
+settlementAllocations settlementInfo transferLegs =
+  TextMap.fromList $ do
+    (transferLegId, transferLeg) <- TextMap.toList transferLegs
+    let spec = AllocationSpecification with
+          settlement = settlementInfo
+          transferLegId
+          transferLeg
+    pure (transferLegId, spec)
+
+
+-- | 개시된 정산. 각 당사자가 자기 leg를 Allocation으로 잠그면 venue가 원자적으로 실행한다.
+template Settlement
+  with
+    venue : Party
+    transferLegs : TextMap Api.Token.AllocationV1.TransferLeg
+    settlementCid : ContractId SettlementProposal
+    createdAt : Time
+    prepareUntil : Time
+    settleBefore : Time
+  where
+    signatory venue, tradingParties transferLegs
+
+    -- | 모든 leg를 한 트랜잭션에 원자적으로 실행 = DvP 정산. 전부 성공 or 전부 롤백.
+    choice Settlement_Execute : TextMap Allocation_ExecuteTransferResult
+      with
+        allocationsWithContext : TextMap (ContractId Allocation, ExtraArgs)
+      controller venue
+      do
+        now <- getTime
+        require "Settlement deadline has not passed" (now < settleBefore)
+        let settlementInfo = SettlementInfo with
+              executor = venue
+              requestedAt = createdAt
+              settlementRef = makeSettlementRef settlementCid
+              allocateBefore = prepareUntil
+              settleBefore
+              meta = emptyMetadata
+        let expectedAllocations = settlementAllocations settlementInfo transferLegs
+        let mergedMaps = zipTextMaps allocationsWithContext expectedAllocations
+        forTextMapWithKey mergedMaps \legId (optAllocWithContext, optExpectedAlloc) -> do
+          let (allocCid, extraArgs) = fromSomeNote ("Allocation cid and extra arg is missing for leg " <> legId) optAllocWithContext
+          let expectedAlloc = fromSomeNote ("Allocation with context provided for unexpected leg " <> legId) optExpectedAlloc
+          instr <- fetch @Allocation allocCid
+          let instrView = view @Allocation instr
+          require "Allocation matches expected allocation" (instrView.allocation == expectedAlloc)
+          exercise allocCid (Allocation_ExecuteTransfer extraArgs)
+
+    -- | 정산 취소(잠긴 Allocation 해제).
+    choice Settlement_Cancel : TextMap (Optional Allocation_CancelResult)
+      with
+        allocationsWithContext : TextMap (ContractId Allocation, ExtraArgs)
+      controller venue
+      do
+        let settlementInfo = SettlementInfo with
+              executor = venue
+              requestedAt = createdAt
+              settlementRef = makeSettlementRef settlementCid
+              allocateBefore = prepareUntil
+              settleBefore
+              meta = emptyMetadata
+        let expectedAllocations = settlementAllocations settlementInfo transferLegs
+        let mergedMaps = zipTextMaps allocationsWithContext expectedAllocations
+        forTextMapWithKey mergedMaps \legId (optAllocWithContext, optExpectedAlloc) ->
+          Traversable.forA optAllocWithContext $ \(allocCid, extraArgs) -> do
+            let expectedAlloc = fromSomeNote ("Allocation with context provided for unexpected leg " <> legId) optExpectedAlloc
+            instr <- fetch @Allocation allocCid
+            let instrView = view @Allocation instr
+            require "Allocation matches expected allocation" (instrView.allocation == expectedAlloc)
+            exercise allocCid (Allocation_Cancel extraArgs)
+
+    -- | 토큰표준이 각 당사자에게 "당신 leg를 잠그라"고 요청하는 인터페이스.
+    interface instance AllocationRequest for Settlement where
+      view = AllocationRequestView with
+        settlement = SettlementInfo with
+          executor = venue
+          requestedAt = createdAt
+          settlementRef = makeSettlementRef settlementCid
+          allocateBefore = prepareUntil
+          settleBefore
+          meta = emptyMetadata
+        transferLegs
+        meta = emptyMetadata
+
+      allocationRequest_RejectImpl _self AllocationRequest_Reject{..} = do
+        require "Actor is a sender" (F.any (\leg -> actor == leg.sender) transferLegs)
+        pure ChoiceExecutionMetadata with meta = emptyMetadata
+
+      allocationRequest_WithdrawImpl _self _extraArgs =
+        pure ChoiceExecutionMetadata with meta = emptyMetadata
+
+
+-- 헬퍼들 (OTCTrade 예제와 동일)
+----------------------------------
+
+-- | transferLegs에 등장하는 모든 sender/receiver = 거래 당사자 집합.
+tradingParties : TextMap Api.Token.AllocationV1.TransferLeg -> Set.Set Party
+tradingParties = F.foldl (\acc t -> Set.insert t.sender (Set.insert t.receiver acc)) Set.empty
+
+require : CanAssert m => Text -> Bool -> m ()
+require msg invariant =
+  assertMsg ("The requirement '" <> msg <> "' was not met.") invariant
+
+makeSettlementRef : ContractId SettlementProposal -> Api.Token.AllocationV1.Reference
+makeSettlementRef settlementCid = Api.Token.AllocationV1.Reference with
+  id = "SettlementProposal"
+  cid = Some (coerceContractId settlementCid)
+
+zipTextMaps : TextMap a -> TextMap b -> TextMap (Optional a, Optional b)
+zipTextMaps m1 m2 =
+  TextMap.merge
+    (\_ v1 -> Some (Some v1, None))
+    (\_ v2 -> Some (None, Some v2))
+    (\_ v1 v2 -> Some (Some v1, Some v2))
+    m1
+    m2
+
+forTextMapWithKey : Applicative f => TextMap a -> (Text -> a -> f b) -> f (TextMap b)
+forTextMapWithKey m f =
+    TextMap.fromList <$> mapA f' (TextMap.toList m)
+  where
+    f' (k, v) = (k,) <$> f k v
