@@ -25,7 +25,9 @@
 ## Phase 2 — DvP 정산 로직 구현 (핵심)
 - [x] **참고 예제 = OTCTrade**(P2P 다중 leg DvP), 라이선싱(단방향 B2C)보다 Musubi(기관↔기관)에 맞음. `daml/external-test-sources/splice-token-test-trading-app/.../TradingApp.daml`
 - [x] **Daml 템플릿 작성**: `settlement/` 패키지 — `SettlementProposal`/`Settlement`(2-leg 원자 DvP). **컴파일 성공**(2026-06-18). 원본: [../daml/settlement/](../daml/settlement/README.md)
-- [ ] Daml Script 테스트: 두 기관 + 통화 2종으로 제안→합의→할당→원자 실행 시나리오
+- [x] **Daml Script 테스트 통과**: 제안→합의→할당→원자 실행 전 과정 — `testFullSettlement: ok, 16 transactions`, 양측 통화 수령 검증. 원본: [../daml/settlement-tests/](../daml/settlement/README.md)
+- [ ] 통화 2종(KRW/JPY) 인스트루먼트 분리 (현재 데모는 Amulet 1종) — 발행 체인 미정과 연결
+- [ ] 백엔드(Ledger API) 연동 + 취소 경로 테스트
 - [ ] 파티 모델 정의: 기관 A / 기관 B / (필요 시) 커스터디언·마켓메이커 — RFQ 흐름.
 - [ ] 서명자·관찰자·컨트롤러 권한 설계(누가 제안/수락/정산을 트리거하나).
 - [ ] **Daml Script로 시나리오 자동 실행** — "제안 → 수락 → 원자적 정산 / 실패 시 전부 롤백" 재현.

@@ -32,7 +32,21 @@ cn-quickstart는 gitignore라, 빌드는 그 안에 **사본을 두고** 한다:
 
 > ⚠️ 코드 수정은 **이 추적 원본에서** 하고 cn-quickstart로 동기화. (반대로 하면 gitignore라 유실 위험)
 
+## Daml Script 테스트 (✅ 통과)
+원본: `../settlement-tests/daml/Settlement/Scripts/TestSettlement.daml` (별도 패키지)
+- 전 과정 실행: 제안→Accept→Initiate→양측 할당→`Settlement_Execute`(원자 정산)→검증.
+- 결과: `testFullSettlement: ok, 20 active contracts, 16 transactions.` — 기관B가 100, 기관A가 20 수령 검증 통과 = 원자 DvP 작동.
+- 주의: 이 repo엔 Amulet 한 종류만 있어 두 leg 모두 Amulet으로 둠(DvP 인터페이스 시연엔 충분). 실제 FX는 통화 2종 인스트루먼트.
+
+실행:
+```bash
+# cn-quickstart 사본에 동기화 후 (settlement, settlement-tests 둘 다 + multi-package.yaml 등록)
+cd dev/cn-quickstart/quickstart/daml/settlement-tests
+dpm test           # 또는 nix develop ../../ --command dpm test
+```
+**전 과정을 눈으로 보기**: VS Code(Daml 확장)에서 `TestSettlement.daml` 열고 `testFullSettlement` 위 **"Script results"** 클릭 → 16개 트랜잭션·각 시점 활성 컨트랙트를 **인터랙티브 표**로 탐색.
+
 ## 다음 (TODO)
-- [ ] Daml Script 테스트: 두 기관 + 통화 2종 인스트루먼트로 제안→합의→할당→실행(원자 정산) 시나리오. (참고: splice-token-standard-test 인프라)
-- [ ] 통화 인스트루먼트 표현(토큰표준 instrumentId) 설계 — 발행 체인 미정과 연결.
+- [ ] 통화 인스트루먼트 2종(KRW/JPY) 표현 — 발행 체인 미정과 연결.
 - [ ] 백엔드(Ledger API)에서 SettlementProposal 생성·구독 연동.
+- [ ] 만료/취소(Settlement_Cancel) 경로 테스트.

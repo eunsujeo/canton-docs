@@ -1,0 +1,136 @@
+-- Musubi FX DvP 전 과정 Daml Script 데모
+-- SPDX-License-Identifier: Apache-2.0
+--
+-- | SettlementProposal → Accept → InitiateSettlement → (양측 할당) → Settlement_Execute
+--   전 과정을 실행하며 각 단계의 활성 컨트랙트/잔액을 debug로 출력한다.
+--   참고: splice-token-standard-test 의 TestAmuletTokenDvP 를 우리 Settlement 로 치환.
+--   주의: 이 repo엔 Amulet 한 종류만 있어 두 leg 모두 Amulet으로 둔다(DvP 인터페이스 시연엔 충분).
+module Settlement.Scripts.TestSettlement where
+
+import Daml.Script
+
+import DA.Foldable (foldMap)
+import DA.TextMap as TextMap hiding (filter)
+import DA.Time
+import DA.Traversable qualified as Traversable
+
+import Splice.Api.Token.MetadataV1 as Api.Token.MetadataV1
+import Splice.Api.Token.AllocationV1 as Api.Token.AllocationV1
+import Splice.Api.Token.AllocationRequestV1
+import Splice.Api.Token.AllocationInstructionV1
+
+import Splice.Testing.Utils
+import Splice.Testing.Registries.AmuletRegistry qualified as AmuletRegistry
+import Splice.Testing.TokenStandard.RegistryApi qualified as RegistryApi
+import Splice.Testing.TokenStandard.WalletClient qualified as WalletClient
+
+import Settlement.FxDvp
+
+-- | venue 시점에서 본 활성 SettlementProposal/Settlement 개수를 출력.
+showLedger : Text -> Party -> Script ()
+showLedger label venue = do
+  props <- query @SettlementProposal venue
+  setts <- query @Settlement venue
+  debug ("[" <> label <> "] 활성: SettlementProposal=" <> show (length props)
+         <> ", Settlement=" <> show (length setts))
+
+testFullSettlement : Script ()
+testFullSettlement = script do
+  debug "=== 0. 셋업: 토큰 레지스트리 + 파티 + 자금 ==="
+  registry <- AmuletRegistry.initialize AmuletRegistry.defaultAmuletRegistryConfig
+  let amuletId = registry.instrumentId
+
+  instA <- allocatePartyExact "instA"   -- 기관A (파티명은 ASCII만 허용)
+  instB <- allocatePartyExact "instB"   -- 기관B
+  venue <- allocatePartyExact "Musubi-venue"
+  let beneficiaries = [(venue, 1.0)]
+  AmuletRegistry.featureApp registry venue
+
+  -- 양 기관에 자금 지급(테스트용 tap)
+  AmuletRegistry.tapLockedAndUnlockedFunds registry instA 1000.0
+  AmuletRegistry.tapLockedAndUnlockedFunds registry instB 1000.0
+  debug "기관A·기관B 각 1000 자금 보유"
+
+  -- 두 통화 다리(여기선 동일 Amulet, 방향만 반대 = FX 스왑 흉내)
+  let mkLeg sender receiver amount = Api.Token.AllocationV1.TransferLeg with
+        sender; receiver; amount; instrumentId = amuletId; meta = emptyMetadata
+  let legKRW = mkLeg instA instB 100.0   -- 기관A → 기관B 100
+  let legJPY = mkLeg instB instA 20.0    -- 기관B → 기관A 20
+
+  debug "=== 1. 기관A가 SettlementProposal 생성 ==="
+  proposalCid <- submit instA $ createCmd SettlementProposal with
+    venue
+    settlementCid = None
+    transferLegs = TextMap.fromList [("legKRW", legKRW), ("legJPY", legJPY)]
+    approvers = [instA]
+  showLedger "단계1 후" venue
+
+  debug "=== 2. 기관B가 Accept (서명 추가 = 폐기+재생성) ==="
+  proposalCid <- submit instB $ exerciseCmd proposalCid SettlementProposal_Accept with
+    approver = instB
+  showLedger "단계2 후" venue
+
+  debug "=== 3. venue가 InitiateSettlement (Proposal 폐기 → Settlement 생성) ==="
+  now <- getTime
+  let settleBefore = now `addRelTime` hours 2
+  settlementCid <- submit venue $ exerciseCmd proposalCid SettlementProposal_InitiateSettlement with
+    prepareUntil = now `addRelTime` hours 1
+    settleBefore
+  showLedger "단계3 후 (Proposal 사라지고 Settlement 등장)" venue
+  Some settlement <- queryContractId venue settlementCid
+
+  debug "=== 4. 기관A가 자기 leg(100) 할당(잠금) ==="
+  [aLloc] <- WalletClient.listRequestedAllocations instA amuletId
+  aInputs <- WalletClient.listHoldingCids instA amuletId
+  now <- getTime
+  aFactory <- RegistryApi.getAllocationFactory registry AllocationFactory_Allocate with
+    expectedAdmin = registry.dso
+    allocation = aLloc
+    inputHoldingCids = aInputs
+    requestedAt = now
+    extraArgs = emptyExtraArgs
+  submitWithDisclosures' instA aFactory.disclosures $ exerciseCmd aFactory.factoryCid aFactory.arg
+
+  debug "=== 5. 기관B가 자기 leg(20) 할당(잠금) ==="
+  [bLloc] <- WalletClient.listRequestedAllocations instB amuletId
+  bInputs <- WalletClient.listHoldingCids instB amuletId
+  bFactory <- RegistryApi.getAllocationFactory registry AllocationFactory_Allocate with
+    expectedAdmin = registry.dso
+    allocation = bLloc
+    inputHoldingCids = bInputs
+    requestedAt = now
+    extraArgs = emptyExtraArgs
+  submitWithDisclosures' instB bFactory.disclosures $ exerciseCmd bFactory.factoryCid bFactory.arg
+  debug "양측 할당 완료(자산 잠김)"
+
+  passTime (hours 1)
+
+  debug "=== 6. venue가 Settlement_Execute (모든 leg 원자적 정산) ==="
+  let ref = (view $ toInterface @AllocationRequest settlement).settlement.settlementRef
+  allocations <- appBackendListAllocations venue ref
+  debug ("잠긴 할당 수: " <> show (TextMap.size allocations))
+  let beneMeta = AmuletRegistry.beneficiariesToMetadata beneficiaries
+  rich <- Traversable.forA allocations $ \(allocCid, _) -> do
+    ctx <- RegistryApi.getAllocation_TransferContext registry allocCid beneMeta
+    let extraArgs = ExtraArgs with context = ctx.choiceContext; meta = beneMeta
+    pure (ctx.disclosures, (allocCid, extraArgs))
+  let disclosures = foldMap fst rich
+  _ <- submitWithDisclosures' venue disclosures $ exerciseCmd settlementCid Settlement_Execute with
+    allocationsWithContext = fmap snd rich
+  showLedger "단계6 후 (Settlement도 소비됨)" venue
+
+  debug "=== 결과 검증: 통화가 서로 넘어갔나? ==="
+  WalletClient.checkHoldingWithAmountExists instB amuletId 100.0  -- 기관B가 100 받음
+  WalletClient.checkHoldingWithAmountExists instA amuletId 20.0   -- 기관A가 20 받음
+  debug "✅ DvP 정산 성공: 기관A→B 100, 기관B→A 20 이 한 트랜잭션에 동시 이동"
+  pure ()
+
+-- | 한 settlement 참조에 속한 할당들을 leg id 순으로 모은다(앱 백엔드 자동화가 할 일).
+appBackendListAllocations : Party -> Reference -> Script (TextMap (ContractId Allocation, AllocationView))
+appBackendListAllocations p ref = do
+  allocs <- queryInterface @Allocation p
+  let matching = do
+        (cid, Some funded) <- allocs
+        guard (funded.allocation.settlement.settlementRef == ref)
+        pure (funded.allocation.transferLegId, (cid, funded))
+  pure $ TextMap.fromList matching
