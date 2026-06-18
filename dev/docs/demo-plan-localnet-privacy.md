@@ -50,6 +50,7 @@ LocalNet (참여자 노드 + JSON Ledger API v2)
 - [ ] thin 백엔드: 파티별 토큰으로 `GET active-contracts` + `POST submit`(제안/수락/할당/실행).
 - [ ] 프론트: **파티 패널 4개**(A/B/venue/outsider) 각자 자기 뷰 폴링 + **시나리오 버튼** + 컨트랙트 payload 표시.
 - [ ] 프라이버시 콜아웃: outsider 패널 강조("못 봄").
+- [ ] **디자인: `frontend-design` 스킬 적용** — 발표·공유용이라 "안전한 다크 기본값"이 아니라 의도적·차별화된 룩으로(타이포·색·레이아웃). (UI 만들 때 이 스킬 먼저 호출)
 
 ### Phase 4 — 폴리시
 - [ ] 단계 내러티브(설명 텍스트), 원장 레코드 JSON 보기, 통화 2종(KRW/JPY) 분리(선택).
@@ -62,7 +63,7 @@ LocalNet (참여자 노드 + JSON Ledger API v2)
 | 백엔드 | **새 thin 백엔드**(Node/FastAPI, 읽기 위주) 추천. 액션은 처음엔 Script/Console → 점진적으로 백엔드로 |
 | 파티 | instA=app-user, instB=app-provider(재사용), venue·outsider=신규 할당 |
 | 통화 | 현재 Amulet 1종으로 데모(충분), 추후 2종 |
-| 프론트 | 정적 단일 HTML(현 대시보드 스타일) + fetch, 또는 가벼운 프레임워크 |
+| 프론트 | 정적 단일 HTML + fetch 또는 가벼운 프레임워크. **디자인은 `frontend-design` 스킬로**(제네릭 기본값 X) |
 
 ## 리스크 / 조사 필요
 - [ ] **파티별 토큰 발급**(shared-secret) 구체 방법 — 데모 성패의 핵심.
