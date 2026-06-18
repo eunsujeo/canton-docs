@@ -64,6 +64,7 @@
   - [원자적 DvP는 Canton만 되나? — 원자성·잠금·조합성, "이더도 되잖아?"에 답하기](/notes/atomic-dvp-real-differentiator.md)
   - [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](/notes/blockchain-layers-l0-l1-l2.md)
   - [BTC vs Ethereum vs Canton — 한눈 비교](/notes/btc-ethereum-canton-compare.md)
+  - [Canton의 B2B vs B2C — 어디에 맞나 (적합성·쓰임새)](/notes/canton-b2b-vs-b2c.md)
   - [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](/notes/canton-environments-localnet-to-mainnet.md)
   - [Canton vs Splice — 엔진 vs 운영 소프트웨어](/notes/canton-vs-splice.md)
   - [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](/notes/dvp-settlement-app-architecture.md)
