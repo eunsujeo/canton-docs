@@ -23,6 +23,7 @@ def load_order():
     order = []
     for line in open(sb, encoding='utf-8'):
         for title, path in SIDEBAR_LINK.findall(line):
+            path = path.lstrip('/')  # _sidebar는 루트기준(/...) 링크 → relpath로 정규화
             if path.startswith('http') or path in META:
                 continue
             if not os.path.exists(os.path.join(WIKI, path)):

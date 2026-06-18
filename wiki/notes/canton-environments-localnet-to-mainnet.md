@@ -79,6 +79,6 @@ LocalNet (내 PC, 매일 개발·단위 테스트 — 절차 없음)
 
 ---
 
-⬅️ **이전**: [BTC vs Ethereum vs Canton — 한눈 비교](btc-ethereum-canton-compare.md) ・ ➡️ **다음**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md)
+⬅️ **이전**: [Canton의 B2B vs B2C — 어디에 맞나 (적합성·쓰임새)](canton-b2b-vs-b2c.md) ・ ➡️ **다음**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md)
 
 <!-- nav:end -->

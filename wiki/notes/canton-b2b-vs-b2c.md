@@ -48,3 +48,11 @@ tags: [정리, note, 활용, B2B, B2C, 아키텍처, 비교]
 - [활용 사례](../overview/understand/use-cases.md) · [Canton이 푸는 문제](../overview/understand/the-problem.md)
 - [원자적 DvP 진짜 차별점](atomic-dvp-real-differentiator.md) · [BTC vs Ethereum vs Canton](btc-ethereum-canton-compare.md)
 - [블록체인 계층 (L0/L1/L2)](blockchain-layers-l0-l1-l2.md)
+
+<!-- nav:start -->
+
+---
+
+⬅️ **이전**: [BTC vs Ethereum vs Canton — 한눈 비교](btc-ethereum-canton-compare.md) ・ ➡️ **다음**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md)
+
+<!-- nav:end -->

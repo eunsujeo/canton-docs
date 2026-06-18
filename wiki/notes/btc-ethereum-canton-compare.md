@@ -62,6 +62,6 @@ tags: [개요, 정리, note, 비교, 합의, 프라이버시]
 
 ---
 
-⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md)
+⬅️ **이전**: [블록체인 계층 (L0 / L1 / L2)와 Canton의 위치](blockchain-layers-l0-l1-l2.md) ・ ➡️ **다음**: [Canton의 B2B vs B2C — 어디에 맞나 (적합성·쓰임새)](canton-b2b-vs-b2c.md)
 
 <!-- nav:end -->
