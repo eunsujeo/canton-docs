@@ -23,7 +23,8 @@
 - 참고: [LocalNet 개발](../../wiki/appdev/modules/m5-localnet-development.md) · [환경 4단계·스펙](../../wiki/notes/canton-environments-localnet-to-mainnet.md)
 
 ## Phase 2 — DvP 정산 로직 구현 (핵심)
-- [ ] **Daml 템플릿 설계**: 양쪽 통화 다리(leg)를 한 트랜잭션에 묶는 **원자적 DvP** 컨트랙트.
+- [ ] **참고 예제 = OTCTrade**(P2P 다중 leg DvP), 라이선싱(단방향 B2C)보다 Musubi(기관↔기관)에 맞음. `daml/external-test-sources/splice-token-test-trading-app/.../TradingApp.daml`
+- [ ] **Daml 템플릿 설계**: 양쪽 통화 다리(leg)를 한 트랜잭션에 묶는 **원자적 DvP** 컨트랙트. (OTCTradeProposal/OTCTrade 본떠 SettlementProposal/Settlement)
 - [ ] 파티 모델 정의: 기관 A / 기관 B / (필요 시) 커스터디언·마켓메이커 — RFQ 흐름.
 - [ ] 서명자·관찰자·컨트롤러 권한 설계(누가 제안/수락/정산을 트리거하나).
 - [ ] **Daml Script로 시나리오 자동 실행** — "제안 → 수락 → 원자적 정산 / 실패 시 전부 롤백" 재현.
