@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Musubi DvP 정산 흐름 — 단계별 원장 상태</title>
+<style>
+  :root{--bg:#0d1017;--panel:#161b26;--bar:#1f2430;--fg:#e6e9ef;--mut:#8a93a5;
+        --accent:#7aa2f7;--ok:#9ece6a;--del:#f7768e;--new:#9ece6a;--lock:#e0af68;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+  header{padding:14px 20px;background:var(--bar);border-bottom:1px solid #000}
+  header h1{margin:0;font-size:17px}
+  header .sub{color:var(--mut);font-size:12px;margin-top:3px}
+  .wrap{display:grid;grid-template-columns:300px 1fr;gap:14px;padding:14px;align-items:start}
+  /* steps rail */
+  .rail{display:flex;flex-direction:column;gap:6px}
+  .step{background:var(--panel);border:1px solid #2a3140;border-radius:8px;padding:9px 11px;
+        cursor:pointer;font-size:13px}
+  .step:hover{border-color:var(--accent)}
+  .step.active{border-color:var(--accent);background:#1c2436}
+  .step .n{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;
+           background:#2a3140;border-radius:50%;font-size:11px;margin-right:7px;color:var(--accent)}
+  .step.active .n{background:var(--accent);color:#0d1017}
+  .step .who{color:var(--mut);font-size:11px;margin-top:3px;margin-left:27px}
+  /* detail */
+  .detail{background:var(--panel);border:1px solid #2a3140;border-radius:10px;padding:16px;min-height:420px}
+  .detail h2{margin:0 0 2px;font-size:16px;color:var(--accent)}
+  .detail .act{color:var(--mut);font-size:13px;margin-bottom:14px}
+  .chg{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .chip{font-size:12px;padding:4px 9px;border-radius:6px;border:1px solid}
+  .chip.arch{color:var(--del);border-color:var(--del);background:#2a1620}
+  .chip.crt{color:var(--new);border-color:var(--new);background:#16251a}
+  .chip.none{color:var(--mut);border-color:#2a3140}
+  .sectit{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px}
+  .ledger{display:flex;flex-direction:column;gap:6px}
+  .card{border:1px solid #2a3140;border-radius:8px;padding:9px 11px;background:#10141d;font-size:13px}
+  .card.tpl-Proposal{border-left:3px solid var(--accent)}
+  .card.tpl-Settlement{border-left:3px solid #bb9af7}
+  .card.tpl-Alloc{border-left:3px solid var(--lock)}
+  .card.tpl-Holding{border-left:3px solid var(--ok)}
+  .card .t{font-weight:600}
+  .card .f{color:var(--mut);font-size:12px;margin-top:2px}
+  .card .nw{color:var(--new);font-size:11px;margin-left:6px}
+  .nav{display:flex;gap:8px;margin-top:14px}
+  .nav button{background:var(--bar);color:var(--fg);border:1px solid #3a4252;border-radius:6px;
+              padding:6px 14px;cursor:pointer;font-size:13px}
+  .nav button:hover{border-color:var(--accent)}
+  .atom{margin-top:12px;padding:9px 11px;border-radius:8px;background:#16251a;border:1px solid var(--ok);
+        color:var(--ok);font-size:12px;display:none}
+  .legend{padding:8px 20px;color:var(--mut);font-size:11px;border-top:1px solid #000}
+  .legend b{color:var(--fg)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Musubi DvP 정산 흐름 — 단계별 원장 상태</h1>
+  <div class="sub">기관A(instA) ⇄ 기관B(instB) · 운영자 venue(Musubi) · legKRW: A→B 100 / legJPY: B→A 20 · (testFullSettlement 기반)</div>
+</header>
+<div class="wrap">
+  <div class="rail" id="rail"></div>
+  <div class="detail">
+    <h2 id="d-title"></h2>
+    <div class="act" id="d-act"></div>
+    <div class="sectit">이 단계의 변화</div>
+    <div class="chg" id="d-chg"></div>
+    <div class="atom" id="d-atom">⚛️ 이 모든 폐기·생성이 <b>한 트랜잭션</b>에서 일어남 = 원자적(전부 or 전무)</div>
+    <div class="sectit">끝난 뒤 활성 컨트랙트 (원장 상태)</div>
+    <div class="ledger" id="d-ledger"></div>
+    <div class="nav">
+      <button id="prev">← 이전</button>
+      <button id="next">다음 →</button>
+    </div>
+  </div>
+</div>
+<div class="legend">
+  <b style="color:var(--del)">archive</b> 폐기 ·
+  <b style="color:var(--new)">create</b> 생성 ·
+  카드 색: <span style="color:var(--accent)">Proposal</span> /
+  <span style="color:#bb9af7">Settlement</span> /
+  <span style="color:var(--lock)">Allocation(잠금)</span> /
+  <span style="color:var(--ok)">Holding(자산)</span>
+</div>
+
+<script>
+// 활성 컨트랙트는 누적 상태로 표현 (cid 라벨)
+const STEPS = [
+  { t:"0. 셋업", who:"토큰 레지스트리 + 파티 발급(allocate) + 자금 tap",
+    arch:[], crt:["Holding A:1000","Holding B:1000"],
+    ledger:[["Holding","H-A0","기관A 보유 1000",false],["Holding","H-B0","기관B 보유 1000",false]] },
+  { t:"1. 제안 생성", who:"기관A가 SettlementProposal 생성 (approvers=[A])",
+    arch:[], crt:["Proposal#1"],
+    ledger:[["Proposal","Proposal#1","approvers=[A] · legKRW(A→B100), legJPY(B→A20)",true],
+            ["Holding","H-A0","기관A 1000",false],["Holding","H-B0","기관B 1000",false]] },
+  { t:"2. 수락(Accept)", who:"기관B가 _Accept — 서명 추가 = 폐기+재생성",
+    arch:["Proposal#1"], crt:["Proposal#2"],
+    ledger:[["Proposal","Proposal#2","approvers=[B,A] · settlementCid=#1",true],
+            ["Holding","H-A0","기관A 1000",false],["Holding","H-B0","기관B 1000",false]] },
+  { t:"3. 개시(Initiate)", who:"venue가 _InitiateSettlement — Proposal→Settlement",
+    arch:["Proposal#2"], crt:["Settlement#3"],
+    ledger:[["Settlement","Settlement#3","transferLegs 2개 · prepareUntil/settleBefore",true],
+            ["Holding","H-A0","기관A 1000",false],["Holding","H-B0","기관B 1000",false]] },
+  { t:"4. 할당 A", who:"기관A가 legKRW(100) Allocation으로 잠금",
+    arch:[], crt:["Alloc#KRW"],
+    ledger:[["Settlement","Settlement#3","개시됨",false],
+            ["Alloc","Alloc#KRW","기관A의 100 잠김 (legKRW)",true],
+            ["Holding","H-A1","기관A 900 (잔여)",false],["Holding","H-B0","기관B 1000",false]] },
+  { t:"5. 할당 B", who:"기관B가 legJPY(20) Allocation으로 잠금",
+    arch:[], crt:["Alloc#JPY"],
+    ledger:[["Settlement","Settlement#3","개시됨",false],
+            ["Alloc","Alloc#KRW","기관A 100 잠김",false],
+            ["Alloc","Alloc#JPY","기관B의 20 잠김 (legJPY)",true],
+            ["Holding","H-A1","기관A 900",false],["Holding","H-B1","기관B 980",false]] },
+  { t:"6. 실행(Execute) ⚛️", who:"venue가 _Execute — 모든 leg 원자적 정산",
+    atom:true,
+    arch:["Settlement#3","Alloc#KRW","Alloc#JPY"], crt:["Holding KRW→B 100","Holding JPY→A 20"],
+    ledger:[["Holding","H-B2","기관B: KRW 100 수령 ✅ (+기존)",true],
+            ["Holding","H-A2","기관A: JPY 20 수령 ✅ (+기존)",true],
+            ["Holding","H-A1","기관A 900",false],["Holding","H-B1","기관B 980",false]] },
+];
+
+let cur = 0;
+const rail = document.getElementById('rail');
+STEPS.forEach((s,i)=>{
+  const el = document.createElement('div'); el.className='step'; el.dataset.i=i;
+  el.innerHTML = `<div><span class="n">${i}</span>${s.t.replace(/^\d+\.\s*/,'')}</div><div class="who">${s.who}</div>`;
+  el.onclick = ()=>{cur=i;render();};
+  rail.appendChild(el);
+});
+
+function tplClass(name){ if(name.startsWith('Proposal'))return'tpl-Proposal';
+  if(name.startsWith('Settlement'))return'tpl-Settlement';
+  if(name.startsWith('Alloc'))return'tpl-Alloc'; return'tpl-Holding'; }
+
+function render(){
+  const s = STEPS[cur];
+  document.querySelectorAll('.step').forEach(e=>e.classList.toggle('active',+e.dataset.i===cur));
+  document.getElementById('d-title').textContent = s.t;
+  document.getElementById('d-act').textContent = s.who;
+  // changes
+  const chg = document.getElementById('d-chg'); chg.innerHTML='';
+  if(!s.arch.length && !s.crt.length) chg.innerHTML='<span class="chip none">변화 없음</span>';
+  s.arch.forEach(a=>chg.innerHTML+=`<span class="chip arch">✕ archive ${a}</span>`);
+  s.crt.forEach(c=>chg.innerHTML+=`<span class="chip crt">＋ create ${c}</span>`);
+  document.getElementById('d-atom').style.display = s.atom?'block':'none';
+  // ledger
+  const L = document.getElementById('d-ledger'); L.innerHTML='';
+  s.ledger.forEach(([tpl,cid,desc,isNew])=>{
+    L.innerHTML += `<div class="card ${tplClass(cid)}"><div class="t">${cid}
+      ${isNew?'<span class="nw">● 새로 생김</span>':''}</div><div class="f">${desc}</div></div>`;
+  });
+}
+document.getElementById('prev').onclick=()=>{if(cur>0){cur--;render();}};
+document.getElementById('next').onclick=()=>{if(cur<STEPS.length-1){cur++;render();}};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')document.getElementById('next').click();
+  if(e.key==='ArrowLeft')document.getElementById('prev').click();});
+render();
+</script>
+</body>
+</html>
