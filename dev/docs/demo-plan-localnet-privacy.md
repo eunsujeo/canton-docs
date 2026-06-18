@@ -56,6 +56,22 @@ LocalNet (참여자 노드 + JSON Ledger API v2)
 - 폴백: 1~2초 **폴링**(스트림 까다로우면).
 - 효과: A가 제안하면 B·venue 패널에 **즉시** 뜨고 외부자 패널은 계속 빈 채 → "실시간으로 남은 못 본다".
 
+## 어디에 만드나 (위치)
+**`canton/dev/demo/`** (새 폴더, 추적됨) — 우리 데모 앱. cn-quickstart(gitignore)와 분리, 네트워크로 LocalNet에 연결.
+```
+canton/dev/
+├─ daml/settlement, settlement-tests   # Daml 소스(추적, 기존)
+├─ demo/                                # ⭐ 데모 앱(추적, 신규)
+│  ├─ backend/   # thin: Ledger API ↔ REST/SSE
+│  └─ frontend/  # 파티 패널 4개, frontend-design
+├─ docs/                                # 계획
+├─ cn-quickstart/                       # gitignore — LocalNet 런타임
+└─ *.html                               # 대시보드
+```
+- **demo/** = 추적되는 우리 코드. **cn-quickstart/** = LocalNet 띄우는 실행환경(클론). 데모는 LocalNet에 **HTTP(JSON Ledger API)로 붙음**.
+- settlement **DAR**은 cn-quickstart 빌드에서 LocalNet에 업로드.
+- Phase 1의 CLI(빠른 증명)는 `dev/demo/cli/` 또는 기존 `dev/scan-status.py` 옆에 둬도 됨.
+
 ## 단계별 계획 (빠른 성과 우선)
 
 ### Phase 0 — LocalNet 준비
