@@ -143,6 +143,19 @@ def allocate_for(wport, sub, sender_prefix, ref_cid):
                 done += 1
     return done
 
+def submit_disc(port, actAs, command, disclosed):
+    cmd = {"commands": [command], "commandId": f"demo-{int(_time.time()*1000)}",
+           "actAs": [actAs], "userId": USER, "disclosedContracts": disclosed}
+    return _call(port, "/v2/commands/submit-and-wait", "POST", cmd)
+
+def registry_ctx(acid):
+    """레지스트리(scan)에서 할당 실행용 choice context + disclosed contracts."""
+    r = urllib.request.Request(
+        f"http://127.0.0.1:4000/registry/allocations/v1/{acid}/choice-contexts/execute-transfer",
+        data=b"{}", method="POST", headers={"Content-Type": "application/json", "Host": "scan.localhost"})
+    with urllib.request.urlopen(r, timeout=25) as x:
+        return json.loads(x.read().decode())
+
 def current_ref():
     """현재 살아있는 Settlement의 ref cid (= 원 제안 cid). 없으면 None."""
     _, B, _ = parties()
@@ -186,7 +199,28 @@ def do_action(step):
         return {"ok": True, "msg": f"양측이 자기 통화를 잠갔습니다(신규 할당 {n}건). 자산이 묶였습니다." if n
                 else "이미 양측 자산이 잠겨 있습니다."}
     if step == "execute":
-        return {"ok": False, "msg": "실행(원자적 정산)은 준비 중입니다. (할당 실행 컨텍스트 구현 중)"}
+        ref = current_ref()
+        if not ref: return {"ok": False, "msg": "개시된 정산이 없습니다."}
+        settle = None; legmap = {}
+        for ev in active(3975, B):
+            tid = ev["templateId"]; arg = ev.get("createArgument", {})
+            if tid.endswith(":Settlement.FxDvp:Settlement") and arg.get("settlementCid") == ref:
+                settle = ev["contractId"]
+            if tid.endswith(":Splice.AmuletAllocation:AmuletAllocation"):
+                al = arg.get("allocation", {})
+                if al.get("settlement", {}).get("settlementRef", {}).get("cid") == ref:
+                    legmap[al.get("transferLegId")] = ev["contractId"]
+        if not settle: return {"ok": False, "msg": "실행할 정산이 없습니다."}
+        if len(legmap) < 2: return {"ok": False, "msg": f"할당이 부족합니다({len(legmap)}/2). 먼저 양측 자산을 잠그세요."}
+        awc = {}; disc = {}
+        for legId, acid in legmap.items():
+            ctx = registry_ctx(acid)
+            awc[legId] = {"_1": acid, "_2": {"context": ctx["choiceContextData"], "meta": {"values": {}}}}
+            for d in ctx["disclosedContracts"]:
+                disc[d["contractId"]] = {k: d[k] for k in ("templateId", "contractId", "createdEventBlob", "synchronizerId")}
+        submit_disc(3975, B, {"ExerciseCommand": {"templateId": T_SETTLE, "contractId": settle,
+            "choice": "Settlement_Execute", "choiceArgument": {"allocationsWithContext": awc}}}, list(disc.values()))
+        return {"ok": True, "msg": "정산 실행 완료 — 양 통화가 한 트랜잭션에 동시 이동했습니다(원자적 DvP)."}
     if step == "reset":
         n = 0
         for cid, arg in find(2975, A, "SettlementProposal"):
