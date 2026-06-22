@@ -223,13 +223,22 @@ def do_action(step):
         return {"ok": True, "msg": "정산 실행 완료 — 양 통화가 한 트랜잭션에 동시 이동했습니다(원자적 DvP)."}
     if step == "reset":
         n = 0
+        # 1) 잠긴 할당 회수(CC 잠금 해제) — 양 은행 지갑
+        for wport, sub in [(2000, "app-user"), (3000, "app-provider")]:
+            try:
+                for a in _wcall(wport, sub, "/v0/allocations").get("allocations", []):
+                    cid = a["contract"]["contract_id"]
+                    try: _wcall(wport, sub, f"/v0/allocations/{cid}/withdraw", "POST", {}); n += 1
+                    except Exception: pass
+            except Exception: pass
+        # 2) 제안 거절 / 정산 취소
         for cid, arg in find(2975, A, "SettlementProposal"):
             try: ex(2975, A, cid, "SettlementProposal_Reject", {"trader": A}, T_PROP); n += 1
             except Exception: pass
         for cid, arg in find(3975, B, "Settlement"):
             try: ex(3975, B, cid, "Settlement_Cancel", {"allocationsWithContext": {}}, T_SETTLE); n += 1
             except Exception: pass
-        return {"ok": True, "msg": f"초기화 완료(정리 {n}건)."}
+        return {"ok": True, "msg": f"초기화 완료 — 제안·정산·잠금 정리({n}건). 잠금 0."}
     return {"ok": False, "msg": f"알 수 없는 단계: {step}"}
 
 # ---- 패널 뷰 ----

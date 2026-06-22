@@ -117,6 +117,26 @@
   .reset:hover:not(:disabled){color:var(--ink); border-color:var(--mut)}
   .status{max-width:1180px; margin:10px auto 0; padding:0 24px; font-size:13px; color:var(--mut); min-height:20px}
   .status b{color:var(--verified)}
+  /* ---- 용어 legend ---- */
+  .legend2{max-width:1180px; margin:8px auto 0; padding:0 24px; font-size:12px; color:var(--mut); line-height:1.7}
+  .legend2 b{color:var(--ink)}
+  /* ---- 인프라 계층 ---- */
+  .infra{max-width:1180px; margin:6px auto 48px; padding:0 24px}
+  .infra-h{font-size:13px; font-weight:800; margin:0 0 14px}
+  .infra-h span{color:var(--mut); font-weight:600}
+  .nodes{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  @media(max-width:860px){.nodes{grid-template-columns:1fr}}
+  .node{border:1px solid var(--line); border-radius:4px; background:var(--sheet); padding:12px 14px;
+    text-align:center; font-weight:700; font-size:13px}
+  .node small{display:block; color:var(--mut); font-weight:500; font-size:11px; margin-top:3px}
+  .node.dim{opacity:.5}
+  .syncwrap{display:flex; flex-direction:column; align-items:center}
+  .conns{height:24px; width:100%; position:relative}
+  .conns::before{content:""; position:absolute; left:16.6%; right:16.6%; top:0; border-top:1px solid var(--line)}
+  .conns::after{content:""; position:absolute; left:50%; top:0; height:24px; border-left:1px solid var(--line)}
+  .sync{width:100%; border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
+    border-radius:4px; padding:14px; text-align:center; font-weight:700; font-size:14px}
+  .sync small{display:block; color:var(--void-fg); font-weight:500; font-size:12px; margin-top:4px}
   .updated{transition:none; box-shadow:0 0 0 2px var(--pulse), 0 8px 26px rgba(12,107,96,.16)}
   @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
@@ -145,10 +165,28 @@
   <button class="reset" data-step="reset">↺ 리셋</button>
 </section>
 <div class="status" id="status">버튼으로 정산 흐름을 진행하세요. <b>외부자 패널은 어느 단계에서도 비어 있습니다.</b></div>
+<div class="legend2">
+  <b>venue</b> 정산 운영자 — 정산을 개시·실행하지만 자산 당사자는 아님 (여기선 해외은행이 겸함) ·
+  <b>Settlement</b> 정산 계약 — 양 통화 다리를 묶어 한 번에 정산 ·
+  <b>할당(allocation)</b> 자산을 잠가 정산에 예약
+</div>
 
 <main class="grid" id="grid">
   <!-- panels injected -->
 </main>
+
+<section class="infra">
+  <h2 class="infra-h">그 아래 — 네트워크 계층 <span>· 왜 제3자는 못 보나</span></h2>
+  <div class="nodes">
+    <div class="node">국내은행 밸리데이터<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
+    <div class="node">해외은행 밸리데이터<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
+    <div class="node dim">제3자 밸리데이터<small>이 정산 데이터를 받지도 저장하지도 않음</small></div>
+  </div>
+  <div class="syncwrap">
+    <div class="conns"></div>
+    <div class="sync">Synchronizer <small>시퀀서 + 미디에이터 · 순서와 합의만 — 내용은 암호화돼 못 봄</small></div>
+  </div>
+</section>
 
 <script>
 const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
