@@ -49,6 +49,11 @@
   .seeflag{font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:.02em}
   .seeflag.yes{color:var(--verified); background:#e2f1ef; border:1px solid #bfe0db}
   .seeflag.no{color:var(--void-fg); background:#11151c; border:1px solid var(--void-line)}
+  .bal{padding:10px 18px; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:7px}
+  .bal .v{font-weight:800; font-size:17px; letter-spacing:-.01em}
+  .bal .u{color:var(--mut); font-size:11px}
+  .bal .lock{margin-left:auto; color:var(--legB); font-size:12px; font-weight:600}
+  .panel.void .bal{border-color:var(--void-line)} .panel.void .bal .v{color:#9aa4b2}
   .body{padding:18px; flex:1; display:flex; flex-direction:column; gap:14px}
   .foot{padding:10px 18px; border-top:1px solid var(--line); font-size:11px; color:var(--mut);
     display:flex; justify-content:space-between}
@@ -198,8 +203,14 @@ function renderPanel(p){
     ? `<span class="seeflag no">정산 0건</span>`
     : `<span class="seeflag ${sees?'yes':'no'}">${sees?'정산 '+stmts.length+'건 보임':'정산 0건'}</span>`;
   const footL = p.ok ? `이 노드가 가진 전체 계약 ${total}건` : `<span style="color:#c0392b">연결 실패</span>`;
+  const fmt=(x)=>Number(x).toLocaleString(undefined,{maximumFractionDigits:1});
+  const bal = p.balance ? `<div class="bal">
+      <span class="v mono">${fmt(p.balance.unlocked)}</span><span class="u">CC 가용</span>
+      ${Number(p.balance.locked)>0?`<span class="lock mono">🔒 ${fmt(p.balance.locked)} 잠김</span>`:''}
+    </div>` : '';
   return `<section class="panel ${voidCls}" data-key="${p.key}">
       <div class="top"><div><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div></div>${flag}</div>
+      ${bal}
       ${bodyHtml}
       <div class="foot"><span title="이 참여자 노드가 보유한 활성 계약(컨트랙트) 총수">${footL}</span></div>
     </section>`;

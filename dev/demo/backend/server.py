@@ -250,10 +250,20 @@ def party_view(port):
                              for k, v in legs.items()}})
     return {"parties": [label(p) for p in locals_], "counts": counts, "settlements": settlements}
 
+WALLET = {"A": (2000, "app-user"), "B": (3000, "app-provider"), "outsider": (4000, "sv")}
+def balance_of(key):
+    wport, sub = WALLET[key]
+    b = _wcall(wport, sub, "/v0/wallet/balance")
+    return {"unlocked": b.get("effective_unlocked_qty"), "locked": b.get("effective_locked_qty")}
+
 def state():
     out = []
     for port, key, name, role in PARTIES:
-        try: out.append({"key": key, "name": name, "role": role, "ok": True, **party_view(port)})
+        try:
+            pv = party_view(port)
+            try: pv["balance"] = balance_of(key)
+            except Exception: pv["balance"] = None
+            out.append({"key": key, "name": name, "role": role, "ok": True, **pv})
         except Exception as e: out.append({"key": key, "name": name, "role": role, "ok": False, "error": str(e)})
     # 현재 정산 기준 할당 여부(양 leg)
     allocated = False
