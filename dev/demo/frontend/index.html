@@ -136,6 +136,19 @@
     text-align:center; font-weight:700; font-size:13px}
   .node small{display:block; color:var(--mut); font-weight:500; font-size:11px; margin-top:3px}
   .node.dim{opacity:.5}
+  /* 계층 스택: 지갑 → 밸리데이터 */
+  .stack{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  @media(max-width:860px){.stack{grid-template-columns:1fr}}
+  .col{display:flex; flex-direction:column; align-items:center}
+  .col.dim{opacity:.5}
+  .layer{width:100%; border:1px solid var(--line); border-radius:4px; background:var(--sheet);
+    padding:11px 14px; text-align:center; font-weight:700; font-size:13px}
+  .layer .tag{display:block; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--verified); font-weight:700; margin-bottom:2px}
+  .layer small{display:block; color:var(--mut); font-weight:500; font-size:11px; margin-top:3px}
+  .layer.wallet{background:#f0f8f6; border-color:#bfe0db}
+  .vsep{height:18px; width:1px; background:var(--line)}
+  .vsep::after{content:"▾"; color:var(--mut); font-size:10px; position:relative; left:-4px; top:8px}
   .syncwrap{display:flex; flex-direction:column; align-items:center}
   .conns{height:24px; width:100%; position:relative}
   .conns::before{content:""; position:absolute; left:16.6%; right:16.6%; top:0; border-top:1px solid var(--line)}
@@ -182,16 +195,29 @@
 </main>
 
 <section class="infra">
-  <h2 class="infra-h">그 아래 — 네트워크 계층 <span>· 왜 제3자는 못 보나</span></h2>
-  <div class="nodes">
-    <div class="node">국내은행 밸리데이터<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
-    <div class="node">해외은행 밸리데이터<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
-    <div class="node dim">제3자 밸리데이터<small>이 정산 데이터를 받지도 저장하지도 않음</small></div>
+  <h2 class="infra-h">계층 구조 <span>· 은행은 지갑에서 출발 → 밸리데이터 → Synchronizer</span></h2>
+  <div class="stack">
+    <div class="col">
+      <div class="layer wallet"><span class="tag">지갑</span>국내은행 지갑<small>사용자 접점 · 잔액·할당·승인</small></div>
+      <div class="vsep"></div>
+      <div class="layer"><span class="tag">밸리데이터</span>국내은행 노드<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
+    </div>
+    <div class="col">
+      <div class="layer wallet"><span class="tag">지갑</span>해외은행 지갑<small>사용자 접점 · 잔액·할당·승인</small></div>
+      <div class="vsep"></div>
+      <div class="layer"><span class="tag">밸리데이터</span>해외은행 노드<small>참여자 노드 · 자기 파티 계약만 보관</small></div>
+    </div>
+    <div class="col dim">
+      <div class="layer wallet"><span class="tag">지갑</span>제3자 지갑<small>이 정산이 보이지 않음</small></div>
+      <div class="vsep"></div>
+      <div class="layer"><span class="tag">밸리데이터</span>제3자 노드<small>이 정산 데이터를 받지도 저장하지도 않음</small></div>
+    </div>
   </div>
   <div class="syncwrap">
     <div class="conns"></div>
     <div class="sync">Synchronizer <small>시퀀서 + 미디에이터 · 순서와 합의만 — 내용은 암호화돼 못 봄</small></div>
   </div>
+  <p class="legend2" style="margin-top:14px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
 </section>
 
 <script>
