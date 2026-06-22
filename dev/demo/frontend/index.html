@@ -90,6 +90,25 @@
   .voidbody .msg{color:#8b96a6; font-size:14px; font-weight:600; max-width:24ch}
   .voidbody .sub{color:var(--void-fg); font-size:12px; max-width:30ch}
 
+  /* ---- controls ---- */
+  .controls{max-width:1180px; margin:14px auto 0; padding:0 24px; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .flow{display:flex; align-items:stretch}
+  .stepbtn{display:flex; align-items:center; gap:8px; border:1px solid var(--line); background:var(--sheet);
+    padding:10px 15px; font:inherit; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer}
+  .stepbtn:first-child{border-radius:4px 0 0 4px}
+  .stepbtn:last-child{border-radius:0 4px 4px 0}
+  .stepbtn + .stepbtn{border-left:none}
+  .stepbtn .n{width:19px; height:19px; border-radius:50%; background:#e2e7ed; color:var(--mut);
+    font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:700}
+  .stepbtn.done{color:var(--verified)} .stepbtn.done .n{background:var(--verified); color:#fff}
+  .stepbtn.next{box-shadow:inset 0 0 0 1px var(--verified)}
+  .stepbtn:hover:not(:disabled){background:#eef3f4}
+  .stepbtn:disabled{opacity:.4; cursor:default}
+  .reset{margin-left:auto; border:1px solid var(--line); background:transparent; border-radius:4px;
+    padding:10px 15px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
+  .reset:hover:not(:disabled){color:var(--ink); border-color:var(--mut)}
+  .status{max-width:1180px; margin:10px auto 0; padding:0 24px; font-size:13px; color:var(--mut); min-height:20px}
+  .status b{color:var(--verified)}
   .updated{transition:none; box-shadow:0 0 0 2px var(--pulse), 0 8px 26px rgba(12,107,96,.16)}
   @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
@@ -105,6 +124,17 @@
     <b>무관한 제3자의 원장엔 그 거래가 존재하지도 않는다.</b> 아래 세 패널은 같은 LocalNet 원장을
     각자의 자격으로 조회한 결과다.</p>
 </header>
+
+<section class="controls">
+  <div class="flow">
+    <button class="stepbtn" data-step="create"><span class="n">1</span>제안</button>
+    <button class="stepbtn" data-step="accept"><span class="n">2</span>기관 B 수락</button>
+    <button class="stepbtn" data-step="initiate"><span class="n">3</span>정산 개시</button>
+    <button class="stepbtn" data-step="execute"><span class="n">4</span>정산 실행</button>
+  </div>
+  <button class="reset" data-step="reset">리셋</button>
+</section>
+<div class="status" id="status">버튼으로 정산 흐름을 진행하세요. <b>외부자 패널은 어느 단계에서도 비어 있습니다.</b></div>
 
 <main class="grid" id="grid">
   <!-- panels injected -->
@@ -163,9 +193,43 @@ function renderPanel(p){
     </section>`;
 }
 
+function refreshSteps(data){
+  const a = data.panels.find(p=>p.key==='A') || {};
+  const st = a.settlements || [];
+  const prop = st.find(s=>s.template==='SettlementProposal');
+  const settle = st.find(s=>s.template==='Settlement');
+  const hasProp = !!prop, accepted = prop ? (prop.approvers||[]).length>=2 : false, hasSettle = !!settle;
+  // 완료 상태
+  const done = {create: hasProp||hasSettle, accept: accepted||hasSettle, initiate: hasSettle, execute:false};
+  // 다음 실행 가능 단계
+  const enabled = {create: !hasProp && !hasSettle, accept: hasProp && !accepted && !hasSettle,
+                   initiate: accepted && !hasSettle, execute: hasSettle};
+  let nextSet=false;
+  document.querySelectorAll('.stepbtn').forEach(b=>{
+    const k=b.dataset.step;
+    b.classList.toggle('done', !!done[k]);
+    b.disabled = !enabled[k];
+    b.classList.toggle('next', enabled[k] && !nextSet ? (nextSet=true) : false);
+  });
+}
+
+async function action(step){
+  const s=document.getElementById('status');
+  document.querySelectorAll('.controls button').forEach(b=>b.disabled=true);
+  s.innerHTML='처리 중…';
+  try{
+    const r=await (await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({step})})).json();
+    s.innerHTML = r.ok ? `<b>✓</b> ${esc(r.msg)}` : `⚠ ${esc(r.msg)}`;
+  }catch(e){ s.innerHTML='⚠ 요청 실패'; }
+  await tick();
+}
+document.querySelectorAll('.controls button').forEach(b=>b.addEventListener('click',()=>action(b.dataset.step)));
+
 async function tick(){
   let data;
   try{ data = await (await fetch('/api/state')).json(); }catch(e){ return; }
+  refreshSteps(data);
   const grid = document.getElementById('grid');
   data.panels.forEach((p,i)=>{
     const sig = JSON.stringify([p.settlements,p.ok]);
