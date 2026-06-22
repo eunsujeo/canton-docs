@@ -145,22 +145,26 @@ const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();
 const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const prevSig = {}; // 패널별 이전 상태 시그니처(변경 감지)
 
-function legRow(id, leg){
-  const isKR = id.toLowerCase().includes('kr');
-  const cls = isKR ? 'kr' : 'jp';
-  const amt = parseFloat(leg.amount).toLocaleString(undefined,{maximumFractionDigits:2});
-  return `<div class="leg ${cls}">
-      <span class="who">${esc(leg.from)}</span>
-      <span class="amt"><span class="v">${amt} ${esc(leg.inst||'')}</span>
-        <span class="arrow">──▶</span><span style="font-size:10px;color:var(--mut)">${esc(id)}</span></span>
-      <span class="who r">${esc(leg.to)}</span>
-    </div>`;
-}
 function stmtCard(s){
-  const legs = Object.entries(s.legs).map(([id,l])=>legRow(id,l)).join('');
+  const legs = Object.entries(s.legs);
+  // 두 거래 당사자를 좌/우로 고정 → 두 통화가 교차(스왑)하는 게 보이게
+  const first = legs[0] ? legs[0][1] : {from:'',to:''};
+  const left = first.from, right = first.to;
+  const rows = legs.map(([id,l])=>{
+    const toRight = (l.from === left);
+    const isKR = id.toLowerCase().includes('kr');
+    const amt = parseFloat(l.amount).toLocaleString(undefined,{maximumFractionDigits:2});
+    return `<div class="leg ${isKR?'kr':'jp'}">
+        <span class="who">${esc(left)}</span>
+        <span class="amt"><span class="arrow">${toRight?'───▶':'◀───'}</span>
+          <span class="v">${amt} ${esc(l.inst||'')}</span>
+          <span style="font-size:10px;color:var(--mut)">${esc(id)}</span></span>
+        <span class="who r">${esc(right)}</span>
+      </div>`;
+  }).join('');
   return `<div class="stmt">
       <div class="h"><span class="t">${esc(s.template)}</span><span class="cid mono">${esc(s.contractId)}</span></div>
-      <div class="legs">${legs}</div>
+      <div class="legs">${rows}</div>
       <div class="appr">서명(승인): <b>${s.approvers.map(esc).join(', ')||'—'}</b></div>
     </div>`;
 }
