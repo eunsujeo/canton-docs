@@ -90,6 +90,74 @@ def ex(port, actAs, cid, choice, arg, tmpl):
     return submit(port, actAs, {"ExerciseCommand":
         {"templateId": tmpl, "contractId": cid, "choice": choice, "choiceArgument": arg}})
 
+# ---- 지갑(Validator) API: 토큰표준 할당 생성 ----
+import re as _re, calendar as _cal, time as _time
+def _wtoken(sub):
+    h = _b64(b'{"alg":"HS256","typ":"JWT"}'); p = _b64(json.dumps({"sub": sub, "aud": AUD}).encode())
+    s = _b64(hmac.new(SECRET.encode(), h + b"." + p, hashlib.sha256).digest()); return (h + b"." + p + b"." + s).decode()
+def _wcall(wport, sub, path, method="GET", body=None):
+    data = json.dumps(body).encode() if body is not None else None
+    req = urllib.request.Request(f"http://127.0.0.1:{wport}/api/validator{path}", data=data, method=method,
+        headers={"Authorization": "Bearer " + _wtoken(sub), "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read().decode())
+def _snake(k): return _re.sub(r'(?<!^)(?=[A-Z])', '_', k).lower()
+def _conv(o):
+    if isinstance(o, dict): return {_snake(k): _conv(v) for k, v in o.items()}
+    if isinstance(o, list): return [_conv(x) for x in o]
+    return o
+def _flatmeta(o):
+    if isinstance(o, dict):
+        if set(o.keys()) == {"values"} and isinstance(o["values"], dict): return _flatmeta(o["values"])
+        return {k: _flatmeta(v) for k, v in o.items()}
+    if isinstance(o, list): return [_flatmeta(x) for x in o]
+    return o
+def _micros(iso):
+    m = _re.match(r'(.*?)(\.\d+)?(Z|\+0000)$', iso)
+    t = _cal.timegm(_time.strptime(m.group(1), "%Y-%m-%dT%H:%M:%S"))
+    return int(t * 1_000_000 + round(float(m.group(2) or 0) * 1_000_000))
+def _alloc_legs(wport, sub, ref_cid):
+    """그 지갑에서 ref_cid 정산에 대해 이미 잠근 leg 집합."""
+    out = set()
+    for a in _wcall(wport, sub, "/v0/allocations").get("allocations", []):
+        al = a["contract"]["payload"]["allocation"]
+        if al["settlement"].get("settlementRef", {}).get("cid") == ref_cid:
+            out.add(al.get("transferLegId"))
+    return out
+
+def allocate_for(wport, sub, sender_prefix, ref_cid):
+    """그 은행 지갑에서 현재 정산(ref_cid)의 자기 leg를 잠근다. 이미 잠긴 leg는 skip(중복 방지)."""
+    have = _alloc_legs(wport, sub, ref_cid)
+    reqs = _wcall(wport, sub, "/v0/wallet/token-standard/allocation-requests").get("allocation_requests", [])
+    done = 0
+    for r in reqs:
+        pl = r["contract"]["payload"]
+        if pl["settlement"].get("settlementRef", {}).get("cid") != ref_cid: continue
+        s = _flatmeta(_conv(pl["settlement"]))
+        for f in ("requested_at", "allocate_before", "settle_before"):
+            if isinstance(s.get(f), str): s[f] = _micros(s[f])
+        for legId, leg in pl.get("transferLegs", {}).items():
+            if leg["sender"].startswith(sender_prefix) and legId not in have:
+                _wcall(wport, sub, "/v0/allocations", "POST",
+                       {"settlement": s, "transfer_leg_id": legId, "transfer_leg": _flatmeta(_conv(leg))})
+                done += 1
+    return done
+
+def current_ref():
+    """현재 살아있는 Settlement의 ref cid (= 원 제안 cid). 없으면 None."""
+    _, B, _ = parties()
+    for cid, arg in find(3975, B, "Settlement"):
+        return arg.get("settlementCid")
+    return None
+
+def allocated_legs(ref_cid):
+    if not ref_cid: return set()
+    legs = set()
+    for wport, sub in [(2000, "app-user"), (3000, "app-provider")]:
+        try: legs |= _alloc_legs(wport, sub, ref_cid)
+        except Exception: pass
+    return legs
+
 def do_action(step):
     A, B, DSO = parties()
     if step == "create":
@@ -111,8 +179,14 @@ def do_action(step):
                    {"prepareUntil": fmt(now+3600), "settleBefore": fmt(now+7200)}, T_PROP)
                 return {"ok": True, "msg": "venue가 정산을 개시했습니다(Settlement 생성)."}
         return {"ok": False, "msg": "양측 수락된 제안이 없습니다."}
+    if step == "allocate":
+        ref = current_ref()
+        if not ref: return {"ok": False, "msg": "개시된 정산이 없습니다. 먼저 정산을 개시하세요."}
+        n = allocate_for(2000, "app-user", "app_user_", ref) + allocate_for(3000, "app-provider", "app_provider_", ref)
+        return {"ok": True, "msg": f"양측이 자기 통화를 잠갔습니다(신규 할당 {n}건). 자산이 묶였습니다." if n
+                else "이미 양측 자산이 잠겨 있습니다."}
     if step == "execute":
-        return {"ok": False, "msg": "실행(실제 CC 할당)은 준비 중입니다. (Phase 3b)"}
+        return {"ok": False, "msg": "실행(원자적 정산)은 준비 중입니다. (할당 실행 컨텍스트 구현 중)"}
     if step == "reset":
         n = 0
         for cid, arg in find(2975, A, "SettlementProposal"):
@@ -147,7 +221,13 @@ def state():
     for port, key, name, role in PARTIES:
         try: out.append({"key": key, "name": name, "role": role, "ok": True, **party_view(port)})
         except Exception as e: out.append({"key": key, "name": name, "role": role, "ok": False, "error": str(e)})
-    return {"panels": out}
+    # 현재 정산 기준 할당 여부(양 leg)
+    allocated = False
+    try:
+        ref = current_ref(); legs = allocated_legs(ref)
+        allocated = bool(ref) and ("legKRW" in legs) and ("legJPY" in legs)
+    except Exception: pass
+    return {"panels": out, "allocated": allocated}
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass

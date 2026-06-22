@@ -134,7 +134,8 @@
     <button class="stepbtn" data-step="create"><span class="n">1</span>제안</button>
     <button class="stepbtn" data-step="accept"><span class="n">2</span>해외은행 수락</button>
     <button class="stepbtn" data-step="initiate"><span class="n">3</span>정산 개시</button>
-    <button class="stepbtn" data-step="execute"><span class="n">4</span>정산 실행</button>
+    <button class="stepbtn" data-step="allocate"><span class="n">4</span>양측 자산 잠금</button>
+    <button class="stepbtn" data-step="execute"><span class="n">5</span>정산 실행</button>
   </div>
   <button class="reset" data-step="reset">↺ 리셋</button>
 </section>
@@ -210,12 +211,15 @@ function refreshSteps(data){
   const prop = st.find(s=>s.template==='SettlementProposal');
   const settle = st.find(s=>s.template==='Settlement');
   const hasProp = !!prop, accepted = prop ? (prop.approvers||[]).length>=2 : false, hasSettle = !!settle;
+  const allocated = !!data.allocated;  // 백엔드가 현재 정산 기준으로 판정
   // 완료 상태
-  const done = {create: hasProp||hasSettle, accept: accepted||hasSettle, initiate: hasSettle, execute:false};
+  const done = {create: hasProp||hasSettle, accept: accepted||hasSettle, initiate: hasSettle,
+                allocate: hasSettle && allocated, execute:false};
   // 다음 실행 가능 단계
   const enabled = {create: !hasProp && !hasSettle, accept: hasProp && !accepted && !hasSettle,
-                   initiate: accepted && !hasSettle, execute: hasSettle};
-  const NUM={create:'1',accept:'2',initiate:'3',execute:'4'};
+                   initiate: accepted && !hasSettle, allocate: hasSettle && !allocated,
+                   execute: hasSettle && allocated};
+  const NUM={create:'1',accept:'2',initiate:'3',allocate:'4',execute:'5'};
   let nextSet=false;
   document.querySelectorAll('.stepbtn').forEach(b=>{
     const k=b.dataset.step;
