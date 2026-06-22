@@ -420,7 +420,7 @@ function updateSync(sync){
     const d = off-gOffset;
     const box=document.getElementById('sync'), wrap=document.getElementById('syncwrap'),
           sc=document.getElementById('scommit');
-    if(sc){ sc.textContent = `▲ +${d} 트랜잭션 순서 확정·커밋`; sc.classList.add('show'); }
+    if(sc){ sc.textContent = `✓ 트랜잭션 커밋 · 오프셋 +${d}`; sc.classList.add('show'); }
     box && box.classList.add('active'); wrap && wrap.classList.add('active');
     clearTimeout(gOffTimer);
     gOffTimer = setTimeout(()=>{ sc&&sc.classList.remove('show');
