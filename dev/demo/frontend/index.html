@@ -36,8 +36,8 @@
 
   /* ---- triptych ---- */
   .grid{max-width:1180px; margin:8px auto 56px; padding:0 24px;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
-  @media(max-width:1040px){.grid{grid-template-columns:repeat(2,1fr)}}
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+  @media(max-width:1040px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:560px){.grid{grid-template-columns:1fr}}
 
   .panel{border:1px solid var(--line); border-radius:4px; background:var(--sheet);
@@ -319,7 +319,9 @@ function renderPanel(p){
   const footL = p.ok ? `이 파티가 당사자인 계약 ${total}건 · 그 외 원장은 안 보임`
                      : `<span style="color:#c0392b">연결 실패</span>`;
   const fmt=(x)=>Number(x).toLocaleString(undefined,{maximumFractionDigits:1});
-  const bal = p.balance ? `<div class="bal">
+  const bal = p.key==='venue'
+    ? `<div class="bal"><span class="v" style="font-size:13px;color:var(--mut)">자산 미보유</span><span class="u">운영자 — 자금을 들고 있지 않음</span></div>`
+    : p.balance ? `<div class="bal">
       <span class="v mono">${fmt(p.balance.unlocked)}</span><span class="u">CC 가용</span>
       ${Number(p.balance.locked)>0?`<span class="lock mono">🔒 ${fmt(p.balance.locked)} 잠김</span>`:''}
     </div>` : '';
