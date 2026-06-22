@@ -14,10 +14,18 @@ T_PROP = f"{PKG}:Settlement.FxDvp:SettlementProposal"
 T_SETTLE = f"{PKG}:Settlement.FxDvp:Settlement"
 # 패널 = (참여자 포트, key, 표시이름, 역할)
 PARTIES = [
-    (2975, "A",        "기관 A", "app-user · 제안자"),
-    (3975, "B",        "기관 B", "app-provider · venue"),
-    (4975, "outsider", "외부자", "sv · 무관 제3자"),
+    (2975, "A",        "국내은행", "제안 기관 · app-user"),
+    (3975, "B",        "해외은행", "상대 기관 · app-provider·venue"),
+    (4975, "outsider", "제3자",   "무관 기관 · sv"),
 ]
+# 파티 ID → 친근한 표시 이름
+def label(p):
+    if not p: return p
+    if p.startswith("app_user_"): return "국내은행"
+    if p.startswith("app_provider_"): return "해외은행"
+    if p.startswith("DSO::"): return "DSO"
+    if p.startswith("sv::"): return "SV"
+    return p.split("::")[0]
 HERE = os.path.dirname(os.path.abspath(__file__))
 FRONTEND = os.path.join(HERE, "..", "frontend", "index.html")
 
@@ -127,12 +135,12 @@ def party_view(port):
             if "Settlement.FxDvp" in name:
                 arg = ev.get("createArgument", {}); legs = arg.get("transferLegs", {})
                 settlements.append({
-                    "template": name.split(":")[-1], "contractId": ev.get("contractId", "")[:16] + "…",
-                    "approvers": [_short(a) for a in arg.get("approvers", [])],
-                    "legs": {k: {"from": _short(v.get("sender")), "to": _short(v.get("receiver")),
+                    "template": name.split(":")[-1], "contractId": ev.get("contractId", "")[:12] + "…",
+                    "approvers": [label(a) for a in arg.get("approvers", [])],
+                    "legs": {k: {"from": label(v.get("sender")), "to": label(v.get("receiver")),
                                  "amount": v.get("amount"), "inst": (v.get("instrumentId") or {}).get("id")}
                              for k, v in legs.items()}})
-    return {"parties": [_short(p) for p in locals_], "counts": counts, "settlements": settlements}
+    return {"parties": [label(p) for p in locals_], "counts": counts, "settlements": settlements}
 
 def state():
     out = []

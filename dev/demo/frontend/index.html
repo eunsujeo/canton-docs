@@ -63,7 +63,7 @@
   .leg{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px;
     padding:7px 0; font-size:13px}
   .leg + .leg{border-top:1px dashed var(--line)}
-  .leg .who{font-weight:600}
+  .leg .who{font-weight:600; min-width:0; overflow-wrap:anywhere}
   .leg .amt{display:flex; flex-direction:column; align-items:center; gap:1px; min-width:120px}
   .leg .amt .v{font-weight:700; font-size:13px}
   .leg .amt .arrow{font-size:11px; letter-spacing:.04em}
@@ -100,10 +100,13 @@
   .stepbtn + .stepbtn{border-left:none}
   .stepbtn .n{width:19px; height:19px; border-radius:50%; background:#e2e7ed; color:var(--mut);
     font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:700}
-  .stepbtn.done{color:var(--verified)} .stepbtn.done .n{background:var(--verified); color:#fff}
-  .stepbtn.next{box-shadow:inset 0 0 0 1px var(--verified)}
-  .stepbtn:hover:not(:disabled){background:#eef3f4}
-  .stepbtn:disabled{opacity:.4; cursor:default}
+  .stepbtn.done{color:var(--verified); background:#eaf4f1} .stepbtn.done .n{background:var(--verified); color:#fff}
+  .stepbtn.next{background:var(--verified); color:#fff; border-color:var(--verified); box-shadow:0 2px 10px rgba(12,107,96,.25)}
+  .stepbtn.next .n{background:#fff; color:var(--verified)}
+  .stepbtn:hover:not(:disabled):not(.next){background:#eef3f4}
+  .stepbtn.next:hover{filter:brightness(1.08)}
+  .stepbtn:disabled{opacity:.4; cursor:not-allowed}
+  .ctl-lbl{font-size:12px; color:var(--mut); font-weight:700; letter-spacing:.02em; margin-right:2px}
   .reset{margin-left:auto; border:1px solid var(--line); background:transparent; border-radius:4px;
     padding:10px 15px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
   .reset:hover:not(:disabled){color:var(--ink); border-color:var(--mut)}
@@ -126,13 +129,14 @@
 </header>
 
 <section class="controls">
+  <span class="ctl-lbl">데모 흐름 — 버튼을 누르세요 ▸</span>
   <div class="flow">
     <button class="stepbtn" data-step="create"><span class="n">1</span>제안</button>
-    <button class="stepbtn" data-step="accept"><span class="n">2</span>기관 B 수락</button>
+    <button class="stepbtn" data-step="accept"><span class="n">2</span>해외은행 수락</button>
     <button class="stepbtn" data-step="initiate"><span class="n">3</span>정산 개시</button>
     <button class="stepbtn" data-step="execute"><span class="n">4</span>정산 실행</button>
   </div>
-  <button class="reset" data-step="reset">리셋</button>
+  <button class="reset" data-step="reset">↺ 리셋</button>
 </section>
 <div class="status" id="status">버튼으로 정산 흐름을 진행하세요. <b>외부자 패널은 어느 단계에서도 비어 있습니다.</b></div>
 
@@ -145,11 +149,14 @@ const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();
 const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const prevSig = {}; // 패널별 이전 상태 시그니처(변경 감지)
 
+const ORDER = ['국내은행','해외은행'];
 function stmtCard(s){
   const legs = Object.entries(s.legs);
-  // 두 거래 당사자를 좌/우로 고정 → 두 통화가 교차(스왑)하는 게 보이게
-  const first = legs[0] ? legs[0][1] : {from:'',to:''};
-  const left = first.from, right = first.to;
+  // 두 거래 당사자를 좌(국내은행)/우(해외은행)로 고정 → 통화 교차(스왑)가 보이게
+  const ppl = [...new Set(legs.flatMap(([,l])=>[l.from,l.to]))];
+  const rank = (x)=>{const i=ORDER.indexOf(x); return i<0?99:i;};
+  ppl.sort((a,b)=>rank(a)-rank(b));
+  const left = ppl[0]||'', right = ppl[1]||left;
   const rows = legs.map(([id,l])=>{
     const toRight = (l.from === left);
     const isKR = id.toLowerCase().includes('kr');
@@ -179,7 +186,7 @@ function renderPanel(p){
     bodyHtml = `<div class="voidbody">
         <div class="seal">⊘</div>
         <div class="msg">이 원장엔 정산이 없습니다</div>
-        <div class="sub">이 노드는 이 거래의 이해관계자가 아니라, 데이터를 <b>갖고 있지도 않습니다.</b></div>
+        <div class="sub">이 노드도 자기 계약은 <b>${total}건</b> 갖고 있습니다. 단지 이 정산이 그중에 <b>없습니다</b> — 이해관계자가 아니라 데이터를 받지도 않기 때문.</div>
       </div>`;
   } else if(sees){
     bodyHtml = `<div class="body">${stmts.map(stmtCard).join('')}</div>`;
@@ -189,11 +196,11 @@ function renderPanel(p){
   const flag = p.key==='outsider'
     ? `<span class="seeflag no">정산 0건</span>`
     : `<span class="seeflag ${sees?'yes':'no'}">${sees?'정산 '+stmts.length+'건 보임':'정산 0건'}</span>`;
-  const footL = p.ok ? `이 노드 활성 컨트랙트 ${total}개` : `<span style="color:#c0392b">연결 실패</span>`;
+  const footL = p.ok ? `이 노드가 가진 전체 계약 ${total}건` : `<span style="color:#c0392b">연결 실패</span>`;
   return `<section class="panel ${voidCls}" data-key="${p.key}">
       <div class="top"><div><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div></div>${flag}</div>
       ${bodyHtml}
-      <div class="foot"><span>${footL}</span><span class="mono">${esc(p.parties? p.parties.join(' '):'')}</span></div>
+      <div class="foot"><span title="이 참여자 노드가 보유한 활성 계약(컨트랙트) 총수">${footL}</span></div>
     </section>`;
 }
 
@@ -208,12 +215,14 @@ function refreshSteps(data){
   // 다음 실행 가능 단계
   const enabled = {create: !hasProp && !hasSettle, accept: hasProp && !accepted && !hasSettle,
                    initiate: accepted && !hasSettle, execute: hasSettle};
+  const NUM={create:'1',accept:'2',initiate:'3',execute:'4'};
   let nextSet=false;
   document.querySelectorAll('.stepbtn').forEach(b=>{
     const k=b.dataset.step;
     b.classList.toggle('done', !!done[k]);
     b.disabled = !enabled[k];
     b.classList.toggle('next', enabled[k] && !nextSet ? (nextSet=true) : false);
+    const n=b.querySelector('.n'); if(n) n.textContent = done[k] ? '✓' : NUM[k];
   });
 }
 
