@@ -67,11 +67,13 @@ POST /v2/state/active-contracts
   python3 dev/demo/cli/create-settlement.py    # 제안 1건 생성
   python3 dev/demo/cli/ledger-view.py Settlement
   ```
-- 데모 단순화: venue=app-provider 겸용, 통화=Amulet 1종, leg KRW(A→B 100)·JPY(B→A 20).
+- venue=**별도 파티 `musubi-venue`**(app-provider 참여자에 호스팅 + `ledger-api-user`에 `CanActAs` 부여, 백엔드가 멱등 처리). 통화=Amulet 1종, leg KRW(A→B 100)·JPY(B→A 20).
+  - 파티 할당: `POST /v2/parties {partyIdHint,identityProviderId:""}`. 권한: `POST /v2/users/{user}/rights {userId,identityProviderId:"",rights:[{kind:{CanActAs:{value:{party}}}}]}`.
+  - InitiateSettlement/Execute/Cancel 컨트롤러=venue → 모두 venue(musubi)로 제출. 패널은 **per-party 필터**라 해외은행이 venue 계약을 떠안지 않음(venue는 자산 미보유 → 계약 1건).
 
 ## TODO (Phase 2 나머지 ~ 3)
 - [ ] 전체 흐름(accept→**실제 CC 할당**→execute)을 LocalNet에서 — 실제 Amulet allocation 필요(테스트 하네스 아님).
-- [ ] (선택) venue·outsider 별도 파티 할당으로 역할 분리.
+- [x] venue 별도 파티 할당으로 역할 분리(`musubi-venue`). outsider=`sv` 파티(per-party 필터).
 - [ ] 백엔드(SSE 실시간) + 프론트 파티 패널 4개 (Phase 3, frontend-design).
 
 ## Phase 3 ✅ (1차) — 웹 데모 (프라이버시 뷰)
