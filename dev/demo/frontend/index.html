@@ -162,21 +162,22 @@
   .conns{height:14px; width:100%; position:relative}
   .conns::before{content:""; position:absolute; left:16.6%; right:16.6%; top:0; border-top:1px solid var(--line)}
   .conns::after{content:""; position:absolute; left:50%; top:0; height:14px; border-left:1px solid var(--line)}
-  .sync{width:100%; border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
-    border-radius:4px; padding:9px 14px; text-align:center; font-weight:700; font-size:13px;
+  /* Synchronizer 라이브 바 (항상 표시) */
+  .synclive{max-width:1180px; margin:0 auto 14px; padding:0 24px}
+  .sync{display:flex; align-items:center; gap:11px; flex-wrap:wrap;
+    border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
+    border-radius:4px; padding:10px 16px; font-weight:700; font-size:13px;
     transition:box-shadow .3s ease, border-color .3s ease}
-  .sync small{display:block; color:var(--void-fg); font-weight:500; font-size:12px; margin-top:4px}
-  .sync-row{display:flex; align-items:center; justify-content:center; gap:10px}
-  .sdot{width:8px; height:8px; border-radius:50%; background:#3ad29f; display:inline-block;
+  .sync .sname{font-weight:800; font-size:13px}
+  .sync .sdesc{color:var(--void-fg); font-weight:500; font-size:11px; flex:1; min-width:140px}
+  .sdot{width:8px; height:8px; border-radius:50%; background:#3ad29f; display:inline-block; flex:none;
     box-shadow:0 0 0 0 rgba(58,210,159,.5); animation:spulse 2.6s infinite}
   @keyframes spulse{0%{box-shadow:0 0 0 0 rgba(58,210,159,.5)}70%{box-shadow:0 0 0 8px rgba(58,210,159,0)}100%{box-shadow:0 0 0 0 rgba(58,210,159,0)}}
   .sync .soff{font-size:12px; font-weight:600; color:#8b96a6; letter-spacing:.02em}
   .sync.active{border-style:solid; border-color:#3ad29f;
     box-shadow:0 0 0 2px rgba(58,210,159,.32), 0 10px 30px rgba(58,210,159,.16)}
-  .scommit{height:15px; margin-top:7px; font-size:12px; font-weight:700; color:#3ad29f;
-    opacity:0; transition:opacity .25s}
+  .scommit{font-size:12px; font-weight:700; color:#3ad29f; opacity:0; transition:opacity .25s; flex:none}
   .scommit.show{opacity:1}
-  .syncwrap.active .conns::before,.syncwrap.active .conns::after{border-color:#3ad29f; transition:border-color .3s}
   /* ---- 카드 내 액션 버튼 ---- */
   .act{padding:0 16px 12px}
   .cardbtn{width:100%; display:flex; align-items:center; justify-content:center; gap:7px;
@@ -212,16 +213,27 @@
 <div class="legend2">
   <b>venue(Musubi)</b> 정산 운영자 — 별도 파티로 정산을 개시·실행하지만 <b>자산은 보유하지 않음</b>(그래서 패널 계약이 1건뿐) ·
   <b>Settlement</b> 정산 계약 — 양 통화 다리를 묶어 한 번에 정산(원자적) ·
-  <b>할당(allocation)</b> 자산을 잠가 정산에 예약
+  <b>할당(allocation)</b> 자산을 잠가 정산에 예약 ·
+  <b>Amulet(CC)</b> Canton 기본 토큰(Canton Coin) — 데모에선 KRW·JPY 두 통화의 대역(stand-in), 잔액의 “CC”와 같음
 </div>
 
 <main class="grid" id="grid">
   <!-- panels injected -->
 </main>
 
+<section class="synclive">
+  <div class="sync" id="sync">
+    <span class="sdot"></span>
+    <span class="sname">Synchronizer</span>
+    <span class="soff mono" id="soff">#—</span>
+    <span class="scommit" id="scommit"></span>
+    <span class="sdesc">시퀀서 + 미디에이터 · 모든 트랜잭션을 전역 순서로 확정·커밋 (내용은 암호화돼 못 봄). 점이 깜빡이면 가동 중 · 버튼을 누를 때마다 오프셋이 오릅니다.</span>
+  </div>
+</section>
+
 <section class="infra">
   <details class="infra-d">
-  <summary class="infra-sum"><span class="chev">▸</span>계층 구조 보기 <span>· 지갑 → 밸리데이터 → Synchronizer (라이브)</span></summary>
+  <summary class="infra-sum"><span class="chev">▸</span>계층 구조 보기 <span>· 지갑 → 밸리데이터 (→ 위 Synchronizer로 연결)</span></summary>
   <div class="stack">
     <div class="col">
       <div class="layer wallet"><span class="tag">지갑</span>국내은행 지갑<small>사용자 접점 · 잔액·할당·승인</small></div>
@@ -239,16 +251,7 @@
       <div class="layer"><span class="tag">밸리데이터</span>제3자 노드<small>이 정산 데이터를 받지도 저장하지도 않음</small></div>
     </div>
   </div>
-  <div class="syncwrap" id="syncwrap">
-    <div class="conns"></div>
-    <div class="sync" id="sync">
-      <div class="sync-row"><span class="sdot"></span><span>Synchronizer</span>
-        <span class="soff mono" id="soff">#—</span></div>
-      <small>시퀀서 + 미디에이터 · 트랜잭션을 전역 순서로 확정·커밋 (내용은 암호화돼 못 봄)</small>
-      <div class="scommit" id="scommit"></div>
-    </div>
-  </div>
-  <p class="legend2" style="margin-top:8px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
+  <p class="legend2" style="margin-top:8px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다. 모든 밸리데이터는 위의 <b>Synchronizer</b>에 연결돼 순서를 확정받습니다.</p>
   </details>
 </section>
 
