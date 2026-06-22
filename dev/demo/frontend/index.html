@@ -128,8 +128,15 @@
   /* ---- 용어 legend ---- */
   .legend2{max-width:1180px; margin:4px auto 0; padding:0 24px; font-size:11px; color:var(--mut); line-height:1.55}
   .legend2 b{color:var(--ink)}
-  /* ---- 인프라 계층 ---- */
-  .infra{max-width:1180px; margin:4px auto 16px; padding:0 24px}
+  /* ---- 인프라 계층 (접기/펼치기) ---- */
+  .infra{max-width:1180px; margin:4px auto 20px; padding:0 24px}
+  .infra-sum{font-size:12px; font-weight:800; cursor:pointer; list-style:none;
+    display:inline-flex; align-items:center; gap:7px; padding:6px 0; color:var(--ink); user-select:none}
+  .infra-sum::-webkit-details-marker{display:none}
+  .infra-sum span{color:var(--mut); font-weight:600}
+  .infra-sum .chev{display:inline-block; transition:transform .2s; color:var(--mut); font-size:11px}
+  details[open] .infra-sum .chev{transform:rotate(90deg)}
+  .infra-d > .stack{margin-top:10px}
   .infra-h{font-size:12px; font-weight:800; margin:0 0 8px}
   .infra-h span{color:var(--mut); font-weight:600}
   .nodes{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
@@ -213,7 +220,8 @@
 </main>
 
 <section class="infra">
-  <h2 class="infra-h">계층 구조 <span>· 은행은 지갑에서 출발 → 밸리데이터 → Synchronizer</span></h2>
+  <details class="infra-d">
+  <summary class="infra-sum"><span class="chev">▸</span>계층 구조 보기 <span>· 지갑 → 밸리데이터 → Synchronizer (라이브)</span></summary>
   <div class="stack">
     <div class="col">
       <div class="layer wallet"><span class="tag">지갑</span>국내은행 지갑<small>사용자 접점 · 잔액·할당·승인</small></div>
@@ -241,6 +249,7 @@
     </div>
   </div>
   <p class="legend2" style="margin-top:8px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
+  </details>
 </section>
 
 <script>
