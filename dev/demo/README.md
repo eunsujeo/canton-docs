@@ -73,3 +73,9 @@ POST /v2/state/active-contracts
 - [ ] 전체 흐름(accept→**실제 CC 할당**→execute)을 LocalNet에서 — 실제 Amulet allocation 필요(테스트 하네스 아님).
 - [ ] (선택) venue·outsider 별도 파티 할당으로 역할 분리.
 - [ ] 백엔드(SSE 실시간) + 프론트 파티 패널 4개 (Phase 3, frontend-design).
+
+## Phase 3 ✅ (1차) — 웹 데모 (프라이버시 뷰)
+- `backend/server.py` (Python stdlib, 무의존성): 참여자별 토큰으로 JSON Ledger API 조회 → `/api/state` JSON + 프론트 서빙. `python3 backend/server.py` → http://localhost:8888
+- `frontend/index.html` (frontend-design 적용): **삼면 비교** — 기관A·B 감사시트 카드(교차 화살표 leg) vs 외부자 다크 보이드("데이터 없음"). 2.5s 폴링 실시간.
+- 실측: A 정산1건(활성11) · B 정산1건(활성12) · **외부자 정산0건(활성46)** → "바쁜 노드인데 이 거래만 없다" = 프라이버시 증명.
+- TODO: 시나리오 버튼(제안/수락/할당/실행) + SSE 전환 + 통화 2종.

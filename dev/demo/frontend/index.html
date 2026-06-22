@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>같은 원장, 다른 시야 — Canton 프라이버시 데모</title>
+<style>
+  :root{
+    --ink:#14181f; --paper:#e9edf2; --sheet:#ffffff; --line:#d3d9e1; --mut:#697482;
+    --verified:#0c6b60; --legA:#0c6b60; --legB:#9e5e08;
+    --void:#0f131a; --void-line:#232a35; --void-fg:#5b6573; --void-accent:#3a4655;
+    --pulse:#0c6b60;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ---- header / thesis ---- */
+  header{max-width:1180px; margin:0 auto; padding:40px 24px 18px}
+  .eyebrow{display:flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--mut); font-weight:600}
+  .live{display:inline-flex; align-items:center; gap:6px}
+  .live i{width:7px; height:7px; border-radius:50%; background:var(--pulse); display:inline-block;
+    box-shadow:0 0 0 0 rgba(12,107,96,.5); animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(12,107,96,.45)}70%{box-shadow:0 0 0 7px rgba(12,107,96,0)}100%{box-shadow:0 0 0 0 rgba(12,107,96,0)}}
+  h1{font-size:clamp(30px,5vw,52px); line-height:1.04; letter-spacing:-.025em; font-weight:800;
+    margin:16px 0 10px}
+  h1 .dim{color:var(--mut)}
+  .lede{max-width:60ch; color:#34404e; font-size:16px; margin:0}
+  .lede b{color:var(--ink); font-weight:700}
+
+  /* ---- triptych ---- */
+  .grid{max-width:1180px; margin:8px auto 56px; padding:0 24px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+
+  .panel{border:1px solid var(--line); border-radius:4px; background:var(--sheet);
+    min-height:330px; display:flex; flex-direction:column; overflow:hidden;
+    transition:box-shadow .35s ease, transform .35s ease}
+  .panel .top{padding:16px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px}
+  .pname{font-size:19px; font-weight:800; letter-spacing:-.01em}
+  .prole{font-size:11px; color:var(--mut); font-weight:600}
+  .seeflag{font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:.02em}
+  .seeflag.yes{color:var(--verified); background:#e2f1ef; border:1px solid #bfe0db}
+  .seeflag.no{color:var(--void-fg); background:#11151c; border:1px solid var(--void-line)}
+  .body{padding:18px; flex:1; display:flex; flex-direction:column; gap:14px}
+  .foot{padding:10px 18px; border-top:1px solid var(--line); font-size:11px; color:var(--mut);
+    display:flex; justify-content:space-between}
+
+  /* participant present: settlement card */
+  .stmt{border:1px solid var(--line); border-radius:3px; overflow:hidden}
+  .stmt .h{display:flex; justify-content:space-between; align-items:center;
+    padding:9px 12px; background:#f6f8fa; border-bottom:1px solid var(--line)}
+  .stmt .h .t{font-weight:700; font-size:13px}
+  .stmt .h .cid{font-size:11px; color:var(--mut)}
+  .legs{padding:12px}
+  .leg{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px;
+    padding:7px 0; font-size:13px}
+  .leg + .leg{border-top:1px dashed var(--line)}
+  .leg .who{font-weight:600}
+  .leg .amt{display:flex; flex-direction:column; align-items:center; gap:1px; min-width:120px}
+  .leg .amt .v{font-weight:700; font-size:13px}
+  .leg .amt .arrow{font-size:11px; letter-spacing:.04em}
+  .leg.kr .amt .v{color:var(--legA)} .leg.kr .amt .arrow{color:var(--legA)}
+  .leg.jp .amt .v{color:var(--legB)} .leg.jp .amt .arrow{color:var(--legB)}
+  .leg .r{text-align:right}
+  .appr{font-size:11px; color:var(--mut); padding:0 12px 11px}
+  .appr b{color:var(--ink)}
+
+  /* participant waiting (no settlement yet) */
+  .waiting{flex:1; display:flex; align-items:center; justify-content:center; text-align:center;
+    color:var(--mut); font-size:13px; border:1px dashed var(--line); border-radius:3px}
+
+  /* outsider void */
+  .panel.void{background:var(--void); border-color:var(--void-line)}
+  .panel.void .top{border-color:var(--void-line)}
+  .panel.void .pname{color:#aeb7c4} .panel.void .prole{color:var(--void-fg)}
+  .panel.void .foot{border-color:var(--void-line); color:var(--void-fg)}
+  .voidbody{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:14px; padding:24px;
+    background-image:repeating-linear-gradient(135deg,transparent 0 11px,rgba(255,255,255,.012) 11px 12px)}
+  .seal{width:46px; height:46px; border:1.5px solid var(--void-accent); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; color:var(--void-accent)}
+  .voidbody .msg{color:#8b96a6; font-size:14px; font-weight:600; max-width:24ch}
+  .voidbody .sub{color:var(--void-fg); font-size:12px; max-width:30ch}
+
+  .updated{transition:none; box-shadow:0 0 0 2px var(--pulse), 0 8px 26px rgba(12,107,96,.16)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">
+    <span class="live"><i></i> 실시간 · LocalNet</span>
+    <span>· Canton FX DvP</span>
+  </div>
+  <h1>같은 원장,<br><span class="dim">다른 시야.</span></h1>
+  <p class="lede">기관 A와 B가 통화를 맞교환한다. 두 당사자의 원장엔 거래가 보이지만,
+    <b>무관한 제3자의 원장엔 그 거래가 존재하지도 않는다.</b> 아래 세 패널은 같은 LocalNet 원장을
+    각자의 자격으로 조회한 결과다.</p>
+</header>
+
+<main class="grid" id="grid">
+  <!-- panels injected -->
+</main>
+
+<script>
+const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
+const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const prevSig = {}; // 패널별 이전 상태 시그니처(변경 감지)
+
+function legRow(id, leg){
+  const isKR = id.toLowerCase().includes('kr');
+  const cls = isKR ? 'kr' : 'jp';
+  const amt = parseFloat(leg.amount).toLocaleString(undefined,{maximumFractionDigits:2});
+  return `<div class="leg ${cls}">
+      <span class="who">${esc(leg.from)}</span>
+      <span class="amt"><span class="v">${amt} ${esc(leg.inst||'')}</span>
+        <span class="arrow">──▶</span><span style="font-size:10px;color:var(--mut)">${esc(id)}</span></span>
+      <span class="who r">${esc(leg.to)}</span>
+    </div>`;
+}
+function stmtCard(s){
+  const legs = Object.entries(s.legs).map(([id,l])=>legRow(id,l)).join('');
+  return `<div class="stmt">
+      <div class="h"><span class="t">${esc(s.template)}</span><span class="cid mono">${esc(s.contractId)}</span></div>
+      <div class="legs">${legs}</div>
+      <div class="appr">서명(승인): <b>${s.approvers.map(esc).join(', ')||'—'}</b></div>
+    </div>`;
+}
+
+function renderPanel(p){
+  const total = p.ok ? Object.values(p.counts||{}).reduce((a,b)=>a+b,0) : 0;
+  const stmts = p.ok ? (p.settlements||[]) : [];
+  const sees = stmts.length>0;
+  let bodyHtml, voidCls='';
+  if(p.key==='outsider'){
+    voidCls='void';
+    bodyHtml = `<div class="voidbody">
+        <div class="seal">⊘</div>
+        <div class="msg">이 원장엔 정산이 없습니다</div>
+        <div class="sub">이 노드는 이 거래의 이해관계자가 아니라, 데이터를 <b>갖고 있지도 않습니다.</b></div>
+      </div>`;
+  } else if(sees){
+    bodyHtml = `<div class="body">${stmts.map(stmtCard).join('')}</div>`;
+  } else {
+    bodyHtml = `<div class="body"><div class="waiting">아직 정산 없음 — 제안을 기다리는 중</div></div>`;
+  }
+  const flag = p.key==='outsider'
+    ? `<span class="seeflag no">정산 0건</span>`
+    : `<span class="seeflag ${sees?'yes':'no'}">${sees?'정산 '+stmts.length+'건 보임':'정산 0건'}</span>`;
+  const footL = p.ok ? `이 노드 활성 컨트랙트 ${total}개` : `<span style="color:#c0392b">연결 실패</span>`;
+  return `<section class="panel ${voidCls}" data-key="${p.key}">
+      <div class="top"><div><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div></div>${flag}</div>
+      ${bodyHtml}
+      <div class="foot"><span>${footL}</span><span class="mono">${esc(p.parties? p.parties.join(' '):'')}</span></div>
+    </section>`;
+}
+
+async function tick(){
+  let data;
+  try{ data = await (await fetch('/api/state')).json(); }catch(e){ return; }
+  const grid = document.getElementById('grid');
+  data.panels.forEach((p,i)=>{
+    const sig = JSON.stringify([p.settlements,p.ok]);
+    const html = renderPanel(p);
+    let el = grid.querySelector(`[data-key="${p.key}"]`);
+    if(!el){ el=$(html); grid.appendChild(el); }
+    else if(prevSig[p.key]!==sig){
+      const nw=$(html); grid.replaceChild(nw,el); el=nw;
+      if(prevSig[p.key]!==undefined && p.key!=='outsider'){ el.classList.add('updated');
+        setTimeout(()=>el.classList.remove('updated'),1400); }
+    }
+    prevSig[p.key]=sig;
+  });
+}
+tick(); setInterval(tick, 2500);
+</script>
+</body>
+</html>
