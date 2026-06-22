@@ -322,7 +322,13 @@ def state():
         allocated = bool(ref) and ("legKRW" in legs) and ("legJPY" in legs)
         just_executed = (ref is None) and (_time.time() - LAST_EXEC[0] < 25)
     except Exception: pass
-    return {"panels": out, "allocated": allocated, "justExecuted": just_executed, "allocatedLegs": legs_list}
+    # Synchronizer 활동: 각 참여자의 커밋 오프셋(시퀀서가 순서 확정해 전달한 위치)
+    def _offset(port):
+        try: return int(_call(port, "/v2/state/ledger-end")["offset"])
+        except Exception: return None
+    sync = {"A": _offset(2975), "B": _offset(3975), "outsider": _offset(4975)}
+    return {"panels": out, "allocated": allocated, "justExecuted": just_executed,
+            "allocatedLegs": legs_list, "sync": sync}
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass

@@ -156,8 +156,20 @@
   .conns::before{content:""; position:absolute; left:16.6%; right:16.6%; top:0; border-top:1px solid var(--line)}
   .conns::after{content:""; position:absolute; left:50%; top:0; height:24px; border-left:1px solid var(--line)}
   .sync{width:100%; border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
-    border-radius:4px; padding:14px; text-align:center; font-weight:700; font-size:14px}
+    border-radius:4px; padding:14px; text-align:center; font-weight:700; font-size:14px;
+    transition:box-shadow .3s ease, border-color .3s ease}
   .sync small{display:block; color:var(--void-fg); font-weight:500; font-size:12px; margin-top:4px}
+  .sync-row{display:flex; align-items:center; justify-content:center; gap:10px}
+  .sdot{width:8px; height:8px; border-radius:50%; background:#3ad29f; display:inline-block;
+    box-shadow:0 0 0 0 rgba(58,210,159,.5); animation:spulse 2.6s infinite}
+  @keyframes spulse{0%{box-shadow:0 0 0 0 rgba(58,210,159,.5)}70%{box-shadow:0 0 0 8px rgba(58,210,159,0)}100%{box-shadow:0 0 0 0 rgba(58,210,159,0)}}
+  .sync .soff{font-size:12px; font-weight:600; color:#8b96a6; letter-spacing:.02em}
+  .sync.active{border-style:solid; border-color:#3ad29f;
+    box-shadow:0 0 0 2px rgba(58,210,159,.32), 0 10px 30px rgba(58,210,159,.16)}
+  .scommit{height:15px; margin-top:7px; font-size:12px; font-weight:700; color:#3ad29f;
+    opacity:0; transition:opacity .25s}
+  .scommit.show{opacity:1}
+  .syncwrap.active .conns::before,.syncwrap.active .conns::after{border-color:#3ad29f; transition:border-color .3s}
   /* ---- 카드 내 액션 버튼 ---- */
   .act{padding:0 18px 16px}
   .cardbtn{width:100%; display:flex; align-items:center; justify-content:center; gap:7px;
@@ -220,9 +232,14 @@
       <div class="layer"><span class="tag">밸리데이터</span>제3자 노드<small>이 정산 데이터를 받지도 저장하지도 않음</small></div>
     </div>
   </div>
-  <div class="syncwrap">
+  <div class="syncwrap" id="syncwrap">
     <div class="conns"></div>
-    <div class="sync">Synchronizer <small>시퀀서 + 미디에이터 · 순서와 합의만 — 내용은 암호화돼 못 봄</small></div>
+    <div class="sync" id="sync">
+      <div class="sync-row"><span class="sdot"></span><span>Synchronizer</span>
+        <span class="soff mono" id="soff">#—</span></div>
+      <small>시퀀서 + 미디에이터 · 트랜잭션을 전역 순서로 확정·커밋 (내용은 암호화돼 못 봄)</small>
+      <div class="scommit" id="scommit"></div>
+    </div>
   </div>
   <p class="legend2" style="margin-top:14px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
 </section>
@@ -233,6 +250,7 @@ const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt
 const prevSig = {}, prevContent = {}; // 패널별 이전 시그니처(렌더/하이라이트 판정)
 let gJustExec = false; // 방금 정산 실행 완료 여부
 let gPhase = {};       // 현재 흐름 단계(카드 버튼 판정용)
+let gOffset = null, gOffTimer = null; // Synchronizer 커밋 오프셋 추적
 
 // 현재 흐름 단계 계산 (국내은행 뷰 기준 + 할당 leg)
 function computePhase(data){
@@ -376,6 +394,28 @@ async function tick(){
     }
     prevSig[p.key]=full; prevContent[p.key]=content;
   });
+  updateSync(data.sync);
+}
+
+// Synchronizer 활동 표시: 거래 참여자(A·B) 커밋 오프셋이 오르면 = 시퀀서가 새 트랜잭션을 순서 확정·커밋
+function updateSync(sync){
+  sync = sync || {};
+  const vals = [sync.A, sync.B].filter(v=>typeof v==='number');
+  if(!vals.length) return;
+  const off = Math.max(...vals);
+  const soff = document.getElementById('soff');
+  if(soff) soff.textContent = '#'+off.toLocaleString();
+  if(gOffset!==null && off>gOffset){
+    const d = off-gOffset;
+    const box=document.getElementById('sync'), wrap=document.getElementById('syncwrap'),
+          sc=document.getElementById('scommit');
+    if(sc){ sc.textContent = `▲ +${d} 트랜잭션 순서 확정·커밋`; sc.classList.add('show'); }
+    box && box.classList.add('active'); wrap && wrap.classList.add('active');
+    clearTimeout(gOffTimer);
+    gOffTimer = setTimeout(()=>{ sc&&sc.classList.remove('show');
+      box&&box.classList.remove('active'); wrap&&wrap.classList.remove('active'); }, 2400);
+  }
+  gOffset = off;
 }
 tick(); setInterval(tick, 2500);
 </script>
