@@ -36,8 +36,9 @@
 
   /* ---- triptych ---- */
   .grid{max-width:1180px; margin:8px auto 56px; padding:0 24px;
-    display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  @media(max-width:1040px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
 
   .panel{border:1px solid var(--line); border-radius:4px; background:var(--sheet);
     min-height:330px; display:flex; flex-direction:column; overflow:hidden;
@@ -167,9 +168,9 @@
     <span>· Canton FX DvP</span>
   </div>
   <h1>같은 원장,<br><span class="dim">다른 시야.</span></h1>
-  <p class="lede">기관 A와 B가 통화를 맞교환한다. 두 당사자의 원장엔 거래가 보이지만,
-    <b>무관한 제3자의 원장엔 그 거래가 존재하지도 않는다.</b> 아래 세 패널은 같은 LocalNet 원장을
-    각자의 자격으로 조회한 결과다.</p>
+  <p class="lede">기관 A와 B가 통화를 맞교환하고, 운영자 <b>Musubi(venue)</b>가 정산을 묶어 실행한다.
+    당사자와 운영자의 원장엔 거래가 보이지만, <b>무관한 제3자의 원장엔 그 거래가 존재하지도 않는다.</b>
+    아래 네 패널은 같은 LocalNet 원장을 각자의 자격으로 조회한 결과다.</p>
 </header>
 
 <section class="controls">
@@ -185,8 +186,8 @@
 </section>
 <div class="status" id="status">버튼으로 정산 흐름을 진행하세요. <b>외부자 패널은 어느 단계에서도 비어 있습니다.</b></div>
 <div class="legend2">
-  <b>venue</b> 정산 운영자 — 정산을 개시·실행하지만 자산 당사자는 아님 (여기선 해외은행이 겸함) ·
-  <b>Settlement</b> 정산 계약 — 양 통화 다리를 묶어 한 번에 정산 ·
+  <b>venue(Musubi)</b> 정산 운영자 — 별도 파티로 정산을 개시·실행하지만 <b>자산은 보유하지 않음</b>(그래서 패널 계약이 1건뿐) ·
+  <b>Settlement</b> 정산 계약 — 양 통화 다리를 묶어 한 번에 정산(원자적) ·
   <b>할당(allocation)</b> 자산을 잠가 정산에 예약
 </div>
 
@@ -246,8 +247,9 @@ function stmtCard(s){
         <span class="who r">${esc(right)}</span>
       </div>`;
   }).join('');
+  const TMPLKO={SettlementProposal:'정산 제안',Settlement:'정산(개시됨)'};
   return `<div class="stmt">
-      <div class="h"><span class="t">${esc(s.template)}</span><span class="cid mono">${esc(s.contractId)}</span></div>
+      <div class="h"><span class="t">${esc(TMPLKO[s.template]||s.template)}</span><span class="cid mono">${esc(s.contractId)}</span></div>
       <div class="legs">${rows}</div>
       <div class="appr">서명(승인): <b>${s.approvers.map(esc).join(', ')||'—'}</b></div>
     </div>`;
@@ -279,7 +281,8 @@ function renderPanel(p){
   const flag = p.key==='outsider'
     ? `<span class="seeflag no">정산 0건</span>`
     : `<span class="seeflag ${sees?'yes':'no'}">${sees?'정산 '+stmts.length+'건 보임':'정산 0건'}</span>`;
-  const footL = p.ok ? `이 노드가 가진 전체 계약 ${total}건` : `<span style="color:#c0392b">연결 실패</span>`;
+  const footL = p.ok ? `이 파티가 당사자인 계약 ${total}건 · 그 외 원장은 안 보임`
+                     : `<span style="color:#c0392b">연결 실패</span>`;
   const fmt=(x)=>Number(x).toLocaleString(undefined,{maximumFractionDigits:1});
   const bal = p.balance ? `<div class="bal">
       <span class="v mono">${fmt(p.balance.unlocked)}</span><span class="u">CC 가용</span>
@@ -289,7 +292,7 @@ function renderPanel(p){
       <div class="top"><div><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div></div>${flag}</div>
       ${bal}
       ${bodyHtml}
-      <div class="foot"><span title="이 참여자 노드가 보유한 활성 계약(컨트랙트) 총수">${footL}</span></div>
+      <div class="foot"><span title="각 참여자 노드는 자기 파티가 이해관계자인 계약만 저장합니다. 나머지 원장은 받지도 보지도 못합니다.">${footL}</span></div>
     </section>`;
 }
 

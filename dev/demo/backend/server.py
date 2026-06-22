@@ -12,19 +12,15 @@ AUD = "https://canton.network.global"; USER = "ledger-api-user"; SECRET = "unsaf
 PKG = "5959344bd3212e47ebf70a2cde52b8125f79939ca6583f18a8873d574cf9095b"  # quickstart-settlement
 T_PROP = f"{PKG}:Settlement.FxDvp:SettlementProposal"
 T_SETTLE = f"{PKG}:Settlement.FxDvp:Settlement"
-# 패널 = (참여자 포트, key, 표시이름, 역할)
-PARTIES = [
-    (2975, "A",        "국내은행", "제안 기관 · app-user"),
-    (3975, "B",        "해외은행", "상대 기관 · app-provider·venue"),
-    (4975, "outsider", "제3자",   "무관 기관 · sv"),
-]
+VENUE_HINT = "musubi-venue"   # venue를 별도 파티로(app-provider 참여자에 호스팅)
 # 파티 ID → 친근한 표시 이름
 def label(p):
     if not p: return p
     if p.startswith("app_user_"): return "국내은행"
     if p.startswith("app_provider_"): return "해외은행"
+    if p.startswith(VENUE_HINT): return "Musubi"
     if p.startswith("DSO::"): return "DSO"
-    if p.startswith("sv::"): return "SV"
+    if p.startswith("sv::"): return "제3자"
     return p.split("::")[0]
 HERE = os.path.dirname(os.path.abspath(__file__))
 FRONTEND = os.path.join(HERE, "..", "frontend", "index.html")
@@ -67,6 +63,27 @@ def active(port, party):
         if ev.get("templateId"): out.append(ev)
     return out
 
+_VENUE = [None]
+def venue_party():
+    """venue(Musubi) 파티를 app-provider 참여자(3975)에 확보 — 없으면 할당 + actAs 권한 부여. 멱등."""
+    if _VENUE[0]: return _VENUE[0]
+    pd = _call(3975, "/v2/parties")["partyDetails"]
+    m = next((p["party"] for p in pd if p["party"].startswith(VENUE_HINT)), None)
+    if not m:
+        m = _call(3975, "/v2/parties", "POST",
+                  {"partyIdHint": VENUE_HINT, "identityProviderId": ""})["partyDetails"]["party"]
+    try:
+        _call(3975, f"/v2/users/{USER}/rights", "POST",
+              {"userId": USER, "identityProviderId": "",
+               "rights": [{"kind": {"CanActAs": {"value": {"party": m}}}}]})
+    except Exception: pass
+    _VENUE[0] = m
+    return m
+
+def outsider_party():
+    pd = _call(4975, "/v2/parties")["partyDetails"]
+    return next(p["party"] for p in pd if p["party"].startswith("sv::"))
+
 def find(port, party, suffix):
     return [(ev["contractId"], ev.get("createArgument", {}))
             for ev in active(port, party) if ev.get("templateId", "").endswith(suffix)]
@@ -78,10 +95,10 @@ def submit(port, actAs, command):
     return _call(port, "/v2/commands/submit-and-wait", "POST", cmd)
 
 def create_proposal():
-    A, B, DSO = parties()
+    A, B, DSO = parties(); M = venue_party()
     def leg(s, r, amt): return {"sender": s, "receiver": r, "amount": amt,
         "instrumentId": {"admin": DSO, "id": "Amulet"}, "meta": {"values": {}}}
-    args = {"venue": B, "settlementCid": None,
+    args = {"venue": M, "settlementCid": None,
             "transferLegs": {"legKRW": leg(A, B, "100.0"), "legJPY": leg(B, A, "20.0")},
             "approvers": [A]}
     return submit(2975, A, {"CreateCommand": {"templateId": T_PROP, "createArguments": args}})
@@ -158,8 +175,7 @@ def registry_ctx(acid):
 
 def current_ref():
     """현재 살아있는 Settlement의 ref cid (= 원 제안 cid). 없으면 None."""
-    _, B, _ = parties()
-    for cid, arg in find(3975, B, "Settlement"):
+    for cid, arg in find(3975, venue_party(), "Settlement"):
         return arg.get("settlementCid")
     return None
 
@@ -174,7 +190,7 @@ def allocated_legs(ref_cid):
 LAST_EXEC = [0.0]  # 마지막 정산 실행 시각(완료 배너용)
 
 def do_action(step):
-    A, B, DSO = parties()
+    A, B, DSO = parties(); M = venue_party()
     if step == "create":
         create_proposal(); return {"ok": True, "msg": "기관 A가 정산을 제안했습니다."}
     if step == "accept":
@@ -190,9 +206,9 @@ def do_action(step):
             if A in arg.get("approvers", []) and B in arg.get("approvers", []):
                 now = time.time()
                 fmt = lambda t: time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(t))
-                ex(3975, B, cid, "SettlementProposal_InitiateSettlement",
+                ex(3975, M, cid, "SettlementProposal_InitiateSettlement",
                    {"prepareUntil": fmt(now+3600), "settleBefore": fmt(now+7200)}, T_PROP)
-                return {"ok": True, "msg": "venue가 정산을 개시했습니다(Settlement 생성)."}
+                return {"ok": True, "msg": "venue(Musubi)가 정산을 개시했습니다(Settlement 생성)."}
         return {"ok": False, "msg": "양측 수락된 제안이 없습니다."}
     if step == "allocate":
         ref = current_ref()
@@ -204,7 +220,7 @@ def do_action(step):
         ref = current_ref()
         if not ref: return {"ok": False, "msg": "개시된 정산이 없습니다."}
         settle = None; legmap = {}
-        for ev in active(3975, B):
+        for ev in active(3975, M):   # venue가 Settlement + 양측 Allocation의 이해관계자
             tid = ev["templateId"]; arg = ev.get("createArgument", {})
             if tid.endswith(":Settlement.FxDvp:Settlement") and arg.get("settlementCid") == ref:
                 settle = ev["contractId"]
@@ -220,7 +236,7 @@ def do_action(step):
             awc[legId] = {"_1": acid, "_2": {"context": ctx["choiceContextData"], "meta": {"values": {}}}}
             for d in ctx["disclosedContracts"]:
                 disc[d["contractId"]] = {k: d[k] for k in ("templateId", "contractId", "createdEventBlob", "synchronizerId")}
-        submit_disc(3975, B, {"ExerciseCommand": {"templateId": T_SETTLE, "contractId": settle,
+        submit_disc(3975, M, {"ExerciseCommand": {"templateId": T_SETTLE, "contractId": settle,
             "choice": "Settlement_Execute", "choiceArgument": {"allocationsWithContext": awc}}}, list(disc.values()))
         LAST_EXEC[0] = _time.time()
         return {"ok": True, "msg": "정산 실행 완료 — 양 통화가 한 트랜잭션에 동시 이동했습니다(원자적 DvP)."}
@@ -238,30 +254,35 @@ def do_action(step):
         for cid, arg in find(2975, A, "SettlementProposal"):
             try: ex(2975, A, cid, "SettlementProposal_Reject", {"trader": A}, T_PROP); n += 1
             except Exception: pass
-        for cid, arg in find(3975, B, "Settlement"):
-            try: ex(3975, B, cid, "Settlement_Cancel", {"allocationsWithContext": {}}, T_SETTLE); n += 1
+        for cid, arg in find(3975, M, "Settlement"):
+            try: ex(3975, M, cid, "Settlement_Cancel", {"allocationsWithContext": {}}, T_SETTLE); n += 1
             except Exception: pass
         LAST_EXEC[0] = 0.0
         return {"ok": True, "msg": f"초기화 완료 — 제안·정산·잠금 정리({n}건). 잠금 0."}
     return {"ok": False, "msg": f"알 수 없는 단계: {step}"}
 
-# ---- 패널 뷰 ----
-def party_view(port):
-    pd = _call(port, "/v2/parties")["partyDetails"]
-    locals_ = [p["party"] for p in pd if p.get("isLocal") and not p["party"].startswith("participant::")]
+# ---- 패널 뷰 (per-party: 그 파티가 이해관계자인 계약만) ----
+def party_view(port, party):
     counts, settlements = {}, []
-    for party in locals_:
-        for ev in active(port, party):
-            name = _tmpl(ev["templateId"]); counts[name] = counts.get(name, 0) + 1
-            if "Settlement.FxDvp" in name:
-                arg = ev.get("createArgument", {}); legs = arg.get("transferLegs", {})
-                settlements.append({
-                    "template": name.split(":")[-1], "contractId": ev.get("contractId", "")[:12] + "…",
-                    "approvers": [label(a) for a in arg.get("approvers", [])],
-                    "legs": {k: {"from": label(v.get("sender")), "to": label(v.get("receiver")),
-                                 "amount": v.get("amount"), "inst": (v.get("instrumentId") or {}).get("id")}
-                             for k, v in legs.items()}})
-    return {"parties": [label(p) for p in locals_], "counts": counts, "settlements": settlements}
+    for ev in active(port, party):
+        name = _tmpl(ev["templateId"]); counts[name] = counts.get(name, 0) + 1
+        if "Settlement.FxDvp" in name:
+            arg = ev.get("createArgument", {}); legs = arg.get("transferLegs", {})
+            tmpl = name.split(":")[-1]
+            traders = []
+            for v in legs.values():
+                for who in (v.get("sender"), v.get("receiver")):
+                    if who and who not in traders: traders.append(who)
+            # SettlementProposal: 서명=approvers. Settlement: 서명=venue+거래당사자.
+            signers = (([arg.get("venue")] if arg.get("venue") else []) + traders
+                       if tmpl == "Settlement" else arg.get("approvers", []))
+            settlements.append({
+                "template": tmpl, "contractId": ev.get("contractId", "")[:12] + "…",
+                "approvers": [label(a) for a in signers],
+                "legs": {k: {"from": label(v.get("sender")), "to": label(v.get("receiver")),
+                             "amount": v.get("amount"), "inst": (v.get("instrumentId") or {}).get("id")}
+                         for k, v in legs.items()}})
+    return {"parties": [label(party)], "counts": counts, "settlements": settlements}
 
 WALLET = {"A": (2000, "app-user"), "B": (3000, "app-provider"), "outsider": (4000, "sv")}
 def balance_of(key):
@@ -269,13 +290,24 @@ def balance_of(key):
     b = _wcall(wport, sub, "/v0/wallet/balance")
     return {"unlocked": b.get("effective_unlocked_qty"), "locked": b.get("effective_locked_qty")}
 
+def panel_specs():
+    A, B, DSO = parties(); M = venue_party(); SV = outsider_party()
+    # (참여자 포트, 조회 파티, key, 표시이름, 역할)
+    return [
+        (2975, A,  "A",        "국내은행", "통화A 당사자 · 제안 기관"),
+        (3975, B,  "B",        "해외은행", "통화B 당사자"),
+        (3975, M,  "venue",    "Musubi",  "정산 운영자(venue) · 개시·실행하나 자산은 미보유"),
+        (4975, SV, "outsider", "제3자",   "무관 기관 · 거래에 스테이크 없음"),
+    ]
+
 def state():
     out = []
-    for port, key, name, role in PARTIES:
+    for port, party, key, name, role in panel_specs():
         try:
-            pv = party_view(port)
-            try: pv["balance"] = balance_of(key)
-            except Exception: pv["balance"] = None
+            pv = party_view(port, party)
+            if key in WALLET:
+                try: pv["balance"] = balance_of(key)
+                except Exception: pv["balance"] = None
             out.append({"key": key, "name": name, "role": role, "ok": True, **pv})
         except Exception as e: out.append({"key": key, "name": name, "role": role, "ok": False, "error": str(e)})
     # 현재 정산 기준 할당 여부(양 leg) + 방금 실행 완료 여부
