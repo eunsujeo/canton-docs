@@ -189,7 +189,7 @@ def allocated_legs(ref_cid):
 
 LAST_EXEC = [0.0]  # 마지막 정산 실행 시각(완료 배너용)
 
-def do_action(step):
+def do_action(step, side=None):
     A, B, DSO = parties(); M = venue_party()
     if step == "create":
         create_proposal(); return {"ok": True, "msg": "기관 A가 정산을 제안했습니다."}
@@ -213,9 +213,14 @@ def do_action(step):
     if step == "allocate":
         ref = current_ref()
         if not ref: return {"ok": False, "msg": "개시된 정산이 없습니다. 먼저 정산을 개시하세요."}
-        n = allocate_for(2000, "app-user", "app_user_", ref) + allocate_for(3000, "app-provider", "app_provider_", ref)
-        return {"ok": True, "msg": f"양측이 자기 통화를 잠갔습니다(신규 할당 {n}건). 자산이 묶였습니다." if n
-                else "이미 양측 자산이 잠겨 있습니다."}
+        if side == "A":
+            n = allocate_for(2000, "app-user", "app_user_", ref); who = "국내은행"
+        elif side == "B":
+            n = allocate_for(3000, "app-provider", "app_provider_", ref); who = "해외은행"
+        else:
+            n = allocate_for(2000, "app-user", "app_user_", ref) + allocate_for(3000, "app-provider", "app_provider_", ref); who = "양측"
+        return {"ok": True, "msg": f"{who}이(가) 자기 통화를 잠갔습니다(신규 {n}건). 자산이 묶였습니다." if n
+                else f"{who} 자산은 이미 잠겨 있습니다."}
     if step == "execute":
         ref = current_ref()
         if not ref: return {"ok": False, "msg": "개시된 정산이 없습니다."}
@@ -311,13 +316,13 @@ def state():
             out.append({"key": key, "name": name, "role": role, "ok": True, **pv})
         except Exception as e: out.append({"key": key, "name": name, "role": role, "ok": False, "error": str(e)})
     # 현재 정산 기준 할당 여부(양 leg) + 방금 실행 완료 여부
-    allocated = False; just_executed = False
+    allocated = False; just_executed = False; legs_list = []
     try:
-        ref = current_ref(); legs = allocated_legs(ref)
+        ref = current_ref(); legs = allocated_legs(ref); legs_list = sorted(legs)
         allocated = bool(ref) and ("legKRW" in legs) and ("legJPY" in legs)
         just_executed = (ref is None) and (_time.time() - LAST_EXEC[0] < 25)
     except Exception: pass
-    return {"panels": out, "allocated": allocated, "justExecuted": just_executed}
+    return {"panels": out, "allocated": allocated, "justExecuted": just_executed, "allocatedLegs": legs_list}
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
@@ -336,8 +341,9 @@ class H(BaseHTTPRequestHandler):
     def do_POST(self):
         if self.path.startswith("/api/action"):
             ln = int(self.headers.get("Content-Length", 0))
-            step = json.loads(self.rfile.read(ln) or b"{}").get("step", "")
-            try: self._send(200, json.dumps(do_action(step), ensure_ascii=False))
+            body = json.loads(self.rfile.read(ln) or b"{}")
+            step = body.get("step", ""); side = body.get("side")
+            try: self._send(200, json.dumps(do_action(step, side), ensure_ascii=False))
             except Exception as e: self._send(200, json.dumps({"ok": False, "msg": str(e)[:200]}, ensure_ascii=False))
         else: self._send(404, "not found", "text/plain")
 

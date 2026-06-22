@@ -157,6 +157,18 @@
   .sync{width:100%; border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
     border-radius:4px; padding:14px; text-align:center; font-weight:700; font-size:14px}
   .sync small{display:block; color:var(--void-fg); font-weight:500; font-size:12px; margin-top:4px}
+  /* ---- 카드 내 액션 버튼 ---- */
+  .act{padding:0 18px 16px}
+  .cardbtn{width:100%; display:flex; align-items:center; justify-content:center; gap:7px;
+    border:1px solid var(--verified); background:var(--verified); color:#fff;
+    border-radius:4px; padding:11px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer;
+    box-shadow:0 2px 12px rgba(12,107,96,.22)}
+  .cardbtn:hover:not(:disabled){filter:brightness(1.08)}
+  .cardbtn:disabled{opacity:.5; cursor:wait}
+  .cardbtn .n{font-size:11px; opacity:.85; font-weight:600}
+  /* 행동할 차례인 카드 강조 */
+  .panel.turn{border-color:var(--verified); box-shadow:0 0 0 2px rgba(12,107,96,.28), 0 10px 28px rgba(12,107,96,.12)}
+  .panel.turn .top{background:#f0f8f6}
   .updated{transition:none; box-shadow:0 0 0 2px var(--pulse), 0 8px 26px rgba(12,107,96,.16)}
   @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
@@ -174,17 +186,10 @@
 </header>
 
 <section class="controls">
-  <span class="ctl-lbl">데모 흐름 — 버튼을 누르세요 ▸</span>
-  <div class="flow">
-    <button class="stepbtn" data-step="create"><span class="n">1</span>제안</button>
-    <button class="stepbtn" data-step="accept"><span class="n">2</span>해외은행 수락</button>
-    <button class="stepbtn" data-step="initiate"><span class="n">3</span>정산 개시</button>
-    <button class="stepbtn" data-step="allocate"><span class="n">4</span>양측 자산 잠금</button>
-    <button class="stepbtn" data-step="execute"><span class="n">5</span>정산 실행</button>
-  </div>
+  <span class="ctl-lbl">각 기관 카드의 버튼으로 정산을 진행하세요 ▸</span>
   <button class="reset" data-step="reset">↺ 리셋</button>
 </section>
-<div class="status" id="status">버튼으로 정산 흐름을 진행하세요. <b>외부자 패널은 어느 단계에서도 비어 있습니다.</b></div>
+<div class="status" id="status">행동할 차례인 기관 카드에 버튼이 나타납니다. <b>제3자 패널은 어느 단계에서도 비어 있습니다.</b></div>
 <div class="legend2">
   <b>venue(Musubi)</b> 정산 운영자 — 별도 파티로 정산을 개시·실행하지만 <b>자산은 보유하지 않음</b>(그래서 패널 계약이 1건뿐) ·
   <b>Settlement</b> 정산 계약 — 양 통화 다리를 묶어 한 번에 정산(원자적) ·
@@ -224,8 +229,38 @@
 <script>
 const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
 const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const prevSig = {}; // 패널별 이전 상태 시그니처(변경 감지)
+const prevSig = {}, prevContent = {}; // 패널별 이전 시그니처(렌더/하이라이트 판정)
 let gJustExec = false; // 방금 정산 실행 완료 여부
+let gPhase = {};       // 현재 흐름 단계(카드 버튼 판정용)
+
+// 현재 흐름 단계 계산 (국내은행 뷰 기준 + 할당 leg)
+function computePhase(data){
+  const a = (data.panels||[]).find(p=>p.key==='A') || {};
+  const st = a.settlements || [];
+  const prop = st.find(s=>s.template==='SettlementProposal');
+  const settle = st.find(s=>s.template==='Settlement');
+  const legs = data.allocatedLegs || [];
+  return {
+    hasProp: !!prop, accepted: prop ? (prop.approvers||[]).length>=2 : false,
+    hasSettle: !!settle, aLocked: legs.includes('legKRW'), bLocked: legs.includes('legJPY'),
+    justExec: !!data.justExecuted
+  };
+}
+// 이 카드(파티)가 지금 할 수 있는 액션
+function cardActionFor(key){
+  const ph = gPhase;
+  if(key==='A'){
+    if(!ph.hasProp && !ph.hasSettle && !ph.justExec) return {step:'create', label:'이 거래 제안'};
+    if(ph.hasSettle && !ph.aLocked) return {step:'allocate', side:'A', label:'내 자산 잠금'};
+  } else if(key==='B'){
+    if(ph.hasProp && !ph.accepted && !ph.hasSettle) return {step:'accept', label:'제안 수락'};
+    if(ph.hasSettle && !ph.bLocked) return {step:'allocate', side:'B', label:'내 자산 잠금'};
+  } else if(key==='venue'){
+    if(ph.accepted && !ph.hasSettle) return {step:'initiate', label:'정산 개시'};
+    if(ph.hasSettle && ph.aLocked && ph.bLocked) return {step:'execute', label:'정산 실행'};
+  }
+  return null;
+}
 
 const ORDER = ['국내은행','해외은행'];
 function stmtCard(s){
@@ -288,69 +323,55 @@ function renderPanel(p){
       <span class="v mono">${fmt(p.balance.unlocked)}</span><span class="u">CC 가용</span>
       ${Number(p.balance.locked)>0?`<span class="lock mono">🔒 ${fmt(p.balance.locked)} 잠김</span>`:''}
     </div>` : '';
-  return `<section class="panel ${voidCls}" data-key="${p.key}">
+  const act = p.key==='outsider' ? null : cardActionFor(p.key);
+  const actHtml = act
+    ? `<div class="act"><button class="cardbtn" data-step="${act.step}"${act.side?` data-side="${act.side}"`:''}>${esc(act.label)} ▸</button></div>`
+    : '';
+  return `<section class="panel ${voidCls}${act?' turn':''}" data-key="${p.key}">
       <div class="top"><div><div class="pname">${esc(p.name)}</div><div class="prole">${esc(p.role)}</div></div>${flag}</div>
       ${bal}
       ${bodyHtml}
+      ${actHtml}
       <div class="foot"><span title="각 참여자 노드는 자기 파티가 이해관계자인 계약만 저장합니다. 나머지 원장은 받지도 보지도 못합니다.">${footL}</span></div>
     </section>`;
 }
 
-function refreshSteps(data){
-  const a = data.panels.find(p=>p.key==='A') || {};
-  const st = a.settlements || [];
-  const prop = st.find(s=>s.template==='SettlementProposal');
-  const settle = st.find(s=>s.template==='Settlement');
-  const hasProp = !!prop, accepted = prop ? (prop.approvers||[]).length>=2 : false, hasSettle = !!settle;
-  const allocated = !!data.allocated;  // 백엔드가 현재 정산 기준으로 판정
-  // 완료 상태
-  const done = {create: hasProp||hasSettle, accept: accepted||hasSettle, initiate: hasSettle,
-                allocate: hasSettle && allocated, execute: !!data.justExecuted};
-  // 다음 실행 가능 단계
-  const enabled = {create: !hasProp && !hasSettle, accept: hasProp && !accepted && !hasSettle,
-                   initiate: accepted && !hasSettle, allocate: hasSettle && !allocated,
-                   execute: hasSettle && allocated};
-  const NUM={create:'1',accept:'2',initiate:'3',allocate:'4',execute:'5'};
-  let nextSet=false;
-  document.querySelectorAll('.stepbtn').forEach(b=>{
-    const k=b.dataset.step;
-    b.classList.toggle('done', !!done[k]);
-    b.disabled = !enabled[k];
-    b.classList.toggle('next', enabled[k] && !nextSet ? (nextSet=true) : false);
-    const n=b.querySelector('.n'); if(n) n.textContent = done[k] ? '✓' : NUM[k];
-  });
-}
-
-async function action(step){
+async function action(step, side){
   const s=document.getElementById('status');
-  document.querySelectorAll('.controls button').forEach(b=>b.disabled=true);
+  document.querySelectorAll('button[data-step]').forEach(b=>b.disabled=true);
   s.innerHTML='처리 중…';
   try{
     const r=await (await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({step})})).json();
+      body:JSON.stringify({step, side})})).json();
     s.innerHTML = r.ok ? `<b>✓</b> ${esc(r.msg)}` : `⚠ ${esc(r.msg)}`;
   }catch(e){ s.innerHTML='⚠ 요청 실패'; }
   await tick();
 }
-document.querySelectorAll('.controls button').forEach(b=>b.addEventListener('click',()=>action(b.dataset.step)));
+// 카드 버튼·리셋 모두 위임 처리(카드는 매 렌더마다 새로 그려지므로)
+document.addEventListener('click',(e)=>{
+  const b=e.target.closest('button[data-step]');
+  if(!b || b.disabled) return;
+  action(b.dataset.step, b.dataset.side);
+});
 
 async function tick(){
   let data;
   try{ data = await (await fetch('/api/state')).json(); }catch(e){ return; }
   gJustExec = !!data.justExecuted;
-  refreshSteps(data);
+  gPhase = computePhase(data);
   const grid = document.getElementById('grid');
-  data.panels.forEach((p,i)=>{
-    const sig = JSON.stringify([p.settlements,p.ok]);
+  data.panels.forEach((p)=>{
+    const content = JSON.stringify([p.settlements,p.balance,p.ok]); // 내용 변화(하이라이트용)
+    const full = JSON.stringify([content, gPhase]);                 // 버튼 포함 전체(렌더 판정)
     const html = renderPanel(p);
     let el = grid.querySelector(`[data-key="${p.key}"]`);
     if(!el){ el=$(html); grid.appendChild(el); }
-    else if(prevSig[p.key]!==sig){
+    else if(prevSig[p.key]!==full){
       const nw=$(html); grid.replaceChild(nw,el); el=nw;
-      if(prevSig[p.key]!==undefined && p.key!=='outsider'){ el.classList.add('updated');
-        setTimeout(()=>el.classList.remove('updated'),1400); }
+      if(prevContent[p.key]!==undefined && prevContent[p.key]!==content && p.key!=='outsider'){
+        el.classList.add('updated'); setTimeout(()=>el.classList.remove('updated'),1400); }
     }
-    prevSig[p.key]=sig;
+    prevSig[p.key]=full; prevContent[p.key]=content;
   });
 }
 tick(); setInterval(tick, 2500);
