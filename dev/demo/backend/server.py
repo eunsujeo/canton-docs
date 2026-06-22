@@ -171,6 +171,8 @@ def allocated_legs(ref_cid):
         except Exception: pass
     return legs
 
+LAST_EXEC = [0.0]  # 마지막 정산 실행 시각(완료 배너용)
+
 def do_action(step):
     A, B, DSO = parties()
     if step == "create":
@@ -220,6 +222,7 @@ def do_action(step):
                 disc[d["contractId"]] = {k: d[k] for k in ("templateId", "contractId", "createdEventBlob", "synchronizerId")}
         submit_disc(3975, B, {"ExerciseCommand": {"templateId": T_SETTLE, "contractId": settle,
             "choice": "Settlement_Execute", "choiceArgument": {"allocationsWithContext": awc}}}, list(disc.values()))
+        LAST_EXEC[0] = _time.time()
         return {"ok": True, "msg": "정산 실행 완료 — 양 통화가 한 트랜잭션에 동시 이동했습니다(원자적 DvP)."}
     if step == "reset":
         n = 0
@@ -238,6 +241,7 @@ def do_action(step):
         for cid, arg in find(3975, B, "Settlement"):
             try: ex(3975, B, cid, "Settlement_Cancel", {"allocationsWithContext": {}}, T_SETTLE); n += 1
             except Exception: pass
+        LAST_EXEC[0] = 0.0
         return {"ok": True, "msg": f"초기화 완료 — 제안·정산·잠금 정리({n}건). 잠금 0."}
     return {"ok": False, "msg": f"알 수 없는 단계: {step}"}
 
@@ -274,13 +278,14 @@ def state():
             except Exception: pv["balance"] = None
             out.append({"key": key, "name": name, "role": role, "ok": True, **pv})
         except Exception as e: out.append({"key": key, "name": name, "role": role, "ok": False, "error": str(e)})
-    # 현재 정산 기준 할당 여부(양 leg)
-    allocated = False
+    # 현재 정산 기준 할당 여부(양 leg) + 방금 실행 완료 여부
+    allocated = False; just_executed = False
     try:
         ref = current_ref(); legs = allocated_legs(ref)
         allocated = bool(ref) and ("legKRW" in legs) and ("legJPY" in legs)
+        just_executed = (ref is None) and (_time.time() - LAST_EXEC[0] < 25)
     except Exception: pass
-    return {"panels": out, "allocated": allocated}
+    return {"panels": out, "allocated": allocated, "justExecuted": just_executed}
 
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass

@@ -81,6 +81,12 @@
   /* participant waiting (no settlement yet) */
   .waiting{flex:1; display:flex; align-items:center; justify-content:center; text-align:center;
     color:var(--mut); font-size:13px; border:1px dashed var(--line); border-radius:3px}
+  .completed{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:11px; border:1px solid #bfe0db; background:#f0f8f6; border-radius:3px; padding:20px}
+  .completed .chk{width:44px; height:44px; border-radius:50%; background:var(--verified); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:22px}
+  .completed .t{font-weight:800; font-size:15px; color:var(--verified)}
+  .completed .s{color:var(--mut); font-size:12px; max-width:26ch}
 
   /* outsider void */
   .panel.void{background:var(--void); border-color:var(--void-line)}
@@ -192,6 +198,7 @@
 const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
 const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const prevSig = {}; // 패널별 이전 상태 시그니처(변경 감지)
+let gJustExec = false; // 방금 정산 실행 완료 여부
 
 const ORDER = ['국내은행','해외은행'];
 function stmtCard(s){
@@ -234,6 +241,12 @@ function renderPanel(p){
       </div>`;
   } else if(sees){
     bodyHtml = `<div class="body">${stmts.map(stmtCard).join('')}</div>`;
+  } else if(gJustExec){
+    bodyHtml = `<div class="body"><div class="completed">
+        <div class="chk">✓</div>
+        <div class="t">정산 완료</div>
+        <div class="s">양 통화가 한 트랜잭션에 동시 교환됐습니다. 위 잔액에 반영됨(잠금 0).</div>
+      </div></div>`;
   } else {
     bodyHtml = `<div class="body"><div class="waiting">아직 정산 없음 — 제안을 기다리는 중</div></div>`;
   }
@@ -263,7 +276,7 @@ function refreshSteps(data){
   const allocated = !!data.allocated;  // 백엔드가 현재 정산 기준으로 판정
   // 완료 상태
   const done = {create: hasProp||hasSettle, accept: accepted||hasSettle, initiate: hasSettle,
-                allocate: hasSettle && allocated, execute:false};
+                allocate: hasSettle && allocated, execute: !!data.justExecuted};
   // 다음 실행 가능 단계
   const enabled = {create: !hasProp && !hasSettle, accept: hasProp && !accepted && !hasSettle,
                    initiate: accepted && !hasSettle, allocate: hasSettle && !allocated,
@@ -295,6 +308,7 @@ document.querySelectorAll('.controls button').forEach(b=>b.addEventListener('cli
 async function tick(){
   let data;
   try{ data = await (await fetch('/api/state')).json(); }catch(e){ return; }
+  gJustExec = !!data.justExecuted;
   refreshSteps(data);
   const grid = document.getElementById('grid');
   data.panels.forEach((p,i)=>{
