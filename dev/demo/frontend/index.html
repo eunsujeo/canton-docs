@@ -21,43 +21,43 @@
   .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
 
   /* ---- header / thesis ---- */
-  header{max-width:1180px; margin:0 auto; padding:40px 24px 18px}
-  .eyebrow{display:flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.14em;
+  header{max-width:1180px; margin:0 auto; padding:16px 24px 6px}
+  .eyebrow{display:flex; align-items:center; gap:9px; font-size:11px; letter-spacing:.14em;
     text-transform:uppercase; color:var(--mut); font-weight:600}
   .live{display:inline-flex; align-items:center; gap:6px}
   .live i{width:7px; height:7px; border-radius:50%; background:var(--pulse); display:inline-block;
     box-shadow:0 0 0 0 rgba(12,107,96,.5); animation:pulse 2.4s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(12,107,96,.45)}70%{box-shadow:0 0 0 7px rgba(12,107,96,0)}100%{box-shadow:0 0 0 0 rgba(12,107,96,0)}}
-  h1{font-size:clamp(30px,5vw,52px); line-height:1.04; letter-spacing:-.025em; font-weight:800;
-    margin:16px 0 10px}
+  h1{font-size:clamp(20px,2.8vw,30px); line-height:1.06; letter-spacing:-.025em; font-weight:800;
+    margin:8px 0 6px}
   h1 .dim{color:var(--mut)}
-  .lede{max-width:60ch; color:#34404e; font-size:16px; margin:0}
+  .lede{max-width:88ch; color:#34404e; font-size:13px; line-height:1.45; margin:0}
   .lede b{color:var(--ink); font-weight:700}
 
   /* ---- triptych ---- */
-  .grid{max-width:1180px; margin:8px auto 56px; padding:0 24px;
-    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+  .grid{max-width:1180px; margin:8px auto 16px; padding:0 24px;
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px}
   @media(max-width:1040px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:560px){.grid{grid-template-columns:1fr}}
 
   .panel{border:1px solid var(--line); border-radius:4px; background:var(--sheet);
-    min-height:330px; display:flex; flex-direction:column; overflow:hidden;
+    min-height:230px; display:flex; flex-direction:column; overflow:hidden;
     transition:box-shadow .35s ease, transform .35s ease}
-  .panel .top{padding:16px 18px; border-bottom:1px solid var(--line);
+  .panel .top{padding:11px 16px; border-bottom:1px solid var(--line);
     display:flex; align-items:baseline; justify-content:space-between; gap:10px}
-  .pname{font-size:19px; font-weight:800; letter-spacing:-.01em}
+  .pname{font-size:17px; font-weight:800; letter-spacing:-.01em}
   .prole{font-size:11px; color:var(--mut); font-weight:600}
   .seeflag{font-size:11px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:.02em;
     white-space:nowrap; flex:none}
   .seeflag.yes{color:var(--verified); background:#e2f1ef; border:1px solid #bfe0db}
   .seeflag.no{color:var(--void-fg); background:#11151c; border:1px solid var(--void-line)}
-  .bal{padding:10px 18px; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:7px}
-  .bal .v{font-weight:800; font-size:17px; letter-spacing:-.01em}
+  .bal{padding:8px 16px; border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:7px}
+  .bal .v{font-weight:800; font-size:16px; letter-spacing:-.01em}
   .bal .u{color:var(--mut); font-size:11px}
   .bal .lock{margin-left:auto; color:var(--legB); font-size:12px; font-weight:600}
   .panel.void .bal{border-color:var(--void-line)} .panel.void .bal .v{color:#9aa4b2}
-  .body{padding:18px; flex:1; display:flex; flex-direction:column; gap:14px}
-  .foot{padding:10px 18px; border-top:1px solid var(--line); font-size:11px; color:var(--mut);
+  .body{padding:12px 16px; flex:1; display:flex; flex-direction:column; gap:10px}
+  .foot{padding:8px 16px; border-top:1px solid var(--line); font-size:11px; color:var(--mut);
     display:flex; justify-content:space-between}
 
   /* participant present: settlement card */
@@ -104,7 +104,7 @@
   .voidbody .sub{color:var(--void-fg); font-size:12px; max-width:30ch}
 
   /* ---- controls ---- */
-  .controls{max-width:1180px; margin:14px auto 0; padding:0 24px; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .controls{max-width:1180px; margin:6px auto 0; padding:0 24px; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
   .flow{display:flex; align-items:stretch}
   .stepbtn{display:flex; align-items:center; gap:8px; border:1px solid var(--line); background:var(--sheet);
     padding:10px 15px; font:inherit; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer}
@@ -123,14 +123,14 @@
   .reset{margin-left:auto; border:1px solid var(--line); background:transparent; border-radius:4px;
     padding:10px 15px; font:inherit; font-size:13px; color:var(--mut); cursor:pointer}
   .reset:hover:not(:disabled){color:var(--ink); border-color:var(--mut)}
-  .status{max-width:1180px; margin:10px auto 0; padding:0 24px; font-size:13px; color:var(--mut); min-height:20px}
+  .status{max-width:1180px; margin:6px auto 0; padding:0 24px; font-size:12px; color:var(--mut); min-height:16px}
   .status b{color:var(--verified)}
   /* ---- 용어 legend ---- */
-  .legend2{max-width:1180px; margin:8px auto 0; padding:0 24px; font-size:12px; color:var(--mut); line-height:1.7}
+  .legend2{max-width:1180px; margin:4px auto 0; padding:0 24px; font-size:11px; color:var(--mut); line-height:1.55}
   .legend2 b{color:var(--ink)}
   /* ---- 인프라 계층 ---- */
-  .infra{max-width:1180px; margin:6px auto 48px; padding:0 24px}
-  .infra-h{font-size:13px; font-weight:800; margin:0 0 14px}
+  .infra{max-width:1180px; margin:4px auto 16px; padding:0 24px}
+  .infra-h{font-size:12px; font-weight:800; margin:0 0 8px}
   .infra-h span{color:var(--mut); font-weight:600}
   .nodes{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
   @media(max-width:860px){.nodes{grid-template-columns:1fr}}
@@ -144,19 +144,19 @@
   .col{display:flex; flex-direction:column; align-items:center}
   .col.dim{opacity:.5}
   .layer{width:100%; border:1px solid var(--line); border-radius:4px; background:var(--sheet);
-    padding:11px 14px; text-align:center; font-weight:700; font-size:13px}
-  .layer .tag{display:block; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--verified); font-weight:700; margin-bottom:2px}
-  .layer small{display:block; color:var(--mut); font-weight:500; font-size:11px; margin-top:3px}
+    padding:7px 14px; text-align:center; font-weight:700; font-size:12px}
+  .layer .tag{display:block; font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--verified); font-weight:700; margin-bottom:1px}
+  .layer small{display:block; color:var(--mut); font-weight:500; font-size:10px; margin-top:2px}
   .layer.wallet{background:#f0f8f6; border-color:#bfe0db}
-  .vsep{height:18px; width:1px; background:var(--line)}
-  .vsep::after{content:"▾"; color:var(--mut); font-size:10px; position:relative; left:-4px; top:8px}
+  .vsep{height:11px; width:1px; background:var(--line)}
+  .vsep::after{content:"▾"; color:var(--mut); font-size:9px; position:relative; left:-4px; top:3px}
   .syncwrap{display:flex; flex-direction:column; align-items:center}
-  .conns{height:24px; width:100%; position:relative}
+  .conns{height:14px; width:100%; position:relative}
   .conns::before{content:""; position:absolute; left:16.6%; right:16.6%; top:0; border-top:1px solid var(--line)}
-  .conns::after{content:""; position:absolute; left:50%; top:0; height:24px; border-left:1px solid var(--line)}
+  .conns::after{content:""; position:absolute; left:50%; top:0; height:14px; border-left:1px solid var(--line)}
   .sync{width:100%; border:1px dashed var(--void-line); background:var(--void); color:#b8c1cf;
-    border-radius:4px; padding:14px; text-align:center; font-weight:700; font-size:14px;
+    border-radius:4px; padding:9px 14px; text-align:center; font-weight:700; font-size:13px;
     transition:box-shadow .3s ease, border-color .3s ease}
   .sync small{display:block; color:var(--void-fg); font-weight:500; font-size:12px; margin-top:4px}
   .sync-row{display:flex; align-items:center; justify-content:center; gap:10px}
@@ -171,10 +171,10 @@
   .scommit.show{opacity:1}
   .syncwrap.active .conns::before,.syncwrap.active .conns::after{border-color:#3ad29f; transition:border-color .3s}
   /* ---- 카드 내 액션 버튼 ---- */
-  .act{padding:0 18px 16px}
+  .act{padding:0 16px 12px}
   .cardbtn{width:100%; display:flex; align-items:center; justify-content:center; gap:7px;
     border:1px solid var(--verified); background:var(--verified); color:#fff;
-    border-radius:4px; padding:11px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer;
+    border-radius:4px; padding:9px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer;
     box-shadow:0 2px 12px rgba(12,107,96,.22)}
   .cardbtn:hover:not(:disabled){filter:brightness(1.08)}
   .cardbtn:disabled{opacity:.5; cursor:wait}
@@ -193,9 +193,8 @@
     <span>· Canton FX DvP</span>
   </div>
   <h1>같은 원장,<br><span class="dim">다른 시야.</span></h1>
-  <p class="lede">기관 A와 B가 통화를 맞교환하고, 운영자 <b>Musubi(venue)</b>가 정산을 묶어 실행한다.
-    당사자와 운영자의 원장엔 거래가 보이지만, <b>무관한 제3자의 원장엔 그 거래가 존재하지도 않는다.</b>
-    아래 네 패널은 같은 LocalNet 원장을 각자의 자격으로 조회한 결과다.</p>
+  <p class="lede">기관 A·B가 통화를 맞교환하고 <b>Musubi(venue)</b>가 정산을 실행한다. 당사자·운영자엔 거래가 보이지만
+    <b>무관한 제3자의 원장엔 거래가 존재하지도 않는다.</b> 네 패널은 같은 LocalNet 원장을 각자 자격으로 본 결과다.</p>
 </header>
 
 <section class="controls">
@@ -241,7 +240,7 @@
       <div class="scommit" id="scommit"></div>
     </div>
   </div>
-  <p class="legend2" style="margin-top:14px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
+  <p class="legend2" style="margin-top:8px">이 데모: <b>제안·수락·할당·실행</b>은 각 은행 <b>지갑</b>에서 출발하고, 위 패널의 원장 뷰는 각 <b>밸리데이터</b>(Ledger API)에서 조회합니다.</p>
 </section>
 
 <script>
