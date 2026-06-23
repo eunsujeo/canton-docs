@@ -7,7 +7,7 @@
   - [🕒 작업 로그](/log.md)
 - **입문 학습 코스 (Course)**
   - [Canton 입문 학습 코스 (백엔드 개발자용)](/canton-course/index.md)
-  - [S0 — 오프닝: 한 건의 자금 이동](/canton-course/s00-opening.md)
+  - [S0 — 오프닝 · 한 건의 자금 이동](/canton-course/s00-opening.md)
   - [S1 — 국경 간의 두 고통](/canton-course/s01-problem.md)
   - [S2 — 파티 & 소유권](/canton-course/s02-party-ownership.md)
   - [S3 — Daml 컨트랙트](/canton-course/s03-daml-contract.md)
