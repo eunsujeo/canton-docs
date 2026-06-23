@@ -1,3 +1,39 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 저장소 개요 — 두 갈래
+이 저장소(`canton-docs`)는 목적이 다른 두 부분으로 나뉘며, **섞지 않는다**:
+
+- **`wiki/`** — Canton 공식 문서 **한국어 번역·정리 지식베이스**(개념 레퍼런스). 공개 배포(Cloudflare Pages, `canton-docs.pages.dev`). 운영 규칙은 이 파일 아래 "한국어 위키 메인터너 가이드".
+- **`dev/`** — 실제 Canton/Musubi PoC **개발 산출물**(Daml 정산 + LocalNet 데모 + 계획 메모). 사이트엔 미배포. 위키를 레퍼런스로만 참조.
+
+대외비는 아니나(전부 공개 정보 기반), **위키엔 POC 직접 참여사 실명 금지** → 역할 기반 용어. (Market Maker 예시 기업명은 허용)
+
+## 공통 명령
+- **위키 로컬 보기**: `cd wiki && python3 -m http.server 4500` → http://localhost:4500
+- **위키 재생성**(새 페이지 추가 후 순서대로): `cd wiki && python3 scripts/gen_sidebar.py && python3 scripts/gen_nav.py && python3 scripts/gen_tooltips.py`
+- **위키 진행률**: 완료 `grep -c "| ☑ |" wiki/sources.md` · 남은 `grep -c "| ☐ |" wiki/sources.md`
+- **Daml 빌드**: `cd dev/daml/settlement && daml build` (sdk 3.4.11) — DAR은 `.daml/dist/`에 생성
+- **Daml 테스트**: `cd dev/daml/settlement-tests && daml test` (settlement DAR 의존 → settlement 먼저 빌드)
+- **LocalNet**(런타임, `dev/cn-quickstart/`는 gitignore): `cd dev/cn-quickstart/quickstart && make start` / `make stop`
+- **데모 백엔드**: `cd dev/demo/backend && python3 server.py` → http://localhost:8888 (무의존성 stdlib; **LocalNet이 떠 있어야** 동작)
+
+## dev/ 아키텍처 (큰 그림)
+실제 작동을 이해하려면 여러 파일을 함께 봐야 하는 흐름:
+
+- **Daml 정산 패키지** `dev/daml/settlement` — `Settlement.FxDvp`(SettlementProposal → Settlement, 2-leg FX DvP). **토큰 비종속**: Splice 토큰표준 인터페이스(allocation/holding 등)만 쓰므로 어떤 토큰표준 인스트루먼트로도 작동. 빌드한 DAR을 LocalNet 참여자에 업로드해 사용.
+- **데모 앱** `dev/demo/` — `backend/server.py`(Python stdlib, 포트 8888)가 LocalNet의 **JSON Ledger API v2**(참여자별 호스트 포트 2975=app-user / 3975=app-provider / 4975=sv)와 **지갑·레지스트리(scan) API**를 **파티별 토큰**(HS256, LocalNet shared-secret 모드)으로 호출 → `frontend/index.html`(단일 HTML)에 파티별 원장 뷰를 그려 **프라이버시(제3자 0건)·원자적 DvP·Synchronizer 활동**을 시연. venue는 별도 파티(`musubi-venue`)로 분리, per-party 필터로 조회.
+- **LocalNet 런타임** `dev/cn-quickstart/`(gitignore) — Docker Compose로 참여자 노드·Synchronizer·Splice를 띄움. 데모는 여기에 HTTP로 붙는다(앱 자체는 LocalNet 바깥, 추적됨).
+- **계획·아키텍처 메모** `dev/docs/` — roadmap, architecture-b2b-b2c-multichain, stablecoin-instruments-plan, explainer-doc-plan(학습 코스 계획) 등. 세션 핸드오프 문서로 활용.
+
+## git 규칙 (이 저장소)
+- **commit은 자유, push는 사용자가 요청할 때만.**
+- 문서·코스에 아이콘/이모지 넣지 말 것 — 텍스트 라벨·굵게로 강조.
+- mermaid는 표준 mermaid 펜스만 사용(Mintlify `theme={}` 인자 금지) — Obsidian/Docsify 렌더 호환.
+
+---
+
 # Canton 문서 한국어 위키 — 메인터너 가이드 (Schema)
 
 이 저장소는 **Canton Network 공식 문서를 한국어로 번역**해 다른 개발자와 공유하기 위한 지식베이스다.
