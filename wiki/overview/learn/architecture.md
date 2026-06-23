@@ -120,7 +120,7 @@ flowchart LR
 
 ### 파티 (Parties)
 
-파티는 Canton의 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 신원으로, 다른 블록체인의 주소나 외부 소유 계정(EOA)과 유사하다.
+파티는 Canton의 <abbr class="gloss" title="원장(Daml 컨트랙트) 위에서 실행·기록되는 것. 모든 이해관계자가 공유·검증·강제">온-원장</abbr> 신원으로, 다른 블록체인의 주소나 외부 소유 계정(<abbr class="gloss" title="이더리움에서 개인키로 직접 제어되는 외부 소유 계정(Externally Owned Account)">EOA</abbr>)과 유사하다.
 
 ```
 alice::1220f2fe29866fd6a0009ecc8a64ccdc09f1958bd0f801166baaee469d1251b2eb72

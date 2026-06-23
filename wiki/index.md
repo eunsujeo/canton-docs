@@ -2,6 +2,7 @@
 
 Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이스. 다른 개발자와 공유 목적.
 
+- **입문 학습 코스**: [canton-course/](canton-course/index.md) — Canton을 모르는 백엔드 개발자용 12단계 코스(해외송금 주축, 정산/DvP는 고급). 질문→기초(이더리움·전통 비교)→심화(실제 파티 ID·Daml 스니펫·choice 시퀀스).
 - **👉 처음이라면**: [how-to-read.md](how-to-read.md) — 읽는 방법 & Obsidian으로 보기
 - **🗺️ 다음 작업·남은 섹션 읽는 순서**: [next-step.md](next-step.md) — appdev/gs/integrations 우선순위와 순서
 - **소스/작업 큐**: [sources.md](sources.md) — 전체 페이지 목록과 번역 상태 (overview 50 완료)
@@ -51,6 +52,11 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 - 거버넌스: [SV 거버넌스 레퍼런스](overview/reference/sv-governance-reference.md), [CF 정책](overview/reference/gsf-policies.md), [CIP 레퍼런스](overview/reference/what-are-cips.md)
 - 멀티체인/결제: [크로스-Synchronizer DvP 예시](overview/reference/cross-sync-dvp-example.md), [재할당 프로토콜](overview/reference/reassignment-protocol.md)
 - 형식 모델: [원장 모델 상세 명세](overview/reference/ledger-model-detailed.md), [Canton 프로토콜 명세](overview/reference/canton-protocol-specification.md)
+
+## 입문 학습 코스 (canton-course)
+Canton을 모르는 백엔드 개발자가 핵심 개념을 순서대로 익히는 12단계 코스(공식 번역 아님, 직접 작성). 주축 시나리오는 해외송금, 정산(DvP)은 [S6](canton-course/s06-atomicity-dvp.md)에서 도입하는 고급 변형.
+- [코스 맵](canton-course/index.md) — 대상·읽는 법·3-way 대응표(전통/이더리움/Canton)·단계 목록.
+- [S0 오프닝](canton-course/s00-opening.md) · [S1 문제](canton-course/s01-problem.md) · [S2 파티·소유권](canton-course/s02-party-ownership.md) · [S3 Daml 컨트랙트](canton-course/s03-daml-contract.md) · [S4 노드·원장](canton-course/s04-nodes-ledger.md) · [S5 프라이버시](canton-course/s05-privacy.md) · [S6 원자성·DvP](canton-course/s06-atomicity-dvp.md) · [S7 시나리오 흐름](canton-course/s07-scenario-flows.md) · [S8 토큰·레지스트리](canton-course/s08-tokens-registry.md) · [S9 아키텍처·인프라](canton-course/s09-architecture.md) · [S10 확정성·합의](canton-course/s10-finality-consensus.md) · [S11 정리·심화](canton-course/s11-recap.md)
 
 ## 카테고리별 페이지 (번역 완료분)
 > 각 섹션은 번역이 진행되며 채워진다. 페이지를 완료하면 아래에 한 줄 요약과 함께 등록한다.

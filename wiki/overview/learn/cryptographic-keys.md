@@ -9,7 +9,7 @@ tags: [overview, learn, 보안, 키관리]
 > **출처(원문)**: [Cryptographic keys in Canton](https://docs.canton.network/overview/learn/cryptographic-keys) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton에서 비밀(secret)을 저장하는 옵션(평문/비영속/KMS)과, 키 종류(TLS·네임스페이스·노드 서명·<abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr> 서명·암호화 키)별 용도·저장 방식. 세션 서명/암호화 키로 KMS 지연·부하를 줄이는 기법까지.
+- **한 줄 요약**: Canton에서 비밀(secret)을 저장하는 옵션(평문/비영속/KMS)과, 키 종류(TLS·<abbr class="gloss" title="파티 ID의 `::` 뒤쪽 키 지문 부분. 그 파티를 만든 키(소유 주체)를 가리킴">네임스페이스</abbr>·노드 서명·<abbr class="gloss" title="키를 파티 주인이 직접 보관하고 거래마다 외부 서명하는 파티(=자기수탁). '외부'는 노드 시점 — 키가 노드 밖에 있음">외부 파티</abbr> 서명·암호화 키)별 용도·저장 방식. 세션 서명/암호화 키로 KMS 지연·부하를 줄이는 기법까지.
 - **핵심 용어**: KMS(키 관리 서비스), 봉투 암호화(envelope encryption), 세션 서명/암호화 키, 네임스페이스 루트 키, 외부 <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> 서명 키
 - **선행 개념**: [아키텍처 개요](architecture.md), [신뢰 모델](trust-model.md).
 
@@ -115,7 +115,7 @@ Canton은 개인 네임스페이스 키 저장에 다음 옵션을 지원한다:
 
 * 시퀀서는 ordering 프로토콜의 일부로 메시지를 교환한다. 그런 메시지의 발신자를 인증하는 데 서명 키를 쓴다.
 
-* 참여자 노드는 서명 키를 써서 ACS <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>먼트(commitment)에 서명한다.
+* 참여자 노드는 서명 키를 써서 <abbr class="gloss" title="활성 컨트랙트 집합(Active Contract Set). 노드가 보관 중인, 현재 유효한 컨트랙트 전체">ACS</abbr> <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>먼트(commitment)에 서명한다.
 
 Canton은 노드 서명 키 저장에 다음 옵션을 지원한다:
 

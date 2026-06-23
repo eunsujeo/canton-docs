@@ -8,11 +8,11 @@ from collections import OrderedDict
 WIKI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META = {'index.md','sources.md','glossary.md','log.md','how-to-read.md','next-step.md',
         '_sidebar.md','_coverpage.md','README.md'}
-SEC_LABEL = {'overview':'개요 (Overview)','appdev':'앱 개발 (App Dev)',
+SEC_LABEL = {'canton-course':'입문 학습 코스 (Course)','overview':'개요 (Overview)','appdev':'앱 개발 (App Dev)',
              'global-synchronizer':'글로벌 동기화자','integrations':'통합 (Integrations)',
              'notes':'정리 노트 (Notes)'}
-# 섹션 표시 순서 (학습 흐름: 개념→앱개발→운영→통합→노트)
-SECTION_ORDER = ['overview','appdev','global-synchronizer','integrations','notes']
+# 섹션 표시 순서 (학습 흐름: 입문 코스→개념→앱개발→운영→통합→노트)
+SECTION_ORDER = ['canton-course','overview','appdev','global-synchronizer','integrations','notes']
 # 섹션 내 하위 디렉토리 순서 (그 외/루트 파일은 뒤에서 알파벳순)
 SUBDIR_ORDER = {
     'overview': ['understand','learn','reference'],

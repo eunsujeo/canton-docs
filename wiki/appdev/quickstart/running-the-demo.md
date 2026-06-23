@@ -9,7 +9,7 @@ tags: [appdev, quickstart, 데모, 로컬개발]
 > **출처(원문)**: [Running the Demo](https://docs.canton.network/appdev/quickstart/running-the-demo) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: QuickStart 데모(소프트웨어 라이선스 앱)를 실제로 돌려보는 절차. 앱 설치 요청→수락→라이선스 생성→갱신 요청→Canton 월렛으로 결제(allocation)→갱신 완료까지. 더불어 Canton Console·<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> Shell·CC <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>·SV UI로 내부를 들여다본다.
+- **한 줄 요약**: QuickStart 데모(소프트웨어 라이선스 앱)를 실제로 돌려보는 절차. 앱 설치 요청→수락→라이선스 생성→갱신 요청→Canton 월렛으로 결제(<abbr class="gloss" title="정산 실행 전에 자산을 특정 거래에 묶어두는(잠그는) 토큰표준 동작">allocation</abbr>)→갱신 완료까지. 더불어 Canton Console·<abbr class="gloss" title="다자간 워크플로를 위해 설계된 Canton의 스마트 컨트랙트 언어">Daml</abbr> Shell·CC <abbr class="gloss" title="네트워크의 공개 통계·활동을 보여주는 익스플로러(블록 익스플로러의 Canton판)">Scan</abbr>·SV UI로 내부를 들여다본다.
 - **핵심 용어**: 앱 제공자/사용자, <abbr class="gloss" title="Canton Coin(CC)의 Daml/Scan상 기술적 이름. CC = Amulet">Amulet</abbr>·<abbr class="gloss" title="트랜잭션 수수료와 밸리데이터 보상에 쓰이는 네이티브 유틸리티 토큰(CC)">Canton Coin</abbr>(CC), <abbr class="gloss" title="탈중앙 Synchronizer 운영(Decentralized Synchronizer Operations) 파티. 슈퍼 밸리데이터들의 공동 거버넌스 주체">DSO</abbr> <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>, allocation(할당), Canton Console, Daml Shell, PQS, CC Scan
 - **선행 개념**: [사전 요구사항·설치](prerequisites.md). 관련 → [원장 모델](../../overview/learn/ledger-model.md)(제안-수락·조합 가능성)
 

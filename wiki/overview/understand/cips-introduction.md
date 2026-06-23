@@ -59,7 +59,7 @@ CIP는 다음을 보장한다:
 * 표준 보유(holding) 표현
 * 일관된 이전(transfer) 의미론
 * 고급 워크플로를 위한 사전 승인(pre-approval) 지원
-* 다단계 이전을 위한 할당(allocation) 패턴
+* 다단계 이전을 위한 할당(<abbr class="gloss" title="정산 실행 전에 자산을 특정 거래에 묶어두는(잠그는) 토큰표준 동작">allocation</abbr>) 패턴
 
 ## CIP 절차
 

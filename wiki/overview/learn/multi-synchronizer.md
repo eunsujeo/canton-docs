@@ -429,7 +429,7 @@ fn calculate_submission_request_traffic_cost:
 
 그룹 주소는 비용 계산 전에 해소(resolve)된다. 즉, `AllMembersOfSynchronizer`로 주소 지정된 메시지는 요청 제출 시점의 Synchronizer 멤버 수에 맞춰 스케일된 네트워크 비용을 갖는다.
 
-트래픽 비용은 Synchronizer에서 시퀀싱되는 모든 제출 요청에 대해 발신자에게 부과된다. 제출 요청에는 확인 요청, 확인 응답, ACS 커밋먼트, 토폴로지 요청, 시간 증명이 포함된다.
+트래픽 비용은 Synchronizer에서 시퀀싱되는 모든 제출 요청에 대해 발신자에게 부과된다. 제출 요청에는 확인 요청, 확인 응답, <abbr class="gloss" title="활성 컨트랙트 집합(Active Contract Set). 노드가 보관 중인, 현재 유효한 컨트랙트 전체">ACS</abbr> 커밋먼트, 토폴로지 요청, 시간 증명이 포함된다.
 
 시간 증명은 기술적으로 빈 메시지이므로 트래픽 비용은 항상 `base_event_cost`와 같다.
 

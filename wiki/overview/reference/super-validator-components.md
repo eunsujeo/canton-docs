@@ -153,7 +153,7 @@ Scan API는 Scan App이 노출하는 퍼블릭 HTTP API다. 제공하는 것:
 * SV 정보(신원, 보상 가중치, 거버넌스 참여)
 * 글로벌 Synchronizer 연결 정보(시퀀서 URL, 패키지 참조)
 * 네트워크 활동에 대한 집계 통계
-* 전체 이력 내보내기와 ACS 스냅숏을 위한 벌크 데이터 API
+* 전체 이력 내보내기와 <abbr class="gloss" title="활성 컨트랙트 집합(Active Contract Set). 노드가 보관 중인, 현재 유효한 컨트랙트 전체">ACS</abbr> 스냅숏을 위한 벌크 데이터 API
 
 Scan API는 OpenAPI 명세로 문서화되어 있다. `external`로 표시된 엔드포인트는 제3자 사용을 의도하며 릴리스 전반에서 하위 호환성을 유지한다.
 

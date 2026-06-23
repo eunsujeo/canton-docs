@@ -10,7 +10,7 @@ tags: [appdev, modules, ethereum, 마이그레이션]
 
 ## 📌 개발자 노트
 - **한 줄 요약**: Ethereum/Solidity 지식을 Canton 개념에 매핑 — 개념 대응표, 멘탈 모델 전환, <abbr class="gloss" title="컨트랙트의 구조와 규칙(권한·초이스)을 정의하는 Daml 청사진">템플릿</abbr> vs Solidity, 프라이버시·권한 모델 차이, 도구 비교, <abbr class="gloss" title="여러 조직·당사자가 함께 참여하는 업무 흐름(예: 결제·정산·대출)">다자간 워크플로</abbr>, 잊어야 할 습관과 흔한 함정.
-- **핵심 용어**: 템플릿 vs <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>, <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr> vs 함수, <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> vs EOA, <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> vs 가스, signatory/controller vs msg.sender
+- **핵심 용어**: 템플릿 vs <abbr class="gloss" title="원장에 기록되는 불변 데이터 단위. 상태 변경은 새 컨트랙트 생성으로 표현됨">컨트랙트</abbr>, <abbr class="gloss" title="컨트랙트에서 수행 가능한 동작(권한이 부여된 당사자만 실행 가능)">초이스</abbr> vs 함수, <abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr> vs <abbr class="gloss" title="이더리움에서 개인키로 직접 제어되는 외부 소유 계정(Externally Owned Account)">EOA</abbr>, <abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> vs 가스, signatory/controller vs msg.sender
 - **선행 개념**: [모듈 1: Canton 이해](m1-understanding-canton.md), [프라이버시 모델](../../overview/learn/privacy-model.md). 다음 → [모듈 3: Daml 개발](https://docs.canton.network/appdev/modules/m3-dev-environment)
 
 ---

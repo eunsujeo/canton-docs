@@ -9,7 +9,7 @@ tags: [overview, reference, 탈중앙화, 토폴로지]
 > **출처(원문)**: [Decentralization](https://docs.canton.network/overview/reference/decentralization) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton의 탈중앙화는 특정 엔티티(네임스페이스·<abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>·<abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>)의 권한/소유권을 여러 주체에 분산하는 것. 임계값(threshold)·정족수(quorum) 개념, 탈중앙화 네임스페이스/Synchronizer/파티의 구현 방식과 다중 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr> 파티의 검증·제출·읽기.
+- **한 줄 요약**: Canton의 탈중앙화는 특정 엔티티(<abbr class="gloss" title="파티 ID의 `::` 뒤쪽 키 지문 부분. 그 파티를 만든 키(소유 주체)를 가리킴">네임스페이스</abbr>·<abbr class="gloss" title="Canton에서 권한과 데이터 가시성의 주체가 되는 식별 가능한 참여 주체">파티</abbr>·<abbr class="gloss" title="상태를 저장하지 않고 트랜잭션 합의·순서를 조율하는 Canton 구성요소">Synchronizer</abbr>)의 권한/소유권을 여러 주체에 분산하는 것. 임계값(threshold)·정족수(quorum) 개념, 탈중앙화 네임스페이스/Synchronizer/파티의 구현 방식과 다중 <abbr class="gloss" title="참여자 노드가 파티를 대신해 원장에서 활동(컨트랙트 저장·트랜잭션 제출·확인)해 주는 것. 로컬 파티는 키까지 노드가 관리하고, 외부 파티는 제출 키를 파티 자신이 보유(노드는 중계)">호스팅</abbr> 파티의 검증·제출·읽기.
 - **핵심 용어**: 임계값(threshold)·정족수(quorum), DecentralizedNamespaceDefinition, 다중 호스팅 파티, 외부 제출(external submission), 4-eyes 원칙
 - **선행 개념**: [신뢰 모델](../learn/trust-model.md), [토폴로지](topology.md).
 

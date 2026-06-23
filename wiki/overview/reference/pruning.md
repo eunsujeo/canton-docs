@@ -9,7 +9,7 @@ tags: [overview, reference, 프루닝, 운영]
 > **출처(원문)**: [Pruning](https://docs.canton.network/overview/reference/pruning) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: 노드가 과거 이력의 접두사를 잊고 상태 스냅숏을 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>하는 <abbr class="gloss" title="더 이상 필요 없는 과거 원장 데이터를 정리해 저장공간을 줄이는 작업">프루닝</abbr> — 이력 vs 스냅숏, 노드별(참여자/<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>/<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>) 스냅숏 구성, 프루닝 안전장치(운영 연속성·크래시 복구·부인봉쇄), ACS <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>먼트 기반 비부인(non-repudiation)과 포크 탐지, 커밋먼트 교환·해시·최적화·한계.
+- **한 줄 요약**: 노드가 과거 이력의 접두사를 잊고 상태 스냅숏을 <abbr class="gloss" title="컨트랙트를 소비해 비활성으로 만드는 것(archive). 보관된 컨트랙트는 더 이상 쓸 수 없음">보관</abbr>하는 <abbr class="gloss" title="더 이상 필요 없는 과거 원장 데이터를 정리해 저장공간을 줄이는 작업">프루닝</abbr> — 이력 vs 스냅숏, 노드별(참여자/<abbr class="gloss" title="Synchronizer 구성요소. 이해관계자들의 확인을 모아 트랜잭션 승인/거부를 판정">미디에이터</abbr>/<abbr class="gloss" title="Synchronizer 구성요소. 암호화된 메시지에 전체 순서·타임스탬프를 부여하고 참여자에게 전달">시퀀서</abbr>) 스냅숏 구성, 프루닝 안전장치(운영 연속성·크래시 복구·부인봉쇄), <abbr class="gloss" title="활성 컨트랙트 집합(Active Contract Set). 노드가 보관 중인, 현재 유효한 컨트랙트 전체">ACS</abbr> <abbr class="gloss" title="트랜잭션이 최종 확정되어 원장에 반영되는 것">커밋</abbr>먼트 기반 비부인(non-repudiation)과 포크 탐지, 커밋먼트 교환·해시·최적화·한계.
 - **핵심 용어**: 프루닝, 이력 vs 상태 스냅숏, ACS 커밋먼트, 비부인(non-repudiation), 포크(fork), 화해 간격(reconciliation interval), 동형 해시
 - **선행 개념**: [원장 모델](../learn/ledger-model.md), [재할당 프로토콜](reassignment-protocol.md).
 

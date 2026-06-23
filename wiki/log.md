@@ -127,3 +127,10 @@
 
 ## [2026-06-23] note | 스테이블코인 발행·소각과 레지스트리
 - 일반화 노트 신설(notes/token-issuance-bridge-patterns). 레지스트리=발행자 운영(발행/소각+증빙), 토큰을 Canton 정산에 들이는 두 패턴(외부발행+브릿지 래핑 / Canton 직접발행)·흐름도·비교표. dev의 프로젝트 시나리오에서 회사·Musubi 색 제거해 일반화. index 등록, sidebar/nav/tooltips 재생성.
+
+## [2026-06-23] course | Canton 입문 학습 코스(canton-course) 신설
+- `wiki/canton-course/` 신규 폴더: 코스 맵 index.md + 스테이지 s00-s11(총 13파일). 백엔드 개발자용, 공식 번역 아님(직접 작성).
+- 주축 시나리오=해외송금(국내 A→해외 B), 정산(DvP)은 S6에서 도입. 각 챕터 질문→기초(이더리움·전통[국경간] 비교)→심화(실제 값)→mermaid→강의 노트.
+- 사실 정확성 검증(dev/demo·정산 패키지 대조): 파티 ID 형식(hint::1220키지문), choice 시퀀스 정정 — SettlementProposal_Accept(소비형, 보관+재생성)·SettlementProposal_InitiateSettlement·AllocationFactory_Allocate(Allocation_Allocate 아님)·Settlement_Execute, instrumentId{admin,id}, 레지스트리 API path, 포트 2975/3975/4975. (요약 보고의 nonconsuming·Allocation_Allocate 오류를 코드 직접 확인으로 교정.)
+- glossary 툴팁 18개 추가(환거래은행·SWIFT·CLS·PvP·CSD·T+2·카운터파티/Herstatt 리스크·레지스트리·allocation·ACS·offset·instrumentId·운영사·EOA·네임스페이스 등). gen_sidebar.py에 canton-course 섹션 추가 후 sidebar/nav/tooltips 3종 재생성.
+- index.md에 코스 등록(상단 링크 + 전용 섹션). lint: 내부 링크 전부 해소, 디코레이션 이모지 0, mermaid 펜스 내 툴팁 누출 0, 취소선 유발 ~ 0.

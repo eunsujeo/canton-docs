@@ -9,7 +9,7 @@ tags: [overview, reference, 토폴로지, 키관리, 거버넌스]
 > **출처(원문)**: [Topology](https://docs.canton.network/overview/reference/topology) · 번역일 2026-06-15
 
 ## 📌 개발자 노트
-- **한 줄 요약**: Canton <abbr class="gloss" title="어떤 노드·파티·키가 네트워크에 참여하는지를 정의하는 구성 정보">토폴로지</abbr> 관리 — 네임스페이스·암호 키·고유 식별자, 설계 원칙(단일 신뢰 앵커 없음 등), 토폴로지 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 구조(매핑·시리얼·변경 연산·서명), 매핑 유형(NamespaceDelegation, OwnerToKeyMapping, PartyToParticipant, VettedPackages, 멤버십), 매핑 진화(제안·경쟁·유효성), 전파·순차 검증·미래 일자화, 권한(규칙·체인·키 폐기).
+- **한 줄 요약**: Canton <abbr class="gloss" title="어떤 노드·파티·키가 네트워크에 참여하는지를 정의하는 구성 정보">토폴로지</abbr> 관리 — <abbr class="gloss" title="파티 ID의 `::` 뒤쪽 키 지문 부분. 그 파티를 만든 키(소유 주체)를 가리킴">네임스페이스</abbr>·암호 키·고유 식별자, 설계 원칙(단일 신뢰 앵커 없음 등), 토폴로지 <abbr class="gloss" title="원장 상태를 바꾸는 원자적 작업 단위. 하나 이상의 컨트랙트를 생성·보관하며, 전부 적용되거나 전혀 적용되지 않음">트랜잭션</abbr> 구조(매핑·시리얼·변경 연산·서명), 매핑 유형(NamespaceDelegation, OwnerToKeyMapping, PartyToParticipant, VettedPackages, 멤버십), 매핑 진화(제안·경쟁·유효성), 전파·순차 검증·미래 일자화, 권한(규칙·체인·키 폐기).
 - **핵심 용어**: 네임스페이스·루트 인증서, UID, 토폴로지 매핑·시리얼, NamespaceDelegation, OwnerToKeyMapping, PartyToParticipant, VettedPackages, 효력 시간(effective time)·토폴로지 변경 지연 ε, 인가 체인
 - **선행 개념**: [탈중앙화](decentralization.md), [로컬·외부 파티](external-party.md), [Canton 프로토콜 명세](canton-protocol-specification.md).
 
