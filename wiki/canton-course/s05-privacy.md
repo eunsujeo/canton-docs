@@ -67,7 +67,7 @@ Authorization: Bearer <파티 자격 JWT>
 ### 뷰 분해 그림
 ```mermaid
 flowchart TB
-  TX["트랜잭션 (A→B 가치 이동)"]
+  TX["트랜잭션 (A→B 자금 이동)"]
   TX --> VA["뷰: A가 받는 부분"]
   TX --> VB["뷰: B가 받는 부분"]
   VA --> A["기관 A 노드"]
