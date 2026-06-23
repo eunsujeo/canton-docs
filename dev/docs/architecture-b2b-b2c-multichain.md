@@ -22,9 +22,77 @@
 → Canton 강점은 B2B에서만 결정적이고, B2C엔 오버스펙. 그래서 분담.
 
 ## 미확정 (열어둘 것)
-- **스테이블코인 발행 체인 세부**: KRWStable·JPYSC를 어느 체인에서 발행할지 **미정** → 양쪽 시나리오 병기.
-  (퍼블릭 체인 발행 후 브릿지 vs Canton 토큰표준으로 직접 발행 등)
+- **스테이블코인 발행 체인 세부**: KRWStable·JPYSC를 어느 체인에서 발행할지 **미정** → 아래 양쪽 시나리오 병기.
 - 브릿지 방식(어떤 브릿지·신뢰 모델)도 설계 대상.
+
+## 발행 시나리오 (양쪽 병기)
+어느 쪽이든 **B2B 정산은 Canton(Musubi DvP)에서** 일어난다. 차이는 *정산에 쓰는 토큰이 Canton에 어떻게 들어오나*다.
+정산이 도는 데 필요한 것: 그 토큰의 **레지스트리(발행/소각 관장 + 이체·정산 증빙 제공)** 가 Canton에 존재해야 함. (레지스트리=발행자가 운영, [stablecoin-instruments-plan](stablecoin-instruments-plan.md) 참고.)
+
+### 시나리오 1 — 외부 체인 발행 + 브릿지
+- 스테이블코인을 **퍼블릭 체인(Base/Ethereum)에서 발행**, Canton 정산용으로 **브릿지로 래핑(wrapped) 토큰** 반입.
+- Canton의 **래핑 토큰 레지스트리 = 브릿지 운영자(또는 발행자 위임)** 가 운영. 정산은 이 래핑 토큰끼리 원자 교환.
+- **신뢰 지점 = 브릿지**(락업 자산 ↔ 래핑 발행의 1:1 보장).
+
+```mermaid
+flowchart LR
+  subgraph PUB["퍼블릭 체인 · Base/Ethereum"]
+    ISS1["발행자"] --> BANKP["기관 지갑(퍼블릭)"]
+  end
+  subgraph BR["브릿지 (신뢰 지점)"]
+    LOCK["락업/에스크로"]
+  end
+  subgraph CAN["Canton · B2B 정산"]
+    REG1["래핑 토큰 레지스트리<br/>(브릿지 운영자)"]
+    DVP1["Musubi DvP 정산"]
+  end
+  BANKP -->|"② 입금: lock"| LOCK
+  ISS1 -.->|"① 발행 mint"| BANKP
+  LOCK -->|"③ 래핑 mint"| REG1
+  REG1 --> DVP1
+  DVP1 -->|"④ 정산 후 출금: 래핑 burn"| LOCK
+  LOCK -->|"⑤ unlock"| BANKP
+```
+1. 발행자가 퍼블릭 체인에서 KRWK/JPYSC 발행 → 기관 퍼블릭 지갑.
+2. 기관이 정산에 쓰려고 브릿지에 입금(퍼블릭에서 **lock**).
+3. 브릿지가 Canton에 **래핑 토큰 mint** → 기관 Canton 파티 보유.
+4. Musubi DvP로 KRWK(wrapped) ↔ JPYSC(wrapped) **원자 정산**. 이후 기관이 출금하면 래핑 **burn**.
+5. 브릿지가 퍼블릭에서 **unlock** → 기관 퍼블릭 지갑 복귀.
+
+### 시나리오 2 — Canton 직접 발행 (토큰표준)
+- 스테이블코인을 **Canton 토큰표준으로 발행자가 직접 발행**. 브릿지 없이 네이티브.
+- **발행자 = Canton 레지스트리** (발행/소각·증빙을 직접). 정산은 네이티브 토큰끼리.
+- 신뢰 지점 = **발행자**(법정통화 준비금 ↔ 발행량). 퍼블릭/리테일(B2C)과 잇는다면 *그때* 반대 방향 브릿지 필요.
+
+```mermaid
+flowchart LR
+  subgraph CAN2["Canton · 토큰표준 직접 발행 + B2B 정산"]
+    ISS2["발행자 = 레지스트리"]
+    BANK["기관 파티"]
+    DVP2["Musubi DvP 정산"]
+  end
+  ISS2 -->|"① 발행 mint"| BANK
+  BANK --> DVP2
+  DVP2 -->|"② 원자 정산"| BANK
+  BANK -.->|"③ 상환 요청"| ISS2
+  ISS2 -.->|"소각 burn + 오프램프(법정통화)"| BANK
+```
+1. 발행자(레지스트리)가 기관 요청 시 Canton에서 KRWK/JPYSC **mint** → 기관 파티.
+2. Musubi DvP로 두 통화 **원자 정산**(브릿지 불필요).
+3. 기관이 상환 요청 → 발행자가 Canton에서 **burn** + 법정통화 오프램프.
+
+### 두 시나리오 비교
+| 항목 | 시나리오 1 (외부발행+브릿지) | 시나리오 2 (Canton 직접발행) |
+|---|---|---|
+| 발행 장소 | 퍼블릭 체인(Base/Eth) | Canton(토큰표준) |
+| 브릿지 | **필수** | 불필요(B2B 정산엔) |
+| Canton 레지스트리 운영 | 브릿지 운영자(래핑) | 발행자 직접 |
+| 신뢰 지점 | 브릿지(lock↔wrapped) | 발행자(준비금↔발행) |
+| 리테일/B2C 연결 | 이미 퍼블릭에 있음(자연스러움) | 반대 방향 브릿지 필요 |
+| 구현 부담 | 브릿지+래핑 레지스트리 | Canton 레지스트리만 |
+| 데모(옵션 A) 매핑 | 래핑 토큰 레지스트리 구현 | 네이티브 토큰 레지스트리 구현 |
+
+> 어느 쪽이든 **Musubi = venue(정산 운영자), 발행/소각 = 레지스트리(발행자)** 로 역할은 동일. 차이는 레지스트리를 *누가/어디서* 운영하느냐와 브릿지 유무.
 
 ## Musubi 매핑
 - Musubi가 담당하는 건 **B2B 정산 계층(Canton)** — OTCTrade형 기관↔기관 DvP. (참고: [dvp-licensing-code-walkthrough.md](dvp-licensing-code-walkthrough.md))
