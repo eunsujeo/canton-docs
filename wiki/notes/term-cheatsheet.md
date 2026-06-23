@@ -79,6 +79,6 @@ tags: [개요, 정리, note, 용어, 치트시트, 복습]
 
 ---
 
-⬅️ **이전**: [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](synchronizer-types-private-consortium-global.md)
+⬅️ **이전**: [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](synchronizer-types-private-consortium-global.md) ・ ➡️ **다음**: [스테이블코인 발행·소각과 레지스트리 — 외부발행+브릿지 vs Canton 직접발행](token-issuance-bridge-patterns.md)
 
 <!-- nav:end -->
