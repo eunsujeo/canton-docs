@@ -51,27 +51,36 @@ sequenceDiagram
 ```mermaid
 flowchart LR
   subgraph PUB["퍼블릭 체인"]
-    ISS1["발행자"] --> WP["보유자 지갑(퍼블릭)"]
+    ISS1["발행자"]
+    WP["보유자 지갑(퍼블릭)"]
   end
   subgraph BR["브릿지 (신뢰 지점)"]
     LOCK["락업/에스크로"]
   end
-  subgraph CAN["Canton · 정산"]
+  subgraph CAN["Canton · B2B 정산"]
     REG1["래핑 토큰 레지스트리"]
-    DVP1["원자적 DvP 정산"]
+    subgraph DVP1["원자적 DvP 정산"]
+      direction TB
+      AL1["기관A: 통화A 잠금"]
+      BL1["기관B: 통화B 잠금"]
+      EX1["venue 단일 트랜잭션<br/>A↔B 동시 교환"]
+      AL1 --> EX1
+      BL1 --> EX1
+    end
   end
   ISS1 -.->|"① 발행 mint"| WP
   WP -->|"② 입금: lock"| LOCK
   LOCK -->|"③ 래핑 mint"| REG1
-  REG1 --> DVP1
-  DVP1 -->|"④ 출금: 래핑 burn"| LOCK
-  LOCK -->|"⑤ unlock"| WP
+  REG1 -->|"④ 보유→잠금"| AL1
+  REG1 -->|"④ 보유→잠금"| BL1
+  EX1 -->|"⑤ 출금: 래핑 burn"| LOCK
+  LOCK -->|"⑥ unlock"| WP
 ```
 1. 발행자가 퍼블릭 체인에서 발행 → 보유자 지갑.
 2. 정산에 쓰려고 브릿지에 입금(퍼블릭에서 **lock**).
 3. 브릿지가 Canton에 **래핑 토큰 mint** → Canton 파티 보유.
-4. Canton에서 다른 통화와 **원자 정산**. 출금 시 래핑 **burn**.
-5. 브릿지가 퍼블릭에서 **unlock**.
+4~5. 두 기관이 각자 통화를 **잠금** → venue가 **단일 트랜잭션으로 A↔B 동시 교환**. 출금 시 래핑 **burn**.
+6. 브릿지가 퍼블릭에서 **unlock**.
 
 ## 패턴 ② — Canton 토큰표준으로 직접 발행
 발행자가 **Canton 토큰표준으로 직접 발행**한다. 브릿지 없이 네이티브.
@@ -80,20 +89,24 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph CAN2["Canton · 직접 발행 + 정산"]
+  subgraph CAN2["Canton · 토큰표준 직접 발행 + B2B 정산"]
     ISS2["발행자 = 레지스트리"]
-    P["보유 파티"]
-    DVP2["원자적 DvP 정산"]
+    subgraph DVP2["원자적 DvP 정산"]
+      direction TB
+      AL2["기관A: 통화A 잠금"]
+      BL2["기관B: 통화B 잠금"]
+      EX2["venue 단일 트랜잭션<br/>A↔B 동시 교환"]
+      AL2 --> EX2
+      BL2 --> EX2
+    end
   end
-  ISS2 -->|"① 발행 mint"| P
-  P --> DVP2
-  DVP2 -->|"② 원자 정산"| P
-  P -.->|"③ 상환 요청"| ISS2
-  ISS2 -.->|"소각 burn + 오프램프(법정통화)"| P
+  ISS2 -->|"① 발행 mint"| AL2
+  ISS2 -->|"① 발행 mint"| BL2
+  EX2 -.->|"③ 상환: burn + 오프램프(법정통화)"| ISS2
 ```
-1. 발행자(레지스트리)가 요청 시 Canton에서 **mint** → 보유 파티.
-2. Canton에서 **원자 정산**(브릿지 불필요).
-3. 보유자가 상환 요청 → 발행자가 **burn** + 법정통화 오프램프.
+1. 발행자(레지스트리)가 Canton에서 **mint** → 두 기관 파티.
+2. 두 기관이 잠금 → venue가 **단일 트랜잭션으로 A↔B 동시 교환**(브릿지 불필요).
+3. 상환 시 발행자가 **burn** + 법정통화 오프램프.
 
 ## 두 패턴 비교
 | 항목 | ① 외부발행 + 브릿지 | ② Canton 직접발행 |
