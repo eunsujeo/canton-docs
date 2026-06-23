@@ -56,7 +56,7 @@ Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이
 ## 입문 학습 코스 (canton-course)
 Canton을 모르는 백엔드 개발자가 핵심 개념을 순서대로 익히는 12단계 코스(공식 번역 아님, 직접 작성). 주축 시나리오는 해외송금, 정산(DvP)은 [S6](canton-course/s06-atomicity-dvp.md)에서 도입하는 고급 변형.
 - [코스 맵](canton-course/index.md) — 대상·읽는 법·3-way 대응표(전통/이더리움/Canton)·단계 목록.
-- [S0 오프닝](canton-course/s00-opening.md) · [S1 문제](canton-course/s01-problem.md) · [S2 파티·소유권](canton-course/s02-party-ownership.md) · [S3 Daml 컨트랙트](canton-course/s03-daml-contract.md) · [S4 노드·원장](canton-course/s04-nodes-ledger.md) · [S5 프라이버시](canton-course/s05-privacy.md) · [S6 원자성·DvP](canton-course/s06-atomicity-dvp.md) · [S7 시나리오 흐름](canton-course/s07-scenario-flows.md) · [S8 토큰·레지스트리](canton-course/s08-tokens-registry.md) · [S9 아키텍처·인프라](canton-course/s09-architecture.md) · [S10 확정성·합의](canton-course/s10-finality-consensus.md) · [S11 정리·심화](canton-course/s11-recap.md)
+- [S1 문제](canton-course/s01-problem.md) · [S2 파티·소유권](canton-course/s02-party-ownership.md) · [S3 Daml 컨트랙트](canton-course/s03-daml-contract.md) · [S4 노드·원장](canton-course/s04-nodes-ledger.md) · [S5 프라이버시](canton-course/s05-privacy.md) · [S6 원자성·DvP](canton-course/s06-atomicity-dvp.md) · [S7 시나리오 흐름](canton-course/s07-scenario-flows.md) · [S8 토큰·레지스트리](canton-course/s08-tokens-registry.md) · [S9 아키텍처·합의·확정](canton-course/s09-architecture.md) · [S10 정리·심화](canton-course/s10-recap.md)
 
 ## 카테고리별 페이지 (번역 완료분)
 > 각 섹션은 번역이 진행되며 채워진다. 페이지를 완료하면 아래에 한 줄 요약과 함께 등록한다.

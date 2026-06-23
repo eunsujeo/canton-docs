@@ -134,3 +134,9 @@
 - 사실 정확성 검증(dev/demo·정산 패키지 대조): 파티 ID 형식(hint::1220키지문), choice 시퀀스 정정 — SettlementProposal_Accept(소비형, 보관+재생성)·SettlementProposal_InitiateSettlement·AllocationFactory_Allocate(Allocation_Allocate 아님)·Settlement_Execute, instrumentId{admin,id}, 레지스트리 API path, 포트 2975/3975/4975. (요약 보고의 nonconsuming·Allocation_Allocate 오류를 코드 직접 확인으로 교정.)
 - glossary 툴팁 18개 추가(환거래은행·SWIFT·CLS·PvP·CSD·T+2·카운터파티/Herstatt 리스크·레지스트리·allocation·ACS·offset·instrumentId·운영사·EOA·네임스페이스 등). gen_sidebar.py에 canton-course 섹션 추가 후 sidebar/nav/tooltips 3종 재생성.
 - index.md에 코스 등록(상단 링크 + 전용 섹션). lint: 내부 링크 전부 해소, 디코레이션 이모지 0, mermaid 펜스 내 툴팁 누출 0, 취소선 유발 ~ 0.
+
+## [2026-06-23] course | canton-course 전면 재작성(v12) — 스타일·구조 개편
+- 1차 작성본 피드백 반영. 고정 `기초/심화` 틀·`강의 노트`·"가르치기용" 메타 라벨 폐기 → 내용별 소제목으로 흐르는 자연스러운 서술. 비교(이더리움·전통)는 의무가 아니라 의미 있는 챕터에만.
+- 구조 개편: S0(오프닝) 제거 → 관통 시나리오·한방향/양방향 다이어그램을 코스맵에 흡수. S9(아키텍처)+옛 S10(확정·합의)을 "S9 아키텍처 & 합의·확정" 한 챕터로 병합. 정리 챕터는 S10(s10-recap.md)로. **최종 10단계(S1-S10).**
+- 끊긴 교차참조(S10→S9, S11→S10) 일괄 수정, 코스맵·상위 index 단계목록 갱신. 계획문서 dev/docs/explainer-doc-plan.md v12로 개정(교훈 기록: frontmatter title 콜론 금지, mermaid 엣지라벨 특수문자·\n 금지).
+- 검증: mermaid 13블록 실제 파서 통과, YAML frontmatter 전부 정상, 내부 링크 전부 해소, 펜스 내 툴팁 0, 이모지 0. sidebar/nav/tooltips 재생성.

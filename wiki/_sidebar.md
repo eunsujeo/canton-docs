@@ -7,7 +7,6 @@
   - [🕒 작업 로그](/log.md)
 - **입문 학습 코스 (Course)**
   - [Canton 입문 학습 코스 (백엔드 개발자용)](/canton-course/index.md)
-  - [S0 — 오프닝 · 한 건의 자금 이동](/canton-course/s00-opening.md)
   - [S1 — 국경 간의 두 고통](/canton-course/s01-problem.md)
   - [S2 — 파티 & 소유권](/canton-course/s02-party-ownership.md)
   - [S3 — Daml 컨트랙트](/canton-course/s03-daml-contract.md)
@@ -16,9 +15,8 @@
   - [S6 — 원자성 & DvP (핵심 차별 2)](/canton-course/s06-atomicity-dvp.md)
   - [S7 — 시나리오 흐름 (송금 · 정산)](/canton-course/s07-scenario-flows.md)
   - [S8 — 토큰 & 레지스트리](/canton-course/s08-tokens-registry.md)
-  - [S9 — 아키텍처 & 인프라](/canton-course/s09-architecture.md)
-  - [S10 — 확정성 & 합의](/canton-course/s10-finality-consensus.md)
-  - [S11 — 정리·실습·심화](/canton-course/s11-recap.md)
+  - [S9 — 아키텍처 & 합의·확정](/canton-course/s09-architecture.md)
+  - [S10 — 정리·실습·심화](/canton-course/s10-recap.md)
 - **개요 (Overview)**
   - [Canton Coin과 글로벌 Synchronizer](/overview/understand/canton-coin.md)
   - [Canton의 해법 — 세 가지 기둥](/overview/understand/cantons-solution.md)
