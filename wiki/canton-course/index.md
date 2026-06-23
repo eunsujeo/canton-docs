@@ -23,7 +23,7 @@ flowchart LR
     A["기관 A 노드"]
     B["기관 B 노드"]
   end
-  S["Synchronizer\n(순서·확정만 조율, 내용 안 봄)"]
+  S["Synchronizer<br/>(순서·확정만 조율, 내용 안 봄)"]
   A <--> S
   B <--> S
 ```

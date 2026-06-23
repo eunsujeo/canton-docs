@@ -70,7 +70,7 @@ GET <레지스트리>/registry/allocations/v1/<allocationCid>/choice-contexts/ex
 
 ```mermaid
 flowchart LR
-  EXT["외부 체인 발행 토큰"] -->|"브릿지: 잠금"| WRAP["Canton 래핑 토큰\n(레지스트리가 표현 관리)"]
+  EXT["외부 체인 발행 토큰"] -->|"브릿지: 잠금"| WRAP["Canton 래핑 토큰<br/>(레지스트리가 표현 관리)"]
   WRAP -->|"정산(S7)"| WRAP2["정산 후 표현"]
   WRAP2 -->|"브릿지: 언래핑"| EXT
 ```

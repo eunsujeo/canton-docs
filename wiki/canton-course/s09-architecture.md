@@ -48,18 +48,18 @@ Canton 앱은 크게 네 덩어리다.
 flowchart TB
   subgraph AppA["기관 A 측"]
     BEA["백엔드/UI (오프-원장)"]
-    PNA["참여자 노드 A\n(ACS: A 관련 + Daml 패키지)"]
-    BEA -->|"Ledger API\n(port 2975)"| PNA
+    PNA["참여자 노드 A<br/>(ACS: A 관련 + Daml 패키지)"]
+    BEA -->|"Ledger API<br/>(port 2975)"| PNA
   end
   subgraph AppB["기관 B 측"]
     BEB["백엔드/UI (오프-원장)"]
-    PNB["참여자 노드 B\n(ACS: B 관련 + Daml 패키지)"]
-    BEB -->|"Ledger API\n(port 3975)"| PNB
+    PNB["참여자 노드 B<br/>(ACS: B 관련 + Daml 패키지)"]
+    BEB -->|"Ledger API<br/>(port 3975)"| PNB
   end
-  SYNC["Synchronizer\n(시퀀서 + 미디에이터)\n순서·확정만"]
+  SYNC["Synchronizer<br/>(시퀀서 + 미디에이터)<br/>순서·확정만"]
   PNA <-->|"암호봉투"| SYNC
   PNB <-->|"암호봉투"| SYNC
-  REG["레지스트리(발행자)\n오프-레저 API (S8)"]
+  REG["레지스트리(발행자)<br/>오프-레저 API (S8)"]
   BEA -.->|"choice context"| REG
   BEB -.->|"choice context"| REG
 ```

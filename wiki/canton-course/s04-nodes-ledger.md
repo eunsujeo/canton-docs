@@ -66,10 +66,10 @@ flowchart TB
   subgraph BN["기관 B 노드 (port 3975)"]
     ACSB["ACS: B 관련 컨트랙트"]
   end
-  SC["공유 컨트랙트\n(A·B 둘 다 이해관계자)"]
+  SC["공유 컨트랙트<br/>(A·B 둘 다 이해관계자)"]
   ACSA --- SC
   ACSB --- SC
-  X["제3자 노드 (port 4975)\nA·B 거래 0건"]
+  X["제3자 노드 (port 4975)<br/>A·B 거래 0건"]
 ```
 
 ## 강의 노트
