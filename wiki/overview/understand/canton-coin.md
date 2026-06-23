@@ -180,6 +180,6 @@ MainNet에서 CC는 실제 경제 가치를 갖는다:
 
 ---
 
-⬅️ **이전**: [S10 — 정리·실습·심화](../../canton-course/s10-recap.md) ・ ➡️ **다음**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md)
+➡️ **다음**: [Canton의 해법 — 세 가지 기둥](cantons-solution.md)
 
 <!-- nav:end -->

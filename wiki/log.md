@@ -140,3 +140,7 @@
 - 구조 개편: S0(오프닝) 제거 → 관통 시나리오·한방향/양방향 다이어그램을 코스맵에 흡수. S9(아키텍처)+옛 S10(확정·합의)을 "S9 아키텍처 & 합의·확정" 한 챕터로 병합. 정리 챕터는 S10(s10-recap.md)로. **최종 10단계(S1-S10).**
 - 끊긴 교차참조(S10→S9, S11→S10) 일괄 수정, 코스맵·상위 index 단계목록 갱신. 계획문서 dev/docs/explainer-doc-plan.md v12로 개정(교훈 기록: frontmatter title 콜론 금지, mermaid 엣지라벨 특수문자·\n 금지).
 - 검증: mermaid 13블록 실제 파서 통과, YAML frontmatter 전부 정상, 내부 링크 전부 해소, 펜스 내 툴팁 0, 이모지 0. sidebar/nav/tooltips 재생성.
+
+## [2026-06-24] course | canton-course 코스 제거
+- 사용자 요청으로 `wiki/canton-course/` 전체(코스맵 + S1-S10, 11파일) 삭제. index.md의 코스 등록(상단 링크·전용 섹션) 제거, gen_sidebar.py에서 canton-course 섹션 라벨·순서 제거. sidebar/nav 재생성(코스 참조하던 canton-coin.md 내비 자동 교정).
+- glossary 툴팁 용어(환거래은행·SWIFT·CLS·T+2·ACS·offset 등)와 dev/docs/explainer-doc-plan.md는 유지(공유 자산·계획 기록). 필요 시 별도 제거.
