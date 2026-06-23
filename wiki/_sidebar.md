@@ -75,3 +75,4 @@
   - [Scan 읽는 법 — 네트워크 익스플로러 화면 이해](/notes/reading-scan-explorer.md)
   - [Synchronizer 종류 — 사설 vs 컨소시엄 vs 글로벌](/notes/synchronizer-types-private-consortium-global.md)
   - [용어 한 컷 카드 — 자주 막히는 용어 모음](/notes/term-cheatsheet.md)
+  - [스테이블코인 발행·소각과 레지스트리 — 외부발행+브릿지 vs Canton 직접발행](/notes/token-issuance-bridge-patterns.md)

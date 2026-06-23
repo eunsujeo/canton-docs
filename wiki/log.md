@@ -124,3 +124,6 @@
 
 ## [2026-06-18] ingest | Canton B2B vs B2C 노트
 - B2C도 기술 가능하나 강점 안 삼, Canton=B2B 정산, 하이브리드(퍼블릭+브릿지). 프로젝트 멀티체인 분담은 dev로 분리.
+
+## [2026-06-23] note | 스테이블코인 발행·소각과 레지스트리
+- 일반화 노트 신설(notes/token-issuance-bridge-patterns). 레지스트리=발행자 운영(발행/소각+증빙), 토큰을 Canton 정산에 들이는 두 패턴(외부발행+브릿지 래핑 / Canton 직접발행)·흐름도·비교표. dev의 프로젝트 시나리오에서 회사·Musubi 색 제거해 일반화. index 등록, sidebar/nav/tooltips 재생성.
