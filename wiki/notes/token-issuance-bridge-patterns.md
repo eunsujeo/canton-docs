@@ -88,27 +88,29 @@ flowchart LR
 - 신뢰 지점 = **각 발행자**(법정통화 준비금 ↔ 발행량). 퍼블릭/리테일과 잇는다면 *그때* 반대 방향 브릿지가 필요.
 
 ```mermaid
-flowchart LR
-  subgraph CAN2["Canton · 토큰표준 직접 발행 + B2B 정산"]
-    ISSA["통화A 발행자<br/>= 통화A 레지스트리"]
-    ISSB["통화B 발행자<br/>= 통화B 레지스트리"]
-    subgraph DVP2["원자적 DvP 정산"]
-      direction TB
-      AL2["기관A: 통화A 잠금"]
-      BL2["기관B: 통화B 잠금"]
-      EX2["venue 단일 트랜잭션<br/>A↔B 동시 교환"]
-      AL2 --> EX2
-      BL2 --> EX2
-    end
-  end
-  ISSA -->|"① 통화A mint"| AL2
-  ISSB -->|"① 통화B mint"| BL2
-  EX2 -.->|"③ 상환: 통화A burn"| ISSA
-  EX2 -.->|"③ 상환: 통화B burn"| ISSB
+sequenceDiagram
+    autonumber
+    participant IA as 통화A 발행자<br/>(통화A 레지스트리)
+    participant A as 기관 A
+    participant V as 운영자 venue
+    participant B as 기관 B
+    participant IB as 통화B 발행자<br/>(통화B 레지스트리)
+    IA->>A: 통화A 발행(mint)
+    IB->>B: 통화B 발행(mint)
+    A->>B: 교환 제안 (통화A ↔ 통화B)
+    B-->>V: 수락
+    V->>V: 정산 개시 (정산 계약 생성)
+    A->>A: 통화A 잠금(할당)
+    B->>B: 통화B 잠금(할당)
+    V->>V: 정산 실행 — 단일 트랜잭션
+    Note over A,B: 통화A→기관B · 통화B→기관A 동시 이동 (원자적)
+    B->>IA: (선택) 받은 통화A 상환 burn → 법정통화
+    A->>IB: (선택) 받은 통화B 상환 burn → 법정통화
 ```
-1. **각 통화 발행자**가 자기 통화를 해당 기관에 **mint**(통화A→기관A, 통화B→기관B).
-2. 두 기관이 잠금 → venue가 **단일 트랜잭션으로 A↔B 동시 교환**(브릿지 불필요).
-3. 상환 시 **각 통화를 그 발행자에게** **burn** + 법정통화 오프램프.
+1. **각 통화 발행자**가 자기 통화를 해당 기관에 **발행(mint)**(통화A→기관A, 통화B→기관B).
+2. 두 기관이 <abbr class="gloss" title="여러 노드가 트랜잭션의 유효성·순서에 함께 동의하는 절차">합의</abbr>(제안·수락) → venue가 **정산 개시**.
+3. 두 기관이 각자 통화 **잠금** → venue가 **단일 트랜잭션으로 동시 교환**(원자적, 브릿지 불필요).
+4. (선택) 받은 통화를 **그 발행자에게 burn** → 법정통화 오프램프. (Canton 안에서 계속 재사용도 가능)
 
 ## 두 패턴 비교
 | 항목 | ① 외부발행 + 브릿지 | ② Canton 직접발행 |
