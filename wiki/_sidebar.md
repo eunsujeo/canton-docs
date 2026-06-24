@@ -1,4 +1,5 @@
 - **시작하기**
+  - [통합 코스 (인터랙티브)](/course/ ':ignore')
   - [📖 읽는 방법](/how-to-read.md)
   - [🗂 인덱스/학습순서](/index.md)
   - [🗺️ 다음 작업/남은 순서](/next-step.md)

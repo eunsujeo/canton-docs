@@ -148,3 +148,8 @@
 ## [2026-06-24] note | 커스터디·raw/blind signing 정리 노트 신설
 - `notes/custody-raw-blind-signing.md` 추가 — 외부 파티 키 보관·서명: 해시(byte[]) 서명=raw signing → 일반 커스터디(자기보관/MPC/노드월렛)로 운용 가능, 단 blind signing이라 drain 못 거름 → 방어는 prepare·Daml·WYSIWYS. 옴니버스 함정도 연결. 출처는 dev/docs 커스터디 메모(공개판은 POC 참여사·협상 내용 제외, 개념만 일반화).
 - glossary 툴팁 8개 추가(커스터디·raw signing·blind signing·MPC·WYSIWYS·prepared transaction·drain). index.md notes 섹션 등록. sidebar/nav/tooltips 재생성.
+
+## [2026-06-24] course | Canton 통합 코스를 위키에 정적 배포(자동 공개)
+- 인터랙티브 통합 코스(단일 자기완결 HTML)를 Claude Artifact → `wiki/course/index.html`로 편입. Cloudflare Pages가 wiki/를 그대로 올리므로 push 시 `canton-docs.pages.dev/course/`로 자동 공개.
+- Artifact 조각(head 없음)을 완결 HTML 문서로 래핑(charset·viewport·title). 외부 에셋 로드 없음(자기완결).
+- index.md 상단 + gen_sidebar.py "시작하기" 블록에 코스 링크 추가(Docsify `:ignore`로 SPA 라우팅 회피). POC 실명·Musubi 노출 없음 확인(공개 안전).

@@ -67,6 +67,7 @@ for sec in groups:
 # relativePath:true 환경에서 상대링크는 현재 페이지 기준으로 해석돼 경로가 누적되는 버그가 있다.
 # 루트 기준(/...)이면 Docsify가 항상 사이트 루트에서 해석 → 누적 없음.
 out = ["- **시작하기**",
+       "  - [통합 코스 (인터랙티브)](/course/ ':ignore')",
        "  - [📖 읽는 방법](/how-to-read.md)",
        "  - [🗂 인덱스/학습순서](/index.md)",
        "  - [🗺️ 다음 작업/남은 순서](/next-step.md)",

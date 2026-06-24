@@ -2,6 +2,7 @@
 
 Canton Network 공식 문서를 한국어로 번역한 개발자용 지식베이스. 다른 개발자와 공유 목적.
 
+- **인터랙티브 통합 코스**: [통합 코스 열기](/course/ ':ignore') — 개념부터 코드까지 한 흐름으로(클릭형 DvP·신뢰모델·아키텍처). 단일 페이지 인터랙티브.
 - **👉 처음이라면**: [how-to-read.md](how-to-read.md) — 읽는 방법 & Obsidian으로 보기
 - **🗺️ 다음 작업·남은 섹션 읽는 순서**: [next-step.md](next-step.md) — appdev/gs/integrations 우선순위와 순서
 - **소스/작업 큐**: [sources.md](sources.md) — 전체 페이지 목록과 번역 상태 (overview 50 완료)

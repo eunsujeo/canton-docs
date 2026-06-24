@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Canton Network 통합 코스 — 개념부터 코드까지 한 흐름으로(클릭형 DvP·신뢰모델·아키텍처).">
+<title>Canton 통합 코스 — 개념 + 개발</title>
+</head>
+<body>
+<style>
+  :root{
+    --ink:#0C1220; --surface:#141C30; --surface2:#1C2640; --line:#2A3654;
+    --text:#EAEFF8; --muted:#8794B0; --faint:#5C6885;
+    --a:#E8A14C; --b:#5FA8FF; --sealed:#404C6B; --ok:#57D6A6; --warn:#E8745C; --dev:#7FD1FF;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:radial-gradient(120% 80% at 85% -10%,rgba(95,168,255,.10),transparent 55%),radial-gradient(90% 70% at 0% 110%,rgba(232,161,76,.08),transparent 50%),var(--ink); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; line-height:1.64}
+  a{color:var(--b)}
+  .wrap{display:grid; grid-template-columns:258px 1fr; min-height:100vh; max-width:1340px; margin:0 auto}
+
+  .rail{border-right:1px solid var(--line); padding:28px 18px 40px; position:sticky; top:0; align-self:start; height:100vh; overflow:auto}
+  .brand{font-family:var(--mono); font-size:12px; letter-spacing:.16em; color:var(--a); text-transform:uppercase} .brand b{color:var(--text); font-weight:600}
+  .brand-sub{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:6px}
+  .steps{list-style:none; margin:22px 0 0; padding:0; counter-reset:s}
+  .steps button{width:100%; text-align:left; background:none; border:0; color:var(--muted); font-family:var(--sans); font-size:13px; padding:7px 9px 7px 38px; position:relative; border-radius:7px; cursor:pointer; line-height:1.32}
+  .steps button::before{counter-increment:s; content:counter(s,decimal-leading-zero); position:absolute; left:9px; top:7px; font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+  .steps button:hover,.steps button[aria-current="true"]{color:var(--text); background:var(--surface)}
+  .steps button[aria-current="true"]::before{color:var(--a)} .steps button[data-done="1"]::before{color:var(--ok)}
+  .rail-foot{font-family:var(--mono); font-size:10px; color:var(--faint); margin-top:22px; line-height:1.7}
+
+  .stage-area{padding:54px clamp(22px,5vw,76px) 120px; min-width:0}
+  .stage{display:none; animation:rise .4s ease both} .stage.active{display:block}
+  @keyframes rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--a)} .eyebrow .n{color:var(--faint)}
+  h1{font-size:clamp(30px,4.6vw,52px); line-height:1.07; letter-spacing:-.02em; margin:14px 0 0; font-weight:680}
+  h2{font-size:clamp(23px,3.3vw,34px); line-height:1.13; letter-spacing:-.015em; margin:12px 0 0; font-weight:660}
+  h3.sub{font-size:17px; font-weight:640; margin:30px 0 0; color:var(--text)}
+  .lede{font-size:clamp(16px,1.7vw,19px); color:#C7D0E4; max-width:68ch; margin:20px 0 0}
+  .body{margin-top:22px} .body p{max-width:68ch; color:#C2CBE0; margin:14px 0 0} .body p b{color:var(--text); font-weight:620}
+  .body ul{max-width:68ch; margin:12px 0 0; padding-left:20px; color:#C2CBE0} .body li{margin:7px 0} .body li b{color:var(--text)}
+  .k{font-family:var(--mono); font-size:.9em; background:var(--surface2); border:1px solid var(--line); padding:1px 6px; border-radius:5px; color:#D7DEEF}
+  abbr[title]{text-decoration:underline dotted; text-decoration-color:var(--faint); text-underline-offset:3px; cursor:help}
+  .note{max-width:68ch; margin:18px 0 0; padding:12px 15px; border-left:3px solid var(--a); background:var(--surface); border-radius:0 10px 10px 0; font-size:14px; color:#C7D0E4} .note b{color:var(--text)}
+
+  .cards{display:grid; gap:13px; margin-top:20px} .c3{grid-template-columns:repeat(3,1fr)} .c2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 16px 18px}
+  .card .tag{font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--faint); text-transform:uppercase}
+  .card h3{margin:7px 0 0; font-size:16px; font-weight:640} .card p{margin:7px 0 0; font-size:13.5px; color:var(--muted)}
+  .card .mit{margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); font-size:12.5px; color:#AEB9D4} .card .mit b{color:var(--ok); font-family:var(--mono); font-size:11px}
+  .card .tline{margin-top:8px; font-size:12.5px; line-height:1.55; color:#C2CBE0} .card .tline b{font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; margin-right:6px; white-space:nowrap}
+  .card .tline.trust b{color:var(--a)} .card .tline.no b{color:var(--b)}
+
+  .dev{margin-top:20px; border:1px solid #2b4660; border-radius:14px; background:linear-gradient(180deg,rgba(127,209,255,.05),transparent 60%),var(--surface); overflow:hidden}
+  .dev-h{display:flex; align-items:center; gap:9px; padding:11px 16px; border-bottom:1px solid #243b51; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--dev)} .dev-h::before{content:"</>"; font-weight:700; letter-spacing:0}
+  .dev-b{padding:15px 16px 17px} .dev-b p{margin:0; font-size:13.5px; color:#C2CBE0; max-width:68ch} .dev-b p+p{margin-top:10px}
+  pre{margin:13px 0 0; background:var(--ink); border:1px solid var(--line); border-radius:10px; padding:13px 15px; overflow:auto; font-family:var(--mono); font-size:12.5px; line-height:1.6; color:#D7DEEF}
+  pre .c{color:var(--faint)} pre .kw{color:var(--a)} pre .id{color:var(--dev)} pre .s{color:var(--ok)}
+  .kv{display:grid; grid-template-columns:auto 1fr; gap:5px 14px; margin-top:12px; font-family:var(--mono); font-size:12.5px} .kv dt{color:var(--faint)} .kv dd{margin:0; color:#D7DEEF}
+  .vcards{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px}
+  .vcard{border:1.5px solid var(--line); border-radius:12px; background:var(--ink); overflow:hidden}
+  .vcard.A{border-color:var(--a)} .vcard.B{border-color:var(--b)} .vcard.R{border-color:var(--ok)}
+  .vcard .vh{padding:9px 13px; border-bottom:1px solid var(--line); font-size:12.5px; font-weight:620}
+  .vcard.A .vh{color:var(--a)} .vcard.B .vh{color:var(--b)} .vcard.R .vh{color:var(--ok)}
+  .vcard .vbody{font-family:var(--mono); font-size:11.5px; line-height:1.6; color:#D7DEEF; padding:11px 13px; white-space:pre}
+  .vcard .vbody .me{color:var(--ok)} .vcard .vbody .c{color:var(--faint)}
+  .vcard .role{padding:9px 13px; border-top:1px dashed var(--line); font-family:var(--mono); font-size:11.5px; color:var(--muted)} .vcard .role b{color:var(--text)}
+  @media (max-width:920px){ .vcards{grid-template-columns:1fr} }
+
+  .nav{display:flex; justify-content:space-between; gap:12px; margin-top:42px; border-top:1px solid var(--line); padding-top:20px}
+  .nav button{background:var(--surface); border:1px solid var(--line); color:var(--text); font-family:var(--sans); font-size:14px; padding:11px 18px; border-radius:10px; cursor:pointer; max-width:46%; display:flex; flex-direction:column; gap:2px; line-height:1.25}
+  .nav button:hover:not(:disabled){border-color:var(--a)} .nav button:disabled{opacity:.35; cursor:default}
+  .nav .dir{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--faint); text-transform:uppercase} .nav .t-next{text-align:right}
+
+  .fig{margin-top:22px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px 18px}
+  .fig-cap{font-family:var(--mono); font-size:11.5px; color:var(--faint); margin-top:13px; text-align:center} .fig-cap b{color:var(--muted)}
+  .seqwrap{overflow-x:auto}
+  .net{display:flex; align-items:center; justify-content:center; flex-wrap:wrap}
+  .net .box{border:1.5px solid var(--line); border-radius:12px; background:var(--surface2); padding:12px 14px; text-align:center} .net .box.amber{border-color:var(--a)} .net .box.azure{border-color:var(--b)}
+  .net .box .t{font-size:14px; font-weight:620} .net .box .s{font-size:11.5px; color:var(--muted); margin-top:3px; font-family:var(--mono)}
+  .net .link{width:54px; height:2px; background:linear-gradient(90deg,var(--a),var(--faint))} .net .link.r{background:linear-gradient(90deg,var(--faint),var(--b))}
+  .net .sync{border:1.5px dashed var(--faint); border-radius:12px; padding:13px 15px; text-align:center; background:rgba(64,76,107,.12)} .net .sync .t{font-size:14px; font-weight:620} .net .sync .s{font-size:11px; color:var(--muted); margin-top:3px; font-family:var(--mono)}
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+  .pillar{border:1px solid var(--line); border-radius:13px; padding:15px; background:var(--surface2)} .pillar .pn{font-family:var(--mono); font-size:11px; color:var(--a)} .pillar h4{margin:6px 0 0; font-size:14.5px; font-weight:640} .pillar p{margin:6px 0 0; font-size:12.5px; color:var(--muted)}
+  .pillars-sum{margin-top:11px; text-align:center; font-family:var(--mono); font-size:12.5px; color:var(--ok)}
+  .arch{display:grid; grid-template-columns:1fr 1fr; gap:13px} .arch .col{background:var(--surface2); border:1px solid var(--line); border-radius:14px; padding:16px}
+  .arch .col .role{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase} .arch .col.coord .role{color:var(--a)} .arch .col.store .role{color:var(--b)}
+  .arch .col h4{margin:6px 0 0; font-size:15px; font-weight:640} .arch .col ul{margin:10px 0 0; padding-left:17px; font-size:12.5px; color:var(--muted)} .arch .col li{margin:4px 0}
+  .ledger{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap}
+  .lcard{border:1.5px solid var(--line); border-radius:12px; padding:13px 15px; min-width:158px; text-align:center; background:var(--surface2)}
+  .lcard.old{opacity:.55; border-style:dashed; position:relative} .lcard.old .x{position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 7px,rgba(232,116,92,.25) 7px,rgba(232,116,92,.25) 9px); border-radius:12px}
+  .lcard.new{border-color:var(--ok)} .lcard .st{font-family:var(--mono); font-size:11px} .lcard.old .st{color:var(--warn)} .lcard.new .st{color:var(--ok)} .lcard .t{font-size:14px; font-weight:620; margin-top:5px}
+  .arrow{font-family:var(--mono); color:var(--faint); font-size:13px; letter-spacing:.08em}
+  .vd{display:flex; flex-direction:column; align-items:center} .vd .tx{border:1.5px solid var(--text); border-radius:12px; padding:10px 18px; font-weight:620; font-size:14px}
+  .vd .split{display:flex; gap:40px; justify-content:center; flex-wrap:wrap} .vd .leg{display:flex; flex-direction:column; align-items:center; padding-top:24px; position:relative} .vd .leg::before{content:""; position:absolute; top:0; height:24px; width:2px; background:var(--line)}
+  .vd .view{border:1.5px solid var(--line); border-radius:10px; padding:8px 13px; font-size:13px; text-align:center; min-width:118px} .vd .view.va{border-color:var(--a)} .vd .view.vb{border-color:var(--b)} .vd .view.vx{border-color:var(--warn); border-style:dashed; opacity:.7} .vd .who{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:6px}
+
+  /* ===== privacy: 3-node simultaneous detailed view ===== */
+  .pv{margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px 16px 20px}
+  .pv-top{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:14px}
+  .pv-tx{font-family:var(--mono); font-size:13px; color:var(--text)} .pv-tx .b{color:var(--a)}
+  .pv-run{background:var(--a); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:13.5px; padding:9px 18px; border-radius:9px; cursor:pointer}
+  .pv-run.ghost{background:none; border:1px solid var(--line); color:var(--muted); font-weight:500; margin-left:8px}
+  .pv-sync{margin:14px 0; border:1.5px dashed var(--sealed); border-radius:12px; padding:12px 14px; background:rgba(64,76,107,.10); text-align:center; transition:border-color .4s,background .4s}
+  .pv-sync.lit{border-color:var(--faint); background:rgba(64,76,107,.18)}
+  .pv-sync .h{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint)}
+  .pv-sync .cipher{font-family:var(--mono); font-size:12.5px; color:#9fb0d6; margin-top:6px; word-break:break-all}
+  .pv-sync .cipher .x{color:var(--warn)}
+  .pv-nodes{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+  .pnode.V.lit{border-color:var(--ok)}
+  .pnode{border:1.5px solid var(--line); border-radius:12px; background:var(--surface2); overflow:hidden; transition:border-color .4s,opacity .4s; opacity:.55}
+  .pnode.lit{opacity:1}
+  .pnode.A.lit{border-color:var(--a)} .pnode.B.lit{border-color:var(--b)} .pnode.X.lit{border-color:var(--warn)}
+  .pnode .ph{padding:10px 13px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline}
+  .pnode .ph .nm{font-size:13.5px; font-weight:620} .pnode .ph .pt{font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+  .pnode .pq{font-family:var(--mono); font-size:11px; color:var(--faint); padding:10px 13px 0}
+  .pnode .pr{font-family:var(--mono); font-size:11.5px; line-height:1.55; color:#C9D2E8; padding:6px 13px 14px; min-height:96px; white-space:pre-wrap}
+  .pnode .pr .cnt{color:var(--ok)} .pnode.X .pr .cnt{color:var(--warn)}
+  .pnode .pr .muted{color:var(--faint)}
+  .pv-cap{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:14px; text-align:center} .pv-cap b{color:var(--text)}
+  .dvp{margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px 16px 20px}
+  .dvp-row{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:center}
+  .dparty{text-align:center}
+  .dparty .dh{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase} .dparty.A .dh{color:var(--a)} .dparty.B .dh{color:var(--b)}
+  .dleg{margin-top:8px; border:1.5px solid var(--line); border-radius:12px; padding:14px; background:var(--surface2); font-size:15px; font-weight:620; transition:border-color .4s,background .4s}
+  .dparty.A .dleg.lock{border-color:var(--a); background:#23304e} .dparty.B .dleg.lock{border-color:var(--b); background:#1f2c4a}
+  .dstat{font-family:var(--mono); font-size:11px; font-weight:500; color:var(--muted); margin-top:7px} .dleg.lock .dstat{color:var(--text)}
+  .dvenue{text-align:center; min-width:120px} .dvenue .dh{font-family:var(--mono); font-size:11px; color:var(--faint); text-transform:uppercase} .dvenue .dsub{font-size:11px; color:var(--muted); margin-top:3px; font-family:var(--mono)}
+  .dswap{font-size:26px; color:var(--faint); margin-top:8px; transition:color .4s,transform .4s}
+  .dvp[data-step="6"] .dswap,.dvp[data-step="7"] .dswap{color:var(--ok); transform:scale(1.18)}
+  .dvp-banner{text-align:center; font-family:var(--mono); font-size:12px; color:var(--ok); margin-top:13px; min-height:16px; opacity:0; transition:opacity .4s}
+  .dvp[data-step="6"] .dvp-banner,.dvp[data-step="7"] .dvp-banner{opacity:1}
+  .dvp-result{margin-top:14px}
+  .dvp-read{margin-top:15px; border-top:1px solid var(--line); padding-top:13px; display:flex; gap:14px; align-items:center; flex-wrap:wrap} .dvp-read .stepno{font-family:var(--mono); font-size:13px; color:var(--a); white-space:nowrap} .dvp-read .desc{font-size:14.5px; color:#C7D0E4; flex:1; min-width:200px} .dvp-read .desc b{color:var(--text)} .dvp-read .desc code{font-family:var(--mono); font-size:.9em; color:var(--dev)}
+  .dvp-ctrl{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap} .dvp-ctrl button{background:var(--a); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:13.5px; padding:9px 18px; border-radius:9px; cursor:pointer} .dvp-ctrl button.ghost{background:none; border:1px solid var(--line); color:var(--muted); font-weight:500} .dvp-ctrl button:disabled{opacity:.35; cursor:default}
+  @media(max-width:920px){ .dvp-row{grid-template-columns:1fr} }
+  .synrow{display:flex; gap:10px; margin-top:10px}
+  .syncpart{flex:1 1 0; border:1.5px dashed var(--line); border-radius:10px; padding:9px 10px; text-align:center; background:rgba(64,76,107,.10)}
+  .syncpart .sh{font-family:var(--mono); font-size:12px; font-weight:600; color:var(--muted)} .syncpart .ss{font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-top:3px}
+  @keyframes seqGlow{0%,100%{border-color:var(--line); box-shadow:none} 25%,70%{border-color:var(--a); box-shadow:0 0 0 3px rgba(232,161,76,.22)}}
+  @keyframes nodeGlow{0%,100%{box-shadow:none} 14%,42%{box-shadow:0 0 0 3px rgba(127,209,255,.18)}}
+  @keyframes medGlow{0%,48%,100%{border-color:var(--line); box-shadow:none} 62%,90%{border-color:var(--dev); box-shadow:0 0 0 3px rgba(127,209,255,.22)}}
+  .dvp.glow-seq .syncpart.seq{animation:seqGlow .9s ease both}
+  .dvp.glow-conf .pnode.signing{animation:nodeGlow 1.2s ease both}
+  .dvp.glow-conf .syncpart.med{animation:medGlow 1.2s ease both}
+  .dvp[data-phase="confirm"] .syncpart.seq{border-color:var(--a)} .dvp[data-phase="confirm"] .syncpart.seq .sh{color:var(--a)}
+  .dvp-confirm{display:none; background:var(--dev); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:12.5px; padding:8px 14px; border-radius:8px; cursor:pointer}
+  .dvp[data-phase="confirm"] .dvp-confirm{display:inline-block}
+  @media(prefers-reduced-motion:reduce){ .dvp.glow-seq .syncpart.seq,.dvp.glow-conf .pnode.signing,.dvp.glow-conf .syncpart.med{animation:none} }
+  .pnode.signing .ph .nm{font-weight:800}
+  .pnode.signing .ph .nm::after{content:" · 이해관계자"; color:var(--dev); font-weight:600; font-size:10.5px}
+  .pnode{display:flex; flex-direction:column} .pnode .pr{flex:1}
+  .pbtn{display:block; width:100%; margin-top:10px; background:var(--a); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:12.5px; padding:8px 10px; border-radius:8px; cursor:pointer}
+  .pnode.B .pbtn:not(:disabled){background:var(--b)} .pnode.V .pbtn:not(:disabled){background:var(--ok)}
+  .pbtn:disabled{background:transparent; color:var(--faint); border:1px solid var(--line); cursor:default}
+  .pbtn:not(:disabled):hover{filter:brightness(1.08)}
+  .dvp-reset{margin-left:auto; background:none; border:1px solid var(--line); color:var(--muted); font-family:var(--sans); font-size:12.5px; padding:7px 14px; border-radius:8px; cursor:pointer}
+  .dvp-code-wrap{margin-top:12px} .ccap{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint)} .dvp-code-wrap pre{margin-top:6px}
+
+  /* lifecycle */
+  .life{margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px 16px 20px}
+  .life-map{display:grid; grid-template-columns:1fr auto 1fr; gap:13px; align-items:center}
+  .side{display:flex; flex-direction:column; gap:8px} .side .side-h{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; text-align:center} .side.A .side-h{color:var(--a)} .side.B .side-h{color:var(--b)}
+  .ln{border:1.5px solid var(--line); border-radius:11px; padding:9px 11px; background:var(--surface2); text-align:center; transition:border-color .3s,box-shadow .3s,background .3s} .ln .lt{font-size:13px; font-weight:600} .ln .ls{font-size:11px; color:var(--muted); margin-top:2px; font-family:var(--mono)}
+  .ln.hot{border-color:var(--a); background:#23304e; box-shadow:0 0 0 3px rgba(232,161,76,.15)} .side.B .ln.hot{border-color:var(--b); box-shadow:0 0 0 3px rgba(95,168,255,.15)}
+  .center{display:flex; flex-direction:column; gap:8px; align-items:center; min-width:128px} .sync-h{font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.06em; text-transform:uppercase}
+  .ln.sync{border-style:dashed} .ln.sync.hot{border-color:var(--text); background:#222c46; box-shadow:0 0 0 3px rgba(234,239,248,.10)}
+  .life-read{margin-top:16px; border-top:1px solid var(--line); padding-top:14px; display:flex; gap:14px} .life-read .stepno{font-family:var(--mono); font-size:13px; color:var(--a); white-space:nowrap; padding-top:2px} .life-read .desc{font-size:14.5px; color:#C7D0E4} .life-read .desc b{color:var(--text)}
+  .life-ctrl{display:flex; gap:10px; align-items:center; margin-top:14px; flex-wrap:wrap}
+  .life-ctrl button{background:var(--a); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:13.5px; padding:9px 18px; border-radius:9px; cursor:pointer} .life-ctrl button.ghost{background:none; border:1px solid var(--line); color:var(--muted); font-weight:500} .life-ctrl button:disabled{opacity:.35; cursor:default}
+  .seal-tag{display:inline-block; margin-left:6px; font-family:var(--mono); font-size:10.5px; color:var(--sealed); border:1px solid var(--sealed); border-radius:6px; padding:1px 6px}
+
+  .seqbar{display:flex; gap:6px; margin-top:14px}
+  .seqstep{flex:1 1 0; min-width:0; border:1px solid var(--line); border-radius:8px; padding:7px 6px; background:var(--surface2); opacity:.4; transition:opacity .3s,border-color .3s; text-align:center}
+  .seqstep.on{opacity:1; border-color:var(--a)}
+  .seqstep .sn{font-family:var(--mono); font-size:11px; color:var(--faint)} .seqstep.on .sn{color:var(--a)}
+  .seqstep .sc{font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:3px; line-height:1.25} .seqstep.on .sc{color:var(--dev)}
+  @media(max-width:920px){ .seqbar{flex-wrap:wrap} .seqstep{flex:1 1 28%} }
+  .seq{margin-top:14px; display:flex; flex-direction:column; gap:8px}
+  .seqrow{display:grid; grid-template-columns:88px 1fr; gap:12px; align-items:start; border:1px solid var(--line); border-radius:11px; padding:11px 13px; background:var(--surface2); opacity:.45; transition:opacity .3s,border-color .3s} .seqrow.on{opacity:1; border-color:var(--a)}
+  .seqrow .actor{font-family:var(--mono); font-size:11px; color:var(--a); padding-top:2px} .seqrow .what code{font-family:var(--mono); font-size:12.5px; color:var(--dev)} .seqrow .what .d{color:var(--muted); font-size:12.5px; margin-top:3px}
+
+  .pbar{position:fixed; top:0; left:0; height:2px; background:var(--a); width:0; transition:width .35s; z-index:20}
+  @media (max-width:920px){
+    .wrap{grid-template-columns:1fr}
+    .rail{position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); padding:16px 18px}
+    .steps{display:flex; gap:4px; overflow:auto; margin-top:12px} .steps li{flex:0 0 auto} .steps button{padding:7px 11px; white-space:nowrap} .steps button::before{display:none}
+    .rail-foot{display:none} .stage-area{padding:32px 18px 92px}
+    .c3,.c2,.pillars,.arch,.pv-nodes{grid-template-columns:1fr} .life-map{grid-template-columns:1fr; gap:16px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+  :focus-visible{outline:2px solid var(--a); outline-offset:2px; border-radius:6px}
+</style>
+
+<div class="pbar" id="pbar"></div>
+<div class="wrap">
+  <nav class="rail" aria-label="코스 단계">
+    <div class="brand"><b>Canton</b> 통합 코스</div>
+    <div class="brand-sub">개념 + 개발 · 00–11</div>
+    <ol class="steps" id="steps"></ol>
+  </nav>
+
+  <main class="stage-area" id="stageArea">
+
+    <!-- 00 -->
+    <section class="stage active" data-title="시작">
+      <div class="eyebrow"><span class="n">00 /</span> 통합 코스 · 개념에서 코드까지</div>
+      <h1>데이터는 필요한<br>당사자에게만 간다</h1>
+      <p class="lede">Canton은 공개-허가형 <b>프라이버시 보존 네트워크</b>다. 퍼블릭 체인은 모든 거래를 모두에게 방송하지만, Canton에서 한 거래는 <b>그 거래의 당사자에게만</b> 전달된다. 아래는 그 한 줄을 그림으로 옮긴 것 — 같은 송금 한 건이지만 세 노드가 받는 게 전부 다르다.</p>
+      <div class="fig">
+        <div class="seqwrap">
+          <svg viewBox="0 0 880 458" role="img" aria-label="Canton 거래 시퀀스: 제출·순서화·뷰 전달·검증·확인·확정·커밋, 시퀀서·미디에이터의 자체 작업 포함" style="width:100%; min-width:720px; height:auto; font-family:var(--sans)">
+              <defs>
+                <marker id="ahA" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#E8A14C"/></marker>
+                <marker id="ahB" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#5FA8FF"/></marker>
+                <marker id="ahR" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#57D6A6"/></marker>
+                <marker id="ahF" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7E8AA6"/></marker>
+              </defs>
+              <g font-size="12" fill="#EAEFF8" text-anchor="middle">
+                <rect x="14" y="10" width="112" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="70" y="32">기관 A</text>
+                <rect x="156" y="10" width="108" height="34" rx="9" fill="#1C2640" stroke="#5C6885" stroke-dasharray="4 3"/><text x="210" y="32">시퀀서</text>
+                <rect x="296" y="10" width="108" height="34" rx="9" fill="#1C2640" stroke="#5C6885" stroke-dasharray="4 3"/><text x="350" y="32">미디에이터</text>
+                <rect x="448" y="10" width="104" height="34" rx="9" fill="#1C2640" stroke="#5FA8FF"/><text x="500" y="32">기관 B</text>
+                <rect x="584" y="10" width="112" height="34" rx="9" fill="#1C2640" stroke="#57D6A6"/><text x="640" y="27">감독기관</text><text x="640" y="39" font-size="9" fill="#8794B0">관찰자</text>
+                <rect x="732" y="10" width="116" height="34" rx="9" fill="#1C2640" stroke="#E8745C" stroke-dasharray="4 3"/><text x="790" y="32">제3자(무관)</text>
+              </g>
+              <text x="280" y="60" text-anchor="middle" font-size="10" font-family="monospace" fill="#5C6885">⎯ Synchronizer ⎯</text>
+              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
+                <line x1="70" y1="68" x2="70" y2="396"/><line x1="210" y1="68" x2="210" y2="396"/><line x1="350" y1="68" x2="350" y2="396"/>
+                <line x1="500" y1="68" x2="500" y2="396"/><line x1="640" y1="68" x2="640" y2="396"/><line x1="790" y1="68" x2="790" y2="396"/>
+              </g>
+              <g font-size="11" font-family="monospace">
+                <text x="140" y="83" text-anchor="middle" fill="#9fb0d6">① 합의된 거래 제출</text>
+                <text x="140" y="95" text-anchor="middle" font-size="10" fill="#7E8AA6">(수신자별 암호화)</text>
+                <line x1="70" y1="100" x2="206" y2="100" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ahB)"/>
+                <path d="M210,108 h22 v14 h-18" fill="none" stroke="#7E8AA6" stroke-width="1.3" marker-end="url(#ahF)"/>
+                <text x="238" y="120" text-anchor="start" fill="#9fb0d6">시퀀서: 전역 순서·타임스탬프 부여</text>
+                <text x="140" y="150" text-anchor="middle" fill="#E8A14C">뷰 → A</text>
+                <line x1="210" y1="158" x2="74" y2="158" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#ahA)"/>
+                <text x="355" y="150" text-anchor="middle" fill="#5FA8FF">뷰 → B</text>
+                <line x1="210" y1="158" x2="496" y2="158" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ahB)"/>
+                <text x="425" y="184" text-anchor="middle" fill="#57D6A6">뷰 → 감독기관 (관찰자)</text>
+                <line x1="210" y1="192" x2="636" y2="192" stroke="#57D6A6" stroke-width="1.5" marker-end="url(#ahR)"/>
+                <text x="500" y="218" text-anchor="middle" fill="#E8745C">무관한 제3자 — 0건</text>
+                <line x1="210" y1="226" x2="770" y2="226" stroke="#E8745C" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.7"/>
+                <text x="786" y="231" fill="#E8745C" font-size="15" font-weight="700">&#10005;</text>
+                <text x="400" y="256" text-anchor="middle" fill="#5C6885">── 각자 자기 키로 복호화 → 거래 검증 ──</text>
+                <text x="196" y="288" text-anchor="middle" fill="#E8A14C">② A 확인(confirm)</text>
+                <line x1="70" y1="296" x2="346" y2="296" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#ahA)"/>
+                <text x="432" y="288" text-anchor="middle" fill="#5FA8FF">② B 확인(confirm)</text>
+                <line x1="500" y1="296" x2="354" y2="296" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ahB)"/>
+                <path d="M350,304 h22 v14 h-18" fill="none" stroke="#7E8AA6" stroke-width="1.3" marker-end="url(#ahF)"/>
+                <text x="378" y="316" text-anchor="start" fill="#9fb0d6">미디에이터: 확인 취합 → 확정 판정(verdict)</text>
+                <text x="210" y="346" text-anchor="middle" fill="#E8A14C">③ 확정·커밋</text>
+                <line x1="350" y1="354" x2="74" y2="354" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#ahA)"/>
+                <text x="425" y="346" text-anchor="middle" fill="#5FA8FF">③ 확정·커밋</text>
+                <line x1="350" y1="354" x2="496" y2="354" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ahB)"/>
+                <text x="495" y="380" text-anchor="middle" fill="#57D6A6">③ 확정·커밋</text>
+                <line x1="350" y1="388" x2="636" y2="388" stroke="#57D6A6" stroke-width="1.5" marker-end="url(#ahR)"/>
+              </g>
+              <rect x="118" y="406" width="644" height="44" rx="8" fill="rgba(87,214,166,.07)" stroke="#2f5d4e" stroke-dasharray="4 3"/>
+              <text x="440" y="425" text-anchor="middle" font-size="11" font-family="monospace" fill="#8fe0c4">확인(confirm)은 서명자 A·B 둘 다 — 관찰자(감독기관)는 결과만 받는다</text>
+              <text x="440" y="441" text-anchor="middle" font-size="11" font-family="monospace" fill="#8fe0c4">커밋은 즉시·결정적 · 되돌림 없음</text>
+            </svg>
+        </div>
+        <div class="fig-cap">한 거래 → <b>이해관계자에게만</b> 뷰 전달 → 각자 복호화·검증 → 확인 → 커밋. 제3자는 0건</div>
+      </div>
+      <div class="note"><b>①에서 제출되는 것</b> — A·B가 합의한 거래(Transfer)다. 두 서명자 컨트랙트는 한쪽이 단독으로 못 만들어 <b>propose-accept</b>로 합의한다(A 제안 → B 수락; 제안·수락 단계는 08에서). 합의된 거래가 제출되면 제출 노드가 이를 <b>수신자별 뷰로 암호화</b>해 시퀀서에 보낸다.</div>
+      <div class="note"><b>가시성은 선택이다</b> — 위에서 <b>감독기관</b>은 <span class="k">observer</span>(관찰자)로 지정돼 자기 뷰를 받지만, 거래에 무관한 제3자는 0건이다. "제3자는 무조건 못 본다"가 아니라 <b>누가 볼지를 명시적으로 정한다</b>는 게 핵심 — 기본은 비공개, 공개는 열어 주는 것.</div>
+      <h3 class="sub">뷰(view)란?</h3>
+      <p class="body" style="max-width:68ch"><b>뷰는 한 거래에서 내가 이해관계자로 적혀 있어 받게 되는 부분</b>이다. 거래 전체가 통째로 오는 게 아니라, 자신과 관련된 조각만 받는다. "누가 이해관계자인가"는 컨트랙트의 <span class="k">signatory</span>·<span class="k">observer</span> 선언이 정한다 — 거기 적힌 파티만 뷰를 받고, 없는 제3자는 0건이다.</p>
+      <div class="dev"><div class="dev-h">개발자 시점 — 뷰는 누가 받나 (signatory / observer)</div><div class="dev-b">
+        <p>위 다이어그램은 사실 이 선언을 그린 것이다. <span class="kw">signatory</span>·<span class="kw">observer</span>에 적힌 파티만 이 컨트랙트의 뷰를 받는다.</p>
+        <pre><span class="kw">template</span> Transfer <span class="kw">with</span>
+    payer     : Party      <span class="c">-- 기관 A</span>
+    payee     : Party      <span class="c">-- 기관 B</span>
+    amount    : Decimal
+    regulator : Party      <span class="c">-- 감독기관</span>
+  <span class="kw">where</span>
+    <span class="kw">signatory</span> payer, payee        <span class="c">-- A·B 둘 다 서명자 → 둘 다 동의·확인</span>
+    <span class="kw">observer</span>  regulator           <span class="c">-- 감독기관: 열람만</span>
+    <span class="c">-- 여기 없는 제3자 → 뷰 없음 (0건)</span></pre>
+        <p>payer(A)·payee(B)·regulator(감독기관)가 이해관계자라 각자 자기 뷰를 받는다. 감독기관을 빼면(=observer에서 제거) 그 순간 감독기관도 0건이 된다 — <b>가시성은 이 선언으로 정해진다.</b></p>
+        <p><b>왜 A·B 둘 다 서명자인가?</b> 이 거래는 양쪽의 동의가 필요한 합의라 <span class="k">signatory payer, payee</span> — A·B 모두 권한자다. 그래서 <b>A·B 둘 다 confirm</b>한다. 다만 두 서명자 컨트랙트는 한쪽이 단독으로 못 만드니, A가 제안하고 B가 수락하는 <b>propose-accept</b>로 합의해 생성한다(08 정산의 <span class="k">SettlementProposal</span>: <span class="k">signatory approvers</span> + <span class="k">_Accept</span>가 승인자 추가).</p>
+        <p>반면 <b>감독기관은 관찰자(observer)</b>라 뷰는 받지만 <b>confirm하지 않는다</b> — 확인은 권한이 필요한 서명자만 한다. 그래서 다이어그램에서 A·B는 확인하고, 감독기관은 결과만 받는다.</p>
+        <p>그래서 A와 B가 실제로 받는 뷰는 이런 컨트랙트 형태다(같은 데이터, 역할만 다름):</p>
+        <div class="vcards">
+          <div class="vcard A">
+            <div class="vh">기관 A가 받은 뷰</div>
+            <div class="vbody">Transfer @00a1f2e7…
+  payer     "domestic_bank_…"      <span class="me">// 나(A)</span>
+  payee     "overseas_bank_…"
+  amount    "100"
+  regulator "regulator_…"</div>
+            <div class="role">내 역할: <b>signatory</b> — 동의·확인</div>
+          </div>
+          <div class="vcard B">
+            <div class="vh">기관 B가 받은 뷰</div>
+            <div class="vbody">Transfer @00a1f2e7…
+  payer     "domestic_bank_…"
+  payee     "overseas_bank_…"  <span class="me">// 나(B)</span>
+  amount    "100"
+  regulator "regulator_…"</div>
+            <div class="role">내 역할: <b>signatory</b> — 동의·확인</div>
+          </div>
+          <div class="vcard R">
+            <div class="vh">감독기관이 받은 뷰</div>
+            <div class="vbody">Transfer @00a1f2e7…
+  payer     "domestic_bank_…"
+  payee     "overseas_bank_…"
+  amount    "100"
+  regulator "regulator_…"     <span class="me">// 나(감독)</span></div>
+            <div class="role">내 역할: <b>observer</b> — 열람·감독</div>
+          </div>
+        </div>
+        <p><b>주의</b> — 이 거래는 컨트랙트 하나라 A·B·감독기관이 받는 내용은 같고 <b>역할만</b> 다르다(A·B는 서명자=동의·확인, 감독기관은 관찰자=열람). 제3자는 이 컨트랙트 자체를 못 받는다. 여러 단계 거래(예: 보관+생성, 정산의 두 다리)에선 각자 받는 <b>부분이 실제로 달라진다</b> — 08 프라이버시에서 본다.</p>
+      </div></div>
+      <h3 class="sub">뷰를 받은 다음은?</h3>
+      <p class="body" style="max-width:68ch">뷰 전달로 끝이 아니다. 뷰를 받은 <b>이해관계자 노드가 그 거래를 검증</b>하고(규칙·권한·중복 확인), 미디에이터에 <b>"유효함"을 확인(confirm)</b>한 뒤, 확정되면 <b>커밋</b>된다 — 옛 컨트랙트는 보관되고 새 컨트랙트가 생긴다. 즉시·결정적이라 되돌림이 없다. 제출부터 커밋까지 전체 흐름은 <b>07 트랜잭션 흐름</b> 단계에서 한 단계씩 따라간다.</p>
+      <p class="body" style="max-width:68ch">이 한 가지 원리가 아키텍처·원장·프라이버시·신뢰 모델 전부를 끌고 간다. 12단계에 걸쳐 개념을 따라가되, 실제 <b>파티 ID·Daml 코드·choice 시퀀스·포트</b>까지 같은 흐름에서 본다.</p>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 01 문제 -->
+    <section class="stage" data-title="문제">
+      <div class="eyebrow"><span class="n">01 /</span> 풀어야 할 문제</div>
+      <h2>공개가 기본이면 기관은 못 쓴다</h2>
+      <div class="body">
+        <p>퍼블릭 블록체인의 힘은 모두가 같은 장부를 검증한다는 데 있다. 그 대가가 <b>완전한 투명성</b>이다 — 거래 금액, 거래 상대, 잔액, 타이밍이 누구에게나 보인다. 거래 패턴만 모아도 그 기관의 포지션과 전략이 드러나기 때문에, 이 투명성은 기관 금융에서 강점이 아니라 결격 사유가 된다. 게다가 주소는 익명이라 "<b>KYC를 통과한 상대와만 거래</b>" 같은 규제 요건을 강제하기도 어렵다.</p>
+        <div class="fig">
+          <div class="seqwrap">
+            <svg viewBox="0 0 680 296" role="img" aria-label="퍼블릭 체인에서 한 거래가 모두에게 공개되는 시퀀스 다이어그램" style="width:100%; min-width:560px; height:auto; font-family:var(--sans)">
+              <defs>
+                <marker id="ah" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#5FA8FF"/></marker>
+                <marker id="ahw" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#E8745C"/></marker>
+              </defs>
+              <g font-size="12.5" fill="#EAEFF8" text-anchor="middle">
+                <rect x="25" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="85" y="30">기관 A</text>
+                <rect x="195" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8745C"/><text x="255" y="30">퍼블릭 원장</text>
+                <rect x="370" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="430" y="30">경쟁 기관</text>
+                <rect x="535" y="8" width="130" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="600" y="30">일반 대중·봇</text>
+              </g>
+              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
+                <line x1="85" y1="42" x2="85" y2="284"/><line x1="255" y1="42" x2="255" y2="284"/>
+                <line x1="430" y1="42" x2="430" y2="284"/><line x1="600" y1="42" x2="600" y2="284"/>
+              </g>
+              <g font-size="11.5" font-family="monospace">
+                <text x="170" y="80" text-anchor="middle" fill="#9fb0d6">① 송금 제출 (A→B 100)</text>
+                <line x1="85" y1="90" x2="251" y2="90" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ah)"/>
+                <text x="343" y="140" text-anchor="middle" fill="#E8745C">② 거래 전체 공개</text>
+                <line x1="255" y1="150" x2="426" y2="150" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
+                <text x="428" y="198" text-anchor="middle" fill="#E8745C">③ 거래 전체 공개</text>
+                <line x1="255" y1="208" x2="596" y2="208" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
+              </g>
+              <rect x="150" y="246" width="430" height="34" rx="8" fill="rgba(232,116,92,.08)" stroke="#E8745C" stroke-dasharray="4 3"/>
+              <text x="365" y="267" text-anchor="middle" font-size="11.5" font-family="monospace" fill="#E8745C">한 번 올리면 누구나 본다 — 막을 방법이 없다</text>
+            </svg>
+          </div>
+          <div class="fig-cap">퍼블릭 체인: 한 번 제출 → <b>모두에게 공개</b>. 금액·상대·잔액이 그대로 드러난다</div>
+        </div>
+        <div class="note"><b>핵심 딜레마</b> — 가리면 다른 참여자가 검증할 수 없고, 검증하게 하려면 드러나야 한다. 프라이버시 ↔ 무결성, 지금까지는 둘 중 하나를 골라야 했다.</div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 02 해법 -->
+    <section class="stage" data-title="해법 — 세 기둥">
+      <div class="eyebrow"><span class="n">02 /</span> Canton의 해법</div>
+      <h2>세 기둥으로 둘을 동시에</h2>
+      <div class="body">
+        <p>Canton의 발상은 "<b>거래를 통째로 공유하지 말고, 검증에 필요한 사람에게 필요한 조각만 주자</b>"는 것이다. 이를 세 가지 아키텍처 기둥으로 구현하는데, 셋은 상호 의존적이라 따로는 성립하지 않는다.</p>
+        <div class="fig">
+          <div class="pillars">
+            <div class="pillar"><div class="pn">기둥 1</div><h4>부분 트랜잭션 프라이버시</h4><p>거래를 <b>뷰</b>(각 당사자의 몫)로 분해. 트랜잭션 자체가 누가 무엇을 보는지 정의한다. (07단계에서 상세)</p></div>
+            <div class="pillar"><div class="pn">기둥 2</div><h4>이해관계자 합의 증명</h4><p>전역 검증이 아니라 <b>그 거래의 이해관계자만</b> 검증·확인한다. 전역 공개 없이도 무결성이 서고, 무관한 노드는 부담이 없다.</p></div>
+            <div class="pillar"><div class="pn">기둥 3</div><h4>가시성 없는 동기화</h4><p>Synchronizer(시퀀서+미디에이터)가 <b>내용을 못 본 채</b> 순서와 확인만 맞춘다 — 암호봉투만 다룬다.</p></div>
+          </div>
+          <div class="pillars-sum">→ 프라이버시 + 무결성 동시. 프라이버시가 정책이 아니라 암호학적으로 강제된다</div>
+        </div>
+        <p>마지막 기둥이 특히 중요하다. Synchronizer는 자기가 순서를 매기는 거래의 <b>내용을 읽지 못하므로 부정행위 자체가 불가능</b>하다 — 순서·타임스탬프·라우팅은 알지만 금액·상대는 암호화돼 있다. "믿을 수 있는 중개자"가 아니라 "믿을 필요가 없는 중개자"인 셈이다.</p>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 03 핵심 개념 -->
+    <section class="stage" data-title="핵심 개념 · 파티">
+      <div class="eyebrow"><span class="n">03 /</span> 핵심 개념</div>
+      <h2>네 가지 구성요소, 하나의 망</h2>
+      <div class="body">
+        <p>Canton은 거대한 단일 체인이 아니라 <b>참여자 노드들과 Synchronizer로 이뤄진 망</b>이다. 각 노드는 자기 파티의 데이터만 들고, Synchronizer가 그 사이의 순서·확정을 맞춘다. 이 망을 이해하는 데 필요한 개념은 넷이다.</p>
+        <div class="fig">
+          <div class="net">
+            <div class="box amber"><div class="t">기관 A 노드</div><div class="s">자기 파티 데이터</div></div>
+            <div class="link"></div><div class="sync"><div class="t">Synchronizer</div><div class="s">순서·확정만</div></div><div class="link r"></div>
+            <div class="box azure"><div class="t">기관 B 노드</div><div class="s">자기 파티 데이터</div></div>
+          </div>
+          <div class="fig-cap"><b>단일 글로벌 체인이 아니다</b> — 노드마다 자기 것만, Synchronizer로 연결</div>
+        </div>
+        <div class="cards c2">
+          <div class="card"><div class="tag">WHO · 권한 주체</div><h3>파티 (Party)</h3><p>권한과 데이터 가시성의 단위. 기관·사람·서비스가 될 수 있고, 한 파티를 여러 노드가 함께 호스팅할 수도 있다(복원력). 할 수 있는 건 셋 — <b>검증</b>(자기 컨트랙트에 영향 주는 거래 확인) · <b>제어</b>(choice 실행) · <b>관찰</b>(상태 열람).</p></div>
+          <div class="card"><div class="tag">WHERE · 저장</div><h3>밸리데이터 (참여자 노드)</h3><p>파티를 호스팅하고 <b>자기 파티가 이해관계자인 컨트랙트만</b> 저장·검증한다. 전체 사본은 어디에도 없다.</p></div>
+          <div class="card"><div class="tag">ORDER · 조율</div><h3>Synchronizer</h3><p><b>시퀀서</b>(전역 순서)+<b>미디에이터</b>(확인 취합). 사설/글로벌 두 종류가 있고, 상태·자산은 저장하지 않는다.</p></div>
+          <div class="card"><div class="tag">RULES · 규칙</div><h3>스마트 컨트랙트 (템플릿)</h3><p>비즈니스 규칙을 <b>Daml 템플릿</b>으로 작성한다. 컨트랙트는 한번 생성되면 불변이다.</p></div>
+        </div>
+        <div class="note">각 구성요소의 <b>개발 상세는 전용 단계</b>에 있다 — 스마트 컨트랙트는 <b>04</b>, 밸리데이터·Synchronizer는 <b>05(아키텍처)</b>. 파티는 전용 단계가 없어, 식별·생성까지 여기서 다룬다.</div>
+        <div class="dev"><div class="dev-h">개발자 시점 — 파티는 실제로 어떻게 식별되나</div><div class="dev-b">
+          <p>파티 ID는 사람이 읽는 <b>hint</b>와, 그 파티를 만든 <b>키의 지문</b>이 <span class="k">::</span>로 이어진 문자열이다. 이더리움 주소가 키에서 파생되듯, 파티 ID에도 소유 주체의 키가 박혀 있다.</p>
+          <pre><span class="id">domestic_bank_3f…</span>::<span class="kw">1220</span>abcd…(64자리 16진 키 지문)
+<span class="c">└── hint ──┘   └──── 네임스페이스 = 키 지문 ────┘</span></pre>
+          <p><b>로컬 파티</b>는 키를 노드가 보관(<span class="k">isLocal=true</span>) — 운영이 단순. <b>외부 파티</b>는 키를 본인이 직접 쥔다(자기수탁) — 노드를 신뢰하지 않아도 됨. 데모에선 hint 접두로 역할을 가린다: <span class="k">domestic_bank_…</span>(기관 A) · <span class="k">overseas_bank_…</span>(기관 B) · <span class="k">DSO::…</span>(자산 발행자).</p>
+        </div></div>
+        <div class="dev"><div class="dev-h">개발자 시점 — 파티는 어떻게 생성되나</div><div class="dev-b">
+          <p>파티는 중앙 등록기관이 만들어 주는 게 아니다. <b>내가 통제하는 참여자 노드에 "파티를 할당해줘"라고 요청</b>하면, 그 노드가 키를 만들어 파티 ID(<span class="k">hint::키지문</span>)를 조립하고, <b>토폴로지</b>로 "이 파티는 이 노드가 호스팅한다"를 Synchronizer에 등록(서명)해 네트워크가 알게 한다.</p>
+          <div class="seqwrap">
+            <svg viewBox="0 0 660 268" role="img" aria-label="파티 생성 시퀀스: 앱이 참여자 노드에 할당 요청, 노드가 키 생성·ID 조립, 토폴로지 등록 후 ID 반환" style="width:100%; min-width:520px; height:auto; font-family:var(--sans)">
+              <g font-size="12" fill="#EAEFF8" text-anchor="middle">
+                <rect x="24" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#5FA8FF"/><text x="84" y="30">앱 / 운영자</text>
+                <rect x="250" y="8" width="140" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="320" y="30">참여자 노드</text>
+                <rect x="500" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#5C6885" stroke-dasharray="4 3"/><text x="560" y="30">Synchronizer</text>
+              </g>
+              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
+                <line x1="84" y1="46" x2="84" y2="208"/><line x1="320" y1="46" x2="320" y2="208"/><line x1="560" y1="46" x2="560" y2="208"/>
+              </g>
+              <g font-size="11" font-family="monospace">
+                <text x="200" y="82" text-anchor="middle" fill="#9fb0d6">① 파티 할당 요청 (hint=domestic_bank)</text>
+                <line x1="84" y1="90" x2="316" y2="90" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ahB)"/>
+                <path d="M320,104 h22 v14 h-18" fill="none" stroke="#7E8AA6" stroke-width="1.3" marker-end="url(#ahF)"/>
+                <text x="348" y="116" text-anchor="start" fill="#9fb0d6">키 생성 → 파티 ID 조립 (hint::키지문)</text>
+                <text x="442" y="150" text-anchor="middle" fill="#E8A14C">② 토폴로지 등록 (서명·호스팅 공표)</text>
+                <line x1="320" y1="158" x2="556" y2="158" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#ahA)"/>
+                <text x="200" y="186" text-anchor="middle" fill="#57D6A6">③ 파티 ID 반환</text>
+                <line x1="320" y1="194" x2="88" y2="194" stroke="#57D6A6" stroke-width="1.5" marker-end="url(#ahR)"/>
+              </g>
+              <rect x="64" y="214" width="532" height="36" rx="8" fill="rgba(95,168,255,.07)" stroke="#33506e" stroke-dasharray="4 3"/>
+              <text x="330" y="236" text-anchor="middle" font-size="11" font-family="monospace" fill="#9fb0d6">중앙기관이 아니라 내 참여자 노드가 할당 → 토폴로지로 '이 노드가 호스팅' 공표</text>
+            </svg>
+          </div>
+          <p><b>토폴로지(topology)란?</b> 네트워크의 <b>신원·키·호스팅 상태</b>다 — 어떤 파티가 있고, 어느 노드가 그 파티를 호스팅하며, 어떤 키를 쓰는지. 비즈니스 거래(원장 데이터)와는 <b>별개의 층</b>이고, <b>서명된 토폴로지 트랜잭션</b>으로 갱신·공유된다. 일종의 네트워크 주소록 + 공개키 등록부(PKI)라 보면 된다 — 그래야 남들이 이 파티와 거래할 때 어느 노드로 뷰를 보내고 어떤 키로 검증할지 안다.</p>
+          <pre><span class="kw">POST</span> /v2/parties  {"partyIdHint":"domestic_bank", "identityProviderId":""}
+  → {"party":"<span class="id">domestic_bank_…::1220…</span>", "isLocal":true}</pre>
+          <p><b>외부 파티</b>는 키를 외부에서 들고 와 토폴로지로 온보딩한다(노드가 키를 못 봄). 그래서 "내 밸리데이터를 신뢰"가 신뢰 모델의 1번 영역(10단계)인 것과 직접 이어진다 — 내 파티를 만들고 호스팅하는 게 바로 그 노드다.</p>
+        </div></div>
+        <div class="dev"><div class="dev-h">개발자 시점 — HD 월렛(BIP32) 구조도 되나?</div><div class="dev-b">
+          <p><b>부분적으로 가능하지만, 보통 그렇게 안 한다.</b> 한 시드에서 여러 파티 키를 계층적으로 파생하는 것 자체는 <b>SLIP-0010</b>(Ed25519·P-256용 HD 파생)으로 가능하다 — 외부 파티(자기수탁)라면 키 관리 계층에서 쓸 수 있다. 단 Canton은 비트코인의 <span class="k">secp256k1</span>/BIP32를 직접 쓰지 않고 <b>Ed25519·ECDSA P-256/P-384</b>를 쓴다.</p>
+          <p>그리고 비트코인 HD의 본래 목적(거래마다 새 주소를 뽑아 프라이버시 확보)은 Canton엔 불필요하다 — 프라이버시는 주소 회전이 아니라 <b>뷰 분해</b>(08)에서 온다. 파티는 토폴로지에 등록되는 <b>안정적 신원</b>이라 일회성 주소 모델이 아니다. 그래서 "HD 월렛"이라는 내장 개념은 없고, 외부 파티 키는 보통 KMS·외부 서명으로 관리한다.</p>
+        </div></div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 04 Daml -->
+    <section class="stage" data-title="Daml 컨트랙트">
+      <div class="eyebrow"><span class="n">04 /</span> 규칙이 코드가 된다</div>
+      <h2>템플릿, 그리고 choice</h2>
+      <div class="body">
+        <p>비즈니스 규칙은 Daml <b>템플릿</b>이 된다. 템플릿은 두 가지를 정의한다 — 컨트랙트가 담는 <b>데이터</b>(누가 보내는지, 얼마인지)와, 누가 무엇을 할 수 있는지의 <b>choice</b>다. 배포된 템플릿이 틀이고, 원장 위의 데이터 한 줄이 컨트랙트 한 건이다.</p>
+        <p>권한은 함수 본문이 아니라 <b>타입에 박힌다</b>. 이게 솔리디티와의 결정적 차이다 — 솔리디티는 누구나 함수를 호출할 수 있고 안에서 <span class="k">require(msg.sender==…)</span>로 직접 검사하지만, Daml은 선언으로 강제한다.</p>
+        <ul>
+          <li><b>signatory</b> — 컨트랙트가 존재·소멸하려면 동의가 필요한 주된 권한자. 한 명이 아니라 <b>리스트</b>일 수 있어 다자 동의가 자연스럽다.</li>
+          <li><b>observer</b> — 동의권은 없지만 볼 수 있는 파티. 이 선언이 곧 가시성의 출처다.</li>
+          <li><b>controller</b> — 특정 choice를 실행할 수 있는 파티. choice마다 지정한다.</li>
+        </ul>
+        <div class="dev"><div class="dev-h">개발자 시점 — 실제 정산 패키지의 템플릿</div><div class="dev-b">
+          <p>정산 패키지(<span class="k">Settlement.FxDvp</span>)의 <span class="id">SettlementProposal</span>. 서명자가 리스트(<span class="k">approvers</span>)라 여러 당사자가 함께 권한자이고, <span class="k">_Accept</span>는 <b>소비형</b>이라 호출 시 제안서를 보관하고 승인자를 추가한 새 제안서를 만든다 — "보관+재생성"으로 다자 동의가 한 명씩 쌓인다.</p>
+          <pre><span class="kw">template</span> SettlementProposal <span class="kw">with</span>
+    venue        : Party              <span class="c">-- 정산 운영자(정산에서만 등장)</span>
+    transferLegs : TextMap TransferLeg
+    approvers    : [Party]
+  <span class="kw">where</span>
+    <span class="kw">signatory</span> approvers
+    <span class="kw">observer</span>  venue, tradingParties transferLegs
+
+    <span class="kw">choice</span> <span class="id">SettlementProposal_Accept</span> : ContractId SettlementProposal
+      <span class="kw">with</span> approver : Party
+      <span class="kw">controller</span> approver
+      <span class="kw">do</span> ...   <span class="c">-- 옛 제안서 보관 + 승인자 추가해 재생성</span></pre>
+        </div></div>
+
+        <h3 class="sub">이 코드는 어떻게 배포·사용되나</h3>
+        <p>템플릿을 썼다고 끝이 아니다. <b>작성 → 빌드 → 배포(업로드 + 승인) → 사용</b> 순으로 원장 위에서 살아 움직인다. 핵심은 배포 단계 — DAR(빌드 산출물)은 그 거래에 참여하는 <b>모든 이해관계자 노드</b>에 올라가 <b>승인(vetting)</b>돼야 한다. 한 노드만 갖고 있으면 그 패키지로 만든 거래는 검증·커밋되지 않는다.</p>
+        <div class="dev"><div class="dev-h">개발자 시점 — Daml 패키지 수명주기</div><div class="dev-b">
+          <pre><span class="c">1. 작성·빌드</span>   daml build  →  settlement.dar   <span class="c">(패키지)</span>
+<span class="c">2. 배포</span>        DAR을 참여하는 <span class="kw">모든 이해관계자 노드</span>에 업로드 + 각 노드가 vetting(승인)
+              <span class="c">└ 한 노드만 가지면 그 거래는 검증·커밋 안 됨</span>
+<span class="c">3. 사용</span>        앱 → Ledger API 커맨드:
+                <span class="id">create</span>   Transfer {payer, payee, amount, regulator}     <span class="c">-- 컨트랙트 생성</span>
+                <span class="id">exercise</span> SettlementProposal_Accept ...                <span class="c">-- choice 실행</span>
+<span class="c">4. 조회</span>        /v2/state/active-contracts (ACS) · offset으로 변경 추적</pre>
+          <p>즉 같은 DAR을 A·B(·정산 운영자·발행자) 노드가 모두 갖고 승인해야, 그 위에서 만든 컨트랙트·choice가 양쪽에서 동일하게 검증된다. 앱은 직접 원장을 건드리지 않고 <b>Ledger API로 커맨드</b>만 보낸다 — 나머지(순서·확인·커밋)는 05·07에서 본 그 흐름이다.</p>
+        </div></div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 05 아키텍처 -->
+    <section class="stage" data-title="아키텍처 & 인프라">
+      <div class="eyebrow"><span class="n">05 /</span> 아키텍처 & 인프라</div>
+      <h2>조율과 저장을 나눈다</h2>
+      <div class="body">
+        <p>Canton의 핵심 설계는 <b>조율</b>과 <b>저장</b>을 서로 다른 주체에게 맡긴 것이다. 자산과 컨트랙트는 참여자 노드에 머물고, Synchronizer는 거래의 순서·확정만 책임진다. 이 분리 덕분에 Synchronizer는 내용을 몰라도 합의를 이끌 수 있다 — 02단계 "가시성 없는 동기화"가 가능한 이유다.</p>
+        <div class="fig">
+          <svg viewBox="0 0 720 372" role="img" aria-label="큰 그림: 위쪽 Synchronizer(시퀀서·미디에이터)가 조율하고, 아래 두 밸리데이터가 각자 참여자 노드·원장 샤드·파티를 보유하며, 앱이 Ledger API로 자기 노드에 붙는다" style="width:100%;height:auto;display:block;font-family:var(--sans)">
+            <g stroke="#5C6885" stroke-width="1.5" opacity=".5"><line x1="190" y1="182" x2="190" y2="88"/><line x1="530" y1="182" x2="530" y2="88"/></g>
+            <g stroke="#7FD1FF" stroke-width="1.3" opacity=".55"><line x1="190" y1="324" x2="190" y2="306"/><line x1="530" y1="324" x2="530" y2="306"/></g>
+            <!-- Synchronizer -->
+            <rect x="150" y="14" width="420" height="74" rx="12" fill="rgba(95,168,255,.05)" stroke="#5C6885" stroke-dasharray="5 4"/>
+            <text x="360" y="32" text-anchor="middle" font-size="11" fill="#9fb0d6">Synchronizer · 조율 (내용 안 봄)</text>
+            <g text-anchor="middle" font-size="10.5">
+              <rect x="176" y="44" width="170" height="32" rx="8" fill="#141C30" stroke="#7FD1FF"/><text x="261" y="64" fill="#a9deff">시퀀서 · 순서</text>
+              <rect x="374" y="44" width="170" height="32" rx="8" fill="#141C30" stroke="#7FD1FF"/><text x="459" y="64" fill="#a9deff">미디에이터 · 확인 취합</text>
+            </g>
+            <line x1="346" y1="60" x2="374" y2="60" stroke="#7FD1FF" stroke-width="1.4" opacity=".7"/>
+            <!-- Validator A -->
+            <rect x="44" y="150" width="292" height="156" rx="12" fill="rgba(232,161,76,.05)" stroke="#E8A14C"/>
+            <text x="190" y="172" text-anchor="middle" font-size="11.5" fill="#E8A14C" font-weight="640">밸리데이터 A — 국내은행 노드</text>
+            <g text-anchor="middle" font-size="10">
+              <rect x="60" y="182" width="260" height="30" rx="7" fill="#141C30" stroke="#33506e"/><text x="190" y="201" fill="#C2CBE0">참여자 노드 · Daml 실행·검증</text>
+              <rect x="60" y="220" width="260" height="30" rx="7" fill="#0F1828" stroke="#57D6A6"/><text x="190" y="239" fill="#7fe6c0">원장 샤드 — 내 파티 컨트랙트만</text>
+              <rect x="60" y="258" width="260" height="30" rx="7" fill="#141C30" stroke="#E8A14C"/><text x="190" y="277" fill="#E8A14C">파티: 기관 A</text>
+            </g>
+            <!-- Validator B -->
+            <rect x="384" y="150" width="292" height="156" rx="12" fill="rgba(95,168,255,.05)" stroke="#5FA8FF"/>
+            <text x="530" y="172" text-anchor="middle" font-size="11.5" fill="#5FA8FF" font-weight="640">밸리데이터 B — 해외은행 노드</text>
+            <g text-anchor="middle" font-size="10">
+              <rect x="400" y="182" width="260" height="30" rx="7" fill="#141C30" stroke="#33506e"/><text x="530" y="201" fill="#C2CBE0">참여자 노드 · Daml 실행·검증</text>
+              <rect x="400" y="220" width="260" height="30" rx="7" fill="#0F1828" stroke="#57D6A6"/><text x="530" y="239" fill="#7fe6c0">원장 샤드 — 내 파티 컨트랙트만</text>
+              <rect x="400" y="258" width="260" height="30" rx="7" fill="#141C30" stroke="#5FA8FF"/><text x="530" y="277" fill="#5FA8FF">파티: 기관 B</text>
+            </g>
+            <!-- Apps -->
+            <g text-anchor="middle" font-size="10">
+              <text x="206" y="320" text-anchor="start" font-size="9" font-family="monospace" fill="#7E8AA6">Ledger API</text>
+              <rect x="120" y="324" width="140" height="32" rx="8" fill="#141C30" stroke="#7FD1FF"/><text x="190" y="344" fill="#a9deff">앱 A (백엔드)</text>
+              <text x="546" y="320" text-anchor="start" font-size="9" font-family="monospace" fill="#7E8AA6">Ledger API</text>
+              <rect x="460" y="324" width="140" height="32" rx="8" fill="#141C30" stroke="#7FD1FF"/><text x="530" y="344" fill="#a9deff">앱 B (백엔드)</text>
+            </g>
+          </svg>
+          <div class="fig-cap"><b>큰 그림</b> — 조율(Synchronizer)과 저장(밸리데이터)이 갈린다. 각 노드는 자기 <b>원장 샤드</b>(내 파티가 이해관계자인 컨트랙트만 · <b>전체 사본은 어디에도 없음</b>)를 들고, Synchronizer는 암호봉투의 <b>순서만</b> 맞춘다. 앱은 Ledger API로 자기 노드에 붙는다. (한 노드가 여러 파티를 호스팅할 수도 있다.)</div>
+        </div>
+        <div class="fig">
+          <div class="arch">
+            <div class="col coord"><div class="role">조율 · 내용 안 봄</div><h4>Synchronizer</h4><ul><li>거래를 <b>암호봉투</b>로 받음</li><li>시퀀서가 전역 순서·타임스탬프 부여</li><li>미디에이터가 이해관계자 확인을 취합·확정</li><li>상태를 저장하지 않음 / 내용 해독 불가</li></ul></div>
+            <div class="col store"><div class="role">저장 · 검증</div><h4>밸리데이터 (참여자 노드)</h4><ul><li>자기 파티 관련 컨트랙트만 보관</li><li>거래 유효성을 직접 검증</li><li>공유 컨트랙트는 양쪽이 같은 사본</li><li>그래서 사후 <b>대조(reconciliation) 불필요</b></li></ul></div>
+          </div>
+          <div class="fig-cap">자산·상태는 노드에, 순서·확정만 Synchronizer에 — <b>내용과 순서의 분리</b></div>
+        </div>
+        <div class="dev"><div class="dev-h">개발자 시점 — 무엇을 띄우고 어떻게 붙나</div><div class="dev-b">
+          <p>앱은 <b>온-원장 Daml 패키지</b>(정산 규칙, 모두가 공유·강제)와 <b>오프-원장 백엔드</b>(매칭·외부연동·UI, 각자 운영)로 나뉜다. 백엔드는 <b>Ledger API</b>로 노드와 대화한다. 데모에선 포트가 곧 노드다.</p>
+          <dl class="kv">
+            <dt>2975</dt><dd>기관 A 참여자 노드 (JSON Ledger API v2)</dd>
+            <dt>3975</dt><dd>기관 B 참여자 노드</dd>
+            <dt>4975</dt><dd>제3자 노드 — 프라이버시 0건 확인용</dd>
+            <dt>주요 API</dt><dd><span class="k">/v2/state/active-contracts</span> · <span class="k">/v2/commands/submit-and-wait</span> · <span class="k">/v2/state/ledger-end</span></dd>
+          </dl>
+          <p><b>DAR vetting</b>: 정산 패키지(DAR)는 참여하는 <b>모든 이해관계자 노드</b>에 업로드·승인돼야 트랜잭션이 검증·커밋된다. 운영 형태는 자체호스팅(통제력↑) vs NaaS(부담↓)로 갈리며, 위탁해도 키는 외부 파티로 직접 쥘 수 있다.</p>
+        </div></div>
+
+        <h3 class="sub">네트워크 토폴로지 — 셋 중에 고른다</h3>
+        <p>참여자 노드를 어떤 Synchronizer에 어떻게 연결하느냐는 고정이 아니다. 한 참여자가 <b>여러 Synchronizer에 동시에</b> 붙을 수도 있다.</p>
+        <div class="cards c3">
+          <div class="card"><div class="tag">단순</div><h3>단일 Synchronizer</h3>
+            <svg viewBox="0 0 240 112" style="width:100%;height:auto;display:block;margin:6px 0 2px;font-family:var(--sans)">
+              <g stroke="#5C6885" stroke-width="1.3" opacity=".5"><line x1="40" y1="84" x2="108" y2="36"/><line x1="120" y1="84" x2="120" y2="36"/><line x1="200" y1="84" x2="132" y2="36"/></g>
+              <g text-anchor="middle" font-size="10">
+                <rect x="78" y="10" width="84" height="26" rx="7" fill="#1C2640" stroke="#5C6885" stroke-dasharray="4 3"/><text x="120" y="27" fill="#C2CBE0">Synchronizer</text>
+                <rect x="16" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="40" y="100" fill="#9fb0d6">노드</text>
+                <rect x="96" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="120" y="100" fill="#9fb0d6">노드</text>
+                <rect x="176" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="200" y="100" fill="#9fb0d6">노드</text>
+              </g></svg>
+            <p>단일 배포 · 테스트 · 단일 조직 앱.</p></div>
+          <div class="card"><div class="tag">엔터프라이즈</div><h3>다중 Synchronizer</h3>
+            <svg viewBox="0 0 240 112" style="width:100%;height:auto;display:block;margin:6px 0 2px;font-family:var(--sans)">
+              <g stroke-width="1.3" opacity=".55"><line x1="40" y1="84" x2="50" y2="36" stroke="#5FA8FF"/><line x1="40" y1="84" x2="188" y2="36" stroke="#E8745C"/><line x1="120" y1="84" x2="58" y2="36" stroke="#5FA8FF"/><line x1="200" y1="84" x2="196" y2="36" stroke="#E8745C"/></g>
+              <g text-anchor="middle" font-size="9.5">
+                <rect x="14" y="10" width="80" height="26" rx="7" fill="#1C2640" stroke="#5FA8FF"/><text x="54" y="27" fill="#9cc4ff">A · 사설</text>
+                <rect x="146" y="10" width="84" height="26" rx="7" fill="#1C2640" stroke="#E8745C"/><text x="188" y="27" fill="#eaa091">B · 컨소시엄</text>
+                <rect x="16" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="40" y="100" fill="#9fb0d6">노드1</text>
+                <rect x="96" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="120" y="100" fill="#9fb0d6">노드2</text>
+                <rect x="176" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="200" y="100" fill="#9fb0d6">노드3</text>
+              </g></svg>
+            <p>워크플로별 분리 · 규제 분리 · 컨소시엄 거버넌스. 노드1은 둘 다 연결.</p></div>
+          <div class="card"><div class="tag">퍼블릭</div><h3>글로벌 Synchronizer</h3>
+            <svg viewBox="0 0 240 112" style="width:100%;height:auto;display:block;margin:6px 0 2px;font-family:var(--sans)">
+              <g stroke="#57D6A6" stroke-width="1.3" opacity=".5"><line x1="40" y1="84" x2="70" y2="38"/><line x1="120" y1="84" x2="120" y2="38"/><line x1="200" y1="84" x2="170" y2="38"/></g>
+              <g text-anchor="middle" font-size="9.5">
+                <rect x="36" y="10" width="168" height="28" rx="8" fill="#1C2640" stroke="#57D6A6"/><text x="120" y="28" fill="#7fe6c0">글로벌 Synchronizer · 여러 SV</text>
+                <rect x="16" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="40" y="100" fill="#9fb0d6">밸리데이터</text>
+                <rect x="96" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="120" y="100" fill="#9fb0d6">밸리데이터</text>
+                <rect x="176" y="84" width="48" height="24" rx="6" fill="#141C30" stroke="#33506e"/><text x="200" y="100" fill="#9fb0d6">밸리데이터</text>
+              </g></svg>
+            <p>퍼블릭 Canton Network · 조직 간 워크플로. 여러 독립 슈퍼 밸리데이터가 분산 운영.</p></div>
+        </div>
+
+        <h3 class="sub">코드는 어디에 둘까 — 온-원장 vs 오프-원장</h3>
+        <div class="cards c2">
+          <div class="card"><div class="tag" style="color:var(--ok)">온-원장 · Daml</div><h3>여럿이 공유·강제할 핵심</h3><p>돈·계약·권한처럼 <b>여러 당사자가 공유·합의·강제</b>해야 하는 것. <b>다자 합의(필수)</b> · 권한 강제(권장) · 감사 추적(내장). 원장에 올리면 모두에게 자동 강제·기록된다.</p></div>
+          <div class="card"><div class="tag" style="color:var(--dev)">오프-원장 · 백엔드</div><h3>나 혼자 처리하는 편의</h3><p><b>외부 API 호출(필수)</b> · 복잡한 비즈니스 로직 · 고빈도 연산 · UI. Daml은 외부 인터넷을 호출하지 못하므로 이런 일은 내 백엔드가 맡는다.</p></div>
+        </div>
+        <div class="note"><b>읽는 법</b> — 핵심 합의는 <b>원장(Daml)</b>, 편의 기능은 <b>백엔드</b>. 둘을 <b>조합</b>해 앱을 만든다(07 트랜잭션 흐름의 지갑·앱·노드 3층이 바로 이 구분이다).</div>
+
+        <div class="dev"><div class="dev-h">개발자 시점 — 코드는 어디서 돌고, 무엇으로 붙나</div><div class="dev-b">
+          <p>구성요소별 <b>실행 위치</b>:</p>
+          <dl class="kv">
+            <dt>스마트 컨트랙트(템플릿)</dt><dd>참여자 노드 · Daml — 비즈니스 로직·권한·프라이버시 규칙</dd>
+            <dt>백엔드 서비스</dt><dd>내 인프라 · 임의 언어(TS·Java·Python) — 오프-원장 자동화·통합</dd>
+            <dt>프론트엔드</dt><dd>브라우저/모바일 · 임의 프레임워크</dd>
+            <dt>쿼리</dt><dd>참여자(Ledger API) 또는 PQS(SQL)</dd>
+          </dl>
+          <p>그 사이를 잇는 <b>API</b>:</p>
+          <dl class="kv">
+            <dt>Ledger API (gRPC)</dt><dd>고성능 백엔드 통합</dd>
+            <dt>Ledger API (JSON)</dt><dd>더 단순·브라우저 친화 (데모가 이걸 씀)</dd>
+            <dt>Admin API</dt><dd>노드·파티 관리</dd>
+            <dt>PQS (SQL)</dt><dd>복잡한 쿼리·리포팅</dd>
+          </dl>
+        </div></div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 06 원장 -->
+    <section class="stage" data-title="원장 모델">
+      <div class="eyebrow"><span class="n">06 /</span> 원장 모델</div>
+      <h2>컨트랙트는 고쳐 쓰지 않는다</h2>
+      <div class="body">
+        <p>Canton 원장은 <b>불변 컨트랙트</b>의 모음이다(확장 UTXO, eUTXO식). 상태를 바꾼다는 건 값을 덮어쓰는 게 아니라 <b>옛 컨트랙트를 보관(archive)하고 새 컨트랙트를 만드는</b> 일이다. 같은 컨트랙트는 한 번만 소비할 수 있으므로, 같은 자산을 두 번 쓰는 이중지불이 구조적으로 막힌다.</p>
+        <div class="fig">
+          <div class="ledger">
+            <div class="lcard old"><div class="x"></div><div class="st">보관됨 (archived)</div><div class="t">잔액 100 · 소유 A</div></div>
+            <div class="arrow">── 송금 실행 ▶ ──</div>
+            <div class="lcard new"><div class="st">활성 (active)</div><div class="t">잔액 100 · 소유 B</div></div>
+          </div>
+          <div class="fig-cap">상태 변경 = <b>옛것 보관 + 새것 생성</b> · 덮어쓰기가 아니다</div>
+        </div>
+        <p>노드가 보관 중인 "현재 유효한 컨트랙트 전체"가 <b>ACS</b>(활성 컨트랙트 집합)다. 거래를 처리할 때마다 ACS에서 옛 컨트랙트가 빠지고 새것이 들어온다. "원장의 어디까지 봤나"는 단조 증가하는 <b>offset</b>으로 가리킨다(DB 변경 로그의 위치 같은 개념). 각 컨트랙트의 <span class="k">signatory</span>·<span class="k">observer</span> 선언이 곧 누가 그것을 보고 승인하는지를 정한다.</p>
+
+        <h3 class="sub">일반 UTXO(비트코인)와 무엇이 다른가</h3>
+        <p>eUTXO는 비트코인의 <b>UTXO</b>(미사용 거래 출력)를 일반화한 것이다. UTXO의 "동전"을 <b>임의의 상태·규칙·다자 권한을 담은 컨트랙트</b>로 확장(extended)했다고 보면 된다.</p>
+        <div class="cards c2">
+          <div class="card"><div class="tag">일반 UTXO · 비트코인</div><h3>동전(coin)을 주고받음</h3><p>출력이 담는 건 <b>금액</b>뿐이다. 잠금은 스크립트(대개 서명 검증)이고, 표현력은 가치 이전 위주다. 내용은 공개된다.</p></div>
+          <div class="card"><div class="tag">eUTXO · Canton/Daml</div><h3>컨트랙트(상태 + 규칙)를 주고받음</h3><p>출력 = 컨트랙트가 <b>임의 데이터 + choice(규칙) + signatory/observer(다자 권한)</b>를 담는다. 임의 워크플로를 표현하고, 이해관계자만 열람한다.</p></div>
+        </div>
+        <div class="note"><b>공통점</b> — 둘 다 상태가 <b>불변 단위의 집합</b>이고, 각 단위는 <b>딱 한 번만 소비</b>된다(그래서 이중지불이 구조적으로 막힌다). eUTXO는 거기에 "동전 → 컨트랙트"로 <b>표현력·다자 권한·프라이버시</b>를 더한 것이다. (계정 모델인 이더리움이 가변 잔액을 덮어쓰는 것과도 다르다 — eUTXO는 덮어쓰지 않고 보관+생성한다.)</div>
+
+        <h3 class="sub">왜 UTXO인가 — 계정 모델과 비교</h3>
+        <p>비트코인과의 차이가 "동전 vs 컨트랙트"였다면, 이더리움식 <b>계정(Account) 모델</b>과의 차이는 "물건(UTXO) vs 잔액 숫자(계정)"에서 갈린다. 네 가지가 따라온다:</p>
+        <ul>
+          <li><b>병렬성</b> — 독립 컨트랙트는 서로 안 겹치면 <b>동시 처리</b>(빠름). 계정은 같은 잔액을 동시에 못 건드려 <b>잠그고 줄 세운다</b>(느림).</li>
+          <li><b>프라이버시</b> — 컨트랙트마다 이해관계자가 정해져 "그들만" 보면 된다 → 분리가 자연스럽다. 계정은 거래가 한 칸에 <b>다 쌓여(집계)</b> 떼어내기 어렵다.</li>
+          <li><b>조합 가능성</b> — 독립 컨트랙트들을 한 거래로 <b>레고처럼 묶어</b> 전부 아니면 전무로 처리한다(DvP의 근간). 계정은 직접 설계해야 한다.</li>
+          <li><b>이중지불 방지</b> — 컨트랙트는 <b>한 번만 소비</b>돼 구조적으로 막힌다. 계정은 <b>논스(순번)</b>로 따로 막아야 한다.</li>
+        </ul>
+
+        <h3 class="sub">트랜잭션은 액션의 트리다</h3>
+        <p>트랜잭션 하나는 단일 동작이 아니라 <b>액션들의 나무</b>다. 한 동작이 연쇄 결과(consequences)를 낳고, 그 <b>전체가 한 트랜잭션으로 원자적</b>으로 커밋된다 — 도미노처럼 줄줄이 일어나되 다 같이 성공하거나 아예 안 일어난다.</p>
+        <div class="fig">
+          <svg viewBox="0 0 680 232" role="img" aria-label="트랜잭션 트리: Transfer 실행이 Asset 생성과 Notify 실행을 낳고, Notify가 Notification 생성을 낳는다 — 전체가 하나의 원자적 트랜잭션" style="width:100%;height:auto;display:block;font-family:var(--sans)">
+            <rect x="8" y="8" width="664" height="216" rx="12" fill="rgba(95,168,255,.04)" stroke="#33506e" stroke-dasharray="5 4"/>
+            <text x="24" y="28" font-size="11" font-family="monospace" fill="#9fb0d6">하나의 트랜잭션 — 전부 아니면 전무</text>
+            <g stroke-width="1.4" opacity=".6" fill="none">
+              <path d="M340,80 C260,98 220,100 175,116" stroke="#57D6A6"/>
+              <path d="M340,80 C420,98 460,100 495,116" stroke="#E8A14C"/>
+              <path d="M495,156 C500,170 503,176 505,186" stroke="#57D6A6"/>
+            </g>
+            <g text-anchor="middle">
+              <rect x="230" y="44" width="220" height="38" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="340" y="60" font-size="11.5" fill="#E8A14C">Exercise · Transfer</text><text x="340" y="75" font-size="10" fill="#8794B0">Asset#1 보관(소비)</text>
+              <rect x="70" y="118" width="210" height="38" rx="9" fill="#1C2640" stroke="#57D6A6"/><text x="175" y="134" font-size="11.5" fill="#57D6A6">Create · Asset#2</text><text x="175" y="149" font-size="10" fill="#8794B0">새 소유자 앞 자산</text>
+              <rect x="380" y="118" width="230" height="38" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="495" y="134" font-size="11.5" fill="#E8A14C">Exercise · Notify</text><text x="495" y="149" font-size="10" fill="#8794B0">등록부에 알림</text>
+              <rect x="400" y="188" width="210" height="34" rx="9" fill="#1C2640" stroke="#57D6A6"/><text x="505" y="209" font-size="11.5" fill="#57D6A6">Create · Notification</text>
+            </g>
+          </svg>
+          <div class="fig-cap">액션 3종 — <b>Create</b>(생성) · <b>Exercise</b>(실행, 소비형이면 보관) · <b>Fetch</b>(읽기, 상태 불변). 소비형 choice는 컨트랙트를 보관하고, <b>비소비형</b>(<span class="k">nonconsuming</span>)은 활성으로 남겨 조회·알림에 쓴다.</div>
+        </div>
+
+        <div class="dev"><div class="dev-h">개발자 시점 — 컨트랙트 키 & 원장 시간</div><div class="dev-b">
+          <p><b>컨트랙트 키</b>: 컨트랙트 ID를 몰라도 <span class="k">(은행, 계좌번호)</span> 같은 키로 컨트랙트를 조회한다. 키마다 그것을 책임지는 <b>maintainer</b>가 있다. (Canton 3.5 예정)</p>
+          <pre><span class="kw">key</span> (bank, accountNumber) : (Party, Text)
+<span class="kw">maintainer</span> key._1   <span class="c">-- bank가 키를 유지</span></pre>
+          <p><b>주의</b>: 키는 Synchronizer 내에서 <b>전역</b>이라, 컨트랙트 존재 정보가 새지 않게 신중히 설계한다.</p>
+          <p><b>원장 시간(ledger time)</b>: Synchronizer가 부여하고 Synchronizer별로 <b>단조 증가</b>한다. 마감·만기 같은 시간 기반 로직에 쓴다(예: <span class="k">assertDeadlineExceeded</span>로 마감 경과 확인).</p>
+        </div></div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 07 트랜잭션 흐름 -->
+    <section class="stage" data-title="트랜잭션 흐름">
+      <div class="eyebrow"><span class="n">07 /</span> 거래는 어떻게 흐르나</div>
+      <h2>지갑에서 커밋까지, 한 단계씩</h2>
+      <div class="body">
+        <p>국내 기관 A가 해외 기관 B에게 보내는 한 건이 실제로 누구를 거치는지 따라가 보자. 각 기관은 <b>지갑(UI)·앱(백엔드)·밸리데이터(노드)</b>를 두고, 가운데 Synchronizer가 순서와 확정을 맞춘다. <b>다음</b>을 눌러 한 단계씩 진행하라 — 각 단계에서 어느 구성요소가 무슨 일을 하는지 짚어 준다.</p>
+        <div class="life">
+          <div class="life-map">
+            <div class="side A"><div class="side-h">국내 기관 A</div>
+              <div class="ln" id="aw"><div class="lt">지갑 (UI)</div><div class="ls">사용자</div></div>
+              <div class="ln" id="aa"><div class="lt">앱 (백엔드)</div><div class="ls">오프-원장</div></div>
+              <div class="ln" id="av"><div class="lt">밸리데이터</div><div class="ls">A 노드 · 2975</div></div></div>
+            <div class="center"><div class="sync-h">Synchronizer</div>
+              <div class="ln sync" id="sq"><div class="lt">시퀀서</div><div class="ls">순서</div></div>
+              <div class="ln sync" id="md"><div class="lt">미디에이터</div><div class="ls">확인 취합</div></div></div>
+            <div class="side B"><div class="side-h">해외 기관 B</div>
+              <div class="ln" id="bw"><div class="lt">지갑 (UI)</div><div class="ls">사용자</div></div>
+              <div class="ln" id="ba"><div class="lt">앱 (백엔드)</div><div class="ls">오프-원장</div></div>
+              <div class="ln" id="bv"><div class="lt">밸리데이터</div><div class="ls">B 노드 · 3975</div></div></div>
+          </div>
+          <div class="life-read"><div class="stepno" id="lifeNo">단계 0 / 8</div><div class="desc" id="lifeDesc"><b>다음</b>을 눌러 시작하세요. 송금 요청이 지갑에서 출발합니다.</div></div>
+          <div class="life-ctrl"><button class="ghost" id="lifePrev" disabled>이전</button><button id="lifeNext">다음</button><button class="ghost" id="lifeReset">처음으로</button></div>
+        </div>
+        <div class="note">가운데 시퀀서·미디에이터는 거래를 <b>암호봉투</b>로만 다룬다 — 순서를 매기고 확인을 세지만, 안의 금액·상대는 못 읽는다. 커밋은 즉시·결정적이라 되돌림이 없다.</div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 08 프라이버시 -->
+    <section class="stage" data-title="정산(DvP) · 프라이버시">
+      <div class="eyebrow"><span class="n">08 /</span> 정산(DvP) · 흐름 + 원자성 + 프라이버시</div>
+      <h2>맞교환 한 건: 제안서부터 실행까지</h2>
+      <div class="body">
+        <p>송금은 한 방향이라 단순했다. 이번엔 <b>A가 원화를, B가 엔화를 맞바꾼다</b>(정산/DvP). 다리가 둘이라 한쪽만 가면 떼이는 <b>카운터파티 리스크</b>(전통 외환의 <abbr title="시차 탓에 한쪽 통화 결제가 끝난 뒤 상대가 파산해 반대쪽을 못 받는 외환 결제 리스크. 1974년 Herstatt 은행 파산에서 유래.">Herstatt 리스크</abbr>)가 생긴다. 전통 금융은 <abbr title="Continuous Linked Settlement. 외환 거래를 동시 맞교환(PvP)으로 정산해 Herstatt 리스크를 없애는 다통화 정산 기관.">CLS</abbr>·<abbr title="Central Securities Depository. 증권을 집중 예탁·결제하는 중앙예탁기관.">CSD</abbr> 같은 중앙 정산기관(<abbr title="Payment vs Payment. 두 통화의 지급을 동시·원자적으로 처리해 한쪽만 가는 일을 막음.">PvP</abbr>/<abbr title="Delivery vs Payment. 자산 인도와 대금 지급을 동시·원자적으로 처리.">DvP</abbr>)으로 풀지만, Canton은 같은 보장을 <b>한 트랜잭션 안에서, 중앙 보관자 없이</b> 준다 — <b>전부 아니면 전무(원자성)</b>.</p>
+        <p>중간의 <b>정산 운영자(venue)</b>는 매칭·실행을 맡되 <b>자산은 한순간도 보관하지 않는다</b>(양쪽이 잠그면 실행 버튼만 누름). 원자성·잠금·조합성 자체는 이더리움도 되지만, Canton의 차별점은 그것을 <b>프라이버시 + 다자 네이티브 권한 + 되돌림 없는 확정</b>과 함께 준다는 결합이다. 아래에서 <b>A의 제안서 생성부터</b> 실행·프라이버시까지 한 단계씩 따라가 보라.</p>
+        <div class="dvp" data-step="0">
+          <div class="seqbar" id="seq">
+            <div class="seqstep"><div class="sn">①</div><div class="sc">create Proposal</div></div>
+            <div class="seqstep"><div class="sn">②</div><div class="sc">Accept</div></div>
+            <div class="seqstep"><div class="sn">③</div><div class="sc">Initiate</div></div>
+            <div class="seqstep"><div class="sn">④</div><div class="sc">Allocate · A</div></div>
+            <div class="seqstep"><div class="sn">⑤</div><div class="sc">Allocate · B</div></div>
+            <div class="seqstep"><div class="sn">⑥</div><div class="sc">Execute</div></div>
+          </div>
+          <div class="dvp-banner">전부 아니면 전무 — 두 다리 동시 실행, 한쪽이라도 실패하면 둘 다 무효</div>
+          <div class="pv-nodes">
+            <div class="pnode A lit"><div class="ph"><span class="nm">국내은행 노드</span><span class="pt">:2975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDA"></div><button class="pbtn" id="btnA">이 거래 제안 ▶</button></div>
+            <div class="pnode B lit"><div class="ph"><span class="nm">해외은행 노드</span><span class="pt">:3975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDB"></div><button class="pbtn" id="btnB" disabled>대기</button></div>
+            <div class="pnode V lit"><div class="ph"><span class="nm">정산 운영자 노드</span><span class="pt">venue</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDV"></div><button class="pbtn" id="btnV" disabled>대기</button></div>
+            <div class="pnode X lit"><div class="ph"><span class="nm">제3자 노드</span><span class="pt">:4975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDX"></div></div>
+          </div>
+          <div class="pv-sync lit"><div class="h">Synchronizer</div><div class="cipher" id="dvpCipher">seq #11,150 · 암호봉투 <span class="x">(해독 불가)</span> · 순서·타임스탬프만</div>
+            <div class="synrow">
+              <div class="syncpart seq"><div class="sh">시퀀서</div><div class="ss">전역 순서 · 뷰 분배</div></div>
+              <div class="syncpart med"><div class="sh">미디에이터</div><div class="ss">확인 취합 → 확정</div></div>
+            </div>
+          </div>
+          <div class="dvp-code-wrap"><div class="ccap">실행된 Daml 커맨드 · Settlement.FxDvp</div><pre id="dvpCode"></pre></div>
+          <div class="dvp-read"><span class="stepno" id="dStepNo">단계 0 / 6</span><span class="desc" id="dDesc">국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.</span><button class="dvp-confirm" id="btnConfirm">위 이해관계자 노드 검증·서명 ▶</button><button class="dvp-reset" id="dReset">처음으로</button></div>
+        </div>
+        <p>핵심 둘. <b>원자성</b> — 자산이 실제로 움직이는 건 마지막 <span class="k">Settlement_Execute</span> 한 번뿐이고 그게 전부/전무라, 한 다리라도 잠기지 않으면 실행 자체가 성립하지 않는다(한쪽만 떼이는 일이 없다). <b>프라이버시</b> — 이 정산도 당사자(A·B·정산 운영자)만 받고 무관한 제3자는 <b>0건</b>이다. 0건은 막아서가 아니라 그 뷰가 그 노드에 <b>도착하지 않아서</b>다. 주의 — 제3자 노드가 텅 빈 게 아니다. 그 노드도 자기 사업 계약은 따로 갖고 있고, 단지 <b>이 정산</b>이 그중에 없을 뿐이다. (제3자라도 <span class="k">observer</span>로 지정하면 — 예: 감독기관 — 받는다. 가시성은 명시적 선택.)</p>
+        <div class="note">이 흐름·choice·다리 키(<span class="k">legKRW</span>/<span class="k">legJPY</span>)는 실제 정산 패키지(<span class="k">Settlement.FxDvp</span>, 2-leg FX DvP)와 테스트 그대로다. 단 LocalNet 데모엔 토큰이 <b>Amulet(Canton Coin) 하나뿐</b>이라 두 다리 모두 CC로 두고, <b>KRW·JPY는 개념상 대역</b>(방향만 반대인 FX 스왑 흉내)이다. 위 금액(₩9,000↔¥1,000)은 환율에 맞춘 예시 — 실제 테스트 코드는 CC로 100·20을 쓴다. 실제 운영에선 각 다리에 별도 발행자(레지스트리)의 통화 토큰이 들어간다(→ 09).</div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 09 Canton Coin · 수수료 -->
+    <section class="stage" data-title="Canton Coin · 수수료">
+      <div class="eyebrow"><span class="n">09 /</span> 수수료 — Canton Coin</div>
+      <h2>거래에는 값이 든다</h2>
+      <div class="body">
+        <p>08의 6개 choice는 공짜가 아니다. 글로벌 Synchronizer에 거래를 올릴 때마다 <b>수수료</b>를 낸다 — Canton은 이 수수료를 <abbr title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불한다.">트래픽(traffic)</abbr>이라 부르고, 결제 통화는 <b>Canton Coin(CC)</b>이다. 이더리움의 가스에 해당하지만, <b>잔액까지 비공개</b>라는 점이 다르다. CC는 수수료 외에 밸리데이터 보상과 슈퍼 밸리데이터의 거버넌스 스테이킹에도 쓰이는 네트워크의 <b>네이티브 유틸리티 토큰</b>이다.</p>
+        <div class="cards c3">
+          <div class="card"><div class="tag">1 · 충전</div><h3>CC → 트래픽</h3><p>CC를 트래픽 크레딧으로 바꿔 밸리데이터의 <b>트래픽 예산</b>에 채운다.</p><div class="mit"><b>주의</b> 크레딧은 양도 불가 — 한번 트래픽이 되면 수수료에만 쓴다</div></div>
+          <div class="card"><div class="tag">2 · 소비</div><h3>거래마다 차감</h3><p>거래를 제출하면 예산에서 깎인다. 비용은 <b>크기·연산 복잡도·네트워크 수요</b>에 따라 달라진다.</p><div class="mit"><b>주의</b> 예산이 바닥나면 거래 실패 — 자동 충전(auto-top-up)으로 방지</div></div>
+          <div class="card"><div class="tag">프라이버시</div><h3>잔액도 비공개</h3><p>공개 잔액·rich list이 있는 다른 체인과 달리 CC 잔액은 나와 권한 있는 파티에게만 보인다.</p><div class="mit"><b>연결</b> 08의 프라이버시가 수수료 토큰에도 그대로 적용</div></div>
+        </div>
+        <p>수수료의 반대편 — <b>그 CC는 누가 버나.</b> 사용자가 트래픽으로 CC를 <b>소비</b>하면, 그 거래를 처리·보관하는 <b>밸리데이터가 CC를 번다.</b> 한쪽의 비용이 다른 쪽의 수입이 되는 닫힌 경제 루프다. 버는 길은 셋:</p>
+        <div class="cards c3">
+          <div class="card"><div class="tag">보상 1</div><h3>라이브니스 보상</h3><p>노드를 계속 띄워 <b>가용성</b>을 유지하는 것만으로 발생한다(거래 처리와 무관).</p></div>
+          <div class="card"><div class="tag">보상 2</div><h3>트랜잭션 보상</h3><p>실제로 처리한 거래의 <b>트래픽 수수료 일부</b>를 가져간다.</p></div>
+          <div class="card"><div class="tag">보상 3</div><h3>거버넌스 스테이킹</h3><p>슈퍼 밸리데이터는 인프라 운영·<b>스테이크</b>에 대한 추가 보상을 받는다.</p></div>
+        </div>
+        <p>이 보상 설계가 곧 <b>토크노믹스</b>다 — 운영자 보상으로 <b>인프라를 지속</b>시키고, 트래픽 비용을 <b>시장이 정하게</b> 해 공정 가격을 맞추며, 스테이크 기반 참여로 <b>거버넌스를 정렬</b>하고, 도입 인센티브로 <b>네트워크 성장</b>을 끈다. (상세는 <a href="https://canton.foundation" target="_blank" rel="noopener">canton.foundation</a>.)</p>
+        <div class="note"><b>CC는 환경마다 얻는 법이 다르다.</b> <b>LocalNet</b> — 자동으로 테스트 CC 사용 가능(데모가 이 경우). <b>DevNet·TestNet</b> — 포셋에서 "탭(tap)"해 무료 테스트 CC 수령(속도 제한·실가치 없음). <b>MainNet</b> — 거래소 구매·밸리데이터 운영·직접 이전으로 획득(실제 경제 가치).</div>
+        <p>데모와의 연결 — LocalNet엔 토큰이 <b>Amulet 하나뿐</b>인데, <b>Amulet은 Canton Coin의 온-레저(기술) 이름</b>이다. 그래서 08의 두 다리가 CC를 대역으로 쓰는 동시에, 그 6개 choice의 트래픽도 CC로 낸다. 실제 운영에선 정산 통화(KRW·JPY 등)는 <b>별도 레지스트리(발행자)</b>가 발행한 토큰이고, 그 거래의 수수료는 그 아래에서 여전히 CC가 받친다.</p>
+        <div class="dev"><div class="dev-h">개발자 시점 — Amulet = CC, 정산 통화는 별도 instrument</div><div class="dev-b">
+          <p>토큰표준에서 자산은 발행자 파티(<span class="k">admin</span>)와 식별자(<span class="k">id</span>)로 식별된다. 정산 패키지는 특정 토큰에 종속되지 않고(보유·잠금·이전 인터페이스만 사용), 각 다리(transferLeg)가 이 instrumentId를 담는다.</p>
+          <pre><span class="kw">instrumentId</span> {
+  admin : Party    <span class="c">-- 발행자(레지스트리) 파티. CC면 DSO</span>
+  id    : Text     <span class="c">-- "Amulet" = Canton Coin의 기술명</span>
+}</pre>
+          <p>정산 통화는 CC와 <b>별개의 instrument</b> — 별도 레지스트리가 발행하고, 실행 시 그 발행자에게 맥락(choice context)을 묻는다:</p>
+          <pre><span class="kw">GET</span> /registry/allocations/v1/&lt;allocationCid&gt;/choice-contexts/execute-transfer</pre>
+        </div></div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 10 신뢰 -->
+    <section class="stage" data-title="신뢰 모델">
+      <div class="eyebrow"><span class="n">10 /</span> 신뢰 모델</div>
+      <h2>무엇을, 누구에게, 얼마나 맡기나</h2>
+      <div class="body">
+        <p>08단계가 "데이터가 <b>어떻게</b> 나뉘나(메커니즘)"였다면, 신뢰 모델은 "그래서 <b>누구를 얼마나</b> 믿어야 하나"다. Canton의 신뢰는 "모두 신뢰"도 "아무도 불신"도 아닌 <b>선택적 신뢰(selective trust)</b> — <b>무엇을 위해 누구를 신뢰할지 내가 고른다.</b> 그래서 한 덩어리가 아니라 다섯 영역으로 쪼개지고, 영역마다 <b><span style="color:var(--a)">신뢰함</span> · <span style="color:var(--b)">안 믿어도 됨</span> · <span style="color:var(--ok)">완화책</span></b>이 따로 있다.</p>
+        <div style="overflow-x:auto">
+        <svg viewBox="0 0 880 372" role="img" aria-label="다섯 신뢰 영역 — 가운데 내 파티를 둘러싼 밸리데이터·거래 상대방·Synchronizer·앱 제공자·네트워크 거버넌스" style="width:100%; max-width:840px; height:auto; display:block; margin:18px auto 2px; font-family:var(--sans)">
+          <g stroke-linecap="round" fill="none">
+            <line x1="440" y1="195" x2="440" y2="48"  stroke="#E8A14C" stroke-width="3.2" opacity=".75"/>
+            <line x1="440" y1="195" x2="708" y2="152" stroke="#5FA8FF" stroke-width="2" opacity=".45"/>
+            <line x1="440" y1="195" x2="566" y2="326" stroke="#57D6A6" stroke-width="2" opacity=".45"/>
+            <line x1="440" y1="195" x2="314" y2="326" stroke="#7FD1FF" stroke-width="2" opacity=".45"/>
+            <line x1="440" y1="195" x2="172" y2="152" stroke="#E8745C" stroke-width="2" opacity=".45"/>
+          </g>
+          <g text-anchor="middle">
+            <!-- 중앙: 나 -->
+            <rect x="364" y="168" width="152" height="54" rx="13" fill="#1C2640" stroke="#5C6885" stroke-width="1.5"/>
+            <text x="440" y="191" fill="#EAEFF8" font-size="14" font-weight="680">나 (내 파티)</text>
+            <text x="440" y="209" fill="#8794B0" font-size="10.5">선택적 신뢰</text>
+            <!-- 영역 1 밸리데이터 (위) -->
+            <rect x="362" y="22" width="156" height="52" rx="12" fill="#141C30" stroke="#E8A14C" stroke-width="1.6"/>
+            <text x="440" y="44" fill="#E8A14C" font-size="13" font-weight="660">① 내 밸리데이터</text>
+            <text x="440" y="61" fill="#8794B0" font-size="10.5">내 데이터 보관·제출 (가장 센 신뢰)</text>
+            <!-- 영역 2 거래 상대방 (우상) -->
+            <rect x="630" y="126" width="156" height="52" rx="12" fill="#141C30" stroke="#5FA8FF" stroke-width="1.6"/>
+            <text x="708" y="148" fill="#5FA8FF" font-size="13" font-weight="660">② 거래 상대방</text>
+            <text x="708" y="165" fill="#8794B0" font-size="10.5">자기 낀 거래만 검증</text>
+            <!-- 영역 3 Synchronizer (우하) -->
+            <rect x="488" y="300" width="156" height="52" rx="12" fill="#141C30" stroke="#57D6A6" stroke-width="1.6"/>
+            <text x="566" y="322" fill="#57D6A6" font-size="13" font-weight="660">③ Synchronizer</text>
+            <text x="566" y="339" fill="#8794B0" font-size="10.5">암호화 데이터만 · 순서·확정</text>
+            <!-- 영역 4 앱 제공자 (좌하) -->
+            <rect x="236" y="300" width="156" height="52" rx="12" fill="#141C30" stroke="#7FD1FF" stroke-width="1.6"/>
+            <text x="314" y="322" fill="#7FD1FF" font-size="13" font-weight="660">④ 앱 제공자</text>
+            <text x="314" y="339" fill="#8794B0" font-size="10.5">Daml·백엔드 구현</text>
+            <!-- 영역 5 거버넌스 (좌상) -->
+            <rect x="94" y="126" width="156" height="52" rx="12" fill="#141C30" stroke="#E8745C" stroke-width="1.6"/>
+            <text x="172" y="148" fill="#E8745C" font-size="13" font-weight="660">⑤ 네트워크 거버넌스</text>
+            <text x="172" y="165" fill="#8794B0" font-size="10.5">프로토콜·파라미터·트래픽 비용</text>
+          </g>
+        </svg>
+        </div>
+        <div class="cards c2">
+          <div class="card"><div class="tag">영역 1</div><h3>내 밸리데이터</h3>
+            <div class="tline trust"><b>신뢰</b> 내 컨트랙트 데이터를 안전 보관·사용 가능하게 함 · RPC/거래 제출 허용 · 무단 노출 안 함 · 내 파티 대신 합의에 올바로 참여 · (로컬 파티면) 내 서명 키 취급</div>
+            <div class="tline no"><b>안 믿어도</b> 내 거래 서명 — 외부 파티면 키는 내가 쥔다</div>
+            <div class="mit"><b>완화</b> 직접 운영 · 평판 있는 운영자 · 여러 밸리데이터로 다중 호스팅 · 외부 파티 키 · KMS/HSM</div></div>
+          <div class="card"><div class="tag">영역 2</div><h3>거래 상대방</h3>
+            <div class="tline trust"><b>신뢰</b> 자기가 이해관계자인 거래를 정직히 검증해 확정되게 함 · 공유된 내 비공개 데이터를 누출 안 함</div>
+            <div class="tline no"><b>안 믿어도</b> 원장 무결성·일관성 — <b>내 밸리데이터만 정직하면</b> 상대는 내가 낀 무효 거래를 확정 못 시킨다</div>
+            <div class="mit"><b>완화</b> Daml 권한 규칙으로 가능 행위·확인 지점 제한 · 중요 데이터는 신뢰 상대와만 공유 · 다중 서명 · 서명된 감사 추적</div></div>
+          <div class="card"><div class="tag">영역 3</div><h3>Synchronizer</h3>
+            <div class="tline trust"><b>신뢰</b> 모든 밸리데이터에 일관된 순서로 전달 · 무한 검열 안 함 · 가용성 유지 · 확인 투표 올바로 집계 · 정확한 평결 전달</div>
+            <div class="tline no"><b>안 믿어도</b> 프라이버시(내용 못 읽음 — 암호화) · 권한(위조 불가 — 서명 필요) · 적합성(무효 거래 승인 불가 — 이해관계자가 검증)</div>
+            <div class="mit"><b>완화</b> 여러 독립 운영자를 둔 BFT Synchronizer · 자신의 Synchronizer 직접 운영</div></div>
+          <div class="card"><div class="tag">영역 4</div><h3>앱 제공자</h3>
+            <div class="tline trust"><b>신뢰</b> (사용자 대신 제출 시) 실제로 제출하고 검열 안 함 · 안전한 스마트컨트랙트 로직 구현 · 오프-원장 로직 올바로 구현 · (web2 로그인이면) 자격증명/세션 보호</div>
+            <div class="mit"><b>완화</b> 온-원장 권한(Daml) vs 오프-원장 구분 · 외부 파티 서명(거래마다 내가 승인) · 오픈소스/감사된 앱 · 내 밸리데이터로 준비·제출</div></div>
+          <div class="card"><div class="tag">영역 5</div><h3>네트워크 거버넌스</h3>
+            <div class="tline trust"><b>신뢰</b> 프로토콜 업그레이드가 내 앱·컨트랙트를 깨지 않음 · 네트워크 파라미터·트래픽 비용이 공정하게 설정됨 · 분쟁 해결 절차</div>
+            <div class="mit"><b>완화</b> 투명한 거버넌스(CIP) · 이탈 권리(다른 Synchronizer로 이동) · 업그레이드를 예상한 컨트랙트 설계</div></div>
+          <div class="card" style="border-style:dashed"><div class="tag">한눈에</div><h3>전부가 아니라 부분</h3>
+            <p>내 밸리데이터는 내 모든 데이터를 보고 나를 차단할 수 있다(가장 센 신뢰). 상대방은 자기가 낀 컨트랙트만 보고, Daml·합의가 그 행위를 묶는다. 시퀀서·미디에이터는 <b>암호화된 데이터만</b> — 잠시 지연은 시켜도 읽거나 위조는 못 한다. 앱·거버넌스는 설계·구성에 따라 신뢰 수준이 달라진다.</p></div>
+        </div>
+        <div class="note" style="margin-top:18px"><b>탈중앙화는 계층마다 고른다.</b> <b>밸리데이터</b> — 단일 운영자 신뢰 vs 다중 호스팅으로 분산. <b>Synchronizer</b> — 단일 운영자 vs BFT 시퀀서(노드 2/3만 정직하면 동작) vs 여러 Synchronizer 연결로 단일 장애점 제거. <b>글로벌 Synchronizer</b> — 최대 탈중앙화: 여러 독립 슈퍼 밸리데이터 + BFT 합의(임계값까지 비잔틴 견딤) + 투명한 CIP. 전통 블록체인이 "다수가 정직하다"에 거는 신뢰를, Canton은 "주로 내 밸리데이터"로 좁히고 나머지는 암호로 못 박는다.</div>
+        <div class="note" style="margin-top:14px"><b>여기까지가 통합 코스다.</b> 개념(프라이버시·원자성·신원/확정성·신뢰)과 그 코드(파티 ID·Daml·choice 시퀀스·포트·instrumentId)를 한 흐름에서 봤다. Canton이 강한 곳은 <b>기관 간(B2B) 정산</b>이고, 리테일·퍼블릭 DeFi엔 그 강점이 오히려 안 맞는다 — 도구를 용도에 맞게.</div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var stages=[].slice.call(document.querySelectorAll('.stage'));
+  var stepsOl=document.getElementById('steps'), pbar=document.getElementById('pbar'), cur=0;
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  stages.forEach(function(st,i){ var li=document.createElement('li'); var b=document.createElement('button');
+    b.textContent=st.getAttribute('data-title'); b.addEventListener('click',function(){go(i);}); li.appendChild(b); stepsOl.appendChild(li); });
+  var railBtns=stepsOl.querySelectorAll('button');
+  stages.forEach(function(st,i){ var nav=st.querySelector('.nav'); if(!nav||nav.children.length)return;
+    var prev=document.createElement('button'); prev.innerHTML='<span class="dir">이전</span><span>'+(i>0?stages[i-1].getAttribute('data-title'):'—')+'</span>';
+    if(i===0)prev.disabled=true; else prev.addEventListener('click',function(){go(i-1);});
+    var next=document.createElement('button'); var has=i<stages.length-1;
+    next.innerHTML='<span class="dir">다음</span><span class="t-next">'+(has?stages[i+1].getAttribute('data-title'):'코스 끝')+'</span>';
+    if(!has)next.disabled=true; else next.addEventListener('click',function(){go(i+1);}); nav.appendChild(prev); nav.appendChild(next); });
+  function go(i){ if(i<0||i>=stages.length)return; stages[cur].classList.remove('active'); cur=i; stages[cur].classList.add('active');
+    railBtns.forEach(function(b,bi){b.setAttribute('aria-current',bi===cur?'true':'false'); b.setAttribute('data-done',bi<cur?'1':'0');});
+    pbar.style.width=(cur/(stages.length-1)*100)+'%'; window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}); }
+  document.addEventListener('keydown',function(e){ if(e.target&&/INPUT|TEXTAREA/.test(e.target.tagName))return; if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1); });
+
+  // ---- DvP animation (atomicity + privacy) ----
+  var dvp=document.querySelector('.dvp');
+  if(dvp){
+    function role(node){
+      return node==='A' ? '\n  <span class="muted">// 나: 원화 보냄, 엔화 받음</span>'
+           : node==='B' ? '\n  <span class="muted">// 나: 엔화 보냄, 원화 받음</span>'
+           :              '\n  <span class="muted">// 나: venue · 자산 미보유</span>';
+    }
+    function panel(node, step){
+      if(node==='X') return '이 정산: <span class="cnt">0건</span>\n<span class="muted">이해관계자가 아니라\n데이터를 받지 않음</span>\n<span class="muted">※ 자기 계약은 따로 있음</span>';
+      if(step===0) return node==='A' ? '<span class="muted">원화 다리 ₩9,000 보유\n제안 대기…</span>'
+                        : node==='B' ? '<span class="muted">엔화 다리 ¥1,000 보유\n대기…</span>'
+                        :              '<span class="muted">자산 미보유\n실행 대기…</span>';
+      if(step<=2){
+        var appr = step>=2 ? '[국내, 해외]' : '[국내]';
+        return '<span class="cnt">SettlementProposal</span> @00b2…\n  legs 2 (KRW·JPY)\n  approvers '+appr+role(node);
+      }
+      var st = step>=6 ? 'executed ✓' : (step>=5 ? '잠금 완료' : (step>=4 ? '잠금 진행' : '준비'));
+      return '<span class="cnt">Settlement</span> @00c3…\n  legKRW 국내→해외 ₩9,000\n  legJPY 해외→국내 ¥1,000\n  status '+st+role(node);
+    }
+    var seqRows=[].slice.call(document.querySelectorAll('#seq .seqstep'));
+    var ACTS=[
+      {actor:'A', label:'이 거래 제안 ▶', desc:'<b>① 제안 완료.</b> SettlementProposal 생성. 이제 해외은행이 수락할 차례.',
+        code:'<span class="c">-- 국내은행 submits</span>\n<span class="kw">createCmd</span> SettlementProposal <span class="kw">with</span>\n  venue; transferLegs\n  approvers = [domestic_bank]'},
+      {actor:'B', label:'수락 ▶',         desc:'<b>② 수락 완료.</b> A·B 둘 다 서명자가 됐다. 정산 운영자가 개시할 차례.',
+        code:'<span class="c">-- 해외은행 submits</span>\n<span class="kw">exerciseCmd</span> propCid <span class="id">SettlementProposal_Accept</span> <span class="kw">with</span>\n  approver = overseas_bank   <span class="c">-- 보관+재생성</span>'},
+      {actor:'V', label:'정산 개시 ▶',    desc:'<b>③ 개시 완료.</b> Settlement 컨트랙트 생성. 이제 각자 다리를 잠근다(A부터).',
+        code:'<span class="c">-- 정산 운영자 submits</span>\n<span class="kw">exerciseCmd</span> propCid <span class="id">SettlementProposal_InitiateSettlement</span>\n  <span class="c">-- → Settlement 컨트랙트 생성</span>'},
+      {actor:'A', label:'원화 잠금 ▶',    desc:'<b>④ 원화 잠금 완료.</b> 해외은행이 엔화를 잠글 차례.',
+        code:'<span class="c">-- 국내은행 submits (레지스트리 통해)</span>\n<span class="kw">exerciseCmd</span> allocFactory <span class="id">AllocationFactory_Allocate</span> <span class="kw">with</span>\n  allocation = legKRW   <span class="c">-- 원화 다리 잠금</span>'},
+      {actor:'B', label:'엔화 잠금 ▶',    desc:'<b>⑤ 엔화 잠금 완료.</b> 두 다리 다 묶였다. 정산 운영자가 동시 실행할 차례.',
+        code:'<span class="c">-- 해외은행 submits</span>\n<span class="kw">exerciseCmd</span> allocFactory <span class="id">AllocationFactory_Allocate</span> <span class="kw">with</span>\n  allocation = legJPY   <span class="c">-- 엔화 다리 잠금</span>'},
+      {actor:'V', label:'동시 실행 ▶',    desc:'<b>⑥ 동시 실행 완료 — 전부 아니면 전무.</b> 그리고 노드마다 자기 뷰만: 당사자는 정산 전체, 무관한 제3자는 0건.',
+        code:'<span class="c">-- 정산 운영자 submits</span>\n<span class="kw">exerciseCmd</span> settlementCid <span class="id">Settlement_Execute</span> <span class="kw">with</span>\n  allocationsWithContext   <span class="c">-- 두 다리 원자 실행</span>'}
+    ];
+    var btns={A:document.getElementById('btnA'), B:document.getElementById('btnB'), V:document.getElementById('btnV')};
+    var di=0, awaiting=false, dno=document.getElementById('dStepNo'), ddesc=document.getElementById('dDesc'), reset=document.getElementById('dReset'), confirmBtn=document.getElementById('btnConfirm');
+    function pulse(cls){ dvp.classList.remove('glow-seq','glow-conf'); void dvp.offsetWidth; dvp.classList.add(cls); }
+    function render(){
+      dvp.setAttribute('data-step', di);
+      dvp.setAttribute('data-phase', awaiting?'confirm':'submit');
+      seqRows.forEach(function(r,idx){ r.classList.toggle('on', idx < di); });
+      document.getElementById('prDA').innerHTML=panel('A',di);
+      document.getElementById('prDB').innerHTML=panel('B',di);
+      document.getElementById('prDV').innerHTML=panel('V',di);
+      document.getElementById('prDX').innerHTML=panel('X',di);
+      var cip=document.getElementById('dvpCipher'); if(cip) cip.innerHTML='seq #'+(11150+di).toLocaleString()+' · 암호봉투 <span class="x">(해독 불가)</span> · 순서·타임스탬프만';
+      ['A','B','V'].forEach(function(k){
+        var b=btns[k]; if(!b) return;
+        if(!awaiting && di<6 && ACTS[di].actor===k){ b.disabled=false; b.textContent=ACTS[di].label; }
+        else { b.disabled=true; b.textContent = di>=6 ? '완료' : (awaiting ? '제출됨…' : '대기'); }
+      });
+      dno.textContent='단계 '+di+' / 6';
+      ddesc.innerHTML = awaiting
+        ? '<b>제출됨.</b> 시퀀서가 순서 부여·뷰 분배 완료 — 이제 위에서 <b>굵게 표시된 이해관계자 노드</b>(이 거래의 서명자)가 검증·서명한다. 제3자 노드는 빠진다. 오른쪽 버튼을 누르세요.'
+        : (di===0 ? '국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.' : ACTS[di-1].desc);
+      var code=document.getElementById('dvpCode'); if(code) code.innerHTML = awaiting ? ACTS[di].code : (di===0 ? '<span class="c">패널 버튼을 누르면, 실행되는 Daml 커맨드가 여기 표시됩니다.</span>' : ACTS[di-1].code);
+    }
+    var pnodes={A:document.querySelector('.pnode.A'), B:document.querySelector('.pnode.B'), V:document.querySelector('.pnode.V')};
+    var SIGNERS=[['A'],['A','B'],['A','B','V'],['A'],['B'],['A','B','V']];
+    function setSign(arr){ ['A','B','V'].forEach(function(k){ if(pnodes[k]) pnodes[k].classList.toggle('signing', arr.indexOf(k)>=0); }); }
+    function act(k){ if(awaiting || di>=6 || ACTS[di].actor!==k) return; setSign(SIGNERS[di]||[]); awaiting=true; render(); pulse('glow-seq'); }
+    function confirmStep(){ if(!awaiting) return; awaiting=false; di++; render(); pulse('glow-conf'); }
+    ['A','B','V'].forEach(function(k){ if(btns[k]) btns[k].addEventListener('click', function(){ act(k); }); });
+    if(confirmBtn) confirmBtn.addEventListener('click', confirmStep);
+    reset.addEventListener('click', function(){ awaiting=false; di=0; setSign([]); dvp.classList.remove('glow-seq','glow-conf'); render(); });
+    render();
+  }
+
+  // ---- lifecycle ----
+  var LIFE=[
+    {on:['aw','aa'],d:'<b>① 송금 요청.</b> A 사용자가 지갑에서 "B에게 100 송금"을 요청하고, A 앱(백엔드)이 받는다.'},
+    {on:['aa','av'],d:'<b>② 제출.</b> A 앱이 거래를 Ledger API로 A 밸리데이터에 제출한다.'},
+    {on:['av','sq'],d:'<b>③ 순서화 요청.</b> A 밸리데이터가 거래를 <b>암호봉투</b>로 만들어 시퀀서에 보낸다. <span class="seal-tag">내용 안 보임</span>'},
+    {on:['sq','av','bv'],d:'<b>④ 분배.</b> 시퀀서가 전역 순서를 매겨 이해관계자(A·B 밸리데이터)에 분배 — 각자 자기 뷰만 받는다.'},
+    {on:['av','bv','md'],d:'<b>⑤ 검증·확인.</b> A·B 밸리데이터가 각자 자기 뷰를 검증하고, 미디에이터에 "유효함"을 확인한다.'},
+    {on:['md','av','bv'],d:'<b>⑥ 확정.</b> 미디에이터가 확인을 취합해 확정 결과를 노드들에 통지한다. <span class="seal-tag">내용 안 보임</span>'},
+    {on:['av','bv'],d:'<b>⑦ 커밋.</b> 양쪽 노드가 커밋 — A의 보유는 보관, B의 보유는 새로 생성. 즉시·결정적, 되돌림 없음.'},
+    {on:['bv','ba','bw'],d:'<b>⑧ 수신 반영.</b> B 앱이 결과를 읽어 B 지갑에 "100 받음"을 표시한다. 거래 완료.'}
+  ];
+  var allN=['aw','aa','av','sq','md','bv','ba','bw'], li=0;
+  var lifeNo=document.getElementById('lifeNo'),lifeDesc=document.getElementById('lifeDesc'),bN=document.getElementById('lifeNext'),bP=document.getElementById('lifePrev'),bR=document.getElementById('lifeReset');
+  function paintLife(){ allN.forEach(function(id){document.getElementById(id).classList.remove('hot');}); lifeNo.textContent='단계 '+li+' / '+LIFE.length;
+    if(li===0)lifeDesc.innerHTML='<b>다음</b>을 눌러 시작하세요. 송금 요청이 지갑에서 출발합니다.'; else{var s=LIFE[li-1]; s.on.forEach(function(id){document.getElementById(id).classList.add('hot');}); lifeDesc.innerHTML=s.d;}
+    bP.disabled=li===0; bN.disabled=li===LIFE.length; bN.textContent=li===LIFE.length?'완료':'다음'; }
+  bN.addEventListener('click',function(){if(li<LIFE.length){li++;paintLife();}}); bP.addEventListener('click',function(){if(li>0){li--;paintLife();}}); bR.addEventListener('click',function(){li=0;paintLife();}); paintLife();
+
+  go(0);
+})();
+</script>
+</body>
+</html>
