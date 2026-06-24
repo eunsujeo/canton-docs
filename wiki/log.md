@@ -144,3 +144,7 @@
 ## [2026-06-24] course | canton-course 코스 제거
 - 사용자 요청으로 `wiki/canton-course/` 전체(코스맵 + S1-S10, 11파일) 삭제. index.md의 코스 등록(상단 링크·전용 섹션) 제거, gen_sidebar.py에서 canton-course 섹션 라벨·순서 제거. sidebar/nav 재생성(코스 참조하던 canton-coin.md 내비 자동 교정).
 - glossary 툴팁 용어(환거래은행·SWIFT·CLS·T+2·ACS·offset 등)와 dev/docs/explainer-doc-plan.md는 유지(공유 자산·계획 기록). 필요 시 별도 제거.
+
+## [2026-06-24] note | 커스터디·raw/blind signing 정리 노트 신설
+- `notes/custody-raw-blind-signing.md` 추가 — 외부 파티 키 보관·서명: 해시(byte[]) 서명=raw signing → 일반 커스터디(자기보관/MPC/노드월렛)로 운용 가능, 단 blind signing이라 drain 못 거름 → 방어는 prepare·Daml·WYSIWYS. 옴니버스 함정도 연결. 출처는 dev/docs 커스터디 메모(공개판은 POC 참여사·협상 내용 제외, 개념만 일반화).
+- glossary 툴팁 8개 추가(커스터디·raw signing·blind signing·MPC·WYSIWYS·prepared transaction·drain). index.md notes 섹션 등록. sidebar/nav/tooltips 재생성.

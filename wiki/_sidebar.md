@@ -67,6 +67,8 @@
   - [Canton의 B2B vs B2C — 어디에 맞나 (적합성·쓰임새)](/notes/canton-b2b-vs-b2c.md)
   - [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](/notes/canton-environments-localnet-to-mainnet.md)
   - [Canton vs Splice — 엔진 vs 운영 소프트웨어](/notes/canton-vs-splice.md)
+  - [ClearToken vs Musubi — 같은 Canton DvP, 정반대 포지셔닝](/notes/cleartoken-vs-musubi.md)
+  - [외부 파티 키는 누가 보관·서명하나 — raw signing & blind signing](/notes/custody-raw-blind-signing.md)
   - [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](/notes/dvp-settlement-app-architecture.md)
   - [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](/notes/eutxo-double-spend.md)
   - [ISS — Canton 시퀀서의 BFT 순서화 알고리즘](/notes/iss-consensus.md)

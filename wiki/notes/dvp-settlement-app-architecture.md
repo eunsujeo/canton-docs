@@ -76,7 +76,7 @@ flowchart TB
 | 기관 A·B·MM 파티/밸리데이터 | ✅ 로컬에서 시뮬레이션 | 한 머신에 여러 노드 |
 | 백엔드·Ledger API 연동 | ✅ end-to-end | 동일 |
 | **실제 망의 분산·지연·<abbr class="gloss" title="비잔틴 장애 허용(Byzantine Fault Tolerance). 일부 노드가 악의적이거나 고장 나도 시스템이 올바르게 동작하는 성질">BFT</abbr>** | ⚠️ 모사만 | 진짜는 DevNet/TestNet |
-| **외부 연동**(커스터디·은행·MM·브릿지·실제 스테이블코인) | ⚠️ mock | 실제는 통합 필요 |
+| **외부 연동**(<abbr class="gloss" title="자산·키를 대신 보관·관리해 주는 수탁 서비스. 자기 보관, 서드파티(MPC), 노드월렛 등">커스터디</abbr>·은행·MM·브릿지·실제 스테이블코인) | ⚠️ mock | 실제는 통합 필요 |
 | **CC·<abbr class="gloss" title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불">트래픽</abbr> 경제, 온보딩·신원** | ⚠️ 가치 없음/절차 없음 | 실제는 DevNet+ |
 
 > 즉 **로직(정산·원자성·프라이버시)은 진짜와 똑같이** 동작하고, **실제 망의 분산·지연·경제·외부연동만 LocalNet이 흉내**낸다. → LocalNet에서 만들고 DevNet/TestNet으로 올린다. 출발점은 cn-quickstart의 데모 자리에 DvP 정산 Daml을 넣는 것.
@@ -94,6 +94,6 @@ flowchart TB
 
 ---
 
-⬅️ **이전**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md) ・ ➡️ **다음**: [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](eutxo-double-spend.md)
+⬅️ **이전**: [외부 파티 키는 누가 보관·서명하나 — raw signing & blind signing](custody-raw-blind-signing.md) ・ ➡️ **다음**: [eUTXO와 이중지불 방지 — "존재하지 않는 것은 쓸 수 없다" 쉽게 이해하기](eutxo-double-spend.md)
 
 <!-- nav:end -->
