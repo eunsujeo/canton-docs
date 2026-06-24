@@ -80,6 +80,6 @@ raw signing의 다른 이름이 **blind signing**이다. 서명기가 거래의 
 
 ---
 
-⬅️ **이전**: [ClearToken vs Musubi — 같은 Canton DvP, 정반대 포지셔닝](cleartoken-vs-musubi.md) ・ ➡️ **다음**: [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](dvp-settlement-app-architecture.md)
+⬅️ **이전**: [Canton vs Splice — 엔진 vs 운영 소프트웨어](canton-vs-splice.md) ・ ➡️ **다음**: [Canton 위 기관 간 DvP 정산 앱 — 2층 구조](dvp-settlement-app-architecture.md)
 
 <!-- nav:end -->

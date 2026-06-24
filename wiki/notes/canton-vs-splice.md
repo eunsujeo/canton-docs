@@ -54,6 +54,6 @@ Canton 프로토콜만으로는 "공개 네트워크"가 안 굴러간다. **누
 
 ---
 
-⬅️ **이전**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md) ・ ➡️ **다음**: [ClearToken vs Musubi — 같은 Canton DvP, 정반대 포지셔닝](cleartoken-vs-musubi.md)
+⬅️ **이전**: [Canton 환경 4단계 — LocalNet → DevNet → TestNet → MainNet](canton-environments-localnet-to-mainnet.md) ・ ➡️ **다음**: [외부 파티 키는 누가 보관·서명하나 — raw signing & blind signing](custody-raw-blind-signing.md)
 
 <!-- nav:end -->
