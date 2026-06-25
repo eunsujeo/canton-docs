@@ -693,7 +693,7 @@
         <h3 class="sub">원장은 어디에 남나 — 영속(persistence)</h3>
         <p>그럼 이 원장은 <b>어디에 저장돼 남을까.</b> 한 곳의 거대한 장부가 아니라, <b>당사자별 노드 DB에 흩어진 샤드들의 합</b>으로 영속된다. 세 가지가 받친다:</p>
         <div class="cards c3">
-          <div class="card"><div class="tag">저장소</div><h3>참여자 노드 DB</h3><p>각 노드가 <b>PostgreSQL</b> 등에 자기 <b>샤드</b>를 durably 저장 — <b>ACS</b>(활성 컨트랙트) + <b>이벤트 로그</b> + <b>offset</b>. 상태 변경이 보관+생성이라 <b>append-only 이력</b>으로 쌓인다.</p></div>
+          <div class="card"><div class="tag">저장소</div><h3>참여자 노드 DB</h3><p>각 노드가 <b>PostgreSQL</b> 등에 자기 <b>샤드</b>를 <abbr title="충돌·재시작에도 사라지지 않게 디스크에 영구 저장하는 것(durable). DB가 그 커밋을 보장한다.">durably</abbr> 저장 — <b>ACS</b>(활성 컨트랙트) + <b>이벤트 로그</b> + <b>offset</b>. 상태 변경이 보관+생성이라 <b>append-only 이력</b>으로 쌓인다.</p></div>
           <div class="card"><div class="tag">이중화</div><h3>이해관계자가 같은 사본</h3><p>공유 컨트랙트는 <b>당사자 노드 모두</b>에 동일 사본으로 남는다. 전체본을 가진 노드는 없지만 <b>모든 거래는 그 당사자 전원이 보관</b> → 한 노드가 죽어도 남는다. 복원력엔 <b>다중 호스팅</b>.</p></div>
           <div class="card"><div class="tag">정렬 로그</div><h3>시퀀서 스트림</h3><p>시퀀서가 <b>암호화된 순서 스트림</b>을 영속한다(내용은 못 읽음). 오프라인이던 노드는 자기 <b>offset 이후를 재생(catch-up)</b>해 따라잡는다 — 순서의 정본.</p></div>
         </div>
@@ -721,7 +721,7 @@
             <rect x="566" y="34" width="198" height="50" rx="11" fill="#141C30" stroke="#7FD1FF"/><text x="665" y="56" text-anchor="middle" font-size="11.5" fill="#a9deff">PQS (Scribe)</text><text x="665" y="72" text-anchor="middle" font-size="9.5" fill="#8794B0">읽기 측 · 원장에 안 씀</text>
             <rect x="566" y="150" width="198" height="70" rx="11" fill="rgba(87,214,166,.06)" stroke="#57D6A6"/><text x="665" y="178" text-anchor="middle" font-size="11.5" fill="#7fe6c0">조회용 PostgreSQL</text><text x="665" y="196" text-anchor="middle" font-size="9.5" fill="#8794B0">SQL · JSONB 투영</text><text x="665" y="212" text-anchor="middle" font-size="9.5" fill="#8794B0">← 앱이 SQL(JDBC)로 조회</text>
           </svg>
-          <div class="fig-cap">앱은 <b>Ledger API</b>로 참여자에 커맨드·조회 → 참여자가 내부 PostgreSQL에 영속(비공개 스키마, protobuf blob). <b>PQS</b>가 그 트랜잭션 스트림을 구독해 <b>조회용 PostgreSQL</b>에 투영 → 앱이 <b>SQL(JDBC)</b>로 조회. 내부 DB는 직접 건드리지 않는다.</div>
+          <div class="fig-cap">앱은 <b>Ledger API</b>로 참여자에 커맨드·조회 → 참여자가 내부 PostgreSQL에 영속(비공개 스키마, <abbr title="Protocol Buffers로 직렬화된 이진 데이터 덩어리. 사람이 SQL로 읽기 좋은 컬럼이 아니라 통째 이진값으로 저장된 것.">protobuf blob</abbr>). <b>PQS</b>가 그 트랜잭션 스트림을 구독해 <b>조회용 PostgreSQL</b>에 투영 → 앱이 <b>SQL(JDBC)</b>로 조회. 내부 DB는 직접 건드리지 않는다.</div>
         </div>
         <table class="gtbl">
           <thead><tr><th>내부 스토어</th><th>담는 것</th></tr></thead>
@@ -732,7 +732,7 @@
             <tr><td><b>밸리데이터 앱 스토어</b></td><td>Validator App 운영 상태 (Splice 계층은 추가 스키마 사용)</td></tr>
           </tbody>
         </table>
-        <div class="note"><b>주의</b> — 내부 스토어 스키마는 Flyway 마이그레이션으로 <b>버전마다 바뀌는 구현 세부</b>이고 대부분 직렬화된 protobuf blob이라 <b>직접 쿼리하지 않는다.</b> SQL로 다룰 땐 <b>PQS</b>(컨트랙트 페이로드를 JSONB로 색인)나 Ledger API를 쓴다. (정확한 스키마: 내부=Canton 소스 Flyway, 조회용=PQS 문서.)</div>
+        <div class="note"><b>주의</b> — 내부 스토어 스키마는 <abbr title="DB 스키마 변경을 버전별 마이그레이션 스크립트로 관리하는 도구. 버전이 오르면 스키마가 자동으로 갱신된다.">Flyway</abbr> 마이그레이션으로 <b>버전마다 바뀌는 구현 세부</b>이고 대부분 직렬화된 protobuf blob이라 <b>직접 쿼리하지 않는다.</b> SQL로 다룰 땐 <b>PQS</b>(컨트랙트 페이로드를 JSONB로 색인)나 Ledger API를 쓴다. (정확한 스키마: 내부=Canton 소스 Flyway, 조회용=PQS 문서.)</div>
       </div>
       <div class="nav"></div>
     </section>
