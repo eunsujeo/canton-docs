@@ -14,8 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **위키 로컬 보기**: `cd wiki && python3 -m http.server 4500` → http://localhost:4500
 - **위키 재생성**(새 페이지 추가 후 순서대로): `cd wiki && python3 scripts/gen_sidebar.py && python3 scripts/gen_nav.py && python3 scripts/gen_tooltips.py`
 - **위키 진행률**: 완료 `grep -c "| ☑ |" wiki/sources.md` · 남은 `grep -c "| ☐ |" wiki/sources.md`
-- **Daml 빌드**: `cd dev/daml/settlement && daml build` (sdk 3.4.11) — DAR은 `.daml/dist/`에 생성
-- **Daml 테스트**: `cd dev/daml/settlement-tests && daml test` (settlement DAR 의존 → settlement 먼저 빌드)
+- **Daml 빌드/테스트**(sdk 3.4.11): 의존 DAR(`dars/`·`external-test-dars/`·`external-test-sources/`)이 갖춰진 곳은 **`dev/cn-quickstart/quickstart/daml/`**다 → 거기서 `cd .../daml/settlement && daml build`(먼저) → `cd ../settlement-tests && daml test`. DAR은 `.daml/dist/`에 생성(gitignore).
+  - **주의**: `dev/daml/settlement`·`settlement-tests`는 git 추적용 **스냅샷 사본**(cn-quickstart가 gitignore라 소스만 보이게 둠)으로, 형제 의존 폴더가 없어 **단독 빌드는 안 됨**. 편집·빌드·IDE는 위 cn-quickstart 경로에서.
 - **LocalNet**(런타임, `dev/cn-quickstart/`는 gitignore): `cd dev/cn-quickstart/quickstart && make start` / `make stop`
 - **데모 백엔드**: `cd dev/demo/backend && python3 server.py` → http://localhost:8888 (무의존성 stdlib; **LocalNet이 떠 있어야** 동작)
 
@@ -25,10 +25,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Daml 정산 패키지** `dev/daml/settlement` — `Settlement.FxDvp`(SettlementProposal → Settlement, 2-leg FX DvP). **토큰 비종속**: Splice 토큰표준 인터페이스(allocation/holding 등)만 쓰므로 어떤 토큰표준 인스트루먼트로도 작동. 빌드한 DAR을 LocalNet 참여자에 업로드해 사용.
 - **데모 앱** `dev/demo/` — `backend/server.py`(Python stdlib, 포트 8888)가 LocalNet의 **JSON Ledger API v2**(참여자별 호스트 포트 2975=app-user / 3975=app-provider / 4975=sv)와 **지갑·레지스트리(scan) API**를 **파티별 토큰**(HS256, LocalNet shared-secret 모드)으로 호출 → `frontend/index.html`(단일 HTML)에 파티별 원장 뷰를 그려 **프라이버시(제3자 0건)·원자적 DvP·Synchronizer 활동**을 시연. venue는 별도 파티(`musubi-venue`)로 분리, per-party 필터로 조회.
 - **LocalNet 런타임** `dev/cn-quickstart/`(gitignore) — Docker Compose로 참여자 노드·Synchronizer·Splice를 띄움. 데모는 여기에 HTTP로 붙는다(앱 자체는 LocalNet 바깥, 추적됨).
-- **계획·아키텍처 메모** `dev/docs/` — roadmap, architecture-b2b-b2c-multichain, stablecoin-instruments-plan, explainer-doc-plan(학습 코스 계획) 등. 세션 핸드오프 문서로 활용.
+- **계획·아키텍처 메모** `dev/docs/` — roadmap, architecture-b2b-b2c-multichain, stablecoin-instruments-plan, wallet-custody-fireblocks 등. 세션 핸드오프 문서로 활용.
 
 ## git 규칙 (이 저장소)
-- **commit은 자유, push는 사용자가 요청할 때만.**
+- **`git push`는 Claude가 하지 않는다 — commit까지만, push는 사용자가 직접.**
 - 문서·코스에 아이콘/이모지 넣지 말 것 — 텍스트 라벨·굵게로 강조.
 - mermaid는 표준 mermaid 펜스만 사용(Mintlify `theme={}` 인자 금지) — Obsidian/Docsify 렌더 호환.
 
