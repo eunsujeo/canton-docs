@@ -29,3 +29,6 @@ wiki/.obsidian/.trash/
 
 .wrangler/
 dev/cn-quickstart/
+
+# Daml 빌드 산출물 (daml build가 .daml/dist/에 DAR 생성 — 재생성되므로 추적 안 함)
+.daml/
