@@ -42,6 +42,7 @@
   .body ul{max-width:68ch; margin:12px 0 0; padding-left:20px; color:#C2CBE0} .body li{margin:7px 0} .body li b{color:var(--text)}
   .k{font-family:var(--mono); font-size:.9em; background:var(--surface2); border:1px solid var(--line); padding:1px 6px; border-radius:5px; color:#D7DEEF}
   abbr[title]{text-decoration:underline dotted; text-decoration-color:var(--faint); text-underline-offset:3px; cursor:help}
+  .tip-pop{position:absolute; z-index:60; max-width:300px; background:var(--surface2); color:var(--text); border:1px solid var(--line); border-radius:9px; padding:9px 12px; font-size:12.5px; line-height:1.5; box-shadow:0 8px 28px rgba(0,0,0,.45)}
   .note{max-width:68ch; margin:18px 0 0; padding:12px 15px; border-left:3px solid var(--a); background:var(--surface); border-radius:0 10px 10px 0; font-size:14px; color:#C7D0E4} .note b{color:var(--text)}
   .gtbl{width:100%; border-collapse:collapse; margin-top:14px; font-size:13px} .gtbl th,.gtbl td{border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top} .gtbl th{background:var(--surface2); color:var(--muted); font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.04em} .gtbl td{color:#C2CBE0} .gtbl td b{color:var(--text)} .gtbl td .k{font-family:var(--mono); font-size:.92em; color:var(--dev)}
 
@@ -1043,6 +1044,32 @@
   bN.addEventListener('click',function(){if(li<LIFE.length){li++;paintLife();}}); bP.addEventListener('click',function(){if(li>0){li--;paintLife();}}); bR.addEventListener('click',function(){li=0;paintLife();}); paintLife();
 
   go(0);
+})();
+</script>
+<script>
+// abbr 용어 클릭·탭 툴팁 (네이티브 title은 호버 전용 → 클릭/모바일 대응)
+(function(){
+  var pop=null;
+  function hide(){ if(pop){ pop.remove(); pop=null; } }
+  document.addEventListener('click', function(e){
+    var ab = e.target.closest ? e.target.closest('abbr[title]') : null;
+    if(!ab){ hide(); return; }
+    e.preventDefault();
+    var txt = ab.getAttribute('title'); if(!txt){ return; }
+    hide();
+    pop = document.createElement('div');
+    pop.className = 'tip-pop';
+    pop.textContent = txt;
+    document.body.appendChild(pop);
+    var r = ab.getBoundingClientRect();
+    var maxLeft = window.scrollX + document.documentElement.clientWidth - pop.offsetWidth - 10;
+    var left = r.left + window.scrollX; if(left > maxLeft) left = maxLeft; if(left < 8) left = 8;
+    pop.style.top = (r.bottom + window.scrollY + 6) + 'px';
+    pop.style.left = left + 'px';
+  });
+  window.addEventListener('scroll', hide, true);
+  window.addEventListener('resize', hide);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') hide(); });
 })();
 </script>
 </body>
