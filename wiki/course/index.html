@@ -625,6 +625,53 @@
             <dt>PQS (SQL)</dt><dd>복잡한 쿼리·리포팅</dd>
           </dl>
         </div></div>
+        <h3 class="sub">원장은 어디에 남나 — 영속(persistence)</h3>
+        <p>위 <b>큰 그림</b>의 "저장(밸리데이터)"을 한 겹 더 들어가 보자 — 이 원장은 <b>어디에 저장돼 남을까.</b> 한 곳의 거대한 장부가 아니라, <b>당사자별 노드 DB에 흩어진 샤드들의 합</b>으로 영속된다. 세 가지가 받친다:</p>
+        <div class="cards c3">
+          <div class="card"><div class="tag">저장소</div><h3>참여자 노드 DB</h3><p>각 노드가 <b>PostgreSQL</b> 등에 자기 <b>샤드</b>를 <abbr title="충돌·재시작에도 사라지지 않게 디스크에 영구 저장하는 것(durable). DB가 그 커밋을 보장한다.">durably</abbr> 저장 — <b>ACS</b>(활성 컨트랙트) + <b>이벤트 로그</b> + <b>offset</b>. 상태 변경이 보관+생성이라 <b>append-only 이력</b>으로 쌓인다.</p></div>
+          <div class="card"><div class="tag">이중화</div><h3>이해관계자가 같은 사본</h3><p>공유 컨트랙트는 <b>당사자 노드 모두</b>에 동일 사본으로 남는다. 전체본을 가진 노드는 없지만 <b>모든 거래는 그 당사자 전원이 보관</b> → 한 노드가 죽어도 남는다. 복원력엔 <b>다중 호스팅</b>.</p></div>
+          <div class="card"><div class="tag">정렬 로그</div><h3>시퀀서 스트림</h3><p>시퀀서가 <b>암호화된 순서 스트림</b>을 영속한다(내용은 못 읽음). 오프라인이던 노드는 자기 <b>offset 이후를 재생(catch-up)</b>해 따라잡는다 — 순서의 정본.</p></div>
+        </div>
+        <div class="note"><b>확정되면 불변.</b> 미디에이터 평결로 커밋된 순간 각 노드 DB에 durably 기록되고 되돌림이 없다(결정적 확정). 디스크 절약을 위해 오래된 <b>보관(archived) 이벤트는 pruning</b>할 수 있지만, 활성 컨트랙트(ACS)는 남는다. → 어디에도 전체본은 없지만, <b>모든 거래는 그 당사자들에게 영속</b>된다.</div>
+
+        <h3 class="sub">노드 DB 구조 — 내부 스토어 vs PQS</h3>
+        <p>그 영속을 실제 DB에서 보면 둘로 나뉜다. 참여자 노드의 <b>내부 PostgreSQL</b>(상태 영속, 비공개 스키마)과, 조회용으로 따로 두는 <b>PQS</b>(SQL로 읽는 읽기 측)다.</p>
+        <div class="fig">
+          <svg viewBox="0 0 780 252" role="img" aria-label="노드 DB 구조: 앱이 Ledger API로 참여자 노드에 접속, 참여자는 내부 PostgreSQL(원장·시퀀서·토폴로지·앱 스토어)에 영속, PQS가 트랜잭션 스트림을 구독해 조회용 PostgreSQL에 투영하면 앱이 SQL로 조회" style="width:100%;height:auto;display:block;font-family:var(--sans)">
+            <g stroke="#5C6885" stroke-width="1.4" opacity=".6"><line x1="124" y1="119" x2="206" y2="119"/><line x1="510" y1="60" x2="562" y2="60"/><line x1="665" y1="84" x2="665" y2="148"/></g>
+            <g fill="#9fb0d6" text-anchor="middle"><text x="165" y="111" font-size="11">Ledger API</text><text x="536" y="52" font-size="9.5">스트림 구독</text><text x="690" y="120" font-size="9.5" text-anchor="start">투영</text></g>
+            <g fill="#7E8AA6" font-size="11" text-anchor="middle"><text x="206" y="123">▸</text><text x="562" y="64">▸</text><text x="665" y="151">▾</text></g>
+            <rect x="16" y="92" width="108" height="54" rx="11" fill="#141C30" stroke="#7FD1FF"/><text x="70" y="124" text-anchor="middle" font-size="12.5" fill="#a9deff">앱 (백엔드)</text>
+            <line x1="70" y1="146" x2="70" y2="160" stroke="#5C6885" stroke-width="1.3" opacity=".6"/>
+            <rect x="16" y="160" width="108" height="46" rx="10" fill="#0F1828" stroke="#5C6885" stroke-dasharray="4 3"/><text x="70" y="180" text-anchor="middle" font-size="10.5" fill="#8794B0">앱 DB</text><text x="70" y="196" text-anchor="middle" font-size="9" fill="#8794B0">오프-원장 · offset</text>
+            <text x="165" y="132" text-anchor="middle" font-size="8.5" fill="#7E8AA6">ACS·스트림·offset</text>
+            <rect x="210" y="18" width="300" height="214" rx="13" fill="rgba(232,161,76,.05)" stroke="#E8A14C"/>
+            <text x="360" y="40" text-anchor="middle" font-size="12" fill="#E8A14C" font-weight="640">참여자 노드</text>
+            <rect x="228" y="52" width="264" height="28" rx="8" fill="#141C30" stroke="#33506e"/><text x="360" y="71" text-anchor="middle" font-size="11" fill="#C2CBE0">Daml 엔진</text>
+            <rect x="228" y="90" width="264" height="132" rx="9" fill="#0F1828" stroke="#5C6885" stroke-dasharray="4 3"/>
+            <text x="360" y="107" text-anchor="middle" font-size="10" fill="#8794B0">내부 PostgreSQL · 비공개 스키마</text>
+            <g font-size="9.5" fill="#C2CBE0" text-anchor="start">
+              <rect x="240" y="116" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="131">원장 스토어 — 커밋 tx + ACS</text>
+              <rect x="240" y="142" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="157">시퀀서 클라이언트 — 받은 암호 메시지</text>
+              <rect x="240" y="168" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="183">토폴로지 — 신원·키·할당</text>
+              <rect x="240" y="194" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="209">밸리데이터 앱 — 운영 상태</text>
+            </g>
+            <rect x="566" y="34" width="198" height="50" rx="11" fill="#141C30" stroke="#7FD1FF"/><text x="665" y="56" text-anchor="middle" font-size="11.5" fill="#a9deff">PQS (Scribe)</text><text x="665" y="72" text-anchor="middle" font-size="9.5" fill="#8794B0">읽기 측 · 원장에 안 씀</text>
+            <rect x="566" y="150" width="198" height="70" rx="11" fill="rgba(87,214,166,.06)" stroke="#57D6A6"/><text x="665" y="178" text-anchor="middle" font-size="11.5" fill="#7fe6c0">조회용 PostgreSQL</text><text x="665" y="196" text-anchor="middle" font-size="9.5" fill="#8794B0">SQL · JSONB 투영</text><text x="665" y="212" text-anchor="middle" font-size="9.5" fill="#8794B0">← 앱이 SQL(JDBC)로 조회</text>
+          </svg>
+          <div class="fig-cap">앱은 <b>Ledger API</b>로 참여자에 커맨드·조회 → 참여자가 내부 PostgreSQL에 영속(비공개 스키마, <abbr title="Protocol Buffers로 직렬화된 이진 데이터 덩어리. 사람이 SQL로 읽기 좋은 컬럼이 아니라 통째 이진값으로 저장된 것.">protobuf blob</abbr>). <b>PQS</b>가 그 트랜잭션 스트림을 구독해 <b>조회용 PostgreSQL</b>에 투영 → 앱이 <b>SQL(JDBC)</b>로 조회. 내부 DB는 직접 건드리지 않는다.</div>
+        </div>
+        <table class="gtbl">
+          <thead><tr><th>내부 스토어</th><th>담는 것</th></tr></thead>
+          <tbody>
+            <tr><td><b>원장 스토어</b></td><td>커밋된 트랜잭션 + <span class="k">ACS</span>(활성 컨트랙트)</td></tr>
+            <tr><td><b>시퀀서 클라이언트 스토어</b></td><td>Synchronizer에서 받은 (암호화) 메시지</td></tr>
+            <tr><td><b>토폴로지 스토어</b></td><td>신원 매핑 · 키 등록 · 파티↔참여자 할당</td></tr>
+            <tr><td><b>밸리데이터 앱 스토어</b></td><td>Validator App 운영 상태 (Splice 계층은 추가 스키마 사용)</td></tr>
+          </tbody>
+        </table>
+        <div class="note"><b>주의</b> — 내부 스토어 스키마는 <abbr title="DB 스키마 변경을 버전별 마이그레이션 스크립트로 관리하는 도구. 버전이 오르면 스키마가 자동으로 갱신된다.">Flyway</abbr> 마이그레이션으로 <b>버전마다 바뀌는 구현 세부</b>이고 대부분 직렬화된 protobuf blob이라 <b>직접 쿼리하지 않는다.</b> SQL로 다룰 땐 <b>PQS</b>(컨트랙트 페이로드를 JSONB로 색인)나 Ledger API를 쓴다. (정확한 스키마: 내부=Canton 소스 Flyway, 조회용=PQS 문서.)</div>
+        <div class="note"><b>그럼 앱은 어떻게 읽고, 저장은?</b> 앱은 내부 DB가 아니라 <b>Ledger API</b>로 읽는다 — <span class="k">ACS 조회</span>(활성 컨트랙트 스냅샷) · <b>업데이트 스트림</b>(생성·보관 이벤트 구독) · <span class="k">ledger-end</span>(offset). 페이로드 필터·조인 같은 무거운 SQL은 <b>PQS</b>. 그리고 <b>원장 자체는 앱이 저장하지 않는다</b>(참여자가 정본) — 앱 DB엔 <b>오프-원장 업무 데이터</b>와, 스트림을 이어받기 위한 <b>마지막 offset 체크포인트</b>만 둔다. 읽기 투영이 필요하면 직접 만들지 말고 PQS로(쓰기=Ledger API · 읽기=PQS, <abbr title="Command Query Responsibility Segregation. 쓰기 경로와 읽기 경로를 분리해 각각 최적화하는 패턴.">CQRS</abbr>).</div>
       </div>
       <div class="nav"></div>
     </section>
@@ -690,54 +737,6 @@
           <p><b>주의</b>: 키는 Synchronizer 내에서 <b>전역</b>이라, 컨트랙트 존재 정보가 새지 않게 신중히 설계한다.</p>
           <p><b>원장 시간(ledger time)</b>: Synchronizer가 부여하고 Synchronizer별로 <b>단조 증가</b>한다. 마감·만기 같은 시간 기반 로직에 쓴다(예: <span class="k">assertDeadlineExceeded</span>로 마감 경과 확인).</p>
         </div></div>
-
-        <h3 class="sub">원장은 어디에 남나 — 영속(persistence)</h3>
-        <p>그럼 이 원장은 <b>어디에 저장돼 남을까.</b> 한 곳의 거대한 장부가 아니라, <b>당사자별 노드 DB에 흩어진 샤드들의 합</b>으로 영속된다. 세 가지가 받친다:</p>
-        <div class="cards c3">
-          <div class="card"><div class="tag">저장소</div><h3>참여자 노드 DB</h3><p>각 노드가 <b>PostgreSQL</b> 등에 자기 <b>샤드</b>를 <abbr title="충돌·재시작에도 사라지지 않게 디스크에 영구 저장하는 것(durable). DB가 그 커밋을 보장한다.">durably</abbr> 저장 — <b>ACS</b>(활성 컨트랙트) + <b>이벤트 로그</b> + <b>offset</b>. 상태 변경이 보관+생성이라 <b>append-only 이력</b>으로 쌓인다.</p></div>
-          <div class="card"><div class="tag">이중화</div><h3>이해관계자가 같은 사본</h3><p>공유 컨트랙트는 <b>당사자 노드 모두</b>에 동일 사본으로 남는다. 전체본을 가진 노드는 없지만 <b>모든 거래는 그 당사자 전원이 보관</b> → 한 노드가 죽어도 남는다. 복원력엔 <b>다중 호스팅</b>.</p></div>
-          <div class="card"><div class="tag">정렬 로그</div><h3>시퀀서 스트림</h3><p>시퀀서가 <b>암호화된 순서 스트림</b>을 영속한다(내용은 못 읽음). 오프라인이던 노드는 자기 <b>offset 이후를 재생(catch-up)</b>해 따라잡는다 — 순서의 정본.</p></div>
-        </div>
-        <div class="note"><b>확정되면 불변.</b> 미디에이터 평결로 커밋된 순간 각 노드 DB에 durably 기록되고 되돌림이 없다(결정적 확정). 디스크 절약을 위해 오래된 <b>보관(archived) 이벤트는 pruning</b>할 수 있지만, 활성 컨트랙트(ACS)는 남는다. → 어디에도 전체본은 없지만, <b>모든 거래는 그 당사자들에게 영속</b>된다.</div>
-
-        <h3 class="sub">노드 DB 구조 — 내부 스토어 vs PQS</h3>
-        <p>그 영속을 실제 DB에서 보면 둘로 나뉜다. 참여자 노드의 <b>내부 PostgreSQL</b>(상태 영속, 비공개 스키마)과, 조회용으로 따로 두는 <b>PQS</b>(SQL로 읽는 읽기 측)다.</p>
-        <div class="fig">
-          <svg viewBox="0 0 780 252" role="img" aria-label="노드 DB 구조: 앱이 Ledger API로 참여자 노드에 접속, 참여자는 내부 PostgreSQL(원장·시퀀서·토폴로지·앱 스토어)에 영속, PQS가 트랜잭션 스트림을 구독해 조회용 PostgreSQL에 투영하면 앱이 SQL로 조회" style="width:100%;height:auto;display:block;font-family:var(--sans)">
-            <g stroke="#5C6885" stroke-width="1.4" opacity=".6"><line x1="124" y1="119" x2="206" y2="119"/><line x1="510" y1="60" x2="562" y2="60"/><line x1="665" y1="84" x2="665" y2="148"/></g>
-            <g fill="#9fb0d6" text-anchor="middle"><text x="165" y="111" font-size="11">Ledger API</text><text x="536" y="52" font-size="9.5">스트림 구독</text><text x="690" y="120" font-size="9.5" text-anchor="start">투영</text></g>
-            <g fill="#7E8AA6" font-size="11" text-anchor="middle"><text x="206" y="123">▸</text><text x="562" y="64">▸</text><text x="665" y="151">▾</text></g>
-            <rect x="16" y="92" width="108" height="54" rx="11" fill="#141C30" stroke="#7FD1FF"/><text x="70" y="124" text-anchor="middle" font-size="12.5" fill="#a9deff">앱 (백엔드)</text>
-            <line x1="70" y1="146" x2="70" y2="160" stroke="#5C6885" stroke-width="1.3" opacity=".6"/>
-            <rect x="16" y="160" width="108" height="46" rx="10" fill="#0F1828" stroke="#5C6885" stroke-dasharray="4 3"/><text x="70" y="180" text-anchor="middle" font-size="10.5" fill="#8794B0">앱 DB</text><text x="70" y="196" text-anchor="middle" font-size="9" fill="#8794B0">오프-원장 · offset</text>
-            <text x="165" y="132" text-anchor="middle" font-size="8.5" fill="#7E8AA6">ACS·스트림·offset</text>
-            <rect x="210" y="18" width="300" height="214" rx="13" fill="rgba(232,161,76,.05)" stroke="#E8A14C"/>
-            <text x="360" y="40" text-anchor="middle" font-size="12" fill="#E8A14C" font-weight="640">참여자 노드</text>
-            <rect x="228" y="52" width="264" height="28" rx="8" fill="#141C30" stroke="#33506e"/><text x="360" y="71" text-anchor="middle" font-size="11" fill="#C2CBE0">Daml 엔진</text>
-            <rect x="228" y="90" width="264" height="132" rx="9" fill="#0F1828" stroke="#5C6885" stroke-dasharray="4 3"/>
-            <text x="360" y="107" text-anchor="middle" font-size="10" fill="#8794B0">내부 PostgreSQL · 비공개 스키마</text>
-            <g font-size="9.5" fill="#C2CBE0" text-anchor="start">
-              <rect x="240" y="116" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="131">원장 스토어 — 커밋 tx + ACS</text>
-              <rect x="240" y="142" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="157">시퀀서 클라이언트 — 받은 암호 메시지</text>
-              <rect x="240" y="168" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="183">토폴로지 — 신원·키·할당</text>
-              <rect x="240" y="194" width="240" height="22" rx="5" fill="#141C30" stroke="#2A3654"/><text x="250" y="209">밸리데이터 앱 — 운영 상태</text>
-            </g>
-            <rect x="566" y="34" width="198" height="50" rx="11" fill="#141C30" stroke="#7FD1FF"/><text x="665" y="56" text-anchor="middle" font-size="11.5" fill="#a9deff">PQS (Scribe)</text><text x="665" y="72" text-anchor="middle" font-size="9.5" fill="#8794B0">읽기 측 · 원장에 안 씀</text>
-            <rect x="566" y="150" width="198" height="70" rx="11" fill="rgba(87,214,166,.06)" stroke="#57D6A6"/><text x="665" y="178" text-anchor="middle" font-size="11.5" fill="#7fe6c0">조회용 PostgreSQL</text><text x="665" y="196" text-anchor="middle" font-size="9.5" fill="#8794B0">SQL · JSONB 투영</text><text x="665" y="212" text-anchor="middle" font-size="9.5" fill="#8794B0">← 앱이 SQL(JDBC)로 조회</text>
-          </svg>
-          <div class="fig-cap">앱은 <b>Ledger API</b>로 참여자에 커맨드·조회 → 참여자가 내부 PostgreSQL에 영속(비공개 스키마, <abbr title="Protocol Buffers로 직렬화된 이진 데이터 덩어리. 사람이 SQL로 읽기 좋은 컬럼이 아니라 통째 이진값으로 저장된 것.">protobuf blob</abbr>). <b>PQS</b>가 그 트랜잭션 스트림을 구독해 <b>조회용 PostgreSQL</b>에 투영 → 앱이 <b>SQL(JDBC)</b>로 조회. 내부 DB는 직접 건드리지 않는다.</div>
-        </div>
-        <table class="gtbl">
-          <thead><tr><th>내부 스토어</th><th>담는 것</th></tr></thead>
-          <tbody>
-            <tr><td><b>원장 스토어</b></td><td>커밋된 트랜잭션 + <span class="k">ACS</span>(활성 컨트랙트)</td></tr>
-            <tr><td><b>시퀀서 클라이언트 스토어</b></td><td>Synchronizer에서 받은 (암호화) 메시지</td></tr>
-            <tr><td><b>토폴로지 스토어</b></td><td>신원 매핑 · 키 등록 · 파티↔참여자 할당</td></tr>
-            <tr><td><b>밸리데이터 앱 스토어</b></td><td>Validator App 운영 상태 (Splice 계층은 추가 스키마 사용)</td></tr>
-          </tbody>
-        </table>
-        <div class="note"><b>주의</b> — 내부 스토어 스키마는 <abbr title="DB 스키마 변경을 버전별 마이그레이션 스크립트로 관리하는 도구. 버전이 오르면 스키마가 자동으로 갱신된다.">Flyway</abbr> 마이그레이션으로 <b>버전마다 바뀌는 구현 세부</b>이고 대부분 직렬화된 protobuf blob이라 <b>직접 쿼리하지 않는다.</b> SQL로 다룰 땐 <b>PQS</b>(컨트랙트 페이로드를 JSONB로 색인)나 Ledger API를 쓴다. (정확한 스키마: 내부=Canton 소스 Flyway, 조회용=PQS 문서.)</div>
-        <div class="note"><b>그럼 앱은 어떻게 읽고, 저장은?</b> 앱은 내부 DB가 아니라 <b>Ledger API</b>로 읽는다 — <span class="k">ACS 조회</span>(활성 컨트랙트 스냅샷) · <b>업데이트 스트림</b>(생성·보관 이벤트 구독) · <span class="k">ledger-end</span>(offset). 페이로드 필터·조인 같은 무거운 SQL은 <b>PQS</b>. 그리고 <b>원장 자체는 앱이 저장하지 않는다</b>(참여자가 정본) — 앱 DB엔 <b>오프-원장 업무 데이터</b>와, 스트림을 이어받기 위한 <b>마지막 offset 체크포인트</b>만 둔다. 읽기 투영이 필요하면 직접 만들지 말고 PQS로(쓰기=Ledger API · 읽기=PQS, <abbr title="Command Query Responsibility Segregation. 쓰기 경로와 읽기 경로를 분리해 각각 최적화하는 패턴.">CQRS</abbr>).</div>
       </div>
       <div class="nav"></div>
     </section>
