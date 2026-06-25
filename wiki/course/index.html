@@ -688,6 +688,15 @@
           <p><b>주의</b>: 키는 Synchronizer 내에서 <b>전역</b>이라, 컨트랙트 존재 정보가 새지 않게 신중히 설계한다.</p>
           <p><b>원장 시간(ledger time)</b>: Synchronizer가 부여하고 Synchronizer별로 <b>단조 증가</b>한다. 마감·만기 같은 시간 기반 로직에 쓴다(예: <span class="k">assertDeadlineExceeded</span>로 마감 경과 확인).</p>
         </div></div>
+
+        <h3 class="sub">원장은 어디에 남나 — 영속(persistence)</h3>
+        <p>그럼 이 원장은 <b>어디에 저장돼 남을까.</b> 한 곳의 거대한 장부가 아니라, <b>당사자별 노드 DB에 흩어진 샤드들의 합</b>으로 영속된다. 세 가지가 받친다:</p>
+        <div class="cards c3">
+          <div class="card"><div class="tag">저장소</div><h3>참여자 노드 DB</h3><p>각 노드가 <b>PostgreSQL</b> 등에 자기 <b>샤드</b>를 durably 저장 — <b>ACS</b>(활성 컨트랙트) + <b>이벤트 로그</b> + <b>offset</b>. 상태 변경이 보관+생성이라 <b>append-only 이력</b>으로 쌓인다.</p></div>
+          <div class="card"><div class="tag">이중화</div><h3>이해관계자가 같은 사본</h3><p>공유 컨트랙트는 <b>당사자 노드 모두</b>에 동일 사본으로 남는다. 전체본을 가진 노드는 없지만 <b>모든 거래는 그 당사자 전원이 보관</b> → 한 노드가 죽어도 남는다. 복원력엔 <b>다중 호스팅</b>.</p></div>
+          <div class="card"><div class="tag">정렬 로그</div><h3>시퀀서 스트림</h3><p>시퀀서가 <b>암호화된 순서 스트림</b>을 영속한다(내용은 못 읽음). 오프라인이던 노드는 자기 <b>offset 이후를 재생(catch-up)</b>해 따라잡는다 — 순서의 정본.</p></div>
+        </div>
+        <div class="note"><b>확정되면 불변.</b> 미디에이터 평결로 커밋된 순간 각 노드 DB에 durably 기록되고 되돌림이 없다(결정적 확정). 디스크 절약을 위해 오래된 <b>보관(archived) 이벤트는 pruning</b>할 수 있지만, 활성 컨트랙트(ACS)는 남는다. → 어디에도 전체본은 없지만, <b>모든 거래는 그 당사자들에게 영속</b>된다.</div>
       </div>
       <div class="nav"></div>
     </section>
