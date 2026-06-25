@@ -153,3 +153,7 @@
 - 인터랙티브 통합 코스(단일 자기완결 HTML)를 Claude Artifact → `wiki/course/index.html`로 편입. Cloudflare Pages가 wiki/를 그대로 올리므로 push 시 `canton-docs.pages.dev/course/`로 자동 공개.
 - Artifact 조각(head 없음)을 완결 HTML 문서로 래핑(charset·viewport·title). 외부 에셋 로드 없음(자기완결).
 - index.md 상단 + gen_sidebar.py "시작하기" 블록에 코스 링크 추가(Docsify `:ignore`로 SPA 라우팅 회피). POC 실명·Musubi 노출 없음 확인(공개 안전).
+
+## [2026-06-25] course | DvP 애니메이션 — 호출 화살표 + 노드별 검증·서명 버튼
+- 노드 행↔Synchronizer 사이에 방향 플로우 스트립(▼ 제출→시퀀서 / ▼ 검증·서명→미디에이터 / ✓ 확정) 추가 — "호출"을 명시.
+- 전역 confirm 버튼(하단 단계패널)을 제거하고, 서명자 노드 패널마다 [검증·서명 ▶] 버튼 배치. 노드별로 하나씩 클릭→서명(✓·글로우), 모두 서명되면 미디에이터 확정·다음 단계. desc에 (n/m 서명) 진행 표시.

@@ -145,9 +145,18 @@
   .dvp.glow-conf .pnode.signing{animation:nodeGlow 1.2s ease both}
   .dvp.glow-conf .syncpart.med{animation:medGlow 1.2s ease both}
   .dvp[data-phase="confirm"] .syncpart.seq{border-color:var(--a)} .dvp[data-phase="confirm"] .syncpart.seq .sh{color:var(--a)}
-  .dvp-confirm{display:none; background:var(--dev); color:var(--ink); border:0; font-family:var(--sans); font-weight:600; font-size:12.5px; padding:8px 14px; border-radius:8px; cursor:pointer}
-  .dvp[data-phase="confirm"] .dvp-confirm{display:inline-block}
-  @media(prefers-reduced-motion:reduce){ .dvp.glow-seq .syncpart.seq,.dvp.glow-conf .pnode.signing,.dvp.glow-conf .syncpart.med{animation:none} }
+  .pnode .psign{display:none; width:100%; margin-top:10px; background:var(--dev); color:var(--ink); border:0; font-family:var(--sans); font-weight:650; font-size:12px; padding:8px 10px; border-radius:8px; cursor:pointer}
+  .pnode .psign:hover{filter:brightness(1.08)}
+  .pnode .psigned{display:none; margin-top:10px; padding:8px 10px; font-family:var(--mono); font-size:11.5px; color:var(--ok); text-align:center}
+  .dvp[data-phase="confirm"] .pnode .pbtn{display:none}
+  .dvp[data-phase="confirm"] .pnode.signing:not(.signed) .psign{display:block}
+  .dvp[data-phase="confirm"] .pnode.signing.signed .psigned{display:block}
+  .pnode.signed{animation:nodeGlow 1s ease both}
+  .dvp-flow{min-height:20px; margin:8px 0 2px; text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--muted); opacity:0; transition:opacity .3s} .dvp-flow.show{opacity:1}
+  .dvp-flow .fa{display:inline-block; margin-right:7px; font-weight:700}
+  @keyframes flowDown{0%{transform:translateY(-5px);opacity:.35}50%{opacity:1}100%{transform:translateY(6px);opacity:.35}}
+  .dvp-flow.down .fa{animation:flowDown .9s ease infinite}
+  @media(prefers-reduced-motion:reduce){ .dvp.glow-seq .syncpart.seq,.dvp.glow-conf .syncpart.med,.pnode.signed,.dvp-flow.down .fa{animation:none} }
   .pnode.signing .ph .nm{font-weight:800}
   .pnode.signing .ph .nm::after{content:" · 이해관계자"; color:var(--dev); font-weight:600; font-size:10.5px}
   .pnode{display:flex; flex-direction:column} .pnode .pr{flex:1}
@@ -729,11 +738,12 @@
           </div>
           <div class="dvp-banner">전부 아니면 전무 — 두 다리 동시 실행, 한쪽이라도 실패하면 둘 다 무효</div>
           <div class="pv-nodes">
-            <div class="pnode A lit"><div class="ph"><span class="nm">국내은행 노드</span><span class="pt">:2975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDA"></div><button class="pbtn" id="btnA">이 거래 제안 ▶</button></div>
-            <div class="pnode B lit"><div class="ph"><span class="nm">해외은행 노드</span><span class="pt">:3975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDB"></div><button class="pbtn" id="btnB" disabled>대기</button></div>
-            <div class="pnode V lit"><div class="ph"><span class="nm">정산 운영자 노드</span><span class="pt">venue</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDV"></div><button class="pbtn" id="btnV" disabled>대기</button></div>
+            <div class="pnode A lit"><div class="ph"><span class="nm">국내은행 노드</span><span class="pt">:2975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDA"></div><button class="pbtn" id="btnA">이 거래 제안 ▶</button><button class="psign" id="signA">검증·서명 ▶</button><div class="psigned">검증·서명 ✓</div></div>
+            <div class="pnode B lit"><div class="ph"><span class="nm">해외은행 노드</span><span class="pt">:3975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDB"></div><button class="pbtn" id="btnB" disabled>대기</button><button class="psign" id="signB">검증·서명 ▶</button><div class="psigned">검증·서명 ✓</div></div>
+            <div class="pnode V lit"><div class="ph"><span class="nm">정산 운영자 노드</span><span class="pt">venue</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDV"></div><button class="pbtn" id="btnV" disabled>대기</button><button class="psign" id="signV">검증·서명 ▶</button><div class="psigned">검증·서명 ✓</div></div>
             <div class="pnode X lit"><div class="ph"><span class="nm">제3자 노드</span><span class="pt">:4975</span></div><div class="pq">GET /v2/state/active-contracts</div><div class="pr" id="prDX"></div></div>
           </div>
+          <div class="dvp-flow" id="dvpFlow"><span class="fa">▼</span><span class="ft"></span></div>
           <div class="pv-sync lit"><div class="h">Synchronizer</div><div class="cipher" id="dvpCipher">seq #11,150 · 암호봉투 <span class="x">(해독 불가)</span> · 순서·타임스탬프만</div>
             <div class="synrow">
               <div class="syncpart seq"><div class="sh">시퀀서</div><div class="ss">전역 순서 · 뷰 분배</div></div>
@@ -741,7 +751,7 @@
             </div>
           </div>
           <div class="dvp-code-wrap"><div class="ccap">실행된 Daml 커맨드 · Settlement.FxDvp</div><pre id="dvpCode"></pre></div>
-          <div class="dvp-read"><span class="stepno" id="dStepNo">단계 0 / 6</span><span class="desc" id="dDesc">국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.</span><button class="dvp-confirm" id="btnConfirm">위 이해관계자 노드 검증·서명 ▶</button><button class="dvp-reset" id="dReset">처음으로</button></div>
+          <div class="dvp-read"><span class="stepno" id="dStepNo">단계 0 / 6</span><span class="desc" id="dDesc">국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.</span><button class="dvp-reset" id="dReset">처음으로</button></div>
         </div>
         <p>핵심 둘. <b>원자성</b> — 자산이 실제로 움직이는 건 마지막 <span class="k">Settlement_Execute</span> 한 번뿐이고 그게 전부/전무라, 한 다리라도 잠기지 않으면 실행 자체가 성립하지 않는다(한쪽만 떼이는 일이 없다). <b>프라이버시</b> — 이 정산도 당사자(A·B·정산 운영자)만 받고 무관한 제3자는 <b>0건</b>이다. 0건은 막아서가 아니라 그 뷰가 그 노드에 <b>도착하지 않아서</b>다. 주의 — 제3자 노드가 텅 빈 게 아니다. 그 노드도 자기 사업 계약은 따로 갖고 있고, 단지 <b>이 정산</b>이 그중에 없을 뿐이다. (제3자라도 <span class="k">observer</span>로 지정하면 — 예: 감독기관 — 받는다. 가시성은 명시적 선택.)</p>
         <div class="note">이 흐름·choice·다리 키(<span class="k">legKRW</span>/<span class="k">legJPY</span>)는 실제 정산 패키지(<span class="k">Settlement.FxDvp</span>, 2-leg FX DvP)와 테스트 그대로다. 단 LocalNet 데모엔 토큰이 <b>Amulet(Canton Coin) 하나뿐</b>이라 두 다리 모두 CC로 두고, <b>KRW·JPY는 개념상 대역</b>(방향만 반대인 FX 스왑 흉내)이다. 위 금액(₩9,000↔¥1,000)은 환율에 맞춘 예시 — 실제 테스트 코드는 CC로 100·20을 쓴다. 실제 운영에선 각 다리에 별도 발행자(레지스트리)의 통화 토큰이 들어간다(→ 09).</div>
@@ -912,8 +922,24 @@
         code:'<span class="c">-- 정산 운영자 submits</span>\n<span class="kw">exerciseCmd</span> settlementCid <span class="id">Settlement_Execute</span> <span class="kw">with</span>\n  allocationsWithContext   <span class="c">-- 두 다리 원자 실행</span>'}
     ];
     var btns={A:document.getElementById('btnA'), B:document.getElementById('btnB'), V:document.getElementById('btnV')};
-    var di=0, awaiting=false, dno=document.getElementById('dStepNo'), ddesc=document.getElementById('dDesc'), reset=document.getElementById('dReset'), confirmBtn=document.getElementById('btnConfirm');
+    var di=0, awaiting=false, signedSet={};
+    var dno=document.getElementById('dStepNo'), ddesc=document.getElementById('dDesc'), reset=document.getElementById('dReset');
+    var pnodes={A:document.querySelector('.pnode.A'), B:document.querySelector('.pnode.B'), V:document.querySelector('.pnode.V')};
+    var signBtns={A:document.getElementById('signA'), B:document.getElementById('signB'), V:document.getElementById('signV')};
+    var flowEl=document.getElementById('dvpFlow');
+    var SIGNERS=[['A'],['A','B'],['A','B','V'],['A'],['B'],['A','B','V']];
     function pulse(cls){ dvp.classList.remove('glow-seq','glow-conf'); void dvp.offsetWidth; dvp.classList.add(cls); }
+    function flow(mode){
+      if(!flowEl) return;
+      var fa=flowEl.querySelector('.fa'), ft=flowEl.querySelector('.ft');
+      flowEl.classList.remove('show','down');
+      if(mode==='hide') return;
+      if(mode==='submit'){ fa.textContent='▼'; fa.style.color='var(--a)'; ft.textContent='노드 → 시퀀서 · 제출 · 전역 순서 · 뷰 분배'; flowEl.classList.add('show','down'); }
+      else if(mode==='sign'){ fa.textContent='▼'; fa.style.color='var(--dev)'; ft.textContent='이해관계자 노드 → 미디에이터 · 검증·서명 전송'; flowEl.classList.add('show','down'); }
+      else if(mode==='final'){ fa.textContent='✓'; fa.style.color='var(--ok)'; ft.textContent='미디에이터 · 확인 취합 → 확정'; flowEl.classList.add('show'); }
+    }
+    function setSign(arr){ ['A','B','V'].forEach(function(k){ if(!pnodes[k]) return; pnodes[k].classList.toggle('signing', arr.indexOf(k)>=0); pnodes[k].classList.remove('signed'); }); }
+    function clearSign(){ ['A','B','V'].forEach(function(k){ if(pnodes[k]) pnodes[k].classList.remove('signing','signed'); }); }
     function render(){
       dvp.setAttribute('data-step', di);
       dvp.setAttribute('data-phase', awaiting?'confirm':'submit');
@@ -929,19 +955,27 @@
         else { b.disabled=true; b.textContent = di>=6 ? '완료' : (awaiting ? '제출됨…' : '대기'); }
       });
       dno.textContent='단계 '+di+' / 6';
-      ddesc.innerHTML = awaiting
-        ? '<b>제출됨.</b> 시퀀서가 순서 부여·뷰 분배 완료 — 이제 위에서 <b>굵게 표시된 이해관계자 노드</b>(이 거래의 서명자)가 검증·서명한다. 제3자 노드는 빠진다. 오른쪽 버튼을 누르세요.'
-        : (di===0 ? '국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.' : ACTS[di-1].desc);
+      if(awaiting){
+        var need=SIGNERS[di]||[]; var cnt=need.filter(function(s){return signedSet[s];}).length;
+        ddesc.innerHTML='<b>제출됨.</b> 시퀀서가 순서 부여·뷰 분배 완료 — 굵게 표시된 <b>이해관계자 노드</b>에서 <b>[검증·서명 ▶]</b>을 각각 누르세요. ('+cnt+'/'+need.length+' 서명) · 제3자 노드는 빠진다.';
+      } else {
+        ddesc.innerHTML = di===0 ? '국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.' : ACTS[di-1].desc;
+      }
       var code=document.getElementById('dvpCode'); if(code) code.innerHTML = awaiting ? ACTS[di].code : (di===0 ? '<span class="c">패널 버튼을 누르면, 실행되는 Daml 커맨드가 여기 표시됩니다.</span>' : ACTS[di-1].code);
     }
-    var pnodes={A:document.querySelector('.pnode.A'), B:document.querySelector('.pnode.B'), V:document.querySelector('.pnode.V')};
-    var SIGNERS=[['A'],['A','B'],['A','B','V'],['A'],['B'],['A','B','V']];
-    function setSign(arr){ ['A','B','V'].forEach(function(k){ if(pnodes[k]) pnodes[k].classList.toggle('signing', arr.indexOf(k)>=0); }); }
-    function act(k){ if(awaiting || di>=6 || ACTS[di].actor!==k) return; setSign(SIGNERS[di]||[]); awaiting=true; render(); pulse('glow-seq'); }
-    function confirmStep(){ if(!awaiting) return; awaiting=false; di++; render(); pulse('glow-conf'); }
-    ['A','B','V'].forEach(function(k){ if(btns[k]) btns[k].addEventListener('click', function(){ act(k); }); });
-    if(confirmBtn) confirmBtn.addEventListener('click', confirmStep);
-    reset.addEventListener('click', function(){ awaiting=false; di=0; setSign([]); dvp.classList.remove('glow-seq','glow-conf'); render(); });
+    function act(k){ if(awaiting || di>=6 || ACTS[di].actor!==k) return; signedSet={}; setSign(SIGNERS[di]||[]); awaiting=true; render(); pulse('glow-seq'); flow('submit'); }
+    function signNode(k){
+      if(!awaiting || di>=6) return;
+      var need=SIGNERS[di]||[]; if(need.indexOf(k)<0 || signedSet[k]) return;
+      signedSet[k]=true; if(pnodes[k]) pnodes[k].classList.add('signed'); flow('sign');
+      if(need.every(function(s){return signedSet[s];})) finalize(); else render();
+    }
+    function finalize(){ awaiting=false; di++; clearSign(); signedSet={}; render(); pulse('glow-conf'); flow('final'); }
+    ['A','B','V'].forEach(function(k){
+      if(btns[k]) btns[k].addEventListener('click', function(){ act(k); });
+      if(signBtns[k]) signBtns[k].addEventListener('click', function(){ signNode(k); });
+    });
+    reset.addEventListener('click', function(){ awaiting=false; di=0; signedSet={}; clearSign(); dvp.classList.remove('glow-seq','glow-conf'); flow('hide'); render(); });
     render();
   }
 
