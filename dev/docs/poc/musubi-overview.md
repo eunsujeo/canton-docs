@@ -133,6 +133,7 @@
 ### 자료 / 콘솔
 
 - **Console**(주문 생성·견적 비교·정산 모니터) / **Statements**(정산 확인서·FX 실행 보고·정합성 데이터).
+- **Audit Exports**(Custodian) — 체결된 FXOrder 레코드(서명된 FXOrder + 정산 leg + 4-leg `txHash`)를 **CSV(일/주 대사)·JSON(월 아카이브)** 로 내보내기. 회계 대사·컴플라이언스 아카이브용(날짜·상태·기관·통화쌍 필터). 배치 엔드포인트는 **예정**(현재는 per-intent 조회로 대체). 출처: https://musubinetwork.com/custodian/integration/audit-exports
 - **OpenAPI 스펙 5종**(인덱스 언급): core-api, custodian-api, market-maker-api, institution-api, openapi — 파일 위치는 노드인프라 확인([nodeinfra-asks.md](nodeinfra-asks.md) C).
 - 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
 

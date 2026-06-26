@@ -9,8 +9,9 @@
 - [ ] **온보딩 방식** — 어느 Synchronizer에 연결·온보딩 절차·소요. (이번 PoC는 별도 스폰서 SV 없음 — 노드인프라가 온보딩)
 - [ ] **IP allowlist** — 국내은행 AWS Sandbox egress IP 등록 필요 여부·방법.
 - [ ] **배포 지원 범위** — AWS Sandbox 스택을 국내은행이 직접 띄우나, 노드인프라가 배포 지원/대행하나.
-- [ ] **노드월렛 SW** — 캔톤 노드에 파티 네이티브 호스팅 + 키 HSM/망분리(Fireblocks 옴니버스 대안). 배포물·라이선스 제공 방식, AWS Sandbox 구동 요구사양.
-  - [ ] **키 HSM 관리 주체**(노드인프라 vs 국내은행)·망분리 요건.
+- [ ] **노드월렛 SW** — 자가 키보유(고객 HSM, FIPS 140-3 L3)·3-키 멀티시그·컴플라이언스 정책 엔진·망분리 내장(Fireblocks 옴니버스 대안). 배포물·라이선스, AWS Sandbox 구동 요구사양.
+  - [ ] **Canton 지원** — 담당자는 **캔톤 네이티브 파티 호스팅** 확인(공개 문서는 Solana뿐). **Daml(prepared-tx) raw 서명·컴플라이언스 엔진의 Canton 적용·버전**을 문서/데모로 확인.
+  - [ ] **키 HSM 관리 주체**(노드인프라 vs 국내은행)·망분리·SGX 요건.
   - [ ] (선택) 캔톤 네이티브 트래블룰(예: VerifyVASP) 연동 가능 여부.
 
 ## B. 프로비저닝(자격증명) — 무스비 발급
@@ -23,7 +24,8 @@
 AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **Musubi Backend 배포물** — 도커 이미지명/레지스트리/**버전**, 설정 방식(env/config).
 - [ ] **Canton Participant Node** — 이미지/버전, 요구사양.
-- [ ] **DAR/패키지 ID** — `FXOrder` 등 정산 패키지가 네트워크에 이미 있나/국내은행이 업로드하나, **패키지 ID**.
+- [ ] **DAML 배포·벳팅 과정** — `FXOrder` 등 정산 패키지(DAR)를 **누가 우리 participant에 업로드·벳팅**하나(우리 vs 노드월렛/무스비 ops), **모든 참여자 패키지 일치(벳팅)** 보장, **버전·업그레이드** 절차, **패키지 ID** 공유(검증·raw Ledger용 — [verification.md](verification.md) 4절).
+- [ ] **DAML 소스/감사용 공유** — 적격기관(또는 제3자) 검증을 위해 `FXOrder` **DAML 소스(최소 DAR)+패키지 ID** 공유 가능 여부. (소스가 IP라 불가면 DAR+패키지로 행동 검증) + **raw Ledger API 접근** — [verification.md](verification.md) 4절(적격기관 주도 DAML 검증).
 - [ ] **OpenAPI 스펙 파일 + Console 접근** — 역할별 OpenAPI 스펙 파일 위치, Console 계정. (Webhook 지원 여부 확인)
 
 ## D. 자산/인스트루먼트
@@ -61,4 +63,5 @@ AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - 인증: https://musubinetwork.com/authentication
 - API 규약: https://musubinetwork.com/api-conventions
 - 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
+- 노드월렛 문서: https://docs.nodeinfra.com (접근 코드 필요)
 - Canton Network 문서: https://docs.canton.network

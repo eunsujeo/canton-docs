@@ -24,7 +24,7 @@
 | 1 | 원자적 DvP | **가능** | 정상+실패주입 모두 국내은행 뷰로 |
 | 2 | 익명/프라이버시 | **제한적** | 국내은행 뷰는 가능, MM익명·제3자0건은 외부 뷰 필요 |
 | 3 | 무스비 기능 정상동작 | **가능** | API/Console end-to-end |
-| 4 | DAML 검증 | **제한적** | 상태·국내은행 권한 가능, 원장 강제 확인엔 raw Ledger API |
+| 4 | DAML 검증 | **적격기관 주도** | 소스/DAR + raw Ledger 확보 시 (a)소스리뷰·(b)재현·(c)음성테스트 |
 | 5 | 캔톤 이해 | **가능** | 국내은행 participant 원장·오프셋 |
 
 ---
@@ -69,20 +69,19 @@
   - [ ] SETTLED + 트랜잭션 해시 1개.
   - [ ] cost guard 위반 견적 거부.
 
-## 4. DAML 검증 — 검증 가능성: 제한적
+## 4. DAML 검증 — 적격기관 주도 (소스/DAR 확보 시)
 
-- **가치**: 정산 컨트랙트(`FXOrder`) 로직·권한이 **앱이 아니라 원장에서** 강제됨.
-- **검증 방법**:
-  - (상태) FXOrder 상태가 `PENDING→QUOTED→EXECUTING→SETTLED`(실패 `FAILED`/`EXPIRED`) 경로로만 진행하는지 국내은행 원장·API로 관측.
-  - (권한·거부) 잘못된 호출 거부 확인: 견적 수락 전 정산 시도, 만료 후 실행, 기대 allocation 불일치 등.
-  - (원장 강제) 위 거부가 **무스비 백엔드 검증이 아니라 DAML 컨트랙트(원장)** 에서 막히는지 확인하려면 국내은행 participant의 **raw Ledger API로 직접 명령 제출**(백엔드 우회)해 보아야 함.
-- **검증 가능성**: **제한적** —
-  - *가능*: 상태 전이·정상 권한 흐름은 API/국내은행 원장으로 확인.
-  - *외부/추가 필요*: "원장이 강제" 입증은 raw Ledger API 접근 + 패키지/DAR(`FXOrder` package id) 지식이 있어야 함([nodeinfra-asks.md](nodeinfra-asks.md) C·G). 없으면 "API 단 검증"까지만.
+- **가치**: 정산 컨트랙트(`FXOrder`) 로직·권한이 **앱이 아니라 원장에서** 강제됨. **DAML이 곧 국내은행 자산의 신뢰 경계** — 벤더에 맡기지 않고 적격기관이 직접(또는 제3자 감사) 검증한다.
+- **전제**: ① `FXOrder` DAML이 우리 participant에 **배포·벳팅**, ② **DAML 소스(또는 최소 DAR)+패키지 ID** 공유, ③ 우리 participant **raw Ledger API 접근** ([nodeinfra-asks.md](nodeinfra-asks.md) C).
+- **검증 방법 (3단계)**:
+  - **(a) 소스 리뷰** — `FxDvp/FXOrder`의 **signatory·observer·choice·`require`(precondition)** 확인: 무단 인출 불가(operator 일방 이동 차단), 원자성(전부/전무), allocation 매칭, 기한, 프라이버시 경계(관찰자 범위).
+  - **(b) 동작 재현** — Daml Script로 정상 정산 + 실패 시 전체 롤백 재현.
+  - **(c) 음성 테스트** — raw Ledger API로 **잘못된 호출**(견적 수락 전 정산, 만료 후 실행, 권한 없는 이동, allocation 불일치)이 **원장에서 거부**되는지.
+- **검증 가능성**: 소스/DAR + raw Ledger 접근을 확보하면 **(a)~(c)를 적격기관이 직접 검증** 가능. 미확보 시 상태 전이·정상 흐름 관찰(API)까지만 = 제한적 → 소스/접근 확보가 핵심(전제).
 - **합격 기준**:
-  - [ ] 상태 전이가 정의된 경로로만 진행.
-  - [ ] 순서 위반/권한 없는 호출 거부.
-  - [ ] (raw Ledger 접근 시) 거부가 원장 단에서 강제됨을 확인.
+  - [ ] (a) signatory·권한·원자성·기한·관찰자 규칙이 컨트랙트에 명시됨을 확인.
+  - [ ] (b) 정상 정산 + 실패 롤백을 Daml Script로 재현.
+  - [ ] (c) 순서 위반·권한 없는·allocation 불일치 호출이 원장 단에서 거부됨.
 
 ## 5. 캔톤 이해 — 검증 가능성: 가능
 
@@ -137,7 +136,7 @@ sequenceDiagram
 ## 8. 추가 검증 후보 (필요 시)
 
 - **결정적 확정(Finality)** — 캔톤은 즉시 확정(reorg 없음). SETTLED 후 되돌릴 수 없음을 확인(기존 결제 방식 대비 강점).
-- **감사추적/증빙** — Statements의 정산 확인서·단일 해시로 거래를 단일 증빙으로 재구성 가능한지.
+- **감사추적/증빙** — **Audit Exports**(체결 FXOrder + 4-leg `txHash`, CSV/JSON)·Statements로 거래를 단일 증빙으로 재구성·대사 가능한지. (배치 엔드포인트는 예정 — 현재 per-intent 조회)
 - **재시도/멱등성** — 동일 주문 재제출·중복 방지(`intentId`) 동작.
 
 ## 9. 범위 밖 (1차 제외)

@@ -20,7 +20,7 @@
 |---|---|---|
 | **무스비 Core** | 정산 코디네이터 — DAML(`FXOrder`), 4-leg 원자 정산 개시·실행 | 무스비/노드인프라 운영 |
 | **Institution** | 송금 개시, 견적(RFQ) 비교·선택 | **국내은행 역할(송신측)** |
-| **Custodian** | 자산 이동 승인·co-sign, 감사추적 | 국내은행이 Custodian · 지갑은 **노드월렛**(네이티브 파티 호스팅, HSM/망분리) |
+| **Custodian** | 자산 이동 승인·co-sign, 감사추적 | 국내은행이 Custodian · 지갑은 **노드월렛**(캔톤 네이티브 파티 호스팅·고객 HSM) |
 | **Market Maker** | 익명 RFQ에 호가, 유동성 공급. 4-leg 필수 | PoC용 테스트 MM은 무스비/노드인프라 준비 |
 | **Gateway** | TradFi 통합(fiat·온오프램프·온보딩) | 1차 PoC 범위 밖 |
 
@@ -55,7 +55,7 @@ flowchart TB
 > **무스비 정산 네트워크 = 무스비 Core + 멤버(국내은행·해외은행·Market Maker)가 이 Synchronizer 위에서 정산하는 것.** 위 박스는 국내은행(우리 측)을 제외한 상대측 멤버+Core만 묶은 것이고, 국내은행도 같은 네트워크의 멤버다. 노드월렛이 participant까지 묶어 운영하는지(일체형)는 통합 방식 확인 대상.
 
 - **AWS Sandbox** — 은행 내부망 밖 격리 환경에서 국내은행 스택을 전부 띄운다. 내부 시스템 연동 최소화. 진행 [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
-- **노드월렛 = 지갑/커스터디** — 노드인프라 제공 SW. 캔톤 노드에 국내은행 파티를 네이티브로 호스팅 + 키 HSM/망분리. Fireblocks(옴니버스)의 대안 → 비교 [wallet-comparison.md](wallet-comparison.md).
+- **노드월렛 = 지갑/커스터디** — 노드인프라 제공 SW. **캔톤 네이티브 파티 호스팅(담당자 확인)** · 고객 HSM 자가 키보유·3-키 멀티시그·컴플라이언스 정책 엔진·망분리 내장(Fireblocks 옴니버스 대안). 공개 문서는 Solana 기준 → 비교·출처 [wallet-comparison.md](wallet-comparison.md).
 - **배포 구성(footprint)**: participant + 노드월렛 + Musubi backend + Postgres, 정산 네트워크로 mTLS.
 - **프로비저닝**: 노드인프라/무스비가 Party ID·JWT·엔드포인트/TLS·노드월렛 SW·배포물 제공.
 - **대부분 노드인프라/무스비 준비**: 무스비 Core·테스트 MM·수신 카운터파티(해외은행)와 Synchronizer 접속을 노드인프라/무스비가 준비. 국내은행은 AWS Sandbox에 송신측 스택을 띄워 연결.
@@ -122,7 +122,7 @@ sequenceDiagram
 | 환경 | DevNet/TestNet, AWS Sandbox | 망분리 + 국내은행 지갑 시스템 연동 |
 | 통화 | KRWK ↔ JPYC (테스트 인스트루먼트) | 실제 발행 인스트루먼트 |
 | 당사자 | 은행 자기계정 (고객 없음) | 국내은행 유저(고객) 온/오프램프 |
-| 지갑/커스터디 | **노드월렛**(내부, 네이티브 파티 호스팅) | **Fireblocks**(외부, 국내은행 지갑 시스템) |
+| 지갑/커스터디 | **노드월렛**(내부, 캔톤 네이티브 파티 호스팅) | **Fireblocks**(외부, 국내은행 지갑 시스템) |
 | Fiat | 없음 | (가능성) 온/오프램프 |
 | MM/유동성 | 무스비 준비(테스트 MM) | MM 구조 확정(비즈니스 협의) |
 
@@ -132,7 +132,7 @@ sequenceDiagram
 
 - **정산 자체**: 원자성·프라이버시가 원장 메커니즘으로 보장. 무스비 Core는 코디네이션·실행만, 4-leg co-sign으로 단일 주체가 자산 일방 이동 불가.
 - **네트워크 연결**: mTLS + JWT(무스비 발급). 노드인프라/무스비를 통해 DevNet/TestNet 온보딩(allowlist 등). (이번 PoC는 별도 스폰서 SV 없음)
-- **키 보관(1차)**: AWS Sandbox의 노드월렛(네이티브 파티 호스팅, HSM/망분리)이 파티 키 보관·서명. 키 HSM 관리 주체는 확인 대상. 최종 단계에서 Fireblocks 검토.
+- **키 보관(1차)**: AWS Sandbox의 노드월렛(고객 HSM 자가 키보유·망분리)이 파티 키 보관·서명. 키 HSM 관리 주체는 확인 대상. 최종 단계에서 Fireblocks 검토.
 
 ## 7. 결론
 
