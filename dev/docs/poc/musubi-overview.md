@@ -1,10 +1,10 @@
 # 무스비 네트워크 — 제품/SDK 개요
 
-> 단기 PoC에서 우리(적격기관)가 연결해 쓰는 무스비 측 소프트웨어. 여기 적힌 "주장"(원자성·프라이버시·4-leg 등)을 [verification.md](verification.md)에서 검증한다.
+> 단기 PoC에서 국내은행이 연결해 쓰는 무스비 측 소프트웨어. 여기 적힌 "주장"(원자성·프라이버시·4-leg 등)을 [verification.md](verification.md)에서 검증한다.
 
-## 1. 우리 PoC에서 무스비는 무엇이고, 왜 쓰나
+## 1. 이 PoC에서 무스비는 무엇이고, 왜 쓰나
 
-**무스비 = 우리가 KRWK↔JPYC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 우리(국내은행)는 직접 구축하지 않고, 송신측으로 **연결**해 정산 한 건을 끝까지 돌린다.
+**무스비 = 국내은행이 KRWK↔JPYC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 국내은행은 직접 구축하지 않고, 송신측으로 **연결**해 정산 한 건을 끝까지 돌린다.
 
 **왜 쓰나** (이 PoC가 검증하려는 가치):
 
@@ -20,9 +20,9 @@
 | **Institution** | 송금 개시, best execution 선택(견적 비교) |
 | **Custodian** | 자산 이동 승인, 거래 **co-sign**, 감사추적 유지 |
 | **Market Maker** | 익명 RFQ 수신, 가격 경쟁, 원자 정산. **송수신자 신원을 못 봄** |
-| **Core** | 정산 코디네이터(중간자) — 정산 개시·실행 |
+| **무스비 Core** | 정산 코디네이터(중간자) — 정산 개시·실행 |
 
-> Gateway(fiat·온오프램프·온보딩)는 운영/소유 주체이지 정산 참여자는 아니다(§5).
+> Gateway(fiat·온오프램프·온보딩)는 운영/소유 주체이지 정산 참여자는 아니다(5절).
 
 ## 3. 정산 흐름 — 4 leg / 4 confirming party
 
@@ -42,7 +42,7 @@
 6. Settlement Confirmation : SETTLED, 트랜잭션 해시 1개(규제 보고용)
 ```
 
-- **cost guard** = 송신자가 거는 최악 환율/슬리피지 한도. 벗어난 견적은 거부.
+- **cost guard** = 송신자(국내은행)가 거는 **보호 장치** — 받아들일 **최악 환율(또는 최소 수취액/최대 지급액) 한도**. 무스비가 수락 견적을 이 한도와 대조해 **벗어나면 정산하지 않고 거부**(나쁜 환율 체결 방지). FX의 슬리피지 허용치/지정가에 해당.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
 - **핵심 템플릿 `FXOrder`** (on-ledger 코디네이션 레코드):
@@ -66,13 +66,13 @@
 | 소유 주체 | 담당 |
 |---|---|
 | **Gateway** | TradFi 통합 — fiat 레일, 온/오프램프, 멤버 온보딩 |
-| **Core** | 정산 프로토콜 — DAML 컨트랙트, 트랜잭션 코디네이션, SDK |
+| **무스비 Core** | 정산 프로토콜 — DAML 컨트랙트, 트랜잭션 코디네이션, SDK |
 
 **Membership(온체인 3-tier registry)**: 누가 멤버인가(**Membership**) · 멤버가 할 수 있는 것(**Mandate**) · 합의 규칙(**Rulebook**). validator node가 온체인 멤버십 권위.
 
 ## 6. 연동/배포 (SDK·API)
 
-### 참여자가 배포하는 것 (footprint: "두 프로세스 + Postgres 하나 + TLS")
+### 참여자가 배포하는 것 (배포 구성: "두 프로세스 + Postgres 하나 + TLS")
 
 1. **Canton Participant Node** — 정산 네트워크 상의 Party ID 신원
 2. **Musubi Backend** — REST + SSE API, 자기 인프라에서 구동
@@ -80,7 +80,7 @@
 4. **mTLS** — 정산 네트워크 엔드포인트로 연결(네트워크 연결용 TLS; REST API 인증은 아래 JWT)
 5. **Custody Platform(지갑)** — holding을 승인. 1차 PoC에선 **노드월렛**([wallet-comparison.md](wallet-comparison.md))
 
-> 단기 PoC에선 위 스택을 **AWS Sandbox**(망분리)에 띄운다 → [architecture.md](architecture.md) §3 · [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
+> 단기 PoC에선 위 스택을 **AWS Sandbox**에 띄운다 → [architecture.md](architecture.md) 3절 · [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
 
 ### 무스비가 발급(provision)하는 것
 
@@ -88,15 +88,20 @@
 
 ### 인증 (문서 명시)
 
+> API 출처: https://musubinetwork.com/authentication
+
 - **JWT bearer** — `Authorization: Bearer {token}`. 토큰은 백엔드 `POST /auth/token`(개발) / 프로덕션은 외부 IdP(Keycloak·Auth0 등 SSO).
 - `GET /api/v1/whoami` 로 `party_id`·`operator_party_id`·`participant_id`·`schema_version` 확인.
 - JWT claim: `sub`+`canton_party_id`(신원), `role`(`institution`/`custodian`/`market-maker`), `exp`(기본 1h). `/health`·`/auth/token`은 인증 예외.
 
 ### API 규약 (문서 명시)
 
+> API 출처: https://musubinetwork.com/api-conventions
+
 - base `/api/v1`. 모든 응답을 **공통 형식으로 감싼다** — `data`(실제 내용)·`meta`(부가정보)·`pagination`(목록 페이지). 금액은 문자열, 시간 ISO8601 UTC.
 - 에러는 `error` 객체(`code`·`message`·`details`)로 반환: `VALIDATION_ERROR`·`UNAUTHORIZED`·`NOT_FOUND`·`CONFLICT`·`CANTON_ERROR`·`INTERNAL_ERROR`.
-- **SSE**: 참여자별 SSE 엔드포인트, `EventSource`로 연결(`intent_id` 필터, 30s heartbeat). Webhook 규약은 문서에 없음.
+- **SSE**(Server-Sent Events, 서버가 상태 변화를 실시간 push): 참여자별 SSE 엔드포인트, `EventSource`로 연결(`intent_id` 필터, 30s heartbeat). Webhook 규약은 문서에 없음.
+  - SSE는 국내은행이 **밖으로 연결(outbound)** → AWS Sandbox에 유리. Webhook은 무스비가 **국내은행 엔드포인트로 들어와야(inbound)** 해 망분리엔 번거로움 → 최종(TMS/ERP 연동) 단계에서 검토.
 
 성공 응답 예:
 
@@ -129,15 +134,16 @@
 
 - **Console**(주문 생성·견적 비교·정산 모니터) / **Statements**(정산 확인서·FX 실행 보고·정합성 데이터).
 - **OpenAPI 스펙 5종**(인덱스 언급): core-api, custodian-api, market-maker-api, institution-api, openapi — 파일 위치는 노드인프라 확인([nodeinfra-asks.md](nodeinfra-asks.md) C).
+- 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
 
-## 7. 우리 PoC 역할 → 무스비 역할 매핑
+## 7. PoC 역할 → 무스비 역할 매핑
 
-| 우리 PoC(역할 기반) | 무스비 역할 | 비고 |
+| PoC 역할 | 무스비 역할 | 비고 |
 |---|---|---|
 | 국내은행(VASP, KRWK 보유) | **Institution** + **Custodian** | 송금 개시 + co-sign. 지갑=노드월렛 |
 | 해외은행(일본은행 그룹) | **Institution/Custodian**(수신측) | 카운터파티 |
 | (유동성 공급) | **Market Maker** | 4-leg 필수 참여자 |
-| 무스비 | **Core**(코디네이터) | 정산 개시·실행 |
+| 무스비 | **무스비 Core**(코디네이터) | 정산 개시·실행 |
 
 ## 참고 (출처)
 
@@ -146,5 +152,6 @@
 - FXOrder: https://musubinetwork.com/technical/fxorder
 - 인증: https://musubinetwork.com/authentication
 - API 규약: https://musubinetwork.com/api-conventions
-- 배포(footprint): https://musubinetwork.com/custodian/integration/deploy
+- 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
+- 배포 구성: https://musubinetwork.com/custodian/integration/deploy
 - 왜 캔톤: https://musubinetwork.com/why-canton

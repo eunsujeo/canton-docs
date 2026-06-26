@@ -1,29 +1,29 @@
 # 노드인프라에 문의/요구할 것 (적격기관 체크리스트)
 
-> 우리는 적격기관(국내은행, 송신 Institution + Custodian)으로 1차 PoC에 참여한다.
-> **AWS Sandbox**(망분리)에 우리 스택(participant + **노드월렛** + Musubi backend + Postgres)을 띄우고 **DevNet/TestNet**에 연결한다. 노드월렛 SW·배포물·네트워크는 노드인프라/무스비가 준비.
+> 국내은행은 적격기관(송신 Institution + Custodian)으로 1차 PoC에 참여한다.
+> **AWS Sandbox**에 국내은행 스택(participant + **노드월렛** + Musubi backend + Postgres)을 띄우고 **DevNet/TestNet**에 연결한다. 노드월렛 SW·배포물·네트워크는 노드인프라/무스비가 준비.
 > 각 항목 옆에 받은 답을 채워가며 쓴다.
 
 ## A. 네트워크/환경
 - [ ] **DevNet vs TestNet** — 이번 PoC는 어느 쪽으로? 차이(안정성·리셋 주기·비용)와 권장.
-- [ ] **온보딩 방식** — 어느 Synchronizer·**스폰서 SV**에 연결하나. 절차·소요.
-- [ ] **IP allowlist** — 우리 AWS Sandbox egress IP 등록 필요 여부·방법.
-- [ ] **배포 지원 범위** — AWS Sandbox 스택을 우리가 직접 띄우나, 노드인프라가 배포 지원/대행하나.
+- [ ] **온보딩 방식** — 어느 Synchronizer에 연결·온보딩 절차·소요. (이번 PoC는 별도 스폰서 SV 없음 — 노드인프라가 온보딩)
+- [ ] **IP allowlist** — 국내은행 AWS Sandbox egress IP 등록 필요 여부·방법.
+- [ ] **배포 지원 범위** — AWS Sandbox 스택을 국내은행이 직접 띄우나, 노드인프라가 배포 지원/대행하나.
 - [ ] **노드월렛 SW** — 캔톤 노드에 파티 네이티브 호스팅 + 키 HSM/망분리(Fireblocks 옴니버스 대안). 배포물·라이선스 제공 방식, AWS Sandbox 구동 요구사양.
-  - [ ] **키 HSM 관리 주체**(노드인프라 vs 우리)·망분리 요건.
+  - [ ] **키 HSM 관리 주체**(노드인프라 vs 국내은행)·망분리 요건.
   - [ ] (선택) 캔톤 네이티브 트래블룰(예: VerifyVASP) 연동 가능 여부.
 
 ## B. 프로비저닝(자격증명) — 무스비 발급
-- [ ] **Canton Party ID** — 우리 정산 네트워크 신원.
+- [ ] **Canton Party ID** — 국내은행 정산 네트워크 신원.
 - [ ] **JWT signing credentials** — API 인증용.
 - [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서**.
-- [ ] **우리에게 부여되는 role** — `institution` / `custodian`. 수신측은 누구 role로.
+- [ ] **국내은행에 부여되는 role** — `institution` / `custodian`. 수신측은 누구 role로.
 
 ## C. 소프트웨어/패키지
-AWS Sandbox에 띄울 우리 스택 구성요소(노드월렛 SW는 §A).
+AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **Musubi Backend 배포물** — 도커 이미지명/레지스트리/**버전**, 설정 방식(env/config).
 - [ ] **Canton Participant Node** — 이미지/버전, 요구사양.
-- [ ] **DAR/패키지 ID** — `FXOrder` 등 정산 패키지가 네트워크에 이미 있나/우리가 업로드하나, **패키지 ID**.
+- [ ] **DAR/패키지 ID** — `FXOrder` 등 정산 패키지가 네트워크에 이미 있나/국내은행이 업로드하나, **패키지 ID**.
 - [ ] **OpenAPI 스펙 파일 + Console 접근** — 역할별 OpenAPI 스펙 파일 위치, Console 계정. (Webhook 지원 여부 확인)
 
 ## D. 자산/인스트루먼트
@@ -36,9 +36,9 @@ AWS Sandbox에 띄울 우리 스택 구성요소(노드월렛 SW는 §A).
 - [ ] **카운터파티 디렉토리** — receiver·custodian의 Party ID를 어디서 받나.
 
 ## F. 인프라/배포 (AWS Sandbox)
-- [ ] **권장 footprint** — participant + 노드월렛 + Musubi backend + Postgres의 인스턴스 사양·OS·리소스.
+- [ ] **권장 배포 구성(footprint)** — participant + 노드월렛 + Musubi backend + Postgres의 인스턴스 사양·OS·리소스.
 - [ ] **배포 자료** — AWS용 배포 가이드/Terraform/Compose 등 제공 여부.
-- [ ] **아웃바운드 연결 요구** — 어떤 호스트/포트로 나가야 하나(Synchronizer·SV·무스비 endpoint).
+- [ ] **아웃바운드 연결 요구** — 어떤 호스트/포트로 나가야 하나(Synchronizer·무스비 endpoint).
 
 ## G. 운영/검증
 - [ ] **연결 테스트 절차** — `/health`, `/whoami`, 테스트 order 생성 등.
@@ -47,7 +47,7 @@ AWS Sandbox에 띄울 우리 스택 구성요소(노드월렛 SW는 §A).
 - [ ] **지원/에스컬레이션** — PoC 기간 지원 채널, 담당자, 일정.
 
 ## H. 키 보관
-- [ ] **키 보관** — 노드월렛(HSM/망분리) 키 관리 주체·격리 요건(§A와 연계).
+- [ ] **키 보관** — 노드월렛(HSM/망분리) 키 관리 주체·격리 요건(A절와 연계).
 
 ## 우선순위 (먼저 받아야 진행되는 것)
 1. **A(환경·온보딩·노드월렛) + B(프로비저닝)** — AWS Sandbox에서 스택을 띄워 연결하는 데 필수.
@@ -60,4 +60,5 @@ AWS Sandbox에 띄울 우리 스택 구성요소(노드월렛 SW는 §A).
 - 배포·연동: https://musubinetwork.com/custodian/integration/deploy
 - 인증: https://musubinetwork.com/authentication
 - API 규약: https://musubinetwork.com/api-conventions
+- 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
 - Canton Network 문서: https://docs.canton.network
