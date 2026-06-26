@@ -63,16 +63,17 @@ sequenceDiagram
     participant MM as Market Maker
     participant RC as 수신 Custodian (해외은행)
     I->>V: FX order 생성 (KRWK→JPYC, 금액, cost guard)
+    V-->>I: intentId 발급 (주문 식별자, 이후 SSE intent_id로 추적)
     V->>MM: 익명 견적요청 (통화쌍·금액·만료만)
-    MM-->>V: 경쟁 견적 (환율·목표금액·유효기간)
-    V-->>I: 견적 제시
-    I->>V: best 견적 수락 (QUOTED, cost guard 검증)
+    MM-->>V: 경쟁 견적 (각 quoteId · 환율·목표금액·유효기간)
+    V-->>I: 견적 제시 (intentId · quoteId 목록)
+    I->>V: best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
     Note over SC,RC: 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
     MM->>V: JPYC (target)
     V->>RC: JPYC (target) → 해외은행
     V->>MM: KRWK (source)
-    Note over I,RC: 한 leg라도 실패하면 전체 롤백 → SETTLED + 트랜잭션 해시 1개
+    Note over I,RC: 한 leg라도 실패하면 전체 롤백 → SETTLED (intentId) → txHash (단일 트랜잭션 해시)
 ```
 
 상태(`FXOrder`): `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED`/`EXPIRED`). 검증·합격 기준은 [verification.md](verification.md).

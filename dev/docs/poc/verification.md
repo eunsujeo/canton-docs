@@ -108,16 +108,18 @@ sequenceDiagram
     participant MM as Market Maker
     participant RC as 수신 Custodian (해외은행)
     I->>V: 1. FX order 생성 (KRWK→JPYC, 금액, cost guard)
+    V-->>I: intentId 발급 (이 주문의 식별자)
+    Note over I,V: 이후 상태는 SSE(intent_id 필터)로 실시간 수신
     V->>MM: 2. 익명 견적요청 (통화쌍·금액·만료만)
-    MM-->>V: 3. 경쟁 견적
-    V-->>I: 견적 제시
-    I->>V: 4. best 견적 수락 (QUOTED, cost guard 검증)
+    MM-->>V: 3. 경쟁 견적 (각 quoteId)
+    V-->>I: 견적 제시 (intentId · quoteId 목록)
+    I->>V: 4. best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
     Note over SC,RC: 5. 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
     MM->>V: JPYC (target)
     V->>RC: JPYC (target) → 해외은행
     V->>MM: KRWK (source)
-    Note over I,RC: 6. SETTLED — 전부 성공 or 전부 무효, 트랜잭션 해시 1개
+    Note over I,RC: 6. SETTLED (intentId) → txHash (4 leg 단일 트랜잭션 해시 = 정산 증빙)
 ```
 
 > 트랜잭션 해시 1개 = 4 leg를 덮는 단일 캔톤 트랜잭션 해시(규제 보고용 증빙). 각 단계가 검증 항목과 연결: 5=원자성(1), RFQ 2=익명(2), 전 과정=기능(3), 상태·권한=DAML(4).

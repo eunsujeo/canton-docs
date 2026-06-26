@@ -39,13 +39,14 @@ sequenceDiagram
     participant MM as Market Maker
     participant RC as 해외은행 (수신 Custodian)
     I->>V: FX order (KRWK→JPYC, cost guard)
+    V-->>I: intentId 발급
     V->>MM: 익명 RFQ
-    MM-->>V: 견적
-    I->>V: best 견적 수락 (QUOTED)
+    MM-->>V: 견적 (quoteId)
+    I->>V: best 견적 수락 (intentId + quoteId, QUOTED)
     Note over W,RC: 원자적 DvP (단일 트랜잭션, 4 leg)
     V->>W: 국내은행 leg 서명 요청
     W-->>V: 캔톤 네이티브 서명 (HSM, 1단계)
-    Note over V,RC: 4 leg 동시 실행 → SETTLED + 해시
+    Note over V,RC: 4 leg 동시 실행 → SETTLED (intentId) + txHash
 ```
 
 - 서명이 **캔톤 노드 안에서 네이티브 1단계**. 별도 prepare/blind 단계 없음.
@@ -63,15 +64,16 @@ sequenceDiagram
     participant MM as Market Maker
     participant RC as 해외은행 (수신 Custodian)
     I->>V: FX order (KRWK→JPYC, cost guard)
+    V-->>I: intentId 발급
     V->>MM: 익명 RFQ
-    MM-->>V: 견적
-    I->>V: best 견적 수락 (QUOTED)
+    MM-->>V: 견적 (quoteId)
+    I->>V: best 견적 수락 (intentId + quoteId, QUOTED)
     Note over P,RC: 원자적 DvP — external party 서명 흐름 추가
     P->>P: 트랜잭션 prepare → 해시(byte[]) 생성
     P->>FB: 해시 Raw Signing 요청
     FB-->>P: blind 서명 (내용 미확인)
     P->>V: 서명 붙여 execute
-    Note over V,RC: 4 leg 동시 실행 → SETTLED + 해시
+    Note over V,RC: 4 leg 동시 실행 → SETTLED (intentId) + txHash
 ```
 
 - 서명에 **prepare → Fireblocks blind 서명(byte[]) → execute** 추가 라운드트립.

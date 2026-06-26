@@ -47,6 +47,8 @@
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
 - **핵심 템플릿 `FXOrder`** (on-ledger 코디네이션 레코드):
   - 필드: `operator` · `intentId` · `status` · `sender`/`receiver` · `sourceAsset`/`targetAsset` · `quoteInfo` · `marketMakerInfo` · `settlementInfo`
+  - `intentId` = 주문(송금 의도) 1건의 고유 식별자 — 라이프사이클 추적·SSE 필터(`intent_id`)·멱등성 키.
+  - `quoteId`(명칭은 OpenAPI 확인) = 견적 식별자 — 여러 MM 견적 중 수락 대상 지정. 정산 완료 시 `txHash`(4 leg를 덮는 단일 트랜잭션 해시 = 정산 증빙).
   - 상태: `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED` / `EXPIRED`)
   - 서명자: operator + 송신 Custodian · 관찰자: sender, receiver, 수신 Custodian, MM(견적 수락 후) — 프라이버시 경계가 여기서 정해짐
 
