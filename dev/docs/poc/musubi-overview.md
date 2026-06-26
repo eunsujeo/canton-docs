@@ -1,15 +1,17 @@
 # 무스비 네트워크 — 제품/SDK 개요
 
+> 단기 PoC에서 우리(적격기관)가 연결해 쓰는 무스비 측 소프트웨어. 여기 적힌 "주장"(원자성·프라이버시·4-leg 등)을 [verification.md](verification.md)에서 검증한다.
+
 ## 1. 우리 PoC에서 무스비는 무엇이고, 왜 쓰나
 
-**무스비 = 우리가 KRWK↔JPYC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 우리(적격기관)는 이걸 직접 구축하지 않고, 송신측으로 **연결**해 정산 한 건을 끝까지 돌린다.
+**무스비 = 우리가 KRWK↔JPYC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 우리(국내은행)는 직접 구축하지 않고, 송신측으로 **연결**해 정산 한 건을 끝까지 돌린다.
 
-**왜 쓰나** (이 PoC 목표 = 캔톤 이해와 직결):
+**왜 쓰나** (이 PoC가 검증하려는 가치):
 
-- **원자적 DvP** — KRWK·JPYC를 한 트랜잭션에 교환, 카운터파티(Herstatt) 리스크 0. 한쪽만 떼이는 일이 구조적으로 불가.
+- **원자적 DvP** — KRWK·JPYC를 한 트랜잭션에 교환, 카운터파티(Herstatt) 리스크 0.
 - **프라이버시** — 거래 상대·금액이 무관한 제3자에 안 보이고, MM에도 신원이 익명.
-- **이미 만들어진 정산 레일** — member-owned·operator-less로 Canton 위에서 도는 정산 네트워크. 밑바닥부터 구축할 필요 없이 **연결만** 하면 됨(대부분 노드인프라/무스비 준비). 현재 Canton 테스트넷에서 institutional member들과 검증 중.
-- **기존 코레스 대비** — 1~3영업일 지연·중개은행 2~4곳·불투명 FX·파편화된 감사추적을 **~15초 원자 정산 + 단일 해시 증빙**으로 대체.
+- **이미 만들어진 정산 레일** — member-owned·operator-less로 Canton 위에서 도는 정산 네트워크. 연결만 하면 됨(대부분 노드인프라/무스비 준비). 현재 Canton 테스트넷에서 institutional member들과 검증 중.
+- **기존 코레스 대비** — 1~3영업일 지연·중개은행 2~4곳·불투명 FX·파편화된 감사추적을 ~15초 원자 정산 + 단일 해시 증빙으로 대체.
 
 ## 2. 역할(참여자)
 
@@ -40,7 +42,7 @@
 6. Settlement Confirmation : SETTLED, 트랜잭션 해시 1개(규제 보고용)
 ```
 
-- **cost guard** = 송신자가 거는 최악 환율/슬리피지 한도. 이를 벗어난 견적은 거부된다.
+- **cost guard** = 송신자가 거는 최악 환율/슬리피지 한도. 벗어난 견적은 거부.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
 - **핵심 템플릿 `FXOrder`** (on-ledger 코디네이션 레코드):
@@ -50,9 +52,9 @@
 
 > 함의: **MM은 정산 경로의 필수 confirming party**다(항상 MM 경유).
 
-## 4. 지원 자산/코리도
+## 4. 지원 자산/송금 경로
 
-- **코리도**: 일본 ↔ 한국.
+- **송금 경로(코리도)**: 일본 ↔ 한국.
 - **스테이블코인**: `JPYSC0` / `USDCx`.
 
 > KRWK는 **국내은행이 들여올 새 자산**이다. 라이브 자산은 JPYSC0/USDCx이며, KRWK 인스트루먼트 편입은 협의 대상([nodeinfra-asks.md](nodeinfra-asks.md) D).
@@ -62,7 +64,7 @@
 | 소유 주체 | 담당 |
 |---|---|
 | **Gateway** | TradFi 통합 — fiat 레일, 온/오프램프, 멤버 온보딩 |
-| **Core** | 정산 프로토콜 — **DAML 컨트랙트, 트랜잭션 코디네이션, SDK** |
+| **Core** | 정산 프로토콜 — DAML 컨트랙트, 트랜잭션 코디네이션, SDK |
 
 **Membership(온체인 3-tier registry)**: 누가 멤버인가(**Membership**) · 멤버가 할 수 있는 것(**Mandate**) · 합의 규칙(**Rulebook**). validator node가 온체인 멤버십 권위.
 
@@ -73,55 +75,65 @@
 1. **Canton Participant Node** — 정산 네트워크 상의 Party ID 신원
 2. **Musubi Backend** — REST + SSE API, 자기 인프라에서 구동
 3. **PostgreSQL** — 백엔드 상태 저장(단일 인스턴스)
-4. **mTLS** — 정산 네트워크 엔드포인트로 연결(이건 네트워크 연결용 TLS이고, REST API 인증은 아래 JWT)
-5. **Custody Platform** — holding을 승인하는 기존 커스터디 시스템
+4. **mTLS** — 정산 네트워크 엔드포인트로 연결(네트워크 연결용 TLS; REST API 인증은 아래 JWT)
+5. **Custody Platform(지갑)** — holding을 승인. 1차 PoC에선 **노드월렛**([wallet-comparison.md](wallet-comparison.md))
 
-> Institution은 **자기 Canton participant 구동이 선택**(커스터디언 인프라가 대신할 수 있음). Custodian은 위 풀스택 배포.
-> 단기 PoC에선 위 스택을 **AWS Sandbox**(망분리)에 띄우고, 지갑/커스터디(Custody Platform)는 **노드월렛**(캔톤 노드에 파티 네이티브 호스팅, HSM/망분리)을 쓴다 → [architecture.md](architecture.md) §3 · [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
+> 단기 PoC에선 위 스택을 **AWS Sandbox**(망분리)에 띄운다 → [architecture.md](architecture.md) §3 · [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
 
 ### 무스비가 발급(provision)하는 것
 
-- **Canton Party ID** — 네트워크 신원
-- **JWT signing credentials** — API 인증
-- **Network connectivity** — 정산 네트워크 엔드포인트 + TLS 인증서
+- **Canton Party ID** · **JWT signing credentials** · **정산 네트워크 endpoint + TLS 인증서**.
 
-### 배포 단계 (Custodian 기준)
+### 인증 (문서 명시)
 
-1. 백엔드를 Party ID + role로 구성 — 배포 문서는 custodian 기준이라 role이 `custodian-sender`/`custodian-receiver`. (Institution 배포 시 role 값은 확인 필요 — [nodeinfra-asks.md](nodeinfra-asks.md) C)
-2. 백엔드를 PostgreSQL에 연결
-3. 정산 네트워크로 TLS 수립
-4. 커스터디 플랫폼에 **Musubi 정산 주소 whitelist**
-5. 연결 테스트: `/health`, `/whoami`, 테스트 order 생성
-- Day-2: `GET /api/v1/dashboard/stats`로 상태별 order·정산량 모니터링.
-
-### 인증
-
-- **JWT bearer** — `Authorization: Bearer {token}`. 토큰은 백엔드 `POST /auth/token`(개발) / 프로덕션은 외부 IdP(Keycloak·Auth0 등 조직 SSO).
-- `GET /api/v1/whoami` 로 `party_id`·`operator_party_id`·`participant_id`·`schema_version` 확인. 클라이언트는 `schema_version`을 검증해 호환성 깨짐 감지.
+- **JWT bearer** — `Authorization: Bearer {token}`. 토큰은 백엔드 `POST /auth/token`(개발) / 프로덕션은 외부 IdP(Keycloak·Auth0 등 SSO).
+- `GET /api/v1/whoami` 로 `party_id`·`operator_party_id`·`participant_id`·`schema_version` 확인.
 - JWT claim: `sub`+`canton_party_id`(신원), `role`(`institution`/`custodian`/`market-maker`), `exp`(기본 1h). `/health`·`/auth/token`은 인증 예외.
 
-### API 규약
+### API 규약 (문서 명시)
 
-- base `/api/v1`. 응답 엔벨로프(`data`·`meta`·`pagination`). 금액은 문자열, 시간 ISO8601 UTC.
-- 에러코드: `VALIDATION_ERROR`·`UNAUTHORIZED`·`NOT_FOUND`·`CONFLICT`·`CANTON_ERROR`·`INTERNAL_ERROR`.
+- base `/api/v1`. 모든 응답을 **공통 형식으로 감싼다** — `data`(실제 내용)·`meta`(부가정보)·`pagination`(목록 페이지). 금액은 문자열, 시간 ISO8601 UTC.
+- 에러는 `error` 객체(`code`·`message`·`details`)로 반환: `VALIDATION_ERROR`·`UNAUTHORIZED`·`NOT_FOUND`·`CONFLICT`·`CANTON_ERROR`·`INTERNAL_ERROR`.
 - **SSE**: 참여자별 SSE 엔드포인트, `EventSource`로 연결(`intent_id` 필터, 30s heartbeat). Webhook 규약은 문서에 없음.
+
+성공 응답 예:
+
+```json
+{
+  "data": {
+    "intentId": "fxo_01H...",
+    "status": "QUOTED",
+    "sourceAsset": { "currency": "KRWK", "amount": "100000.00" },
+    "targetAsset": { "currency": "JPYC", "amount": "11000.00" }
+  },
+  "meta": {},
+  "pagination": null
+}
+```
+
+에러 응답 예:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "cost guard exceeded",
+    "details": []
+  }
+}
+```
 
 ### 자료 / 콘솔
 
 - **Console**(주문 생성·견적 비교·정산 모니터) / **Statements**(정산 확인서·FX 실행 보고·정합성 데이터).
 - **OpenAPI 스펙 5종**(인덱스 언급): core-api, custodian-api, market-maker-api, institution-api, openapi — 파일 위치는 노드인프라 확인([nodeinfra-asks.md](nodeinfra-asks.md) C).
-- 역할별 API 레퍼런스·통합 가이드: Institution / Custodian / Market Maker 각각.
 
-## 7. 우리 PoC 역할 → 무스비 역할 매핑(잠정)
+## 7. 우리 PoC 역할 → 무스비 역할 매핑
 
 | 우리 PoC(역할 기반) | 무스비 역할 | 비고 |
 |---|---|---|
-| 국내은행(VASP, KRWK 보유) | **Institution** + **Custodian**(자가 커스터디 시) | 송금 개시 + co-sign. 자기 participant 구동 여부는 선택 |
-| 일본은행 그룹 | **Institution/Custodian**(수신측) | 카운터파티 |
+| 국내은행(VASP, KRWK 보유) | **Institution** + **Custodian** | 송금 개시 + co-sign. 지갑=노드월렛 |
+| 해외은행(일본은행 그룹) | **Institution/Custodian**(수신측) | 카운터파티 |
 | (유동성 공급) | **Market Maker** | 4-leg 필수 참여자 |
 | 무스비 | **Core**(코디네이터) | 정산 개시·실행 |
-
-## 8. 다음 (실제 PoC 세팅)
-
-무스비 측에서 **Party ID·JWT·엔드포인트/TLS·역할·DAR/패키지**를 발급받으면(받아야 할 것 전체: [nodeinfra-asks.md](nodeinfra-asks.md)), §6 배포를 우리 AWS Sandbox + DevNet/TestNet에 적용한다 — 진행 절차는 [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md), 정산 시나리오·합격 기준은 [short-term-scenario.md](short-term-scenario.md).
 </content>
