@@ -138,4 +138,13 @@
 | 해외은행(일본은행 그룹) | **Institution/Custodian**(수신측) | 카운터파티 |
 | (유동성 공급) | **Market Maker** | 4-leg 필수 참여자 |
 | 무스비 | **Core**(코디네이터) | 정산 개시·실행 |
-</content>
+
+## 참고 (출처)
+
+- 소개·지원 자산·거버넌스: https://musubinetwork.com/introduction
+- 정산 흐름·타임라인: https://musubinetwork.com/how-it-works
+- FXOrder: https://musubinetwork.com/technical/fxorder
+- 인증: https://musubinetwork.com/authentication
+- API 규약: https://musubinetwork.com/api-conventions
+- 배포(footprint): https://musubinetwork.com/custodian/integration/deploy
+- 왜 캔톤: https://musubinetwork.com/why-canton

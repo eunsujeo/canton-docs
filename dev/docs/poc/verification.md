@@ -143,4 +143,10 @@ sequenceDiagram
 
 - Fireblocks(외부 지갑) 실연동 — 최종 PoC. 비교만 [wallet-comparison.md](wallet-comparison.md).
 - 고객·Fiat 온/오프램프·브릿지, MM 구조 확정(비즈니스 협의), 통화 USD 경유.
-</content>
+
+## 참고 (출처)
+
+- 정산 흐름·상태: https://musubinetwork.com/how-it-works
+- FXOrder 상태·서명자: https://musubinetwork.com/technical/fxorder
+- 프라이버시 모델: https://musubinetwork.com/compliance/privacy
+- Canton Network 문서(프라이버시·확정성): https://docs.canton.network

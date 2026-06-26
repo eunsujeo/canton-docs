@@ -73,7 +73,7 @@
 ## 7. 액션 아이템
 
 - [ ] (노드인프라) MM 구조 — 일본은행 그룹 홀딩스 캔톤팀·JPYSC팀과 협의(WebX 등).
-- [ ] (양측) 단기 PoC를 DevNet/TestNet(AWS Sandbox)에서 KRWK↔JPYC 정산 1건까지 — 진행: [poc/aws-sandbox-devnet-setup.md](poc/aws-sandbox-devnet-setup.md), 시나리오: [poc/short-term-scenario.md](poc/short-term-scenario.md), 노드인프라 요청: [poc/nodeinfra-asks.md](poc/nodeinfra-asks.md).
+- [ ] (양측) 단기 PoC를 DevNet/TestNet(AWS Sandbox)에서 KRWK↔JPYC 정산 1건까지 — 진행: [poc/aws-sandbox-devnet-setup.md](poc/aws-sandbox-devnet-setup.md), 검증: [poc/verification.md](poc/verification.md), 노드인프라 요청: [poc/nodeinfra-asks.md](poc/nodeinfra-asks.md).
 - [ ] (국내은행) 망분리(내부망 vs AWS Sandbox) 개발팀 확인 → 단기는 AWS Sandbox 전제.
 - [ ] (양측·최종) Fireblocks Raw Signing 검증·접근권한/공수 협의(최종 PoC 범위).
 - [ ] (국내은행) 캔톤 NDA 마무리, 노드/네트워크·브랜드 노출 결정.
@@ -85,6 +85,6 @@
 - 무스비 제품/SDK: [poc/musubi-overview.md](poc/musubi-overview.md)
 - 아키텍처: [poc/architecture.md](poc/architecture.md)
 - AWS Sandbox + DevNet/TestNet 진행: [poc/aws-sandbox-devnet-setup.md](poc/aws-sandbox-devnet-setup.md)
+- 검증 항목·합격 기준: [poc/verification.md](poc/verification.md)
+- 지갑 비교(외부/내부): [poc/wallet-comparison.md](poc/wallet-comparison.md)
 - 노드인프라 요청 체크리스트: [poc/nodeinfra-asks.md](poc/nodeinfra-asks.md)
-- 기술 시나리오: [poc/short-term-scenario.md](poc/short-term-scenario.md)
-</content>

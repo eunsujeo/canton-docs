@@ -36,4 +36,9 @@
 6. **[nodeinfra-asks.md](nodeinfra-asks.md)** — 노드인프라에 받아야 할 것 체크리스트.
 
 > 회의 배경(비즈니스 포함)은 poc 밖 `dev/docs/musubi-poc-meeting-notes.md`.
-</content>
+
+## 참고 (출처)
+
+- 무스비 소개: https://musubinetwork.com/introduction
+- 무스비 동작(정산 흐름): https://musubinetwork.com/how-it-works
+- Canton Network 문서: https://docs.canton.network

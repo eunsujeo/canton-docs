@@ -86,4 +86,9 @@ sequenceDiagram
 - **최종 PoC = Fireblocks(외부) 검토** — 국내은행 지갑 시스템이 Fireblocks 예정이므로 연동성을 확인하되, Raw Signing 정책 훅·fund-drain 방어를 도입 전 검증해야 함.
 
 > 최종 PoC의 Fireblocks Raw Signing 심층 분석은 poc 밖 `dev/docs/wallet-custody-fireblocks.md` 참조(단기 범위 밖).
-</content>
+
+## 참고 (출처)
+
+- 무스비 정산 흐름: https://musubinetwork.com/how-it-works
+- 캔톤 external party 서명(interactive submission): https://docs.canton.network
+- (옴니버스·Raw Signing 심층 분석: dev/docs/wallet-custody-fireblocks.md)

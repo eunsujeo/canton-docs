@@ -54,4 +54,10 @@ AWS Sandbox에 띄울 우리 스택 구성요소(노드월렛 SW는 §A).
 2. **C(소프트웨어·패키지) + F(배포 자료)** — 실제 기동.
 3. **D(KRWK·통화) + E(MM·카운터파티)** — 정산·검증 시나리오 실행.
 4. **G(검증·운영) + H(키 보관)** — 마무리·합격 판정.
-</content>
+
+## 참고 (출처)
+
+- 배포·연동: https://musubinetwork.com/custodian/integration/deploy
+- 인증: https://musubinetwork.com/authentication
+- API 규약: https://musubinetwork.com/api-conventions
+- Canton Network 문서: https://docs.canton.network

@@ -80,4 +80,10 @@ sequenceDiagram
 
 - **범위 밖(1차)**: 은행 내부 시스템 연동, Fireblocks, 고객·Fiat 온오프램프.
 - **미결(노드인프라 확정 필요)**: 환경 선택, 노드월렛 배포·키 HSM 관리 주체, 배포 지원 범위, KRWK 발행, MM·수신 카운터파티, allowlist 방법 — 전부 [nodeinfra-asks.md](nodeinfra-asks.md).
-</content>
+
+## 참고 (출처)
+
+- 배포(footprint·구성): https://musubinetwork.com/custodian/integration/deploy
+- 온보딩: https://musubinetwork.com/institution/integration/onboard
+- 통합 개요: https://musubinetwork.com/institution/integration/overview
+- Canton Network 환경·네트워크: https://docs.canton.network
