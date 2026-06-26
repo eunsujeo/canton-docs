@@ -55,7 +55,7 @@ flowchart TB
 - **배포 구성(footprint)**: participant + 노드월렛 + Musubi backend + Postgres. egress(NAT)로 정산 네트워크에 mTLS.
 - **노드인프라/무스비 준비**: 수신 카운터파티·MM·무스비 Core·Synchronizer 접속 + 노드월렛 SW·Musubi backend·participant 배포물·프로비저닝.
 - 컴퓨트는 EC2 또는 EKS(배포 자료 형식에 맞춤 — [nodeinfra-asks.md](nodeinfra-asks.md) F). 은행 내부 시스템 연동 없음; 결과는 Console/Statements로 확인.
-- **mTLS**(mutual TLS) = 양측이 인증서로 **서로를** 인증하는 TLS(일반 TLS는 서버만 인증). 무스비가 발급한 TLS 인증서로 국내은행 participant ↔ 정산 네트워크가 상호 인증해 허가된 노드만 연결한다.
+- **mTLS**(mutual TLS)는 양측이 인증서로 서로를 인증하는 TLS다(일반 TLS는 서버만 인증). 무스비가 발급한 TLS 인증서로 국내은행 participant와 정산 네트워크가 상호 인증해, 허가된 노드만 연결된다.
 
 ## 4. 온보딩 순서
 
