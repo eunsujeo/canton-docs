@@ -26,6 +26,8 @@ wiki/.obsidian/.trash/
 
 # Claude Code — 로컬 권한/상태는 제외, 공유 자산(skills, CLAUDE.md)은 유지
 .claude/settings.local.json
+# 스킬 설치본(.agents/skills)은 .claude/skills 정본의 중복 — skills-lock.json으로 재생성 가능
+.agents/
 
 .wrangler/
 dev/cn-quickstart/
