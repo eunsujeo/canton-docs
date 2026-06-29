@@ -218,7 +218,55 @@
     <section class="stage active" data-title="시작">
       <div class="eyebrow"><span class="n">00 /</span> 통합 코스 · 개념에서 코드까지</div>
       <h1>데이터는 필요한<br>당사자에게만 간다</h1>
-      <p class="lede">Canton은 공개-허가형 <b>프라이버시 보존 네트워크</b>다. 퍼블릭 체인은 모든 거래를 모두에게 방송하지만, Canton에서 한 거래는 <b>그 거래의 당사자에게만</b> 전달된다. 아래는 그 한 줄을 그림으로 옮긴 것 — 같은 송금 한 건이지만 세 노드가 받는 게 전부 다르다.</p>
+      <p class="lede">Canton은 공개-허가형 <b>프라이버시 보존 네트워크</b>다. 퍼블릭 체인은 모든 거래를 모두에게 방송하지만, Canton에서 한 거래는 <b>그 거래의 당사자에게만</b> 전달된다.</p>
+
+      <div class="note" style="border-left-color:var(--b)"><b>이 코스 안내</b> — 본론 전에 30초. 처음 보는 용어가 나와도 괜찮다. 핵심 원리 하나(<b>거래는 당사자에게만</b>)만 잡으면, 나머지는 단계마다 풀린다.</div>
+      <div class="cards c3">
+        <div class="card"><div class="tag">대상</div><h3>누구를 위한 코스</h3><p>Canton·Daml을 처음 보는 개발자·기획자. 기관 간 정산(DvP)을 예로 개념부터 코드까지 한 흐름으로 따라간다.</p></div>
+        <div class="card"><div class="tag">전제</div><h3>알고 오면 좋은 것</h3><p>블록체인·분산원장 <b>기초 개념</b> 정도면 된다. 몰라도 따라올 수 있게 썼다. Daml 문법 선행 지식은 필요 없다.</p></div>
+        <div class="card"><div class="tag">읽는 법</div><h3>개념 → 개발자 시점</h3><p>각 단계는 <b>개념</b>을 그림으로 먼저 보고, <span class="k">&lt;/&gt;</span> <b>개발자 시점</b> 블록에서 실제 Daml·파티·choice로 잇는다. 개발이 급하지 않으면 개발자 블록은 건너뛰어도 된다.</p></div>
+      </div>
+      <div class="note"><b>코스 지도</b> — <span style="font-family:var(--mono);font-size:12.5px;color:var(--muted)">00 안내 · 01 한 거래 뷰 · 02 문제 · 03 세 기둥 · 04 파티·구성요소 · 05 Daml · 06 아키텍처 · 07 원장 · 08 트랜잭션 흐름 · 09 정산·프라이버시 · 10 수수료 · 11 신뢰 모델</span></div>
+      <div class="note" style="border-left-color:var(--faint)"><b>용어 길잡이</b> — 처음 보는 말이 나와도 지금 외울 필요 없다. <b>파티·밸리데이터·Synchronizer</b>는 04에서, <b>시퀀서·미디에이터</b> 상세는 06에서, <b>signatory·observer·propose-accept</b>는 05·09에서 정식으로 다룬다.</div>
+
+      <h3 class="sub">쉬운 한 컷 — 누가 거래를 보나</h3>
+      <div class="fig">
+        <div style="display:grid; gap:18px">
+          <div>
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn)">퍼블릭 체인 — 모두에게 방송</div>
+            <div class="net" style="justify-content:flex-start;gap:10px;margin-top:10px;flex-wrap:wrap">
+              <span class="box amber"><span class="t">기관 A</span></span>
+              <span class="arrow">거래 ▶</span>
+              <span class="box azure"><span class="t">기관 B</span></span>
+              <span class="box"><span class="t">경쟁사</span></span>
+              <span class="box"><span class="t">대중·봇</span></span>
+            </div>
+            <div style="font-size:13px;color:var(--warn);margin-top:9px">→ 금액·상대·잔액·타이밍이 <b style="color:var(--warn)">누구에게나</b> 보인다</div>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ok)">Canton — 당사자에게만</div>
+            <div class="net" style="justify-content:flex-start;gap:10px;margin-top:10px;flex-wrap:wrap">
+              <span class="box amber"><span class="t">기관 A</span></span>
+              <span class="arrow">거래 ▶</span>
+              <span class="box azure"><span class="t">기관 B</span></span>
+              <span class="box" style="opacity:.4;border-style:dashed"><span class="t">경쟁사 ✕</span></span>
+              <span class="box" style="opacity:.4;border-style:dashed"><span class="t">대중·봇 ✕</span></span>
+            </div>
+            <div style="font-size:13px;color:var(--ok);margin-top:9px">→ 당사자 <b style="color:var(--text)">A·B</b>(와 지정된 감독기관)만 본다. 무관한 제3자는 <b style="color:var(--ok)">0건</b></div>
+          </div>
+        </div>
+        <div class="fig-cap">같은 거래 한 건 — 퍼블릭은 전원에게, Canton은 <b>이해관계자에게만</b></div>
+      </div>
+
+      <p class="body" style="max-width:68ch">여기까지가 이 코스를 관통하는 한 가지 원리다. 다음 단계에서 같은 거래가 <b>실제로 처리되는 전 과정</b>(제출·뷰 전달·확인·커밋)을 한눈에 미리 본다.</p>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 01 한 거래, 누가 보나 -->
+    <section class="stage" data-title="한 거래, 누가 보나">
+      <div class="eyebrow"><span class="n">01 /</span> 한 거래, 누가 보나</div>
+      <h2>한 거래가 처리되는 전 과정 (미리보기)</h2>
+      <p class="lede">앞의 원리를 실제 처리 단계까지 펼치면 아래처럼 된다. <b>지금 전부 이해할 필요는 없다</b> — 제출·순서화·뷰 전달·확인·커밋의 각 조각은 뒤 단계(06·08·09)에서 하나씩 푼다. 우선 "같은 거래인데 노드마다 받는 게 다르다"만 눈에 담으면 된다.</p>
       <div class="fig">
         <div class="seqwrap">
           <svg viewBox="0 0 880 458" role="img" aria-label="Canton 거래 시퀀스: 제출·순서화·뷰 전달·검증·확인·확정·커밋, 시퀀서·미디에이터의 자체 작업 포함" style="width:100%; min-width:720px; height:auto; font-family:var(--sans)">
@@ -277,11 +325,11 @@
         </div>
         <div class="fig-cap">한 거래 → <b>이해관계자에게만</b> 뷰 전달 → 각자 복호화·검증 → 확인 → 커밋. 제3자는 0건</div>
       </div>
-      <div class="note"><b>①에서 제출되는 것</b> — A·B가 합의한 거래(Transfer)다. 두 서명자 컨트랙트는 한쪽이 단독으로 못 만들어 <b>propose-accept</b>로 합의한다(A 제안 → B 수락; 제안·수락 단계는 08에서). 합의된 거래가 제출되면 제출 노드가 이를 <b>수신자별 뷰로 암호화</b>해 시퀀서에 보낸다.</div>
+      <div class="note"><b>①에서 제출되는 것</b> — A·B가 합의한 거래(Transfer)다. 두 서명자 컨트랙트는 한쪽이 단독으로 못 만들어 <b>propose-accept</b>로 합의한다(A 제안 → B 수락; 제안·수락 단계는 09에서). 합의된 거래가 제출되면 제출 노드가 이를 <b>수신자별 뷰로 암호화</b>해 시퀀서에 보낸다.</div>
       <div class="note"><b>가시성은 선택이다</b> — 위에서 <b>감독기관</b>은 <span class="k">observer</span>(관찰자)로 지정돼 자기 뷰를 받지만, 거래에 무관한 제3자는 0건이다. "제3자는 무조건 못 본다"가 아니라 <b>누가 볼지를 명시적으로 정한다</b>는 게 핵심 — 기본은 비공개, 공개는 열어 주는 것.</div>
       <h3 class="sub">뷰(view)란?</h3>
       <p class="body" style="max-width:68ch"><b>뷰는 한 거래에서 내가 이해관계자로 적혀 있어 받게 되는 부분</b>이다. 거래 전체가 통째로 오는 게 아니라, 자신과 관련된 조각만 받는다. "누가 이해관계자인가"는 컨트랙트의 <span class="k">signatory</span>·<span class="k">observer</span> 선언이 정한다 — 거기 적힌 파티만 뷰를 받고, 없는 제3자는 0건이다.</p>
-      <div class="dev"><div class="dev-h">개발자 시점 — 뷰는 누가 받나 (signatory / observer)</div><div class="dev-b">
+      <div class="dev"><div class="dev-h">개발자 시점 — 뷰는 누가 받나 (signatory / observer) · 급하지 않으면 건너뛰어도 됨</div><div class="dev-b">
         <p>위 다이어그램은 사실 이 선언을 그린 것이다. <span class="kw">signatory</span>·<span class="kw">observer</span>에 적힌 파티만 이 컨트랙트의 뷰를 받는다.</p>
         <pre><span class="kw">template</span> Transfer <span class="kw">with</span>
     payer     : Party      <span class="c">-- 기관 A</span>
@@ -293,7 +341,7 @@
     <span class="kw">observer</span>  regulator           <span class="c">-- 감독기관: 열람만</span>
     <span class="c">-- 여기 없는 제3자 → 뷰 없음 (0건)</span></pre>
         <p>payer(A)·payee(B)·regulator(감독기관)가 이해관계자라 각자 자기 뷰를 받는다. 감독기관을 빼면(=observer에서 제거) 그 순간 감독기관도 0건이 된다 — <b>가시성은 이 선언으로 정해진다.</b></p>
-        <p><b>왜 A·B 둘 다 서명자인가?</b> 이 거래는 양쪽의 동의가 필요한 합의라 <span class="k">signatory payer, payee</span> — A·B 모두 권한자다. 그래서 <b>A·B 둘 다 confirm</b>한다. 다만 두 서명자 컨트랙트는 한쪽이 단독으로 못 만드니, A가 제안하고 B가 수락하는 <b>propose-accept</b>로 합의해 생성한다(08 정산의 <span class="k">SettlementProposal</span>: <span class="k">signatory approvers</span> + <span class="k">_Accept</span>가 승인자 추가).</p>
+        <p><b>왜 A·B 둘 다 서명자인가?</b> 이 거래는 양쪽의 동의가 필요한 합의라 <span class="k">signatory payer, payee</span> — A·B 모두 권한자다. 그래서 <b>A·B 둘 다 confirm</b>한다. 다만 두 서명자 컨트랙트는 한쪽이 단독으로 못 만드니, A가 제안하고 B가 수락하는 <b>propose-accept</b>로 합의해 생성한다(09 정산의 <span class="k">SettlementProposal</span>: <span class="k">signatory approvers</span> + <span class="k">_Accept</span>가 승인자 추가).</p>
         <p>반면 <b>감독기관은 관찰자(observer)</b>라 뷰는 받지만 <b>confirm하지 않는다</b> — 확인은 권한이 필요한 서명자만 한다. 그래서 다이어그램에서 A·B는 확인하고, 감독기관은 결과만 받는다.</p>
         <p>그래서 A와 B가 실제로 받는 뷰는 이런 컨트랙트 형태다(같은 데이터, 역할만 다름):</p>
         <div class="vcards">
@@ -325,17 +373,17 @@
             <div class="role">내 역할: <b>observer</b> — 열람·감독</div>
           </div>
         </div>
-        <p><b>주의</b> — 이 거래는 컨트랙트 하나라 A·B·감독기관이 받는 내용은 같고 <b>역할만</b> 다르다(A·B는 서명자=동의·확인, 감독기관은 관찰자=열람). 제3자는 이 컨트랙트 자체를 못 받는다. 여러 단계 거래(예: 보관+생성, 정산의 두 다리)에선 각자 받는 <b>부분이 실제로 달라진다</b> — 08 프라이버시에서 본다.</p>
+        <p><b>주의</b> — 이 거래는 컨트랙트 하나라 A·B·감독기관이 받는 내용은 같고 <b>역할만</b> 다르다(A·B는 서명자=동의·확인, 감독기관은 관찰자=열람). 제3자는 이 컨트랙트 자체를 못 받는다. 여러 단계 거래(예: 보관+생성, 정산의 두 다리)에선 각자 받는 <b>부분이 실제로 달라진다</b> — 09 프라이버시에서 본다.</p>
       </div></div>
       <h3 class="sub">뷰를 받은 다음은?</h3>
-      <p class="body" style="max-width:68ch">뷰 전달로 끝이 아니다. 뷰를 받은 <b>이해관계자 노드가 그 거래를 검증</b>하고(규칙·권한·중복 확인), 미디에이터에 <b>"유효함"을 확인(confirm)</b>한 뒤, 확정되면 <b>커밋</b>된다 — 옛 컨트랙트는 보관되고 새 컨트랙트가 생긴다. 즉시·결정적이라 되돌림이 없다. 제출부터 커밋까지 전체 흐름은 <b>07 트랜잭션 흐름</b> 단계에서 한 단계씩 따라간다.</p>
+      <p class="body" style="max-width:68ch">뷰 전달로 끝이 아니다. 뷰를 받은 <b>이해관계자 노드가 그 거래를 검증</b>하고(규칙·권한·중복 확인), 미디에이터에 <b>"유효함"을 확인(confirm)</b>한 뒤, 확정되면 <b>커밋</b>된다 — 옛 컨트랙트는 보관되고 새 컨트랙트가 생긴다. 즉시·결정적이라 되돌림이 없다. 제출부터 커밋까지 전체 흐름은 <b>08 트랜잭션 흐름</b> 단계에서 한 단계씩 따라간다.</p>
       <p class="body" style="max-width:68ch">이 한 가지 원리가 아키텍처·원장·프라이버시·신뢰 모델 전부를 끌고 간다. 12단계에 걸쳐 개념을 따라가되, 실제 <b>파티 ID·Daml 코드·choice 시퀀스·포트</b>까지 같은 흐름에서 본다.</p>
       <div class="nav"></div>
     </section>
 
-    <!-- 01 문제 -->
+    <!-- 02 문제 -->
     <section class="stage" data-title="문제">
-      <div class="eyebrow"><span class="n">01 /</span> 풀어야 할 문제</div>
+      <div class="eyebrow"><span class="n">02 /</span> 풀어야 할 문제</div>
       <h2>공개가 기본이면 기관은 못 쓴다</h2>
       <div class="body">
         <p>퍼블릭 블록체인의 힘은 모두가 같은 장부를 검증한다는 데 있다. 그 대가가 <b>완전한 투명성</b>이다 — 거래 금액, 거래 상대, 잔액, 타이밍이 누구에게나 보인다. 거래 패턴만 모아도 그 기관의 포지션과 전략이 드러나기 때문에, 이 투명성은 기관 금융에서 강점이 아니라 결격 사유가 된다. 게다가 주소는 익명이라 "<b>KYC를 통과한 상대와만 거래</b>" 같은 규제 요건을 강제하기도 어렵다.</p>
@@ -375,15 +423,15 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 02 해법 -->
+    <!-- 03 해법 -->
     <section class="stage" data-title="해법 — 세 기둥">
-      <div class="eyebrow"><span class="n">02 /</span> Canton의 해법</div>
+      <div class="eyebrow"><span class="n">03 /</span> Canton의 해법</div>
       <h2>세 기둥으로 둘을 동시에</h2>
       <div class="body">
         <p>Canton의 발상은 "<b>거래를 통째로 공유하지 말고, 검증에 필요한 사람에게 필요한 조각만 주자</b>"는 것이다. 이를 세 가지 아키텍처 기둥으로 구현하는데, 셋은 상호 의존적이라 따로는 성립하지 않는다.</p>
         <div class="fig">
           <div class="pillars">
-            <div class="pillar"><div class="pn">기둥 1</div><h4>부분 트랜잭션 프라이버시</h4><p>거래를 <b>뷰</b>(각 당사자의 몫)로 분해. 트랜잭션 자체가 누가 무엇을 보는지 정의한다. (07단계에서 상세)</p></div>
+            <div class="pillar"><div class="pn">기둥 1</div><h4>부분 트랜잭션 프라이버시</h4><p>거래를 <b>뷰</b>(각 당사자의 몫)로 분해. 트랜잭션 자체가 누가 무엇을 보는지 정의한다. (08단계에서 상세)</p></div>
             <div class="pillar"><div class="pn">기둥 2</div><h4>이해관계자 합의 증명</h4><p>전역 검증이 아니라 <b>그 거래의 이해관계자만</b> 검증·확인한다. 전역 공개 없이도 무결성이 서고, 무관한 노드는 부담이 없다.</p></div>
             <div class="pillar"><div class="pn">기둥 3</div><h4>가시성 없는 동기화</h4><p>Synchronizer(시퀀서+미디에이터)가 <b>내용을 못 본 채</b> 순서와 확인만 맞춘다 — 암호봉투만 다룬다.</p></div>
           </div>
@@ -394,9 +442,9 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 03 핵심 개념 -->
+    <!-- 04 핵심 개념 -->
     <section class="stage" data-title="핵심 개념 · 파티">
-      <div class="eyebrow"><span class="n">03 /</span> 핵심 개념</div>
+      <div class="eyebrow"><span class="n">04 /</span> 핵심 개념</div>
       <h2>네 가지 구성요소, 하나의 망</h2>
       <div class="body">
         <p>Canton은 거대한 단일 체인이 아니라 <b>참여자 노드들과 Synchronizer로 이뤄진 망</b>이다. 각 노드는 자기 파티의 데이터만 들고, Synchronizer가 그 사이의 순서·확정을 맞춘다. 이 망을 이해하는 데 필요한 개념은 넷이다.</p>
@@ -450,7 +498,7 @@
           <p><b>토폴로지(topology)란?</b> 네트워크의 <b>신원·키·호스팅 상태</b>다 — 어떤 파티가 있고, 어느 노드가 그 파티를 호스팅하며, 어떤 키를 쓰는지. 비즈니스 거래(원장 데이터)와는 <b>별개의 층</b>이고, <b>서명된 토폴로지 트랜잭션</b>으로 갱신·공유된다. 일종의 네트워크 주소록 + 공개키 등록부(PKI)라 보면 된다 — 그래야 남들이 이 파티와 거래할 때 어느 노드로 뷰를 보내고 어떤 키로 검증할지 안다.</p>
           <pre><span class="kw">POST</span> /v2/parties  {"partyIdHint":"domestic_bank", "identityProviderId":""}
   → {"party":"<span class="id">domestic_bank_…::1220…</span>", "isLocal":true}</pre>
-          <p><b>외부 파티</b>는 키를 외부에서 들고 와 토폴로지로 온보딩한다(노드가 키를 못 봄). 그래서 "내 밸리데이터를 신뢰"가 신뢰 모델의 1번 영역(10단계)인 것과 직접 이어진다 — 내 파티를 만들고 호스팅하는 게 바로 그 노드다.</p>
+          <p><b>외부 파티</b>는 키를 외부에서 들고 와 토폴로지로 온보딩한다(노드가 키를 못 봄). 그래서 "내 밸리데이터를 신뢰"가 신뢰 모델의 1번 영역(11단계)인 것과 직접 이어진다 — 내 파티를 만들고 호스팅하는 게 바로 그 노드다.</p>
         </div></div>
         <div class="dev"><div class="dev-h">개발자 시점 — HD 월렛(BIP32) 구조도 되나?</div><div class="dev-b">
           <p><b>부분적으로 가능하지만, 보통 그렇게 안 한다.</b> 한 시드에서 여러 파티 키를 계층적으로 파생하는 것 자체는 <b>SLIP-0010</b>(Ed25519·P-256용 HD 파생)으로 가능하다 — 외부 파티(자기수탁)라면 키 관리 계층에서 쓸 수 있다. 단 Canton은 비트코인의 <span class="k">secp256k1</span>/BIP32를 직접 쓰지 않고 <b>Ed25519·ECDSA P-256/P-384</b>를 쓴다.</p>
@@ -460,9 +508,9 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 04 Daml -->
+    <!-- 05 Daml -->
     <section class="stage" data-title="Daml 컨트랙트">
-      <div class="eyebrow"><span class="n">04 /</span> 규칙이 코드가 된다</div>
+      <div class="eyebrow"><span class="n">05 /</span> 규칙이 코드가 된다</div>
       <h2>템플릿, 그리고 choice</h2>
       <div class="body">
         <p>비즈니스 규칙은 Daml <b>템플릿</b>이 된다. 템플릿은 두 가지를 정의한다 — 컨트랙트가 담는 <b>데이터</b>(누가 보내는지, 얼마인지)와, 누가 무엇을 할 수 있는지의 <b>choice</b>다. 배포된 템플릿이 틀이고, 원장 위의 데이터 한 줄이 컨트랙트 한 건이다.</p>
@@ -498,18 +546,18 @@
                 <span class="id">create</span>   Transfer {payer, payee, amount, regulator}     <span class="c">-- 컨트랙트 생성</span>
                 <span class="id">exercise</span> SettlementProposal_Accept ...                <span class="c">-- choice 실행</span>
 <span class="c">4. 조회</span>        /v2/state/active-contracts (ACS) · offset으로 변경 추적</pre>
-          <p>즉 같은 DAR을 A·B(·정산 운영자·발행자) 노드가 모두 갖고 승인해야, 그 위에서 만든 컨트랙트·choice가 양쪽에서 동일하게 검증된다. 앱은 직접 원장을 건드리지 않고 <b>Ledger API로 커맨드</b>만 보낸다 — 나머지(순서·확인·커밋)는 05·07에서 본 그 흐름이다.</p>
+          <p>즉 같은 DAR을 A·B(·정산 운영자·발행자) 노드가 모두 갖고 승인해야, 그 위에서 만든 컨트랙트·choice가 양쪽에서 동일하게 검증된다. 앱은 직접 원장을 건드리지 않고 <b>Ledger API로 커맨드</b>만 보낸다 — 나머지(순서·확인·커밋)는 06·08에서 본 그 흐름이다.</p>
         </div></div>
       </div>
       <div class="nav"></div>
     </section>
 
-    <!-- 05 아키텍처 -->
+    <!-- 06 아키텍처 -->
     <section class="stage" data-title="아키텍처 & 인프라">
-      <div class="eyebrow"><span class="n">05 /</span> 아키텍처 & 인프라</div>
+      <div class="eyebrow"><span class="n">06 /</span> 아키텍처 & 인프라</div>
       <h2>조율과 저장을 나눈다</h2>
       <div class="body">
-        <p>Canton의 핵심 설계는 <b>조율</b>과 <b>저장</b>을 서로 다른 주체에게 맡긴 것이다. 자산과 컨트랙트는 참여자 노드에 머물고, Synchronizer는 거래의 순서·확정만 책임진다. 이 분리 덕분에 Synchronizer는 내용을 몰라도 합의를 이끌 수 있다 — 02단계 "가시성 없는 동기화"가 가능한 이유다.</p>
+        <p>Canton의 핵심 설계는 <b>조율</b>과 <b>저장</b>을 서로 다른 주체에게 맡긴 것이다. 자산과 컨트랙트는 참여자 노드에 머물고, Synchronizer는 거래의 순서·확정만 책임진다. 이 분리 덕분에 Synchronizer는 내용을 몰라도 합의를 이끌 수 있다 — 03단계 "가시성 없는 동기화"가 가능한 이유다.</p>
         <div class="fig">
           <svg viewBox="0 0 720 372" role="img" aria-label="큰 그림: 위쪽 Synchronizer(시퀀서·미디에이터)가 조율하고, 아래 두 밸리데이터가 각자 참여자 노드·원장 샤드·파티를 보유하며, 앱이 Ledger API로 자기 노드에 붙는다" style="width:100%;height:auto;display:block;font-family:var(--sans)">
             <g stroke="#5C6885" stroke-width="1.5" opacity=".5"><line x1="190" y1="182" x2="190" y2="88"/><line x1="530" y1="182" x2="530" y2="88"/></g>
@@ -607,7 +655,7 @@
           <div class="card"><div class="tag" style="color:var(--ok)">온-원장 · Daml</div><h3>여럿이 공유·강제할 핵심</h3><p>돈·계약·권한처럼 <b>여러 당사자가 공유·합의·강제</b>해야 하는 것. <b>다자 합의(필수)</b> · 권한 강제(권장) · 감사 추적(내장). 원장에 올리면 모두에게 자동 강제·기록된다.</p></div>
           <div class="card"><div class="tag" style="color:var(--dev)">오프-원장 · 백엔드</div><h3>나 혼자 처리하는 편의</h3><p><b>외부 API 호출(필수)</b> · 복잡한 비즈니스 로직 · 고빈도 연산 · UI. Daml은 외부 인터넷을 호출하지 못하므로 이런 일은 내 백엔드가 맡는다.</p></div>
         </div>
-        <div class="note"><b>읽는 법</b> — 핵심 합의는 <b>원장(Daml)</b>, 편의 기능은 <b>백엔드</b>. 둘을 <b>조합</b>해 앱을 만든다(07 트랜잭션 흐름의 지갑·앱·노드 3층이 바로 이 구분이다).</div>
+        <div class="note"><b>읽는 법</b> — 핵심 합의는 <b>원장(Daml)</b>, 편의 기능은 <b>백엔드</b>. 둘을 <b>조합</b>해 앱을 만든다(08 트랜잭션 흐름의 지갑·앱·노드 3층이 바로 이 구분이다).</div>
 
         <div class="dev"><div class="dev-h">개발자 시점 — 코드는 어디서 돌고, 무엇으로 붙나</div><div class="dev-b">
           <p>구성요소별 <b>실행 위치</b>:</p>
@@ -676,9 +724,9 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 06 원장 -->
+    <!-- 07 원장 -->
     <section class="stage" data-title="원장 모델">
-      <div class="eyebrow"><span class="n">06 /</span> 원장 모델</div>
+      <div class="eyebrow"><span class="n">07 /</span> 원장 모델</div>
       <h2>컨트랙트는 고쳐 쓰지 않는다</h2>
       <div class="body">
         <p>Canton 원장은 <b>불변 컨트랙트</b>의 모음이다(확장 UTXO, eUTXO식). 상태를 바꾼다는 건 값을 덮어쓰는 게 아니라 <b>옛 컨트랙트를 보관(archive)하고 새 컨트랙트를 만드는</b> 일이다. 같은 컨트랙트는 한 번만 소비할 수 있으므로, 같은 자산을 두 번 쓰는 이중지불이 구조적으로 막힌다.</p>
@@ -741,9 +789,9 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 07 트랜잭션 흐름 -->
+    <!-- 08 트랜잭션 흐름 -->
     <section class="stage" data-title="트랜잭션 흐름">
-      <div class="eyebrow"><span class="n">07 /</span> 거래는 어떻게 흐르나</div>
+      <div class="eyebrow"><span class="n">08 /</span> 거래는 어떻게 흐르나</div>
       <h2>지갑에서 커밋까지, 한 단계씩</h2>
       <div class="body">
         <p>국내 기관 A가 해외 기관 B에게 보내는 한 건이 실제로 누구를 거치는지 따라가 보자. 각 기관은 <b>지갑(UI)·앱(백엔드)·밸리데이터(노드)</b>를 두고, 가운데 Synchronizer가 순서와 확정을 맞춘다. <b>다음</b>을 눌러 한 단계씩 진행하라 — 각 단계에서 어느 구성요소가 무슨 일을 하는지 짚어 준다.</p>
@@ -769,9 +817,9 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 08 프라이버시 -->
+    <!-- 09 프라이버시 -->
     <section class="stage" data-title="정산(DvP) · 프라이버시">
-      <div class="eyebrow"><span class="n">08 /</span> 정산(DvP) · 흐름 + 원자성 + 프라이버시</div>
+      <div class="eyebrow"><span class="n">09 /</span> 정산(DvP) · 흐름 + 원자성 + 프라이버시</div>
       <h2>맞교환 한 건: 제안서부터 실행까지</h2>
       <div class="body">
         <p>송금은 한 방향이라 단순했다. 이번엔 <b>A가 원화를, B가 엔화를 맞바꾼다</b>(정산/DvP). 다리가 둘이라 한쪽만 가면 떼이는 <b>카운터파티 리스크</b>(전통 외환의 <abbr title="시차 탓에 한쪽 통화 결제가 끝난 뒤 상대가 파산해 반대쪽을 못 받는 외환 결제 리스크. 1974년 Herstatt 은행 파산에서 유래.">Herstatt 리스크</abbr>)가 생긴다. 전통 금융은 <abbr title="Continuous Linked Settlement. 외환 거래를 동시 맞교환(PvP)으로 정산해 Herstatt 리스크를 없애는 다통화 정산 기관.">CLS</abbr>·<abbr title="Central Securities Depository. 증권을 집중 예탁·결제하는 중앙예탁기관.">CSD</abbr> 같은 중앙 정산기관(<abbr title="Payment vs Payment. 두 통화의 지급을 동시·원자적으로 처리해 한쪽만 가는 일을 막음.">PvP</abbr>/<abbr title="Delivery vs Payment. 자산 인도와 대금 지급을 동시·원자적으로 처리.">DvP</abbr>)으로 풀지만, Canton은 같은 보장을 <b>한 트랜잭션 안에서, 중앙 보관자 없이</b> 준다 — <b>전부 아니면 전무(원자성)</b>.</p>
@@ -803,14 +851,14 @@
           <div class="dvp-read"><span class="stepno" id="dStepNo">단계 0 / 6</span><span class="desc" id="dDesc">국내은행이 거래를 제안할 차례입니다 — 패널 버튼을 누르세요.</span><button class="dvp-reset" id="dReset">처음으로</button></div>
         </div>
         <p>핵심 둘. <b>원자성</b> — 자산이 실제로 움직이는 건 마지막 <span class="k">Settlement_Execute</span> 한 번뿐이고 그게 전부/전무라, 한 다리라도 잠기지 않으면 실행 자체가 성립하지 않는다(한쪽만 떼이는 일이 없다). <b>프라이버시</b> — 이 정산도 당사자(A·B·정산 운영자)만 받고 무관한 제3자는 <b>0건</b>이다. 0건은 막아서가 아니라 그 뷰가 그 노드에 <b>도착하지 않아서</b>다. 주의 — 제3자 노드가 텅 빈 게 아니다. 그 노드도 자기 사업 계약은 따로 갖고 있고, 단지 <b>이 정산</b>이 그중에 없을 뿐이다. (제3자라도 <span class="k">observer</span>로 지정하면 — 예: 감독기관 — 받는다. 가시성은 명시적 선택.)</p>
-        <div class="note">이 흐름·choice·다리 키(<span class="k">legKRW</span>/<span class="k">legJPY</span>)는 실제 정산 패키지(<span class="k">Settlement.FxDvp</span>, 2-leg FX DvP)와 테스트 그대로다. 단 LocalNet 데모엔 토큰이 <b>Amulet(Canton Coin) 하나뿐</b>이라 두 다리 모두 CC로 두고, <b>KRW·JPY는 개념상 대역</b>(방향만 반대인 FX 스왑 흉내)이다. 위 금액(₩9,000↔¥1,000)은 환율에 맞춘 예시 — 실제 테스트 코드는 CC로 100·20을 쓴다. 실제 운영에선 각 다리에 별도 발행자(레지스트리)의 통화 토큰이 들어간다(→ 09).</div>
+        <div class="note">이 흐름·choice·다리 키(<span class="k">legKRW</span>/<span class="k">legJPY</span>)는 실제 정산 패키지(<span class="k">Settlement.FxDvp</span>, 2-leg FX DvP)와 테스트 그대로다. 단 LocalNet 데모엔 토큰이 <b>Amulet(Canton Coin) 하나뿐</b>이라 두 다리 모두 CC로 두고, <b>KRW·JPY는 개념상 대역</b>(방향만 반대인 FX 스왑 흉내)이다. 위 금액(₩9,000↔¥1,000)은 환율에 맞춘 예시 — 실제 테스트 코드는 CC로 100·20을 쓴다. 실제 운영에선 각 다리에 별도 발행자(레지스트리)의 통화 토큰이 들어간다(→ 10).</div>
       </div>
       <div class="nav"></div>
     </section>
 
-    <!-- 09 Canton Coin · 수수료 -->
+    <!-- 10 Canton Coin · 수수료 -->
     <section class="stage" data-title="Canton Coin · 수수료">
-      <div class="eyebrow"><span class="n">09 /</span> 수수료 — Canton Coin</div>
+      <div class="eyebrow"><span class="n">10 /</span> 수수료 — Canton Coin</div>
       <h2>거래에는 값이 든다</h2>
       <div class="body">
         <p>08의 6개 choice는 공짜가 아니다. 글로벌 Synchronizer에 거래를 올릴 때마다 <b>수수료</b>를 낸다 — Canton은 이 수수료를 <abbr title="Synchronizer에 쓰기를 요청할 때 소비하는 자원. Canton Coin으로 비용을 지불한다.">트래픽(traffic)</abbr>이라 부르고, 결제 통화는 <b>Canton Coin(CC)</b>이다. 이더리움의 가스에 해당하지만, <b>잔액까지 비공개</b>라는 점이 다르다. CC는 수수료 외에 밸리데이터 보상과 슈퍼 밸리데이터의 거버넌스 스테이킹에도 쓰이는 네트워크의 <b>네이티브 유틸리티 토큰</b>이다.</p>
@@ -841,12 +889,12 @@
       <div class="nav"></div>
     </section>
 
-    <!-- 10 신뢰 -->
+    <!-- 11 신뢰 -->
     <section class="stage" data-title="신뢰 모델">
-      <div class="eyebrow"><span class="n">10 /</span> 신뢰 모델</div>
+      <div class="eyebrow"><span class="n">11 /</span> 신뢰 모델</div>
       <h2>무엇을, 누구에게, 얼마나 맡기나</h2>
       <div class="body">
-        <p>08단계가 "데이터가 <b>어떻게</b> 나뉘나(메커니즘)"였다면, 신뢰 모델은 "그래서 <b>누구를 얼마나</b> 믿어야 하나"다. Canton의 신뢰는 "모두 신뢰"도 "아무도 불신"도 아닌 <b>선택적 신뢰(selective trust)</b> — <b>무엇을 위해 누구를 신뢰할지 내가 고른다.</b> 그래서 한 덩어리가 아니라 다섯 영역으로 쪼개지고, 영역마다 <b><span style="color:var(--a)">신뢰함</span> · <span style="color:var(--b)">안 믿어도 됨</span> · <span style="color:var(--ok)">완화책</span></b>이 따로 있다.</p>
+        <p>09단계가 "데이터가 <b>어떻게</b> 나뉘나(메커니즘)"였다면, 신뢰 모델은 "그래서 <b>누구를 얼마나</b> 믿어야 하나"다. Canton의 신뢰는 "모두 신뢰"도 "아무도 불신"도 아닌 <b>선택적 신뢰(selective trust)</b> — <b>무엇을 위해 누구를 신뢰할지 내가 고른다.</b> 그래서 한 덩어리가 아니라 다섯 영역으로 쪼개지고, 영역마다 <b><span style="color:var(--a)">신뢰함</span> · <span style="color:var(--b)">안 믿어도 됨</span> · <span style="color:var(--ok)">완화책</span></b>이 따로 있다.</p>
         <div style="overflow-x:auto">
         <svg viewBox="0 0 880 372" role="img" aria-label="다섯 신뢰 영역 — 가운데 내 파티를 둘러싼 밸리데이터·거래 상대방·Synchronizer·앱 제공자·네트워크 거버넌스" style="width:100%; max-width:840px; height:auto; display:block; margin:18px auto 2px; font-family:var(--sans)">
           <g stroke-linecap="round" fill="none">
