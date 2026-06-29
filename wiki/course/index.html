@@ -226,7 +226,7 @@
         <div class="card"><div class="tag">전제</div><h3>알고 오면 좋은 것</h3><p>블록체인·분산원장 <b>기초 개념</b> 정도면 된다. 몰라도 따라올 수 있게 썼다. Daml 문법 선행 지식은 필요 없다.</p></div>
         <div class="card"><div class="tag">읽는 법</div><h3>개념 → 개발자 시점</h3><p>각 단계는 <b>개념</b>을 그림으로 먼저 보고, <span class="k">&lt;/&gt;</span> <b>개발자 시점</b> 블록에서 실제 Daml·파티·choice로 잇는다. 개발이 급하지 않으면 개발자 블록은 건너뛰어도 된다.</p></div>
       </div>
-      <div class="note"><b>코스 지도</b> — <span style="font-family:var(--mono);font-size:12.5px;color:var(--muted)">00 안내 · 01 한 거래 뷰 · 02 문제 · 03 세 기둥 · 04 파티·구성요소 · 05 Daml · 06 아키텍처 · 07 원장 · 08 트랜잭션 흐름 · 09 정산·프라이버시 · 10 수수료 · 11 신뢰 모델</span></div>
+      <div class="note"><b>코스 지도</b> — <span style="font-family:var(--mono);font-size:12.5px;color:var(--muted)">00 안내 · 01 문제 · 02 세 기둥 · 03 한 거래 뷰 · 04 파티·구성요소 · 05 Daml · 06 아키텍처 · 07 원장 · 08 트랜잭션 흐름 · 09 정산·프라이버시 · 10 수수료 · 11 신뢰 모델</span></div>
       <div class="note" style="border-left-color:var(--faint)"><b>용어 길잡이</b> — 처음 보는 말이 나와도 지금 외울 필요 없다. <b>파티·밸리데이터·Synchronizer</b>는 04에서, <b>시퀀서·미디에이터</b> 상세는 06에서, <b>signatory·observer·propose-accept</b>는 05·09에서 정식으로 다룬다.</div>
 
       <h3 class="sub">쉬운 한 컷 — 누가 거래를 보나</h3>
@@ -258,15 +258,76 @@
         <div class="fig-cap">같은 거래 한 건 — 퍼블릭은 전원에게, Canton은 <b>이해관계자에게만</b></div>
       </div>
 
-      <p class="body" style="max-width:68ch">여기까지가 이 코스를 관통하는 한 가지 원리다. 다음 단계에서 같은 거래가 <b>실제로 처리되는 전 과정</b>(제출·뷰 전달·확인·커밋)을 한눈에 미리 본다.</p>
+      <p class="body" style="max-width:68ch">여기까지가 이 코스를 관통하는 한 가지 원리다. 다음 단계에서는 퍼블릭 체인이 <b>왜</b> 기관 금융에 안 맞는지(문제)를 짚고, 이어서 Canton의 해법과 한 거래의 처리 과정을 차례로 본다.</p>
       <div class="nav"></div>
     </section>
 
-    <!-- 01 한 거래, 누가 보나 -->
+    <!-- 01 문제 -->
+    <section class="stage" data-title="문제">
+      <div class="eyebrow"><span class="n">01 /</span> 풀어야 할 문제</div>
+      <h2>공개가 기본이면 기관은 못 쓴다</h2>
+      <div class="body">
+        <p>퍼블릭 블록체인의 힘은 모두가 같은 장부를 검증한다는 데 있다. 그 대가가 <b>완전한 투명성</b>이다 — 거래 금액, 거래 상대, 잔액, 타이밍이 누구에게나 보인다. 거래 패턴만 모아도 그 기관의 포지션과 전략이 드러나기 때문에, 이 투명성은 기관 금융에서 강점이 아니라 결격 사유가 된다. 게다가 주소는 익명이라 "<b>KYC를 통과한 상대와만 거래</b>" 같은 규제 요건을 강제하기도 어렵다.</p>
+        <div class="fig">
+          <div class="seqwrap">
+            <svg viewBox="0 0 680 296" role="img" aria-label="퍼블릭 체인에서 한 거래가 모두에게 공개되는 시퀀스 다이어그램" style="width:100%; min-width:560px; height:auto; font-family:var(--sans)">
+              <defs>
+                <marker id="ah" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#5FA8FF"/></marker>
+                <marker id="ahw" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#E8745C"/></marker>
+              </defs>
+              <g font-size="12.5" fill="#EAEFF8" text-anchor="middle">
+                <rect x="25" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="85" y="30">기관 A</text>
+                <rect x="195" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8745C"/><text x="255" y="30">퍼블릭 원장</text>
+                <rect x="370" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="430" y="30">경쟁 기관</text>
+                <rect x="535" y="8" width="130" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="600" y="30">일반 대중·봇</text>
+              </g>
+              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
+                <line x1="85" y1="42" x2="85" y2="284"/><line x1="255" y1="42" x2="255" y2="284"/>
+                <line x1="430" y1="42" x2="430" y2="284"/><line x1="600" y1="42" x2="600" y2="284"/>
+              </g>
+              <g font-size="11.5" font-family="monospace">
+                <text x="170" y="80" text-anchor="middle" fill="#9fb0d6">① 송금 제출 (A→B 100)</text>
+                <line x1="85" y1="90" x2="251" y2="90" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ah)"/>
+                <text x="343" y="140" text-anchor="middle" fill="#E8745C">② 거래 전체 공개</text>
+                <line x1="255" y1="150" x2="426" y2="150" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
+                <text x="428" y="198" text-anchor="middle" fill="#E8745C">③ 거래 전체 공개</text>
+                <line x1="255" y1="208" x2="596" y2="208" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
+              </g>
+              <rect x="150" y="246" width="430" height="34" rx="8" fill="rgba(232,116,92,.08)" stroke="#E8745C" stroke-dasharray="4 3"/>
+              <text x="365" y="267" text-anchor="middle" font-size="11.5" font-family="monospace" fill="#E8745C">한 번 올리면 누구나 본다 — 막을 방법이 없다</text>
+            </svg>
+          </div>
+          <div class="fig-cap">퍼블릭 체인: 한 번 제출 → <b>모두에게 공개</b>. 금액·상대·잔액이 그대로 드러난다</div>
+        </div>
+        <div class="note"><b>핵심 딜레마</b> — 가리면 다른 참여자가 검증할 수 없고, 검증하게 하려면 드러나야 한다. 프라이버시 ↔ 무결성, 지금까지는 둘 중 하나를 골라야 했다.</div>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 02 해법 -->
+    <section class="stage" data-title="해법 — 세 기둥">
+      <div class="eyebrow"><span class="n">02 /</span> Canton의 해법</div>
+      <h2>세 기둥으로 둘을 동시에</h2>
+      <div class="body">
+        <p>Canton의 발상은 "<b>거래를 통째로 공유하지 말고, 검증에 필요한 사람에게 필요한 조각만 주자</b>"는 것이다. 이를 세 가지 아키텍처 기둥으로 구현하는데, 셋은 상호 의존적이라 따로는 성립하지 않는다.</p>
+        <div class="fig">
+          <div class="pillars">
+            <div class="pillar"><div class="pn">기둥 1</div><h4>부분 트랜잭션 프라이버시</h4><p>거래를 <b>뷰</b>(각 당사자의 몫)로 분해. 트랜잭션 자체가 누가 무엇을 보는지 정의한다. (08단계에서 상세)</p></div>
+            <div class="pillar"><div class="pn">기둥 2</div><h4>이해관계자 합의 증명</h4><p>전역 검증이 아니라 <b>그 거래의 이해관계자만</b> 검증·확인한다. 전역 공개 없이도 무결성이 서고, 무관한 노드는 부담이 없다.</p></div>
+            <div class="pillar"><div class="pn">기둥 3</div><h4>가시성 없는 동기화</h4><p>Synchronizer(시퀀서+미디에이터)가 <b>내용을 못 본 채</b> 순서와 확인만 맞춘다 — 암호봉투만 다룬다.</p></div>
+          </div>
+          <div class="pillars-sum">→ 프라이버시 + 무결성 동시. 프라이버시가 정책이 아니라 암호학적으로 강제된다</div>
+        </div>
+        <p>마지막 기둥이 특히 중요하다. Synchronizer는 자기가 순서를 매기는 거래의 <b>내용을 읽지 못하므로 부정행위 자체가 불가능</b>하다 — 순서·타임스탬프·라우팅은 알지만 금액·상대는 암호화돼 있다. "믿을 수 있는 중개자"가 아니라 "믿을 필요가 없는 중개자"인 셈이다.</p>
+      </div>
+      <div class="nav"></div>
+    </section>
+
+    <!-- 03 한 거래, 누가 보나 -->
     <section class="stage" data-title="한 거래, 누가 보나">
-      <div class="eyebrow"><span class="n">01 /</span> 한 거래, 누가 보나</div>
+      <div class="eyebrow"><span class="n">03 /</span> 한 거래, 누가 보나</div>
       <h2>한 거래가 처리되는 전 과정 (미리보기)</h2>
-      <p class="lede">앞의 원리를 실제 처리 단계까지 펼치면 아래처럼 된다. <b>지금 전부 이해할 필요는 없다</b> — 제출·순서화·뷰 전달·확인·커밋의 각 조각은 뒤 단계(06·08·09)에서 하나씩 푼다. 우선 "같은 거래인데 노드마다 받는 게 다르다"만 눈에 담으면 된다.</p>
+      <p class="lede">앞 단계의 <b>세 기둥</b>이 한 거래에서 실제로 어떻게 도는지, 처리 단계까지 펼치면 아래처럼 된다. <b>지금 전부 이해할 필요는 없다</b> — 제출·순서화·뷰 전달·확인·커밋의 각 조각은 뒤 단계(06·08·09)에서 하나씩 푼다. 우선 "같은 거래인데 노드마다 받는 게 다르다"만 눈에 담으면 된다.</p>
       <div class="fig">
         <div class="seqwrap">
           <svg viewBox="0 0 880 458" role="img" aria-label="Canton 거래 시퀀스: 제출·순서화·뷰 전달·검증·확인·확정·커밋, 시퀀서·미디에이터의 자체 작업 포함" style="width:100%; min-width:720px; height:auto; font-family:var(--sans)">
@@ -378,67 +439,6 @@
       <h3 class="sub">뷰를 받은 다음은?</h3>
       <p class="body" style="max-width:68ch">뷰 전달로 끝이 아니다. 뷰를 받은 <b>이해관계자 노드가 그 거래를 검증</b>하고(규칙·권한·중복 확인), 미디에이터에 <b>"유효함"을 확인(confirm)</b>한 뒤, 확정되면 <b>커밋</b>된다 — 옛 컨트랙트는 보관되고 새 컨트랙트가 생긴다. 즉시·결정적이라 되돌림이 없다. 제출부터 커밋까지 전체 흐름은 <b>08 트랜잭션 흐름</b> 단계에서 한 단계씩 따라간다.</p>
       <p class="body" style="max-width:68ch">이 한 가지 원리가 아키텍처·원장·프라이버시·신뢰 모델 전부를 끌고 간다. 12단계에 걸쳐 개념을 따라가되, 실제 <b>파티 ID·Daml 코드·choice 시퀀스·포트</b>까지 같은 흐름에서 본다.</p>
-      <div class="nav"></div>
-    </section>
-
-    <!-- 02 문제 -->
-    <section class="stage" data-title="문제">
-      <div class="eyebrow"><span class="n">02 /</span> 풀어야 할 문제</div>
-      <h2>공개가 기본이면 기관은 못 쓴다</h2>
-      <div class="body">
-        <p>퍼블릭 블록체인의 힘은 모두가 같은 장부를 검증한다는 데 있다. 그 대가가 <b>완전한 투명성</b>이다 — 거래 금액, 거래 상대, 잔액, 타이밍이 누구에게나 보인다. 거래 패턴만 모아도 그 기관의 포지션과 전략이 드러나기 때문에, 이 투명성은 기관 금융에서 강점이 아니라 결격 사유가 된다. 게다가 주소는 익명이라 "<b>KYC를 통과한 상대와만 거래</b>" 같은 규제 요건을 강제하기도 어렵다.</p>
-        <div class="fig">
-          <div class="seqwrap">
-            <svg viewBox="0 0 680 296" role="img" aria-label="퍼블릭 체인에서 한 거래가 모두에게 공개되는 시퀀스 다이어그램" style="width:100%; min-width:560px; height:auto; font-family:var(--sans)">
-              <defs>
-                <marker id="ah" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#5FA8FF"/></marker>
-                <marker id="ahw" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#E8745C"/></marker>
-              </defs>
-              <g font-size="12.5" fill="#EAEFF8" text-anchor="middle">
-                <rect x="25" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="85" y="30">기관 A</text>
-                <rect x="195" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#E8745C"/><text x="255" y="30">퍼블릭 원장</text>
-                <rect x="370" y="8" width="120" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="430" y="30">경쟁 기관</text>
-                <rect x="535" y="8" width="130" height="34" rx="9" fill="#1C2640" stroke="#2A3654"/><text x="600" y="30">일반 대중·봇</text>
-              </g>
-              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
-                <line x1="85" y1="42" x2="85" y2="284"/><line x1="255" y1="42" x2="255" y2="284"/>
-                <line x1="430" y1="42" x2="430" y2="284"/><line x1="600" y1="42" x2="600" y2="284"/>
-              </g>
-              <g font-size="11.5" font-family="monospace">
-                <text x="170" y="80" text-anchor="middle" fill="#9fb0d6">① 송금 제출 (A→B 100)</text>
-                <line x1="85" y1="90" x2="251" y2="90" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#ah)"/>
-                <text x="343" y="140" text-anchor="middle" fill="#E8745C">② 거래 전체 공개</text>
-                <line x1="255" y1="150" x2="426" y2="150" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
-                <text x="428" y="198" text-anchor="middle" fill="#E8745C">③ 거래 전체 공개</text>
-                <line x1="255" y1="208" x2="596" y2="208" stroke="#E8745C" stroke-width="1.5" marker-end="url(#ahw)"/>
-              </g>
-              <rect x="150" y="246" width="430" height="34" rx="8" fill="rgba(232,116,92,.08)" stroke="#E8745C" stroke-dasharray="4 3"/>
-              <text x="365" y="267" text-anchor="middle" font-size="11.5" font-family="monospace" fill="#E8745C">한 번 올리면 누구나 본다 — 막을 방법이 없다</text>
-            </svg>
-          </div>
-          <div class="fig-cap">퍼블릭 체인: 한 번 제출 → <b>모두에게 공개</b>. 금액·상대·잔액이 그대로 드러난다</div>
-        </div>
-        <div class="note"><b>핵심 딜레마</b> — 가리면 다른 참여자가 검증할 수 없고, 검증하게 하려면 드러나야 한다. 프라이버시 ↔ 무결성, 지금까지는 둘 중 하나를 골라야 했다.</div>
-      </div>
-      <div class="nav"></div>
-    </section>
-
-    <!-- 03 해법 -->
-    <section class="stage" data-title="해법 — 세 기둥">
-      <div class="eyebrow"><span class="n">03 /</span> Canton의 해법</div>
-      <h2>세 기둥으로 둘을 동시에</h2>
-      <div class="body">
-        <p>Canton의 발상은 "<b>거래를 통째로 공유하지 말고, 검증에 필요한 사람에게 필요한 조각만 주자</b>"는 것이다. 이를 세 가지 아키텍처 기둥으로 구현하는데, 셋은 상호 의존적이라 따로는 성립하지 않는다.</p>
-        <div class="fig">
-          <div class="pillars">
-            <div class="pillar"><div class="pn">기둥 1</div><h4>부분 트랜잭션 프라이버시</h4><p>거래를 <b>뷰</b>(각 당사자의 몫)로 분해. 트랜잭션 자체가 누가 무엇을 보는지 정의한다. (08단계에서 상세)</p></div>
-            <div class="pillar"><div class="pn">기둥 2</div><h4>이해관계자 합의 증명</h4><p>전역 검증이 아니라 <b>그 거래의 이해관계자만</b> 검증·확인한다. 전역 공개 없이도 무결성이 서고, 무관한 노드는 부담이 없다.</p></div>
-            <div class="pillar"><div class="pn">기둥 3</div><h4>가시성 없는 동기화</h4><p>Synchronizer(시퀀서+미디에이터)가 <b>내용을 못 본 채</b> 순서와 확인만 맞춘다 — 암호봉투만 다룬다.</p></div>
-          </div>
-          <div class="pillars-sum">→ 프라이버시 + 무결성 동시. 프라이버시가 정책이 아니라 암호학적으로 강제된다</div>
-        </div>
-        <p>마지막 기둥이 특히 중요하다. Synchronizer는 자기가 순서를 매기는 거래의 <b>내용을 읽지 못하므로 부정행위 자체가 불가능</b>하다 — 순서·타임스탬프·라우팅은 알지만 금액·상대는 암호화돼 있다. "믿을 수 있는 중개자"가 아니라 "믿을 필요가 없는 중개자"인 셈이다.</p>
-      </div>
       <div class="nav"></div>
     </section>
 
@@ -557,7 +557,7 @@
       <div class="eyebrow"><span class="n">06 /</span> 아키텍처 & 인프라</div>
       <h2>조율과 저장을 나눈다</h2>
       <div class="body">
-        <p>Canton의 핵심 설계는 <b>조율</b>과 <b>저장</b>을 서로 다른 주체에게 맡긴 것이다. 자산과 컨트랙트는 참여자 노드에 머물고, Synchronizer는 거래의 순서·확정만 책임진다. 이 분리 덕분에 Synchronizer는 내용을 몰라도 합의를 이끌 수 있다 — 03단계 "가시성 없는 동기화"가 가능한 이유다.</p>
+        <p>Canton의 핵심 설계는 <b>조율</b>과 <b>저장</b>을 서로 다른 주체에게 맡긴 것이다. 자산과 컨트랙트는 참여자 노드에 머물고, Synchronizer는 거래의 순서·확정만 책임진다. 이 분리 덕분에 Synchronizer는 내용을 몰라도 합의를 이끌 수 있다 — 02단계 "가시성 없는 동기화"가 가능한 이유다.</p>
         <div class="fig">
           <svg viewBox="0 0 720 372" role="img" aria-label="큰 그림: 위쪽 Synchronizer(시퀀서·미디에이터)가 조율하고, 아래 두 밸리데이터가 각자 참여자 노드·원장 샤드·파티를 보유하며, 앱이 Ledger API로 자기 노드에 붙는다" style="width:100%;height:auto;display:block;font-family:var(--sans)">
             <g stroke="#5C6885" stroke-width="1.5" opacity=".5"><line x1="190" y1="182" x2="190" y2="88"/><line x1="530" y1="182" x2="530" y2="88"/></g>
