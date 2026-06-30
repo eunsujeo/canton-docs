@@ -852,6 +852,53 @@
         </div>
         <p>핵심 둘. <b>원자성</b> — 자산이 실제로 움직이는 건 마지막 <span class="k">Settlement_Execute</span> 한 번뿐이고 그게 전부/전무라, 한 다리라도 잠기지 않으면 실행 자체가 성립하지 않는다(한쪽만 떼이는 일이 없다). <b>프라이버시</b> — 이 정산도 당사자(A·B·정산 운영자)만 받고 무관한 제3자는 <b>0건</b>이다. 0건은 막아서가 아니라 그 뷰가 그 노드에 <b>도착하지 않아서</b>다. 주의 — 제3자 노드가 텅 빈 게 아니다. 그 노드도 자기 사업 계약은 따로 갖고 있고, 단지 <b>이 정산</b>이 그중에 없을 뿐이다. (제3자라도 <span class="k">observer</span>로 지정하면 — 예: 감독기관 — 받는다. 가시성은 명시적 선택.)</p>
         <div class="note">이 흐름·choice·다리 키(<span class="k">legKRW</span>/<span class="k">legJPY</span>)는 실제 정산 패키지(<span class="k">Settlement.FxDvp</span>, 2-leg FX DvP)와 테스트 그대로다. 단 LocalNet 데모엔 토큰이 <b>Amulet(Canton Coin) 하나뿐</b>이라 두 다리 모두 CC로 두고, <b>KRW·JPY는 개념상 대역</b>(방향만 반대인 FX 스왑 흉내)이다. 위 금액(₩9,000↔¥1,000)은 환율에 맞춘 예시 — 실제 테스트 코드는 CC로 100·20을 쓴다. 실제 운영에선 각 다리에 별도 발행자(레지스트리)의 통화 토큰이 들어간다(→ 10).</div>
+
+        <h3 class="sub">통화가 다를 때 — 마켓메이커를 거치는 4-leg DvP</h3>
+        <p>위 2-leg는 A·B가 서로 원하는 통화를 <b>직접 맞바꿀</b> 때다. 하지만 받는 쪽(B)에게 보낼 통화가 A의 보유 통화와 다르고 <b>직접 카운터파티가 없으면</b>, 유동성을 대는 <b>마켓메이커(MM)</b>를 끼운다. 그러면 자산 이동이 <b>네 다리(4-leg)</b>로 늘지만 — 여전히 <b>한 트랜잭션·전부 아니면 전무</b>이고, 정산 운영자는 자산을 한순간도 보관하지 않는다. MM에게 가는 견적요청은 <b>익명</b>(통화쌍·금액만, 송수신자 신원 없음)이라 프라이버시도 그대로 유지된다.</p>
+        <div class="fig">
+          <div class="seqwrap">
+            <svg viewBox="0 0 880 404" role="img" aria-label="마켓메이커를 거치는 4-leg FX DvP 시퀀스: 주문·익명 견적·원자적 4-leg" style="width:100%; min-width:760px; height:auto; font-family:var(--sans)">
+              <defs>
+                <marker id="m4a" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#E8A14C"/></marker>
+                <marker id="m4m" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#5FA8FF"/></marker>
+                <marker id="m4b" markerWidth="10" markerHeight="10" refX="7.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#57D6A6"/></marker>
+                <marker id="m4v" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#7E8AA6"/></marker>
+              </defs>
+              <g font-size="12" fill="#EAEFF8" text-anchor="middle">
+                <rect x="10" y="10" width="128" height="34" rx="9" fill="#1C2640" stroke="#E8A14C"/><text x="74" y="26">기관 A</text><text x="74" y="38" font-size="9" fill="#8794B0">송신</text>
+                <rect x="252" y="10" width="136" height="34" rx="9" fill="#1C2640" stroke="#7E8AA6"/><text x="320" y="32">정산 운영자</text>
+                <rect x="500" y="10" width="120" height="34" rx="9" fill="#1C2640" stroke="#5FA8FF"/><text x="560" y="26">마켓메이커</text><text x="560" y="38" font-size="9" fill="#8794B0">유동성</text>
+                <rect x="730" y="10" width="136" height="34" rx="9" fill="#1C2640" stroke="#57D6A6"/><text x="798" y="26">기관 B</text><text x="798" y="38" font-size="9" fill="#8794B0">수신</text>
+              </g>
+              <g stroke="#5C6885" stroke-dasharray="3 5" opacity="0.85">
+                <line x1="74" y1="58" x2="74" y2="388"/><line x1="320" y1="58" x2="320" y2="388"/><line x1="560" y1="58" x2="560" y2="388"/><line x1="798" y1="58" x2="798" y2="388"/>
+              </g>
+              <g font-size="11" font-family="monospace">
+                <text x="197" y="82" text-anchor="middle" fill="#E8A14C">① FX 주문 (원화→엔화 · 금액 · 한도)</text>
+                <line x1="74" y1="90" x2="316" y2="90" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#m4a)"/>
+                <text x="440" y="118" text-anchor="middle" fill="#9fb0d6">② 익명 견적요청 (통화쌍·금액, 신원 X)</text>
+                <line x1="320" y1="126" x2="556" y2="126" stroke="#7E8AA6" stroke-width="1.5" marker-end="url(#m4v)"/>
+                <text x="440" y="150" text-anchor="middle" fill="#5FA8FF">③ 견적 (환율·목표금액)</text>
+                <line x1="560" y1="158" x2="324" y2="158" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#m4m)"/>
+                <text x="197" y="182" text-anchor="middle" fill="#9fb0d6">④ 견적 제시 → A 수락</text>
+                <line x1="320" y1="190" x2="78" y2="190" stroke="#7E8AA6" stroke-width="1.5" marker-end="url(#m4v)"/>
+                <text x="440" y="214" text-anchor="middle" fill="#5C6885">── 원자적 4-leg · 단일 트랜잭션 (전부 아니면 전무) ──</text>
+                <text x="197" y="240" text-anchor="middle" fill="#E8A14C">leg1 · 원화(source)</text>
+                <line x1="74" y1="248" x2="316" y2="248" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#m4a)"/>
+                <text x="440" y="272" text-anchor="middle" fill="#5FA8FF">leg2 · 엔화(target)</text>
+                <line x1="560" y1="280" x2="324" y2="280" stroke="#5FA8FF" stroke-width="1.5" marker-end="url(#m4m)"/>
+                <text x="559" y="304" text-anchor="middle" fill="#57D6A6">leg3 · 엔화(target) → 수신</text>
+                <line x1="320" y1="312" x2="794" y2="312" stroke="#57D6A6" stroke-width="1.5" marker-end="url(#m4b)"/>
+                <text x="440" y="336" text-anchor="middle" fill="#E8A14C">leg4 · 원화(source) → MM</text>
+                <line x1="320" y1="344" x2="556" y2="344" stroke="#E8A14C" stroke-width="1.5" marker-end="url(#m4a)"/>
+              </g>
+              <rect x="120" y="360" width="640" height="32" rx="8" fill="rgba(87,214,166,.07)" stroke="#2f5d4e" stroke-dasharray="4 3"/>
+              <text x="440" y="380" text-anchor="middle" font-size="11" font-family="monospace" fill="#8fe0c4">한 다리라도 실패 → 전체 무효 · SETTLED = 4 leg를 덮는 단일 트랜잭션 해시</text>
+            </svg>
+          </div>
+          <div class="fig-cap">A의 주문 → <b>익명 견적</b>(MM) → <b>원자적 4-leg</b>(원화·엔화가 MM을 거쳐 동시 이동) → 단일 해시. 확인 당사자 4: 송신·MM·정산 운영자·수신</div>
+        </div>
+        <div class="note"><b>2-leg과 무엇이 다른가</b> — 직접 상대가 있으면 2-leg(A↔B), 통화·상대가 안 맞아 유동성이 필요하면 4-leg(A↔MM↔B). <b>원자성·프라이버시·되돌림 없는 확정은 둘 다 동일</b>하고 다리 수만 늘 뿐이다. MM은 송수신자 신원을 못 본 채(②가 익명) 유동성만 댄다.</div>
       </div>
       <div class="nav"></div>
     </section>
