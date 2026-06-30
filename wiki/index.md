@@ -120,3 +120,4 @@ _(아직 없음)_
 - [원자적 DvP는 Canton만 되나? — 원자성·잠금·조합성 비교](notes/atomic-dvp-real-differentiator.md) — "이더도 되잖아?"에 답: 3요소는 다 흔하고, Canton 차별점은 프라이버시+다자권한+결정적확정의 결합.
 - [Canton의 B2B vs B2C — 어디에 맞나](notes/canton-b2b-vs-b2c.md) — B2C도 기술적으론 되지만 강점이 안 삼. Canton=B2B 기관정산, B2C=퍼블릭체인+브릿지 하이브리드.
 - [스테이블코인 발행·소각과 레지스트리](notes/token-issuance-bridge-patterns.md) — 토큰을 Canton 정산에 쓰려면 레지스트리(발행자) 필요. 외부발행+브릿지(래핑) vs Canton 직접발행 두 패턴·흐름도.
+- [트래블룰 (Travel Rule) — 규제 개요와 구현 방식](notes/travel-rule.md) — FATF 권고 16·IVMS101, 다른 곳의 구현(TRISA·TRP·OpenVASP·VerifyVASP·Notabene)과 한국 특금법(CODE vs VerifyVASP). Canton은 신원교환을 직접 안 하고 선택적 공개로 감사 토대만 댄다.

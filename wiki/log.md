@@ -160,3 +160,7 @@
 - 06 원장에 "원장은 어디에 남나 — 영속" 섹션 추가(참여자 DB=PostgreSQL/ACS+이벤트로그+offset · 이해관계자 이중화 · 시퀀서 정렬 로그 + 확정/pruning 노트).
 - 06 원장에 "노드 DB 구조 — 내부 스토어 vs PQS" 추가: 데이터 흐름 SVG(앱→Ledger API→참여자 내부 PostgreSQL / PQS가 스트림 구독→조회용 PostgreSQL→앱 SQL) + 내부 스토어 4종 표(원장·시퀀서클라이언트·토폴로지·밸리데이터앱) + 내부 스키마 비공개·PQS 권장 노트. validator-node-components.md 근거.
 - 단계 정체성 정리(A안): 인프라 성격의 3블록(원장 영속 · 노드 DB 구조 · 앱 조회/앱 DB)을 06 원장 모델 → 05 아키텍처 & 인프라 끝으로 이동. 06은 순수 모델(불변·ACS/offset·비트코인/계정 비교·트랜잭션 트리·키/시간), 05는 인프라(노드·Synchronizer·토폴로지·온/오프원장·코드위치·영속·DB)로 분리. abbr 클릭 툴팁 JS도 추가됨.
+
+## [2026-06-30] note | 트래블룰(Travel Rule) 레퍼런스 추가
+- notes/travel-rule.md 신설: FATF 권고 16·IVMS101, 다른 곳 구현 비교(TRISA·TRP·OpenVASP·TRUST·Sygna·VerifyVASP·Shyft·Netki·Notabene), 한국 특금법(2022-03-25 시행·100만원·CODE vs VerifyVASP), 자기수탁 지갑, Canton과의 관계(선택적 공개·규제기관 옵저버·guardian=감사 토대 / 신원교환은 오프체인·VASP/지갑 층).
+- glossary 툴팁에 트래블룰·VASP·IVMS101·FATF 추가. index.md notes 섹션 등록.

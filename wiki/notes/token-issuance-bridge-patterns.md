@@ -134,6 +134,6 @@ sequenceDiagram
 
 ---
 
-⬅️ **이전**: [용어 한 컷 카드 — 자주 막히는 용어 모음](term-cheatsheet.md)
+⬅️ **이전**: [용어 한 컷 카드 — 자주 막히는 용어 모음](term-cheatsheet.md) ・ ➡️ **다음**: [트래블룰 (Travel Rule) — 규제 개요와 구현 방식(다른 곳은 어떻게 하나)](travel-rule.md)
 
 <!-- nav:end -->
