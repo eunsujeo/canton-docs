@@ -8,10 +8,8 @@
 - [ ] **DevNet vs TestNet** — 이번 PoC는 어느 쪽으로?
 - [ ] **IP 허용** — 국내은행 AWS Sandbox egress IP allowlist 필요 여부.
 - [ ] **배포 지원 범위** — AWS Sandbox 스택을 국내은행이 직접 띄우나, 노드인프라가 배포 지원/대행하나.
-- [ ] **노드월렛 SW** — 자가 키보유(고객 HSM, FIPS 140-3 L3)·3-키 멀티시그·컴플라이언스 정책 엔진·망분리 내장(Fireblocks 옴니버스 대안). 배포물·라이선스, AWS Sandbox 구동 요구사양.
-  - [ ] **Canton 지원** — 담당자는 **캔톤 네이티브 파티 호스팅** 확인(공개 문서는 Solana뿐). **Daml(prepared-tx) raw 서명·컴플라이언스 엔진의 Canton 적용·버전**을 문서/데모로 확인.
-  - [ ] **키 HSM 관리 주체**(노드인프라 vs 국내은행)·망분리·SGX 요건.
-  - [ ] (선택) 트래블룰(예: VerifyVASP) 연동 가능 여부.
+- [ ] **노드월렛 SW** — 배포물·라이선스·AWS Sandbox 구동 요구사양. (기능 상세는 [wallet-comparison.md](wallet-comparison.md))
+  - [ ] **Canton 지원(핵심)** — 캔톤 네이티브 파티 호스팅·Daml(prepared-tx) raw 서명·컴플라이언스 엔진의 Canton 적용·버전 확인(공개 문서는 Solana뿐).
 
 ## B. 프로비저닝(자격증명) — 무스비 발급
 - [ ] **Canton Party ID** — 국내은행 정산 네트워크 신원.
