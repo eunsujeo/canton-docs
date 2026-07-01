@@ -5,9 +5,8 @@
 > 각 항목 옆에 받은 답을 채워가며 쓴다.
 
 ## A. 네트워크/환경
-- [ ] **DevNet vs TestNet** — 이번 PoC는 어느 쪽으로? 차이(안정성·리셋 주기·비용)와 권장.
-- [ ] **온보딩 방식** — 어느 Synchronizer에 연결·온보딩 절차·소요. (이번 PoC는 별도 스폰서 SV 없음 — 노드인프라가 온보딩)
-- [ ] **IP allowlist** — 국내은행 AWS Sandbox egress IP 등록 필요 여부·방법.
+- [ ] **DevNet vs TestNet** — 이번 PoC는 어느 쪽으로?
+- [ ] **IP 허용** — 국내은행 AWS Sandbox egress IP allowlist 필요 여부.
 - [ ] **배포 지원 범위** — AWS Sandbox 스택을 국내은행이 직접 띄우나, 노드인프라가 배포 지원/대행하나.
 - [ ] **노드월렛 SW** — 자가 키보유(고객 HSM, FIPS 140-3 L3)·3-키 멀티시그·컴플라이언스 정책 엔진·망분리 내장(Fireblocks 옴니버스 대안). 배포물·라이선스, AWS Sandbox 구동 요구사양.
   - [ ] **Canton 지원** — 담당자는 **캔톤 네이티브 파티 호스팅** 확인(공개 문서는 Solana뿐). **Daml(prepared-tx) raw 서명·컴플라이언스 엔진의 Canton 적용·버전**을 문서/데모로 확인.
