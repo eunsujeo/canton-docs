@@ -150,7 +150,8 @@ sequenceDiagram
     V->>MM: 2. 익명 견적요청 (통화쌍·금액·만료만)
     MM-->>V: 3. 경쟁 견적 (각 quoteId)
     V-->>I: 견적 제시 (intentId · quoteId 목록)
-    I->>V: 4. best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
+    I->>V: 4. best 견적 수락 (intentId + quoteId, cost guard 검증)
+    Note over I,RC: FXOrder = QUOTED
     Note over SC,RC: 5. 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
     MM->>V: JPYSC (target)
@@ -173,7 +174,7 @@ sequenceDiagram
 ## 9. 추가 검증 후보 (필요 시)
 
 - **결정적 확정(Finality)** — 캔톤은 즉시 확정(reorg 없음). SETTLED 후 되돌릴 수 없음을 확인(기존 결제 방식 대비 강점).
-- **감사추적/증빙** — **Audit Exports**(체결 FXOrder + 4-leg `txHash`, CSV/JSON)·Statements로 거래를 단일 증빙으로 재구성·대사 가능한지. (배치 엔드포인트는 예정 — 현재 per-intent 조회)
+- **감사추적/증빙** — **Audit Exports**(체결 FXOrder + 4-leg `transactionHash`, CSV/JSON)·Statements로 거래를 단일 증빙으로 재구성·대사 가능한지. (배치 엔드포인트는 예정 — 현재 per-intent 조회)
 - **재시도/멱등성** — 동일 주문 재제출·중복 방지(`intentId`) 동작.
 
 ## 10. 범위 밖 (1차 제외)
