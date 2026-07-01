@@ -108,4 +108,3 @@ sequenceDiagram
 - 무스비 정산 흐름: https://musubinetwork.com/how-it-works
 - 노드월렛 문서: https://docs.nodeinfra.com (접근 코드 필요 · 공개 문서는 Solana 기준)
 - 캔톤 external party 서명(interactive submission): https://docs.canton.network
-- (옴니버스·Raw Signing 심층 분석: dev/docs/wallet-custody-fireblocks.md)
