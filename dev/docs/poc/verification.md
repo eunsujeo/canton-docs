@@ -147,7 +147,7 @@ sequenceDiagram
 
 ## 7. 검증 전제 — 노드인프라에 요청할 것
 
-"제한적" 항목을 완전 검증하려면 다음이 필요(→ [nodeinfra-asks.md](nodeinfra-asks.md) F):
+"제한적" 항목을 완전 검증하려면 다음이 필요(→ [nodeinfra-asks.md](nodeinfra-asks.md) C·F):
 
 - **제3자(비당사자) 노드 뷰** — 프라이버시 "제3자 0건" 시연용.
 - **MM 측 RFQ 페이로드/스키마** — MM 익명 확인용.

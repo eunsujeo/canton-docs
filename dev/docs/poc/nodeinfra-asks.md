@@ -20,8 +20,8 @@
 ## C. 소프트웨어/패키지
 AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **배포물** — Musubi Backend·Canton Participant 도커 이미지/레지스트리/버전·요구사양·설정(env/config).
-- [ ] **DAML 배포·패키지 일치** — `FXOrder` 등 정산 패키지(DAR)를 누가 업로드·일치시키나(우리 vs 노드월렛/무스비 ops), 모든 참여자 일치·버전/업그레이드·패키지 ID 공유(→ [verification.md](verification.md) 4절).
-- [ ] **DAML 소스/감사용 공유 + raw Ledger 접근** — 적격기관 검증용 `FXOrder` DAML 소스(최소 DAR)+패키지 ID·raw Ledger API. (소스가 IP면 DAR+패키지로 행동 검증 — [verification.md](verification.md) 4절)
+- [ ] **DAML 배포** — `FXOrder` 등 정산 패키지(DAR)가 우리 participant에 **어떻게 배포되나**: 누가 업로드·일치시키나(우리 vs 노드인프라/무스비), 버전·업그레이드 절차.
+- [ ] **DAML 검증용 공유** — 적격기관 DAML 검증(→ [verification.md](verification.md) 4절)용 `FXOrder` 소스(최소 DAR)+패키지 ID·raw Ledger 접근 가능 여부.
 - [ ] **Console 접근** — Console 계정.
 
 ## D. 자산/인스트루먼트
