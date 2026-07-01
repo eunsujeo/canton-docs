@@ -151,9 +151,9 @@ sequenceDiagram
 
 - base `/api/v1`. 모든 응답을 **공통 형식으로 감싼다** — `data`(실제 내용)·`meta`(부가정보)·`pagination`(목록 페이지). 금액은 문자열, 시간 ISO8601 UTC.
 - 에러는 `error` 객체(`code`·`message`·`details`)로 반환: `VALIDATION_ERROR`·`UNAUTHORIZED`·`NOT_FOUND`·`CONFLICT`·`CANTON_ERROR`·`INTERNAL_ERROR`.
-- **SSE**(Server-Sent Events, 서버가 상태 변화를 실시간 push): 참여자별 SSE 엔드포인트, `EventSource`로 연결(`intent_id` 필터, 30s heartbeat). Webhook 규약은 문서에 없음.
+- **SSE**(Server-Sent Events, 서버가 상태 변화를 실시간 push): 참여자별 SSE 엔드포인트, **서버 사이드 SSE 클라이언트**(국내은행 앱/백엔드; 브라우저 아님)로 연결(`intent_id` 필터, 30s heartbeat). Webhook 규약은 문서에 없음.
   - SSE는 국내은행이 **밖으로 연결(outbound)** → AWS Sandbox에 유리. Webhook은 무스비가 **국내은행 엔드포인트로 들어와야(inbound)** 해 망분리엔 번거로움 → 최종(TMS/ERP 연동) 단계에서 검토.
-  - **재연결·재동기화(클라 구현)**: 끊기면 재접속(브라우저 `EventSource`는 자동 / 서버 사이드 소비자는 라이브러리에 따라 수동 retry). 재접속 후 놓친 이벤트는 `Last-Event-ID` 재전송(서버 replay 지원 시) 또는 REST 상태 재조회로 보정한다.
+  - **재연결·재동기화(클라 구현)**: 재접속은 서버 사이드 SSE 라이브러리가 처리(라이브러리에 따라 수동 retry 필요). 재접속 후 놓친 이벤트는 `Last-Event-ID` 재전송(서버 replay 지원 시) 또는 REST 상태 재조회로 보정한다.
 
 성공 응답 예:
 
