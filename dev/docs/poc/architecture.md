@@ -37,7 +37,7 @@ flowchart TB
   end
   SYN{{"Canton Network — Synchronizer (시퀀서)"}}
   subgraph MUS["무스비 정산 네트워크 — Core + 상대측 멤버 (노드인프라/무스비 준비)"]
-    CORE["무스비 Core (코디네이터/operator)"]
+    CORE["무스비 Core (operator)"]
     CP["해외은행 (수신 Institution/Custodian)"]
     MM["Market Maker"]
   end
