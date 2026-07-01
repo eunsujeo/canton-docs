@@ -2,7 +2,7 @@
 
 > 1차 PoC의 핵심: 무스비/캔톤을 **왜 쓰는지(가치)** 를 항목별로 **검증**한다.
 > 각 항목 = 가치(why) → 검증 방법(how, 어떤 인터페이스로 무엇을 보나) → **검증 가능성**(1차 환경에서 실제로 가능한가) → 합격 기준(pass).
-> 시나리오: 국내은행 KRWK ↔ 해외은행 JPYC, 무스비 4-leg 원자 정산(고객 없음). 모델 [musubi-overview.md](musubi-overview.md), 구성 [architecture.md](architecture.md).
+> 시나리오: 국내은행 KRWK ↔ 해외은행 JPYSC, 무스비 4-leg 원자 정산(고객 없음). 모델 [musubi-overview.md](musubi-overview.md), 구성 [architecture.md](architecture.md).
 
 ## 0. 국내은행이 가진 관측 수단 (검증 가능성의 전제)
 
@@ -32,13 +32,13 @@
 
 ## 1. 원자적 DvP — 검증 가능성: 가능
 
-- **가치**: 국내은행이 KRWK를 먼저 보내고 해외은행이 JPYC를 안 보내는 카운터파티(Herstatt) 리스크를 구조적으로 제거.
+- **가치**: 국내은행이 KRWK를 먼저 보내고 해외은행이 JPYSC를 안 보내는 카운터파티(Herstatt) 리스크를 구조적으로 제거.
 - **검증 방법**:
-  - 정상 정산 1건 실행 → 국내은행 원장(ACS·잔액)에서 KRWK 차감과 JPYC 입금이 **같은 트랜잭션**(같은 오프셋)에 일어나는지 확인 + Console/Statements에서 트랜잭션 해시 1개(4 leg를 덮는 단일 캔톤 트랜잭션 해시) 확인.
+  - 정상 정산 1건 실행 → 국내은행 원장(ACS·잔액)에서 KRWK 차감과 JPYSC 입금이 **같은 트랜잭션**(같은 오프셋)에 일어나는지 확인 + Console/Statements에서 트랜잭션 해시 1개(4 leg를 덮는 단일 캔톤 트랜잭션 해시) 확인.
   - 실패 주입: 국내은행 KRWK 잔액을 부족하게 한 뒤 정산 시도 → 국내은행 leg 실패 → **전체 롤백**(잔액 무변동, FXOrder `FAILED`) 확인.
 - **검증 가능성**: **가능** — 국내은행 leg(KRWK)는 국내은행이 통제하므로 정상·실패 모두 국내은행 뷰로 관측. (상대/MM leg 실패 주입은 노드인프라 협조 필요하나, 원자성 입증엔 국내은행 leg 실패로 충분.)
 - **합격 기준**:
-  - [ ] SETTLED 시 KRWK↓·JPYC↑가 단일 트랜잭션에 동시 반영.
+  - [ ] SETTLED 시 KRWK↓·JPYSC↑가 단일 트랜잭션에 동시 반영.
   - [ ] 국내은행 leg 실패 시 전체 롤백(부분 정산 없음, FAILED).
 
 ## 2. 익명 / 프라이버시 — 검증 가능성: 제한적
@@ -144,7 +144,7 @@ sequenceDiagram
     participant MM as Market Maker
     participant RC as 수신 Custodian (해외은행)
     Note over I,RC: 모든 메시지는 Canton Synchronizer(시퀀서) 경유 — 아래는 논리 흐름
-    I->>V: 1. FX order 생성 (KRWK→JPYC, 금액, cost guard)
+    I->>V: 1. FX order 생성 (KRWK→JPYSC, 금액, cost guard)
     V-->>I: intentId 발급 (이 주문의 식별자)
     Note over I,V: 이후 상태는 SSE(intent_id 필터)로 실시간 수신
     V->>MM: 2. 익명 견적요청 (통화쌍·금액·만료만)
@@ -153,8 +153,8 @@ sequenceDiagram
     I->>V: 4. best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
     Note over SC,RC: 5. 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
-    MM->>V: JPYC (target)
-    V->>RC: JPYC (target) → 해외은행
+    MM->>V: JPYSC (target)
+    V->>RC: JPYSC (target) → 해외은행
     V->>MM: KRWK (source)
     Note over I,RC: 6. SETTLED (intentId) → txHash (4 leg 단일 트랜잭션 해시 = 정산 증빙)
 ```

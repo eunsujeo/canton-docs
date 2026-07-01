@@ -4,11 +4,11 @@
 
 ## 1. 이 PoC에서 무스비는 무엇이고, 왜 쓰나
 
-**무스비 = 국내은행이 KRWK↔JPYC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 국내은행은 무스비를 직접 만들지 않는다. **보내는 쪽(송신 기관)으로 무스비에 연결**해, 송금 한 건을 주문 생성부터 정산 완료까지 실행해 본다.
+**무스비 = 국내은행이 KRWK↔JPYSC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 국내은행은 무스비를 직접 만들지 않는다. **보내는 쪽(송신 기관)으로 무스비에 연결**해, 송금 한 건을 주문 생성부터 정산 완료까지 실행해 본다.
 
 **왜 쓰나** (이 PoC가 검증하려는 가치):
 
-- **원자적 DvP** — KRWK·JPYC를 한 트랜잭션에 교환, 카운터파티(Herstatt) 리스크 0.
+- **원자적 DvP** — KRWK·JPYSC를 한 트랜잭션에 교환, 카운터파티(Herstatt) 리스크 0.
 - **프라이버시** — 거래 상대·금액이 무관한 제3자에 안 보이고, MM에도 신원이 익명.
 - **이미 만들어진 정산 레일** — 특정 회사가 아니라 참여 기관들이 공동 소유하고, 자금을 쥔 중앙 운영자 없이(무스비 Core는 자산을 일방적으로 못 움직임) Canton 위에서 도는 정산 네트워크. 연결만 하면 됨(대부분 노드인프라/무스비 준비). 현재 Canton 테스트넷에서 기관 멤버들과 검증 중.
 - **기존 환거래은행 방식 대비** — 지금의 해외송금은 중개은행을 2~4곳 거쳐 1~3영업일이 걸리고, 적용 환율이 불투명하며, 거래 기록도 은행마다 흩어져 대사(맞춰보기)가 어렵다. 무스비는 같은 송금을 약 15초 만에 한 번에 끝내고, 그 거래 하나가 트랜잭션 해시 1개로 증명된다.
@@ -48,16 +48,16 @@ sequenceDiagram
     V-->>I: 6. SETTLED → txHash 1개 (규제 보고용)
 ```
 
-**4개 다리(leg) 풀어보기** — MM이 원화↔엔화를 매개하기 때문에 다리가 4개다(source=KRWK, target=JPYC).
+**4개 다리(leg) 풀어보기** — MM이 원화↔엔화를 매개하기 때문에 다리가 4개다(source=KRWK, target=JPYSC).
 
 | leg | 이동 | 자산 | 무슨 뜻인가 |
 |---|---|---|---|
 | **leg1** | 송신 Custodian → 무스비 Core | KRWK (source) | 국내은행이 보낼 원화 스테이블코인을 무스비에 잠근다 |
-| **leg2** | Market Maker → 무스비 Core | JPYC (target) | MM이 내줄 엔화 스테이블코인을 무스비에 잠근다 |
-| **leg3** | 무스비 Core → 수신 Custodian | JPYC (target) | 수취인(해외은행)이 받을 엔화가 전달된다 |
+| **leg2** | Market Maker → 무스비 Core | JPYSC (target) | MM이 내줄 엔화 스테이블코인을 무스비에 잠근다 |
+| **leg3** | 무스비 Core → 수신 Custodian | JPYSC (target) | 수취인(해외은행)이 받을 엔화가 전달된다 |
 | **leg4** | 무스비 Core → Market Maker | KRWK (source) | MM이 원화를 가져간다(유동성 공급의 대가) |
 
-네 다리는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYC로·MM에는 KRWK로 정확히 맞교환된다.
+네 다리는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYSC로·MM에는 KRWK로 정확히 맞교환된다.
 
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
@@ -71,7 +71,7 @@ sequenceDiagram
 | `intentId` | 주문 1건의 고유 식별자 — 추적·SSE 필터(`intent_id`)·중복 방지(멱등성) 키 |
 | `status` | 주문 상태(아래 상태 흐름) |
 | `sender` / `receiver` | 송신·수신 당사자 |
-| `sourceAsset` / `targetAsset` | 보내는/받는 자산·금액 (KRWK / JPYC) |
+| `sourceAsset` / `targetAsset` | 보내는/받는 자산·금액 (KRWK / JPYSC) |
 | `quoteInfo` | 견적 정보 — 수락된 견적 식별자 `quoteId` 포함 |
 | `marketMakerInfo` | 체결된 MM 정보(견적 수락 후 채워짐) |
 | `settlementInfo` | 정산 결과 — `transactionHash` 포함 |
@@ -87,9 +87,7 @@ sequenceDiagram
 ## 4. 지원 자산/송금 경로
 
 - **송금 경로**: 일본 ↔ 한국.
-- **스테이블코인**: `JPYSC0`(일본, 라이브) / `KRWK`(한국, PoC용 신규).
-
-> KRWK는 **국내은행이 들여올 새 자산**이다. 라이브 자산은 JPYSC0이며, KRWK 인스트루먼트 편입은 협의 대상([nodeinfra-asks.md](nodeinfra-asks.md) D).
+- **스테이블코인**: `JPYSC` / `KRWK`.
 
 ## 5. 소유/거버넌스 구조
 
@@ -140,7 +138,7 @@ sequenceDiagram
     "intentId": "fxo_01H...",
     "status": "QUOTED",
     "sourceAsset": { "currency": "KRWK", "amount": "100000.00" },
-    "targetAsset": { "currency": "JPYC", "amount": "11000.00" }
+    "targetAsset": { "currency": "JPYSC", "amount": "11000.00" }
   },
   "meta": {},
   "pagination": null

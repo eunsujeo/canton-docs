@@ -10,7 +10,7 @@
 
 ## 1. DvP (Delivery versus Payment)
 
-정산은 거래 약속을 실제 자산 이동으로 마무리하는 단계다. 문제는 *누가 먼저 보내나* — 국내은행이 KRWK를 먼저 보냈는데 해외은행이 JPYC를 안 보내면 떼인다(**카운터파티/Herstatt 리스크**).
+정산은 거래 약속을 실제 자산 이동으로 마무리하는 단계다. 문제는 *누가 먼저 보내나* — 국내은행이 KRWK를 먼저 보냈는데 해외은행이 JPYSC를 안 보내면 떼인다(**카운터파티/Herstatt 리스크**).
 
 **DvP**: 양 통화를 한 트랜잭션에 동시 교환 → 전부 성공 or 전부 무효. 한쪽만 가는 일이 구조적으로 불가능하다. 그래서 무스비를 기관 간 정산에 쓰고, 1차 PoC에서 가장 먼저 검증한다([verification.md](verification.md)).
 
@@ -75,7 +75,7 @@ sequenceDiagram
     participant V as 무스비 Core
     participant MM as Market Maker
     participant RC as 수신 Custodian (해외은행)
-    I->>V: FX order 생성 (KRWK→JPYC, 금액, cost guard)
+    I->>V: FX order 생성 (KRWK→JPYSC, 금액, cost guard)
     V-->>I: intentId 발급 (주문 식별자, 이후 SSE intent_id로 추적)
     V->>MM: 익명 견적요청 (통화쌍·금액·만료만)
     MM-->>V: 경쟁 견적 (각 quoteId · 환율·목표금액·유효기간)
@@ -83,8 +83,8 @@ sequenceDiagram
     I->>V: best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
     Note over SC,RC: 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
-    MM->>V: JPYC (target)
-    V->>RC: JPYC (target) → 해외은행
+    MM->>V: JPYSC (target)
+    V->>RC: JPYSC (target) → 해외은행
     V->>MM: KRWK (source)
     Note over I,RC: 한 leg라도 실패하면 전체 롤백 → SETTLED (intentId) → txHash (단일 트랜잭션 해시)
 ```
@@ -119,7 +119,7 @@ sequenceDiagram
 | 축 | 1차 PoC (올해) | 최종 PoC (내년) |
 |---|---|---|
 | 환경 | DevNet/TestNet, AWS Sandbox | 망분리 + 국내은행 지갑 시스템 연동 |
-| 통화 | KRWK ↔ JPYC (테스트 인스트루먼트) | 실제 발행 인스트루먼트 |
+| 통화 | KRWK ↔ JPYSC (테스트 인스트루먼트) | 실제 발행 인스트루먼트 |
 | 당사자 | 은행 자기계정 (고객 없음) | 국내은행 유저(고객) 온/오프램프 |
 | 지갑/커스터디 | **노드월렛**(내부, 캔톤 네이티브 파티 호스팅) | **Fireblocks**(외부, 국내은행 지갑 시스템) |
 | Fiat | 없음 | (가능성) 온/오프램프 |

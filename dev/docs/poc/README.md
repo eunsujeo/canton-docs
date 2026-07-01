@@ -23,7 +23,7 @@
 | **환경** | DevNet 또는 TestNet. 인프라는 AWS Sandbox(**망분리** 때문 — 은행 내부망 밖 격리). |
 | **방식** | AWS Sandbox에 국내은행 스택(participant + **노드월렛** + Musubi backend + Postgres)을 띄워 연결. 내부 시스템 연동 최소화, 대부분 노드인프라/무스비 준비. |
 | **역할** | 국내은행 = 송신 Institution + Custodian(VASP 가정). 지갑은 **노드월렛**(내부, 캔톤 네이티브 파티 호스팅). |
-| **시나리오** | 국내은행 보유 **KRWK**를 무스비로 해외은행에 **JPYC 송수신** (고객 없음 — 은행 자기계정). |
+| **시나리오** | 국내은행 보유 **KRWK**를 무스비로 해외은행에 **JPYSC 송수신** (고객 없음 — 은행 자기계정). |
 | **지갑** | 1차 = **노드월렛**(내부). 최종 = **Fireblocks**(외부) 가능성 — 비교는 [wallet-comparison.md](wallet-comparison.md). |
 
 ## 문서 (읽는 순서)

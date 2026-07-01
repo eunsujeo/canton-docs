@@ -54,7 +54,7 @@ sequenceDiagram
     participant V as 무스비 Core
     participant MM as Market Maker
     participant RC as 해외은행 (수신 Custodian)
-    I->>V: FX order (KRWK→JPYC, cost guard)
+    I->>V: FX order (KRWK→JPYSC, cost guard)
     V-->>I: intentId 발급
     V->>MM: 익명 RFQ
     MM-->>V: 견적 (quoteId)
@@ -79,7 +79,7 @@ sequenceDiagram
     participant V as 무스비 Core
     participant MM as Market Maker
     participant RC as 해외은행 (수신 Custodian)
-    I->>V: FX order (KRWK→JPYC, cost guard)
+    I->>V: FX order (KRWK→JPYSC, cost guard)
     V-->>I: intentId 발급
     V->>MM: 익명 RFQ
     MM-->>V: 견적 (quoteId)
