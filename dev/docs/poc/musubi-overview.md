@@ -62,7 +62,7 @@ sequenceDiagram
 
 ## 4. 지원 자산/송금 경로
 
-- **송금 경로(코리도)**: 일본 ↔ 한국.
+- **송금 경로**: 일본 ↔ 한국.
 - **스테이블코인**: `JPYSC0` / `USDCx`.
 
 > KRWK는 **국내은행이 들여올 새 자산**이다. 라이브 자산은 JPYSC0/USDCx이며, KRWK 인스트루먼트 편입은 협의 대상([nodeinfra-asks.md](nodeinfra-asks.md) D).
