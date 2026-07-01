@@ -1,4 +1,4 @@
-# 노드인프라에 문의/요구할 것 (적격기관 체크리스트)
+# 노드인프라 요청 — 적격기관 체크리스트
 
 > 국내은행은 적격기관(송신 Institution + Custodian)으로 1차 PoC에 참여한다.
 > **AWS Sandbox**에 국내은행 스택(participant + **노드월렛** + Musubi backend + Postgres)을 띄우고 **DevNet/TestNet**에 연결한다. 노드월렛 SW·배포물·네트워크는 노드인프라/무스비가 준비.

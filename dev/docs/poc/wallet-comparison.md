@@ -1,4 +1,4 @@
-# 지갑 비교 — 외부(Fireblocks) vs 내부(노드월렛)
+# 지갑 비교 — 노드월렛(내부) vs Fireblocks(외부)
 
 > 캔톤 파티 키를 누가 어떻게 보관·서명하느냐. **1차 PoC = 노드월렛(내부), 최종 PoC = Fireblocks(외부) 가능성.** 둘을 비교하고, 국내은행→해외은행 정산 시퀀스가 어떻게 달라지는지 본다.
 > 정산 흐름 자체는 [verification.md](verification.md) 6절, 무스비 모델은 [musubi-overview.md](musubi-overview.md).
