@@ -30,8 +30,8 @@ AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **배포물 무결성/출처** — 노드월렛 SW·Musubi backend·participant 이미지·DAR의 체크섬/서명·출처(provenance) 검증 방법 ([verification.md](verification.md) 6절 보안 E).
 
 ## D. 자산/인스트루먼트
-- [ ] **KRWK 인스트루먼트** — 라이브는 JPYSC0/USDCx인데, PoC용 **KRWK는 누가/어떻게 발행**하나. 테스트 발행자/레지스트리.
-- [ ] **상대 통화** — JPYC(JPYSC0)·USDCx 중 무엇으로 시연. 테스트 토큰 발급(faucet) 절차.
+- [ ] **KRWK 인스트루먼트** — 라이브는 JPYSC0인데, PoC용 **KRWK는 누가/어떻게 발행**하나. 테스트 발행자/레지스트리.
+- [ ] **상대 통화** — JPYC(JPYSC0)로 시연. 테스트 토큰 발급(faucet) 절차.
 
 ## E. 카운터파티 / 마켓메이커 (4-leg 필수)
 - [ ] **Market Maker** — 4-leg엔 MM이 필수. PoC에서 MM은 누가(노드인프라/무스비가 테스트 MM 제공?).
