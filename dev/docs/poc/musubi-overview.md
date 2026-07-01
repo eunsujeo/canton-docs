@@ -22,8 +22,6 @@
 | **Market Maker** | 익명 RFQ 수신, 가격 경쟁, 원자 정산. **송수신자 신원을 못 봄** |
 | **무스비 Core** | 정산 코디네이터(중간자) — 정산 개시·실행 |
 
-> Gateway(fiat·온오프램프·온보딩)는 운영/소유 주체이지 정산 참여자는 아니다(5절).
-
 ## 3. 정산 흐름 — 4 leg / 4 confirming party
 
 무스비 정산은 **4-leg**다 — MM이 중간에서 양 통화를 매개하기 때문이다.
@@ -65,7 +63,6 @@
 
 | 소유 주체 | 담당 |
 |---|---|
-| **Gateway** | TradFi 통합 — fiat 레일, 온/오프램프, 멤버 온보딩 |
 | **무스비 Core** | 정산 프로토콜 — DAML 컨트랙트, 트랜잭션 코디네이션, SDK |
 
 **Membership(온체인 3-tier registry)**: 누가 멤버인가(**Membership**) · 멤버가 할 수 있는 것(**Mandate**) · 합의 규칙(**Rulebook**). validator node가 온체인 멤버십 권위.

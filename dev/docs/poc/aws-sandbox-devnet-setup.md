@@ -49,7 +49,7 @@ flowchart TB
   MM === SYN
 ```
 
-> Synchronizer는 **Canton Network 공용 인프라**, 무스비 Core·해외은행·Market Maker는 같은 Synchronizer에 붙는 **멤버**(각자 인프라). Gateway(fiat·온오프램프)는 1차 범위 밖.
+> Synchronizer는 **Canton Network 공용 인프라**, 무스비 Core·해외은행·Market Maker는 같은 Synchronizer에 붙는 **멤버**(각자 인프라).
 
 - **노드월렛** = 노드인프라 제공 지갑 SW. **캔톤 네이티브 파티 호스팅(담당자 확인)** · 고객 HSM 자가 키보유·3-키 멀티시그·컴플라이언스 정책 엔진·망분리 내장(Fireblocks 옴니버스 대안). 공개 문서는 Solana 기준. (비교·출처: [wallet-comparison.md](wallet-comparison.md))
 - **배포 구성(footprint)**: participant + 노드월렛 + Musubi backend + Postgres. egress(NAT)로 정산 네트워크에 mTLS.

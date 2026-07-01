@@ -22,7 +22,6 @@
 | **Institution** | 송금 개시, 견적(RFQ) 비교·선택 | **국내은행 역할(송신측)** |
 | **Custodian** | 자산 이동 승인·co-sign, 감사추적 | 국내은행이 Custodian · 지갑은 **노드월렛**(캔톤 네이티브 파티 호스팅·고객 HSM) |
 | **Market Maker** | 익명 RFQ에 호가, 유동성 공급. 4-leg 필수 | PoC용 테스트 MM은 무스비/노드인프라 준비 |
-| **Gateway** | TradFi 통합(fiat·온오프램프·온보딩) | 1차 PoC 범위 밖 |
 
 > 무스비 정산은 **4-leg / 4 confirming party**(송신 커스터디언·MM·무스비 Core·수신 커스터디언). 상세 [musubi-overview.md](musubi-overview.md) 3절.
 
@@ -51,7 +50,7 @@ flowchart TB
   MM === SYN
 ```
 
-> 레이어: **Synchronizer = Canton Network 공용 인프라**. **무스비 = Core(operator) + Gateway**(Gateway=fiat·온오프램프, 1차 범위 밖).
+> 레이어: **Synchronizer = Canton Network 공용 인프라**. **무스비 정산은 무스비 Core(operator)가 코디네이션·실행**한다.
 > **무스비 정산 네트워크 = 무스비 Core + 멤버(국내은행·해외은행·Market Maker)가 이 Synchronizer 위에서 정산하는 것.** 위 박스는 국내은행(우리 측)을 제외한 상대측 멤버+Core만 묶은 것이고, 국내은행도 같은 네트워크의 멤버다. 노드월렛이 participant까지 묶어 운영하는지(일체형)는 통합 방식 확인 대상.
 
 - **AWS Sandbox** — 은행 내부망 밖 격리 환경에서 국내은행 스택을 전부 띄운다. 내부 시스템 연동 최소화. 진행 [aws-sandbox-devnet-setup.md](aws-sandbox-devnet-setup.md).
