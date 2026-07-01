@@ -15,7 +15,7 @@
 - [ ] **Canton Party ID** — 국내은행 정산 네트워크 신원.
 - [ ] **JWT signing credentials** — API 인증용.
 - [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서** — 무스비 발급, 연결용.
-- [ ] **국내은행에 부여되는 role** — `institution` / `custodian`. 수신측은 누구 role로.
+- [ ] **국내은행에 부여되는 role** — `institution` + `custodian`(권한이 role로 갈리니 두 역할 겸하는지 확인). 수신측은 누구 role로.
 
 ## C. 소프트웨어/패키지
 AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
