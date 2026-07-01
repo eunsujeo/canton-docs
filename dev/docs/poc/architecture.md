@@ -20,10 +20,10 @@
 |---|---|---|
 | **무스비 Core** | 정산 코디네이터 — DAML(`FXOrder`), 4-leg 원자 정산 개시·실행 | 무스비/노드인프라 운영 |
 | **Institution** | 송금 개시, 견적(RFQ) 비교·선택 | **국내은행 역할(송신측)** |
-| **Custodian** | 자산 이동 승인·co-sign, 감사추적 | 국내은행이 Custodian · 지갑은 **노드월렛**(캔톤 네이티브 파티 호스팅·고객 HSM) |
+| **Custodian** | 자산 이동 승인·co-sign, 감사추적 | 국내은행이 Custodian · 지갑은 **노드월렛**(고객 HSM 자가 키보유 · 캔톤 네이티브 파티 호스팅은 담당자 확인) |
 | **Market Maker** | 익명 RFQ에 호가, 유동성 공급. 4-leg 필수 | PoC용 테스트 MM은 무스비/노드인프라 준비 |
 
-> 무스비 정산은 **4-leg / 4 confirming party**(송신 커스터디언·MM·무스비 Core·수신 커스터디언). 상세 [musubi-overview.md](musubi-overview.md) 3절.
+> 무스비 정산은 **4-leg / 4 confirming party**(송신 Custodian·MM·무스비 Core·수신 Custodian). 상세 [musubi-overview.md](musubi-overview.md) 3절.
 
 ## 3. 1차 PoC 아키텍처 (AWS Sandbox + DevNet/TestNet)
 
@@ -97,7 +97,7 @@ sequenceDiagram
 |---|---|---|
 | 생성 → `PENDING` | 주문 생성 | **조율 레코드 서명자** — operator + 송신 Custodian |
 | → `QUOTED` | best 견적 수락 | **조율 레코드 서명자** — operator + 송신 Custodian |
-| → `EXECUTING` | 원자 4-leg 실행 | **4 confirming party** — 송신 Custodian·MM·무스비·수신 Custodian (각자 자기 자산 leg) |
+| → `EXECUTING` | 원자 4-leg 실행 | **4 confirming party** — 송신 Custodian·MM·무스비 Core·수신 Custodian (각자 자기 자산 leg) |
 | → `SETTLED` | 정산 확정 | **조율 레코드 서명자** — operator + 송신 Custodian |
 
 > **조율 레코드 서명자**(operator + 송신 Custodian)는 주문 기록의 생성·갱신을 승인하고, **4 confirming party**는 `EXECUTING`에서 실제 자산 이동을 각자 승인한다. 송신 Custodian은 두 역할을 겸한다. 정확한 서명 취합 메커니즘(propose-accept 등)은 FXOrder DAML 소스 확인([verification.md](verification.md) 4절).
@@ -132,7 +132,7 @@ sequenceDiagram
 | 환경 | DevNet/TestNet, AWS Sandbox | 망분리 + 국내은행 지갑 시스템 연동 |
 | 통화 | KRWK ↔ JPYSC (테스트 인스트루먼트) | 실제 발행 인스트루먼트 |
 | 당사자 | 은행 자기계정 (고객 없음) | 국내은행 유저(고객) 온/오프램프 |
-| 지갑/커스터디 | **노드월렛**(내부, 캔톤 네이티브 파티 호스팅) | **Fireblocks**(외부, 국내은행 지갑 시스템) |
+| 지갑/커스터디 | **노드월렛**(내부 · 캔톤 네이티브 파티 호스팅은 담당자 확인) | **Fireblocks**(외부, 국내은행 지갑 시스템) |
 | Fiat | 없음 | (가능성) 온/오프램프 |
 | MM/유동성 | 무스비 준비(테스트 MM) | MM 구조 확정(비즈니스 협의) |
 

@@ -40,10 +40,10 @@ sequenceDiagram
     V-->>I: 견적 제시
     I->>V: 4. best 견적 수락 → QUOTED (cost guard 검증)
     Note over SC,RC: 5. Atomic DvP (EXECUTING) — 단일 트랜잭션 · 4 leg
-    SC->>V: source 스테이블코인
-    MM->>V: target 스테이블코인
-    V->>RC: target 스테이블코인
-    V->>MM: source 스테이블코인
+    SC->>V: KRWK (source)
+    MM->>V: JPYSC (target)
+    V->>RC: JPYSC (target)
+    V->>MM: KRWK (source)
     Note over I,RC: 한 leg라도 실패하면 전체 롤백
     V-->>I: 6. SETTLED → txHash 1개 (규제 보고용)
 ```
