@@ -103,8 +103,6 @@ sequenceDiagram
 - **1차 PoC = 노드월렛(내부)** — 캔톤 네이티브 파티 호스팅(담당자 확인)·자가 키보유·컴플라이언스 정책 엔진·HSM/망분리 내장. blind signing 리스크 없이 캔톤 가치(원자성·프라이버시·DAML 권한)를 검증하기에 적합. (Daml 서명 세부는 확인 대상)
 - **최종 PoC = Fireblocks(외부) 검토** — 국내은행 지갑 시스템이 Fireblocks 예정이므로 연동성을 확인하되, Raw Signing 정책 훅·fund-drain 방어를 도입 전 검증해야 함.
 
-> 최종 PoC의 Fireblocks Raw Signing 심층 분석은 poc 밖 `dev/docs/wallet-custody-fireblocks.md` 참조(단기 범위 밖).
-
 ## 참고 (출처)
 
 - 무스비 정산 흐름: https://musubinetwork.com/how-it-works
