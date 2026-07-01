@@ -94,7 +94,7 @@ sequenceDiagram
 
 상태 전이는 위 다이어그램에 표시. 실패 경로는 `FAILED`(정산 중 실패)·`EXPIRED`(견적 만료) — 검증·합격 기준은 [verification.md](verification.md).
 
-**서명·승인은 언제 붙나** — 상태가 바뀔 때마다 서명이 필요하고, 층에 따라 서명 주체가 다르다(DAML에선 상태 전이 = 컨트랙트 재생성이라 매번 승인이 필요).
+**서명·승인은 언제 붙나** — 상태가 바뀔 때마다 서명이 필요한데(DAML은 상태 전이 = 컨트랙트 재생성), 층에 따라 주체가 다르다:
 
 | FXOrder 상태 전이 | 다이어그램 시점 | 서명·승인 주체 |
 |---|---|---|
@@ -103,7 +103,7 @@ sequenceDiagram
 | → `EXECUTING` | 원자 4-leg 실행 | **4 confirming party** — 송신 Custodian·MM·무스비 Core·수신 Custodian (각자 자기 자산 leg) |
 | → `SETTLED` | 정산 확정 | **조율 레코드 서명자** — operator + 송신 Custodian |
 
-> **조율 레코드 서명자**(operator + 송신 Custodian)는 주문 기록의 생성·갱신을 승인하고, **4 confirming party**는 `EXECUTING`에서 실제 자산 이동을 각자 승인한다. 송신 Custodian은 두 역할을 겸한다. 정확한 서명 취합 메커니즘(propose-accept 등)은 FXOrder DAML 소스 확인([verification.md](verification.md) 4절).
+> 송신 Custodian은 두 역할(조율 레코드 서명 + 정산 confirming)을 겸한다. 정확한 서명 취합 메커니즘(propose-accept 등)은 FXOrder DAML 소스 확인([verification.md](verification.md) 4절).
 
 ### 4.1 참고 — Canton 트랜잭션이 시퀀서를 거치는 법 (2계층 합의)
 
