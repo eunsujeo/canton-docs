@@ -11,6 +11,7 @@
 - **무스비 API / Console / Statements** — 주문·견적·정산 상태, 대시보드(`/api/v1/dashboard/stats`), 정산 확인서·트랜잭션 해시.
 - **국내은행 Canton participant 원장(노드월렛)** — 국내은행 파티 뷰의 활성 컨트랙트(ACS)·FXOrder 상태·allocation·잔액·커밋 오프셋.
 - **국내은행 KRWK 잔액** — 국내은행이 통제 → 실패 주입(잔액 부족 등) 가능.
+- **Audit Exports**(Custodian) — 체결된 FXOrder + 4-leg `transactionHash`를 CSV/JSON으로 내보내기(회계 대사·컴플라이언스 아카이브; 배치 엔드포인트는 예정 — 현재 per-intent 조회).
 
 직접 볼 수 **없는** 것(노드인프라/무스비 측):
 
@@ -154,7 +155,6 @@ sequenceDiagram
 
 ## 8. 추가 검증 후보 (필요 시)
 
-- **감사추적/증빙** — 체결된 정산을 **Audit Exports**(체결 FXOrder + 4-leg `transactionHash`, CSV/JSON)·Statements로 **되짚어 검증하고 장부를 맞춰볼(대사)** 수 있는지 확인. (배치 엔드포인트는 예정 — 현재 per-intent 조회)
 - **재시도/멱등성** — 동일 주문 재제출·중복 방지(`intentId`) 동작.
 
 ## 참고 (출처)
