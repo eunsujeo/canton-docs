@@ -62,13 +62,25 @@ sequenceDiagram
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
-- **핵심 템플릿 `FXOrder`** — 주문 1건의 상태를 담아 원장에 올라가는 컨트랙트(코디네이션 레코드).
-  - 주요 필드: `operator` · `intentId` · `status` · `sender`/`receiver` · `sourceAsset`/`targetAsset` · `quoteInfo` · `marketMakerInfo` · `settlementInfo` (그 외 `createdAt`·`expiresAt`·`failureReason`·`memo` 등)
-  - `intentId` — 주문(송금 의도) 1건의 고유 식별자. 라이프사이클 추적·SSE 필터(`intent_id`)·중복 방지(멱등성) 키로 쓴다.
-  - `quoteId`(`quoteInfo` 안) — 수락된 견적의 식별자. 여러 MM 견적 중 어느 것을 체결했는지 가리킨다.
-  - `transactionHash`(`settlementInfo` 안, SETTLED 때 채워짐) — 정산이 끝나면 남는 **Canton 트랜잭션 해시 하나**. 4개 다리(4-leg)가 모두 한 트랜잭션으로 처리되므로, **이 해시 1개가 그 정산 전체의 증빙**이 된다(규제 보고·감사에 이 해시 하나면 거래를 특정할 수 있다).
-  - 상태: `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED` / `EXPIRED`)
-  - 서명자: `operator` + 송신 Custodian · 관찰자: sender, receiver, 수신 Custodian, MM(견적 수락 후) — 프라이버시 경계가 여기서 정해진다.
+
+**핵심 템플릿 `FXOrder`** — 주문 1건의 상태를 담아 원장에 올라가는 컨트랙트. 주요 필드:
+
+| 필드 | 설명 |
+|---|---|
+| `operator` | 정산 코디네이터(무스비 Core) |
+| `intentId` | 주문 1건의 고유 식별자 — 추적·SSE 필터(`intent_id`)·중복 방지(멱등성) 키 |
+| `status` | 주문 상태(아래 상태 흐름) |
+| `sender` / `receiver` | 송신·수신 당사자 |
+| `sourceAsset` / `targetAsset` | 보내는/받는 자산·금액 (KRWK / JPYC) |
+| `quoteInfo` | 견적 정보 — 수락된 견적 식별자 `quoteId` 포함 |
+| `marketMakerInfo` | 체결된 MM 정보(견적 수락 후 채워짐) |
+| `settlementInfo` | 정산 결과 — `transactionHash` 포함 |
+
+> 그 외 `createdAt`·`expiresAt`·`failureReason`·`failedAt`·`memo` 등. 전체 필드·정의는 무스비 FXOrder 문서 참고: https://musubinetwork.com/technical/fxorder
+
+- **`settlementInfo.transactionHash`** (SETTLED 때 채워짐) — 정산이 끝나면 남는 Canton 트랜잭션 해시 하나. 4개 다리(4-leg)가 모두 한 트랜잭션으로 처리되므로 **이 해시 1개가 그 정산 전체의 증빙**이 된다.
+- **상태 흐름**: `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED` / `EXPIRED`)
+- **서명자 / 관찰자**: 서명자 = `operator` + 송신 Custodian · 관찰자 = sender·receiver·수신 Custodian·MM(견적 수락 후) — 프라이버시 경계가 여기서 정해진다.
 
 > 함의: **MM은 정산 경로의 필수 confirming party**다(항상 MM 경유).
 
