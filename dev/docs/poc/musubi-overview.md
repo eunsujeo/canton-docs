@@ -26,18 +26,26 @@
 
 무스비 정산은 **4-leg**다 — MM이 중간에서 양 통화를 매개하기 때문이다.
 
-```
-1. Order Creation     : 송신 Institution이 API로 FX order 제출(통화쌍·금액·cost guard)
-2. Quote Request      : Musubi가 전 MM에 익명 견적요청(통화쌍·금액·만료만, 신원 X)
-3. Quote Submission   : MM들이 경쟁 견적(환율·목표금액·유효기간) 제출
-4. Quote Acceptance   : 송신자가 best 견적 수락 → QUOTED (cost guard 검증)
-5. Atomic DvP (EXECUTING, 1 tx · 4 leg):
-     Sender Custodian → Musubi   (source 스테이블코인)
-     Market Maker     → Musubi   (target 스테이블코인)
-     Musubi → Receiver Custodian (target 스테이블코인)
-     Musubi → Market Maker       (source 스테이블코인)
-     → 한 leg라도 실패하면 전체 롤백
-6. Settlement Confirmation : SETTLED, 트랜잭션 해시 1개(규제 보고용)
+```mermaid
+sequenceDiagram
+    participant I as 송신 Institution
+    participant SC as 송신 Custodian
+    participant V as 무스비 Core
+    participant MM as Market Maker
+    participant RC as 수신 Custodian
+    I->>V: 1. FX order 제출 (통화쌍·금액·cost guard)
+    V-->>I: intentId 발급
+    V->>MM: 2. 익명 견적요청 (통화쌍·금액·만료만 · 신원 X)
+    MM-->>V: 3. 경쟁 견적 (환율·목표금액·유효기간 · quoteId)
+    V-->>I: 견적 제시
+    I->>V: 4. best 견적 수락 → QUOTED (cost guard 검증)
+    Note over SC,RC: 5. Atomic DvP (EXECUTING) — 단일 트랜잭션 · 4 leg
+    SC->>V: source 스테이블코인
+    MM->>V: target 스테이블코인
+    V->>RC: target 스테이블코인
+    V->>MM: source 스테이블코인
+    Note over I,RC: 한 leg라도 실패하면 전체 롤백
+    V-->>I: 6. SETTLED → txHash 1개 (규제 보고용)
 ```
 
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
