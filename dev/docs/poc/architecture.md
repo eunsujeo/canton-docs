@@ -91,6 +91,17 @@ sequenceDiagram
 
 상태(`FXOrder`): `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED`/`EXPIRED`). 검증·합격 기준은 [verification.md](verification.md).
 
+**서명·승인은 언제 붙나** — 상태가 바뀔 때마다 서명이 필요하고, 층에 따라 서명 주체가 다르다(DAML에선 상태 전이 = 컨트랙트 재생성이라 매번 승인이 필요).
+
+| FXOrder 상태 전이 | 다이어그램 시점 | 서명·승인 주체 |
+|---|---|---|
+| 생성 → `PENDING` | 주문 생성 | **조율 레코드 서명자** — operator + 송신 Custodian |
+| → `QUOTED` | best 견적 수락 | **조율 레코드 서명자** — operator + 송신 Custodian |
+| → `EXECUTING` | 원자 4-leg 실행 | **4 confirming party** — 송신 Custodian·MM·무스비·수신 Custodian (각자 자기 자산 leg) |
+| → `SETTLED` | 정산 확정 | **조율 레코드 서명자** — operator + 송신 Custodian |
+
+> **조율 레코드 서명자**(operator + 송신 Custodian)는 주문 기록의 생성·갱신을 승인하고, **4 confirming party**는 `EXECUTING`에서 실제 자산 이동을 각자 승인한다. 송신 Custodian은 두 역할을 겸한다. 정확한 서명 취합 메커니즘(propose-accept 등)은 FXOrder DAML 소스 확인([verification.md](verification.md) 4절).
+
 ### 4.1 참고 — Canton 트랜잭션이 시퀀서를 거치는 법 (2계층 합의)
 
 위 정산 흐름의 화살표 하나하나는 실제로 아래처럼 **시퀀서를 거쳐** 처리된다. (4-leg 정산도 이 메커니즘으로 도는 **단일 트랜잭션** 1건)
