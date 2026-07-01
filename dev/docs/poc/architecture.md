@@ -149,7 +149,7 @@ sequenceDiagram
 
 ## 7. 결론
 
-1차 PoC는 무스비 정산 한 건을 DevNet/TestNet에서 적격기관으로 직접 수행해 **무스비/캔톤을 왜 쓰는지(원자 DvP·프라이버시·기능·DAML·캔톤 이해)를 검증**한다. 고객·Fiat·Fireblocks는 최종 PoC로 미룬다.
+1차 PoC는 무스비 정산 한 건을 DevNet/TestNet에서 적격기관으로 직접 수행해 **무스비/캔톤을 왜 쓰는지(원자 DvP·프라이버시·기능·DAML·캔톤 이해)를 검증**한다.
 
 ## 참고 (출처)
 
