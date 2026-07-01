@@ -88,6 +88,8 @@ sequenceDiagram
 | 서명자(signatory) | `operator` + 송신 Custodian |
 | 관찰자(observer) | sender · receiver · 수신 Custodian · MM(견적 수락 후) |
 
+> 위 서명자는 `FXOrder` **조율 레코드**의 서명자(operator + 송신 Custodian)다. 실제 자산이 오가는 **정산 실행(4-leg)** 은 별도로 **4 confirming party**(송신 Custodian·MM·무스비·수신 Custodian)가 각자 자기 leg를 승인한다 — 조율 레코드의 서명자와 정산의 confirming party는 서로 다른 층이다.
+
 ## 4. 지원 자산/송금 경로
 
 - **송금 경로**: 일본 ↔ 한국.
