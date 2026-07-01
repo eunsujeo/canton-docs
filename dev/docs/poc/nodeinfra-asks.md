@@ -14,7 +14,7 @@
 ## B. 프로비저닝(자격증명) — 무스비 발급
 - [ ] **Canton Party ID** — 국내은행 정산 네트워크 신원.
 - [ ] **JWT signing credentials** — API 인증용.
-- [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서** — 발급 주체·신뢰 체인·회전/폐기 절차 ([verification.md](verification.md) 5절 보안 B).
+- [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서** — 무스비 발급, 연결용.
 - [ ] **국내은행에 부여되는 role** — `institution` / `custodian`. 수신측은 누구 role로.
 
 ## C. 소프트웨어/패키지
