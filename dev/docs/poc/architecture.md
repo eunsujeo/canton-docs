@@ -77,19 +77,22 @@ sequenceDiagram
     participant RC as 수신 Custodian (해외은행)
     I->>V: FX order 생성 (KRWK→JPYSC, 금액, cost guard)
     V-->>I: intentId 발급 (주문 식별자, 이후 SSE intent_id로 추적)
+    Note over I,RC: FXOrder = PENDING
     V->>MM: 익명 견적요청 (통화쌍·금액·만료만)
     MM-->>V: 경쟁 견적 (각 quoteId · 환율·목표금액·유효기간)
     V-->>I: 견적 제시 (intentId · quoteId 목록)
-    I->>V: best 견적 수락 (intentId + quoteId, QUOTED, cost guard 검증)
-    Note over SC,RC: 원자적 DvP (EXECUTING) — 단일 트랜잭션 4 leg
+    I->>V: best 견적 수락 (intentId + quoteId, cost guard 검증)
+    Note over I,RC: FXOrder = QUOTED
+    Note over SC,RC: FXOrder = EXECUTING — 원자적 DvP · 단일 트랜잭션 4 leg
     SC->>V: KRWK (source)
     MM->>V: JPYSC (target)
     V->>RC: JPYSC (target) → 해외은행
     V->>MM: KRWK (source)
-    Note over I,RC: 한 leg라도 실패하면 전체 롤백 → SETTLED (intentId) → txHash (단일 트랜잭션 해시)
+    Note over I,RC: 한 leg라도 실패 → 전체 롤백 · FXOrder = FAILED
+    Note over I,RC: FXOrder = SETTLED → txHash (단일 트랜잭션 해시, 규제 보고용)
 ```
 
-상태(`FXOrder`): `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED`/`EXPIRED`). 검증·합격 기준은 [verification.md](verification.md).
+상태 전이는 위 다이어그램에 표시. 실패 경로는 `FAILED`(정산 중 실패)·`EXPIRED`(견적 만료) — 검증·합격 기준은 [verification.md](verification.md).
 
 **서명·승인은 언제 붙나** — 상태가 바뀔 때마다 서명이 필요하고, 층에 따라 서명 주체가 다르다(DAML에선 상태 전이 = 컨트랙트 재생성이라 매번 승인이 필요).
 
