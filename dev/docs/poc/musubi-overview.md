@@ -48,6 +48,17 @@ sequenceDiagram
     V-->>I: 6. SETTLED → txHash 1개 (규제 보고용)
 ```
 
+**4개 다리(leg) 풀어보기** — MM이 원화↔엔화를 매개하기 때문에 다리가 4개다(source=KRWK, target=JPYC).
+
+| leg | 이동 | 자산 | 무슨 뜻인가 |
+|---|---|---|---|
+| **leg1** | 송신 Custodian → 무스비 Core | KRWK (source) | 국내은행이 보낼 원화 스테이블코인을 무스비에 잠근다 |
+| **leg2** | Market Maker → 무스비 Core | JPYC (target) | MM이 내줄 엔화 스테이블코인을 무스비에 잠근다 |
+| **leg3** | 무스비 Core → 수신 Custodian | JPYC (target) | 수취인(해외은행)이 받을 엔화가 전달된다 |
+| **leg4** | 무스비 Core → Market Maker | KRWK (source) | MM이 원화를 가져간다(유동성 공급의 대가) |
+
+네 다리는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYC로·MM에는 KRWK로 정확히 맞교환된다.
+
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
