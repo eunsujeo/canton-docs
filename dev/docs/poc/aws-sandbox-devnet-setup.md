@@ -73,7 +73,7 @@ sequenceDiagram
 6. **검증 실행** — [verification.md](verification.md)의 항목별 검증(원자성·프라이버시·기능·DAML·캔톤).
 7. **정리** — 합격 기준 확인, 대시보드(`/api/v1/dashboard/stats`) 모니터링.
 
-## 5. Day-2 / 모니터링
+## 5. 모니터링
 
 - `GET /api/v1/dashboard/stats` — 상태별 order·정산량. PENDING 적체·실패 order 주시.
 - 정합성: Statements(정산 확인서·FX 실행 보고) 다운로드.
