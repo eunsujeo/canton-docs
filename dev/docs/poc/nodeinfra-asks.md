@@ -17,7 +17,7 @@
 ## B. 프로비저닝(자격증명) — 무스비 발급
 - [ ] **Canton Party ID** — 국내은행 정산 네트워크 신원.
 - [ ] **JWT signing credentials** — API 인증용.
-- [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서** — 발급 주체·신뢰 체인·회전/폐기 절차 ([verification.md](verification.md) 6절 보안 C).
+- [ ] **정산 네트워크 endpoint + TLS(mTLS) 인증서** — 발급 주체·신뢰 체인·회전/폐기 절차 ([verification.md](verification.md) 5절 보안 B).
 - [ ] **국내은행에 부여되는 role** — `institution` / `custodian`. 수신측은 누구 role로.
 
 ## C. 소프트웨어/패키지
@@ -27,7 +27,7 @@ AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **DAML 배포·벳팅 과정** — `FXOrder` 등 정산 패키지(DAR)를 **누가 우리 participant에 업로드·벳팅**하나(우리 vs 노드월렛/무스비 ops), **모든 참여자 패키지 일치(벳팅)** 보장, **버전·업그레이드** 절차, **패키지 ID** 공유(검증·raw Ledger용 — [verification.md](verification.md) 4절).
 - [ ] **DAML 소스/감사용 공유** — 적격기관(또는 제3자) 검증을 위해 `FXOrder` **DAML 소스(최소 DAR)+패키지 ID** 공유 가능 여부. (소스가 IP라 불가면 DAR+패키지로 행동 검증) + **raw Ledger API 접근** — [verification.md](verification.md) 4절(적격기관 주도 DAML 검증).
 - [ ] **OpenAPI 스펙 파일 + Console 접근** — 역할별 OpenAPI 스펙 파일 위치, Console 계정. (Webhook 지원 여부 확인)
-- [ ] **배포물 무결성/출처** — 노드월렛 SW·Musubi backend·participant 이미지·DAR의 체크섬/서명·출처(provenance) 검증 방법 ([verification.md](verification.md) 6절 보안 E).
+- [ ] **배포물 무결성/출처** — 노드월렛 SW·Musubi backend·participant 이미지·DAR의 체크섬/서명·출처(provenance) 검증 방법 ([verification.md](verification.md) 5절 보안 D).
 
 ## D. 자산/인스트루먼트
 - [ ] **KRWK 인스트루먼트** — 라이브는 JPYSC인데, PoC용 **KRWK는 누가/어떻게 발행**하나. 테스트 발행자/레지스트리.
@@ -51,7 +51,7 @@ AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 
 ## H. 키 보관
 - [ ] **키 보관** — 노드월렛(HSM/망분리) 키 관리 주체·격리 요건(A절과 연계).
-- [ ] **키 생성·백업·복구** — 키가 HSM(FIPS 140-3 L3)을 벗어나지 않는지, 3-키 멀티시그 분산·임계값·분실 시 절차 ([verification.md](verification.md) 6절 보안 A).
+- [ ] **키 생성·백업·복구** — 키가 HSM(FIPS 140-3 L3)을 벗어나지 않는지, 3-키 멀티시그 분산·임계값·분실 시 절차.
 - [ ] **서명 권한·차단** — 컴플라이언스 정책 엔진(Allow/Held/Deny)이 악의적·오류 트랜잭션을 내용을 보고 차단할 수 있는지(blind raw signing 대비).
 
 ## 우선순위 (먼저 받아야 진행되는 것)
