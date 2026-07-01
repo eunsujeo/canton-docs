@@ -48,7 +48,7 @@ sequenceDiagram
     V-->>I: 6. SETTLED → txHash 1개 (규제 보고용)
 ```
 
-**4개 다리(leg) 풀어보기** — MM이 원화↔엔화를 매개하기 때문에 다리가 4개다(source=KRWK, target=JPYSC).
+**4 leg 풀어보기** — MM이 원화↔엔화를 매개하기 때문에 4 leg가 된다(source=KRWK, target=JPYSC).
 
 | leg | 이동 | 자산 | 무슨 뜻인가 |
 |---|---|---|---|
@@ -57,11 +57,11 @@ sequenceDiagram
 | **leg3** | 무스비 Core → 수신 Custodian | JPYSC (target) | 수취인(해외은행)이 받을 엔화가 전달된다 |
 | **leg4** | 무스비 Core → Market Maker | KRWK (source) | MM이 원화를 가져간다(유동성 공급의 대가) |
 
-네 다리는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYSC로·MM에는 KRWK로 정확히 맞교환된다.
+4 leg는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYSC로·MM에는 KRWK로 정확히 맞교환된다.
 
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
 - **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
-- **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s.
+- **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s. 출처: https://musubinetwork.com/how-it-works
 
 **핵심 템플릿 `FXOrder`** — 주문 1건의 상태를 담아 원장에 올라가는 컨트랙트. 주요 필드:
 
@@ -78,9 +78,16 @@ sequenceDiagram
 
 > 그 외 `createdAt`·`expiresAt`·`failureReason`·`failedAt`·`memo` 등. 전체 필드·정의는 무스비 FXOrder 문서 참고: https://musubinetwork.com/technical/fxorder
 
-- **`settlementInfo.transactionHash`** (SETTLED 때 채워짐) — 정산이 끝나면 남는 Canton 트랜잭션 해시 하나. 4개 다리(4-leg)가 모두 한 트랜잭션으로 처리되므로 **이 해시 1개가 그 정산 전체의 증빙**이 된다.
+- **`settlementInfo.transactionHash`** (SETTLED 때 채워짐) — 정산이 끝나면 남는 Canton 트랜잭션 해시 하나. 4 leg가 모두 한 트랜잭션으로 처리되므로 **이 해시 1개가 그 정산 전체의 증빙**이 된다.
 - **상태 흐름**: `PENDING` → `QUOTED` → `EXECUTING` → `SETTLED` (실패: `FAILED` / `EXPIRED`)
-- **서명자 / 관찰자**: 서명자 = `operator` + 송신 Custodian · 관찰자 = sender·receiver·수신 Custodian·MM(견적 수락 후) — 프라이버시 경계가 여기서 정해진다.
+
+**서명자 / 관찰자** — 프라이버시 경계가 여기서 정해진다.
+
+| 구분 | 파티 |
+|---|---|
+| 서명자(signatory) | `operator` + 송신 Custodian |
+| 관찰자(observer) | sender · receiver · 수신 Custodian · MM(견적 수락 후) |
+
 ## 4. 지원 자산/송금 경로
 
 - **송금 경로**: 일본 ↔ 한국.
