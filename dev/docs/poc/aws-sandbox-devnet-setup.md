@@ -73,17 +73,6 @@ sequenceDiagram
 6. **검증 실행** — [verification.md](verification.md)의 항목별 검증(원자성·프라이버시·기능·DAML·캔톤).
 7. **정리** — 합격 기준 확인, 대시보드(`/api/v1/dashboard/stats`) 모니터링.
 
-## 5. 모니터링
-
-- `GET /api/v1/dashboard/stats` — 상태별 order·정산량. PENDING 적체·실패 order 주시.
-- 정합성: Statements(정산 확인서·FX 실행 보고) 다운로드.
-- 운영 연락처·에스컬레이션 채널 확보([nodeinfra-asks.md](nodeinfra-asks.md) G).
-
-## 6. 범위 / 미결
-
-- **범위 밖(1차)**: 은행 내부 시스템 연동, Fireblocks, 고객·Fiat 온오프램프.
-- **미결(노드인프라 확정 필요)**: 환경 선택, 노드월렛 배포·키 HSM 관리 주체, 배포 지원 범위, KRWK 발행, MM·수신 카운터파티, allowlist 방법 — 전부 [nodeinfra-asks.md](nodeinfra-asks.md).
-
 ## 참고 (출처)
 
 - 배포 구성: https://musubinetwork.com/custodian/integration/deploy
