@@ -4,7 +4,7 @@
 
 ## 1. 이 PoC에서 무스비는 무엇이고, 왜 쓰나
 
-**무스비 = 국내은행이 KRWK↔JPYSC 정산을 수행할 Canton 기반 정산 네트워크/소프트웨어.** 국내은행은 무스비를 직접 만들지 않는다. **보내는 쪽(송신 기관)으로 무스비에 연결**해, 송금 한 건을 주문 생성부터 정산 완료까지 실행해 본다.
+**무스비 = 국내은행이 KRWK↔JPYSC 정산을 수행할 Canton 기반 정산 네트워크·소프트웨어.** 국내은행은 무스비를 직접 만들지 않는다. **보내는 쪽(송신 기관)으로 무스비에 연결**해, 송금 한 건을 주문 생성부터 정산 완료까지 실행해 본다.
 
 **왜 쓰나** (이 PoC가 검증하려는 가치):
 
@@ -60,7 +60,7 @@ sequenceDiagram
 4 leg는 **한 트랜잭션에서 동시에** 일어난다 — 하나라도 실패하면 전부 무효(원자성). 결과적으로 국내은행의 KRWK가 MM을 거쳐, 해외은행에는 JPYSC로·MM에는 KRWK로 정확히 맞교환된다.
 
 - **cost guard** — 송신자(국내은행)가 거는 보호 장치다. 받아들일 최악 환율(또는 최소 수취액·최대 지급액) 한도를 정해두면, 무스비가 수락 견적을 이 한도와 대조해 벗어나는 견적은 정산하지 않고 거부한다(나쁜 환율 체결 방지). FX의 슬리피지 허용치·지정가에 해당.
-- **4 confirming party**: sender custodian · market maker · Musubi · receiver custodian.
+- **4 confirming party**: 송신 Custodian · Market Maker · 무스비 · 수신 Custodian.
 - **타임라인 ~15초**: 생성→첫 견적 ~8s, 수락 ~3s, 원자 정산 ~4s. 출처: https://musubinetwork.com/how-it-works
 
 **핵심 템플릿 `FXOrder`** — 주문 1건의 상태를 담아 원장에 올라가는 컨트랙트. 주요 필드:
@@ -97,7 +97,7 @@ sequenceDiagram
 
 ## 5. 소유/거버넌스 구조
 
-무스비 네트워크를 **누가 소유·운영하고, 멤버십과 권한을 어떻게 통제하는가**.
+무스비 네트워크를 **누가 소유·운영하고, 멤버십과 권한을 어떻게 통제하는가**를 정리한다.
 
 | 소유 주체 | 담당 |
 |---|---|
@@ -115,7 +115,7 @@ sequenceDiagram
 
 ## 6. 연동/배포 (SDK·API)
 
-### 참여자가 배포하는 것 (배포 구성: "두 프로세스 + Postgres 하나 + TLS")
+### 참여자가 배포하는 것 (무스비 스택: 두 프로세스 + Postgres 하나 + TLS · 지갑은 별도)
 
 1. **Canton Participant Node** — 정산 네트워크 상의 Party ID 신원
 2. **Musubi Backend** — REST + SSE API, 자기 인프라에서 구동
@@ -184,7 +184,7 @@ sequenceDiagram
 ### 자료 / 콘솔
 
 - **Console**(주문 생성·견적 비교·정산 모니터) / **Statements**(정산 확인서·FX 실행 보고·정합성 데이터). 출처: Console https://musubinetwork.com/institution/integration/console · Statements https://musubinetwork.com/institution/integration/statements
-- **Audit Exports**(Custodian) — 체결된 FXOrder 레코드(서명된 FXOrder + 정산 leg + 4-leg `txHash`)를 **CSV(일/주 대사)·JSON(월 아카이브)** 로 내보내기. 회계 대사·컴플라이언스 아카이브용(날짜·상태·기관·통화쌍 필터). 배치 엔드포인트는 **예정**(현재는 per-intent 조회로 대체). 출처: https://musubinetwork.com/custodian/integration/audit-exports
+- **Audit Exports**(Custodian) — 체결된 FXOrder 레코드(서명된 FXOrder + 정산 leg + 4-leg `transactionHash`)를 **CSV(일/주 대사)·JSON(월 아카이브)** 로 내보내기. 회계 대사·컴플라이언스 아카이브용(날짜·상태·기관·통화쌍 필터). 배치 엔드포인트는 **예정**(현재는 per-intent 조회로 대체). 출처: https://musubinetwork.com/custodian/integration/audit-exports
 - **OpenAPI 스펙 5종**(인덱스 언급): core-api, custodian-api, market-maker-api, institution-api, openapi — 파일 위치는 노드인프라 확인([nodeinfra-asks.md](nodeinfra-asks.md) C).
 - 역할별 API 레퍼런스: https://musubinetwork.com/institution/api-reference · https://musubinetwork.com/custodian/api-reference · https://musubinetwork.com/market-maker/api-reference
 
