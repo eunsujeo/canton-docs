@@ -13,7 +13,7 @@
 | 프라이버시·원자성 보장 | 묶은 파티(예: 은행) 단위까지만 — 그 안 개별 주체는 원장 밖(내부 DB 신뢰) | 각 파티 단위로 원장이 직접 보장 |
 | 캔톤 네이티브 기능 | 제한적(옴니버스라 내부 거래가 캔톤 TX 안 됨) | 폭넓음(내부 dApp·세밀한 권한 가능) |
 | 망분리/HSM | 별도 구성 | **HSM/망분리 내장** |
-| 트래블룰 | 별도 | 캔톤 네이티브 트래블룰(예: VerifyVASP) 연동 가능 |
+| 트래블룰 | 별도 | 트래블룰 연동 가능(VerifyVASP 등) |
 | 1차 PoC 적합성 | blind signing 검증 부담 | **적합 — 1차 기본** |
 | 최종 PoC | 국내은행 지갑 시스템이 Fireblocks 예정 → 최종 대상 | (단기 검증 자산으로 활용) |
 
@@ -27,8 +27,8 @@
 > 출처: https://docs.nodeinfra.com (접근 코드 필요). **공개 문서는 Solana 제품 기준**이나, **캔톤 네이티브 파티 호스팅은 노드인프라 담당자 확인**(문서 미기재). Daml(prepared-tx) 서명 세부는 확인 대상.
 
 - **벤더 무의존 자가 키보유** — 키는 **고객 HSM**(Thales Luna·YubiHSM, FIPS 140-3 L3) 내부, 정책은 고객 **SGX**. VASP 위탁·SaaS MPC와 달리 벤더 탈취/종속 리스크 제거.
-- **3-키 다중서명** — 개시 키(SDK) + 승인 키(정책 엔진) 등 독립 서비스가 각자 HSM 키로 서명해야 tx 전송. 한 축 탈취돼도 차단.
-- **컴플라이언스 정책 엔진(승인자)** — **서명 전** 규칙 평가(Allow/Held/Deny): AML·KYC·트래블룰(FATF R.16)·전금법·가이법, 한도·속도·영업시간·2-of-3 승인 등. → Fireblocks blind signing의 "내용을 못 봐 fund-drain 못 막음"과 **정반대**로 서명 전에 차단.
+- **3-키 멀티시그** — 개시 키(SDK) + 승인 키(정책 엔진) 등 독립 서비스가 각자 HSM 키로 서명해야 tx 전송. 한 축 탈취돼도 차단.
+- **컴플라이언스 정책 엔진(승인자)** — **서명 전** 규칙 평가(Allow/Held/Deny): AML·KYC·트래블룰(FATF R.16)·전자금융거래법·가상자산이용자보호법, 한도·속도·영업시간·2-of-3 승인 등. → Fireblocks blind signing의 "내용을 못 봐 fund-drain 못 막음"과 **정반대**로 서명 전에 차단.
 - **망분리 구조 내장**(외부망·DMZ·내부망) + 테넌트 격리(테넌트별 개시 키·SPKI-hash).
 - **SDK**: Java/Spring, **Ed25519 요청 서명**(PKCS#11 HSM 자동), 멱등성(`reference_id`) 필수.
 - **raw transaction 서명 지원**(임의 tx 바이트 서명·브로드캐스트) — Canton 4자 Daml 호출(prepared-tx) 서명에 활용 가능. 단 "unsafe"(가드레일 없음)이라 정책 엔진으로 감싸야.
@@ -58,7 +58,8 @@ sequenceDiagram
     V-->>I: intentId 발급
     V->>MM: 익명 RFQ
     MM-->>V: 견적 (quoteId)
-    I->>V: best 견적 수락 (intentId + quoteId, QUOTED)
+    I->>V: best 견적 수락 (intentId + quoteId)
+    Note over I,RC: FXOrder = QUOTED
     Note over W,RC: 원자적 DvP (단일 트랜잭션, 4 leg)
     V->>W: 국내은행 leg 서명 요청
     W-->>V: HSM 서명 (3-키 · 정책 엔진 Allow 후)
@@ -83,7 +84,8 @@ sequenceDiagram
     V-->>I: intentId 발급
     V->>MM: 익명 RFQ
     MM-->>V: 견적 (quoteId)
-    I->>V: best 견적 수락 (intentId + quoteId, QUOTED)
+    I->>V: best 견적 수락 (intentId + quoteId)
+    Note over I,RC: FXOrder = QUOTED
     Note over P,RC: 원자적 DvP — external party 서명 흐름 추가
     P->>P: 트랜잭션 prepare → 해시(byte[]) 생성
     P->>FB: 해시 Raw Signing 요청
