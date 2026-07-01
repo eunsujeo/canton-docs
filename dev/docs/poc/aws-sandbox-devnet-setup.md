@@ -67,7 +67,7 @@ sequenceDiagram
 
 1. **협의·확정** — 환경(DevNet/TestNet)·노드월렛·KRWK 발행·MM·카운터파티([nodeinfra-asks.md](nodeinfra-asks.md) A·D·E).
 2. **배포물·프로비저닝 수령** — 노드월렛 SW·Musubi backend·participant 이미지·가이드(C·F), Party ID·JWT·endpoint+TLS·role(B).
-3. **AWS Sandbox 기동** — 격리 VPC/egress, participant + 노드월렛 + backend + Postgres, role·Party ID·Postgres·mTLS 구성. **정산 DAR(`FXOrder`) 업로드·벳팅 확인**(누가 하는지 [nodeinfra-asks.md](nodeinfra-asks.md) C).
+3. **AWS Sandbox 기동** — 격리 VPC/egress, participant + 노드월렛 + backend + Postgres, role·Party ID·Postgres·mTLS 구성. **정산 DAR(`FXOrder`) 업로드·일치 확인**(누가 하는지 [nodeinfra-asks.md](nodeinfra-asks.md) C).
 4. **온보딩** — egress IP allowlist 등록 → 노드인프라가 네트워크 온보딩 → mTLS 연결.
 5. **연결 테스트** — `/health`, `/whoami`, 테스트 order 생성.
 6. **검증 실행** — [verification.md](verification.md)의 항목별 검증(원자성·프라이버시·기능·DAML·캔톤).

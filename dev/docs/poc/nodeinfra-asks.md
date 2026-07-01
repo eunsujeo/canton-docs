@@ -21,7 +21,7 @@
 AWS Sandbox에 띄울 국내은행 스택 구성요소(노드월렛 SW는 A절).
 - [ ] **Musubi Backend 배포물** — 도커 이미지명/레지스트리/**버전**, 설정 방식(env/config).
 - [ ] **Canton Participant Node** — 이미지/버전, 요구사양.
-- [ ] **DAML 배포·벳팅 과정** — `FXOrder` 등 정산 패키지(DAR)를 **누가 우리 participant에 업로드·벳팅**하나(우리 vs 노드월렛/무스비 ops), **모든 참여자 패키지 일치(벳팅)** 보장, **버전·업그레이드** 절차, **패키지 ID** 공유(검증·raw Ledger용 — [verification.md](verification.md) 4절).
+- [ ] **DAML 배포·패키지 일치** — `FXOrder` 등 정산 패키지(DAR)를 **누가 우리 participant에 업로드·일치**시키나(우리 vs 노드월렛/무스비 ops), **모든 참여자 패키지 일치** 보장, **버전·업그레이드** 절차, **패키지 ID** 공유(검증·raw Ledger용 — [verification.md](verification.md) 4절).
 - [ ] **DAML 소스/감사용 공유** — 적격기관(또는 제3자) 검증을 위해 `FXOrder` **DAML 소스(최소 DAR)+패키지 ID** 공유 가능 여부. (소스가 IP라 불가면 DAR+패키지로 행동 검증) + **raw Ledger API 접근** — [verification.md](verification.md) 4절(적격기관 주도 DAML 검증).
 - [ ] **OpenAPI 스펙 파일 + Console 접근** — 역할별 OpenAPI 스펙 파일 위치, Console 계정. (Webhook 지원 여부 확인)
 - [ ] **SSE 재연결/재전송** — `id:`/`Last-Event-ID` 기반 이벤트 재전송(replay) 지원 여부·재접속 권장 방식(끊긴 사이 이벤트 보정 설계 근거 — [musubi-overview.md](musubi-overview.md) 6절).

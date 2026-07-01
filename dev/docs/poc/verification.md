@@ -74,7 +74,7 @@
 ## 4. DAML 검증 — 적격기관 주도 (소스/DAR 확보 시)
 
 - **가치**: 정산 컨트랙트(`FXOrder`) 로직·권한이 **앱이 아니라 원장에서** 강제됨. **DAML이 곧 국내은행 자산의 신뢰 경계** — 벤더에 맡기지 않고 적격기관이 직접(또는 제3자 감사) 검증한다.
-- **전제**: ① `FXOrder` DAML이 우리 participant에 **배포·벳팅**, ② **DAML 소스(또는 최소 DAR)+패키지 ID** 공유, ③ 우리 participant **raw Ledger API 접근** ([nodeinfra-asks.md](nodeinfra-asks.md) C).
+- **전제**: ① `FXOrder` DAML이 우리 participant에 **배포·일치**, ② **DAML 소스(또는 최소 DAR)+패키지 ID** 공유, ③ 우리 participant **raw Ledger API 접근** ([nodeinfra-asks.md](nodeinfra-asks.md) C).
 - **검증 방법 (3단계)**:
   - **(a) 소스 리뷰** — `FxDvp/FXOrder`의 **signatory·observer·choice·`require`(precondition)** 확인: 무단 인출 불가(operator 일방 이동 차단), 원자성(전부/전무), allocation 매칭, 기한, 프라이버시 경계(관찰자 범위).
   - **(b) 동작 재현** — Daml Script로 정상 정산 + 실패 시 전체 롤백 재현.
