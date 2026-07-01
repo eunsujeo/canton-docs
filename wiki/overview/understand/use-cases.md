@@ -120,7 +120,7 @@ template Security
 
 * 송금인의 은행은 데이터 현지화 요건이 있는 A국에 있음
 * 수취인의 은행은 다른 요건이 있는 B국에 있음
-* 코레스폰던트 뱅킹(correspondent banking)은 조율이 필요
+* 환거래(correspondent banking)는 조율이 필요
 * 어느 국가의 규제기관도 다른 국가의 고객 데이터를 보면 안 됨
 
 ### Canton 해법
