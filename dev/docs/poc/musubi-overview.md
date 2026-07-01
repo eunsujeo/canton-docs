@@ -123,9 +123,15 @@ sequenceDiagram
 
 > API 출처: https://musubinetwork.com/authentication
 
-- **JWT bearer** — `Authorization: Bearer {token}`. 토큰은 백엔드 `POST /auth/token`(개발) / 프로덕션은 외부 IdP(Keycloak·Auth0 등 SSO).
-- `GET /api/v1/whoami` 로 `party_id`·`operator_party_id`·`participant_id`·`schema_version` 확인.
-- JWT claim: `sub`+`canton_party_id`(신원), `role`(`institution`/`custodian`/`market-maker`), `exp`(기본 1h). `/health`·`/auth/token`은 인증 예외.
+- **인증 방식 = JWT Bearer 토큰** — 모든 API 요청 헤더에 `Authorization: Bearer {token}`을 붙여 "누가 호출하는지"를 증명한다. 토큰을 받는 곳은 단계에 따라 다르다.
+  - 개발 단계: 무스비 백엔드의 `POST /auth/token`으로 직접 발급받는다.
+  - 프로덕션: 회사 표준 로그인(외부 IdP — Keycloak·Auth0 등 SSO)으로 발급받는다.
+- **내가 누구로 붙었는지 확인** — `GET /api/v1/whoami`를 호출하면 접속한 신원 정보를 돌려준다: `party_id`(내 Canton 파티), `operator_party_id`(무스비 Core 파티), `participant_id`(내 participant 노드), `schema_version`(API 스키마 버전).
+- **토큰 안에 담기는 정보(JWT claim)** — 토큰 자체에 다음이 들어 있다.
+  - `sub` + `canton_party_id` — 누구인지(신원).
+  - `role` — 권한 종류. `institution` / `custodian` / `market-maker` 중 하나.
+  - `exp` — 만료 시각(기본 1시간). 지나면 토큰을 다시 발급받아야 한다.
+- **토큰 없이 호출되는 예외** — `/health`(상태 점검)와 `/auth/token`(토큰 발급 자체)은 인증이 필요 없다.
 
 ### API 규약 (문서 명시)
 
